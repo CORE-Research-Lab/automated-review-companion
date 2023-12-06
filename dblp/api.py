@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Any
 
 import requests
@@ -65,7 +66,7 @@ def search_by_doi(doi: str) -> dict[Any, dict[str, str | Any]] | None | Any:
         return None
 
 
-def search(query: str) -> dict:
+def search(query: str) -> dict[Any, dict[str, str | Any]] | dict[Any, Any] | None | Any:
     """
     https://dblp.org/faq/How+to+use+the+dblp+search+API.html
     :param query:
@@ -78,11 +79,16 @@ def search(query: str) -> dict:
         'h': 1000,
         'f': 0
     }
-    response = requests.get(f'{BASE_URL}?{urlencode(options)}').json()
+    response = requests.get(f'{BASE_URL}?{urlencode(options)}')
+    try:
+        response = response.json()
+    except json.decoder.JSONDecodeError:
+        print(f'Error when searching for: {query}. Got response: {response}')
+        return None
     response_count = int(response.get('result').get('hits').get('@total', 0))
     response_papers = response.get('result').get('hits').get('hit')
 
-    if response_count:
+    if isinstance(response_count, int) and response_count > 0:
         if response_count <= 1000:
             return process_search_result(response_papers)
         else:
@@ -102,4 +108,7 @@ def search(query: str) -> dict:
                 results = process_search_result(response_papers, results, total_processed)
                 total_processed += 1000
             return results
+    else:
+        return None
+
 
