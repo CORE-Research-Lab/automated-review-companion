@@ -1,1 +1,1 @@
-from dblp.api import search, add_ccf_class
+from dblp.api import search, search_by_doi

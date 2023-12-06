@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 import requests
 import pandas as pd
 
@@ -45,6 +47,22 @@ def process_search_result(search_results, existing_results=None, start=0):
             'bibtex': f'{info.get("url")}?view=bibtex'
         }
     return results
+
+
+def search_by_doi(doi: str) -> dict[Any, dict[str, str | Any]] | None | Any:
+    options = {
+        'format': 'json',
+        'h': 1000,
+        'eid': f"DOI:{doi}"
+    }
+
+    response = requests.get(f'{BASE_URL}?{urlencode(options)}').json()
+    response_count = int(response.get('result').get('hits').get('@total', 0))
+    response_papers = response.get('result').get('hits').get('hit')
+    if response_count:
+        return process_search_result(response_papers)
+    else:
+        return None
 
 
 def search(query: str) -> dict:
