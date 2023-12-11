@@ -1,4 +1,5 @@
 import json
+import time
 from typing import Dict, Any
 
 import requests
@@ -66,12 +67,25 @@ def search_by_doi(doi: str) -> dict[Any, dict[str, str | Any]] | None | Any:
         return None
 
 
-def search(query: str) -> dict[Any, dict[str, str | Any]] | dict[Any, Any] | None | Any:
-    """
-    https://dblp.org/faq/How+to+use+the+dblp+search+API.html
-    :param query:
-    :return:
-    """
+def search(query: str):
+    def process_search_result(response_papers, results=None, total_processed=0):
+        # Implement your processing logic here
+        # For example, to accumulate results:
+        if results is None:
+            results = {}
+        for i, paper in enumerate(response_papers):
+            # Process each paper
+            results[total_processed + i] = paper
+        return results
+
+    def make_request(options):
+        while True:
+            response = requests.get(f'{BASE_URL}?{urlencode(options)}')
+            if response.status_code == 429:
+                print('Received 429 Too Many Requests. Waiting 30 seconds before retrying...')
+                time.sleep(30)
+                continue
+            return response
 
     options = {
         'q': query,
@@ -79,35 +93,32 @@ def search(query: str) -> dict[Any, dict[str, str | Any]] | dict[Any, Any] | Non
         'h': 1000,
         'f': 0
     }
-    response = requests.get(f'{BASE_URL}?{urlencode(options)}')
+
+    response = make_request(options)
     try:
         response = response.json()
     except json.decoder.JSONDecodeError:
-        print(f'Error when searching for: {query}. Got response: {response}')
+        print(f'Error when searching for: {query}. Got response: {response.text}')
         return None
+
     response_count = int(response.get('result').get('hits').get('@total', 0))
     response_papers = response.get('result').get('hits').get('hit')
 
     if isinstance(response_count, int) and response_count > 0:
-        if response_count <= 1000:
-            return process_search_result(response_papers)
-        else:
-            # response > 1000, use pagination
-            total_processed = 0
-            results = {}
-            while total_processed != response_count:
-                options = {
-                    'q': query,
-                    'format': 'json',
-                    'h': 1000,
-                    'f': total_processed
-                }
-                response = requests.get(f'{BASE_URL}?{urlencode(options)}').json()
-                response_papers = response.get('result').get('hits').get('hit')
+        results = process_search_result(response_papers)
 
+        if response_count > 1000:
+            # Handle pagination
+            total_processed = 1000
+            while total_processed < response_count:
+                options['f'] = total_processed
+                response = make_request(options)
+                response = response.json()
+                response_papers = response.get('result').get('hits').get('hit')
                 results = process_search_result(response_papers, results, total_processed)
                 total_processed += 1000
-            return results
+
+        return results
     else:
         return None
 

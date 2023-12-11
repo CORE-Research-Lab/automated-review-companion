@@ -1,0 +1,190 @@
+PaperTitle,ID,SearchString,SearchedFrom
+"Deepfakes, Misinformation, and Disinformation in the Era of Frontier AI, Generative AI, and Large AI Models.",DOI:10.48550/ARXIV.2311.17394,Generative AI misinformation,DBLP
+Combating Misinformation in the Era of Generative AI Models.,DOI:10.1145/3581783.3612704,Generative AI misinformation,DBLP
+From ChatGPT to ThreatGPT: Impact of Generative AI in Cybersecurity and Privacy.,DOI:10.1109/ACCESS.2023.3300381,Generative AI privacy,DBLP
+Leveraging Generative AI Models for Synthetic Data Generation in Healthcare: Balancing Research and Privacy.,DOI:10.1109/SMARTNETS58706.2023.10215825,Generative AI privacy,DBLP
+Leveraging Generative AI Models for Synthetic Data Generation in Healthcare: Balancing Research and Privacy.,DOI:10.48550/ARXIV.2305.05247,Generative AI privacy,DBLP
+From ChatGPT to ThreatGPT: Impact of Generative AI in Cybersecurity and Privacy.,DOI:10.48550/ARXIV.2307.00691,Generative AI privacy,DBLP
+GenAIPABench: A Benchmark for Generative AI-based Privacy Assistants.,DOI:10.48550/ARXIV.2309.05138,Generative AI privacy,DBLP
+$Λ$-Split: A Privacy-Preserving Split Computing Framework for Cloud-Powered Generative AI.,DOI:10.48550/ARXIV.2310.14651,Generative AI privacy,DBLP
+Navigating Privacy and Copyright Challenges Across the Data Lifecycle of Generative AI.,DOI:10.48550/ARXIV.2311.18252,Generative AI privacy,DBLP
+Privacy preserving Generative Adversarial Networks to model Electronic Health Records.,DOI:10.1016/J.NEUNET.2022.06.022,Generative AI privacy,DBLP
+A Graph Data Privacy-Preserving Method Based on Generative Adversarial Networks.,DOI:10.1007/978-3-030-62008-0_16,Generative AI privacy,DBLP
+Investigating Explainability of Generative AI for Code through Scenario-based Design.,DOI:10.1145/3490099.3511119,Generative AI explainability,DBLP
+Investigating Explainability of Generative AI for Code through Scenario-based Design.,url:https://dblp.org/rec/journals/corr/abs-2202-04903,Generative AI explainability,DBLP
+Getting from Generative AI to Trustworthy AI: What LLMs might learn from Cyc.,DOI:10.48550/ARXIV.2308.04445,Generative AI trustworthy,DBLP
+Generative AI meets Responsible AI: Practical Challenges and Opportunities.,DOI:10.1145/3580305.3599557,Generative AI responsible,DBLP
+A Framework for Automated Measurement of Responsible AI Harms in Generative AI Applications.,DOI:10.48550/ARXIV.2310.17750,Generative AI responsible,DBLP
+A Framework for Responsible Development of Automated Student Feedback with Generative AI.,DOI:10.48550/ARXIV.2308.15334,Generative AI responsible,DBLP
+Med-MMHL: A Multi-Modal Dataset for Detecting Human- and LLM-Generated Misinformation in the Medical Domain.,DOI:10.48550/ARXIV.2306.08871,LLM misinformation,DBLP
+Detecting Misinformation with LLM-Predicted Credibility Signals and Weak Supervision.,DOI:10.48550/ARXIV.2309.07601,LLM misinformation,DBLP
+Can LLM-Generated Misinformation Be Detected?,DOI:10.48550/ARXIV.2309.13788,LLM misinformation,DBLP
+Combating Misinformation in the Age of LLMs: Opportunities and Challenges.,DOI:10.48550/ARXIV.2311.05656,LLM misinformation,DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.1145/3627106.3627196,LLM privacy,DBLP
+LLM for Patient-Trial Matching: Privacy-Aware Data Augmentation Towards Better Performance and Generalizability.,DOI:10.48550/ARXIV.2303.16756,LLM privacy,DBLP
+LLMs Can Understand Encrypted Prompt: Towards Privacy-Computing Friendly Transformers.,DOI:10.48550/ARXIV.2305.18396,LLM privacy,DBLP
+"Building Trust in Conversational AI: A Comprehensive Review and Solution Architecture for Explainable, Privacy-Aware Systems using LLMs and Knowledge Graph.",DOI:10.48550/ARXIV.2308.13534,LLM privacy,DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.48550/ARXIV.2310.02431,LLM privacy,DBLP
+Can LLMs Keep a Secret? Testing Privacy Implications of Language Models via Contextual Integrity Theory.,DOI:10.48550/ARXIV.2310.17884,LLM privacy,DBLP
+PrivateLoRA For Efficient Privacy Preserving LLM.,DOI:10.48550/ARXIV.2311.14030,LLM privacy,DBLP
+Getting from Generative AI to Trustworthy AI: What LLMs might learn from Cyc.,DOI:10.48550/ARXIV.2308.04445,LLM trustworthy,DBLP
+Trustworthy LLMs: a Survey and Guideline for Evaluating Large Language Models&apos; Alignment.,DOI:10.48550/ARXIV.2308.05374,LLM trustworthy,DBLP
+"Know Where to Go: Make LLM a Relevant, Responsible, and Trustworthy Searcher.",DOI:10.48550/ARXIV.2310.12443,LLM trustworthy,DBLP
+Creating Trustworthy LLMs: Dealing with Hallucinations in Healthcare AI.,DOI:10.48550/ARXIV.2311.01463,LLM trustworthy,DBLP
+How Trustworthy are Open-Source LLMs? An Assessment under Malicious Demonstrations Shows their Vulnerabilities.,DOI:10.48550/ARXIV.2311.09447,LLM trustworthy,DBLP
+How Responsible LLMs are beneficial to search and exploration in Retail industry.,DOI:10.1145/3591106.3592299,LLM responsible,DBLP
+"Know Where to Go: Make LLM a Relevant, Responsible, and Trustworthy Searcher.",DOI:10.48550/ARXIV.2310.12443,LLM responsible,DBLP
+GenAIPABench: A Benchmark for Generative AI-based Privacy Assistants.,DOI:10.48550/ARXIV.2309.05138,GenAI privacy,DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,DOI:10.48550/ARXIV.2305.13661,large language model misinformation,DBLP
+Self-Diagnosis and Large Language Models: A New Front for Medical Misinformation.,DOI:10.48550/ARXIV.2307.04910,large language model misinformation,DBLP
+"Topological Data Mapping of Online Hate Speech, Misinformation, and General Mental Health: A Large Language Model Based Study.",DOI:10.48550/ARXIV.2309.13098,large language model misinformation,DBLP
+Automated Claim Matching with Large Language Models: Empowering Fact-Checkers in the Fight Against Misinformation.,DOI:10.48550/ARXIV.2310.09223,large language model misinformation,DBLP
+Can Large Language Models Understand Content and Propagation for Misinformation Detection: An Empirical Study.,DOI:10.48550/ARXIV.2311.12699,large language model misinformation,DBLP
+Cybercrime and Privacy Threats of Large Language Models.,DOI:10.1109/MITP.2023.3275489,large language model privacy,DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.1145/3627106.3627196,large language model privacy,DBLP
+Privacy-Preserving Recommender Systems with Synthetic Query Generation using Differentially Private Large Language Models.,DOI:10.48550/ARXIV.2305.05973,large language model privacy,DBLP
+Privacy-Preserving Prompt Tuning for Large Language Model Services.,DOI:10.48550/ARXIV.2305.06212,large language model privacy,DBLP
+Quantifying Association Capabilities of Large Language Models and Its Implications on Privacy Leakage.,DOI:10.48550/ARXIV.2305.12707,large language model privacy,DBLP
+ProPILE: Probing Privacy Leakage in Large Language Models.,DOI:10.48550/ARXIV.2307.01881,large language model privacy,DBLP
+Recovering from Privacy-Preserving Masking with Large Language Models.,DOI:10.48550/ARXIV.2309.08628,large language model privacy,DBLP
+PolicyGPT: Automated Analysis of Privacy Policies with Large Language Models.,DOI:10.48550/ARXIV.2309.10238,large language model privacy,DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.48550/ARXIV.2310.02431,large language model privacy,DBLP
+Large Language Models Can Be Good Privacy Protection Learners.,DOI:10.48550/ARXIV.2310.02469,large language model privacy,DBLP
+Beyond Memorization: Violating Privacy Via Inference with Large Language Models.,DOI:10.48550/ARXIV.2310.07298,large language model privacy,DBLP
+Split-and-Denoise: Protect large language model inference with local differential privacy.,DOI:10.48550/ARXIV.2310.09130,large language model privacy,DBLP
+"Privacy in Large Language Models: Attacks, Defenses and Future Directions.",DOI:10.48550/ARXIV.2310.10383,large language model privacy,DBLP
+PrivInfer: Privacy-Preserving Inference for Black-box Large Language Model.,DOI:10.48550/ARXIV.2310.12214,large language model privacy,DBLP
+Privacy Preserving Large Language Models: ChatGPT Case Study Based Vision and Framework.,DOI:10.48550/ARXIV.2310.12523,large language model privacy,DBLP
+The Janus Interface: How Fine-Tuning in Large Language Models Amplifies the Privacy Risks.,DOI:10.48550/ARXIV.2310.15469,large language model privacy,DBLP
+Automating Governing Knowledge Commons and Contextual Integrity (GKC-CI) Privacy Policy Annotations with Large Language Models.,DOI:10.48550/ARXIV.2311.02192,large language model privacy,DBLP
+Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.18653/V1/2022.EMNLP-MAIN.425,large language model privacy,DBLP
+EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.1109/ICDMW58026.2022.00078,large language model privacy,DBLP
+Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.48550/ARXIV.2204.07667,large language model privacy,DBLP
+You Are What You Write: Preserving Privacy in the Era of Large Language Models.,DOI:10.48550/ARXIV.2204.09391,large language model privacy,DBLP
+EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.48550/ARXIV.2210.15042,large language model privacy,DBLP
+Towards Self-Explainability of Deep Neural Networks with Heatmap Captioning and Large-Language Models.,DOI:10.48550/ARXIV.2304.02202,large language model explainability,DBLP
+Explainability for Large Language Models: A Survey.,DOI:10.48550/ARXIV.2309.01029,large language model explainability,DBLP
+TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,large language model trustworthy,DBLP
+"CORE-GPT: Combining Open Access research and large language models for credible, trustworthy question answering.",DOI:10.48550/ARXIV.2307.04683,large language model trustworthy,DBLP
+Trustworthy LLMs: a Survey and Guideline for Evaluating Large Language Models&apos; Alignment.,DOI:10.48550/ARXIV.2308.05374,large language model trustworthy,DBLP
+Responsible Task Automation: Empowering Large Language Models as Responsible Task Automators.,DOI:10.48550/ARXIV.2306.01242,large language model responsible,DBLP
+TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,large language model responsible,DBLP
+Citation: A Key to Building Responsible and Accountable Large Language Models.,DOI:10.48550/ARXIV.2307.02185,large language model responsible,DBLP
+Think-on-Graph: Deep and Responsible Reasoning of Large Language Model with Knowledge Graph.,DOI:10.48550/ARXIV.2307.07697,large language model responsible,DBLP
+Ethical Considerations and Policy Implications for Large Language Models: Guiding Responsible Development and Deployment.,DOI:10.48550/ARXIV.2308.02678,large language model responsible,DBLP
+Building the Future of Responsible AI: A Reference Architecture for Designing Large Language Model based Agents.,DOI:10.48550/ARXIV.2311.13148,large language model responsible,DBLP
+Prompt Risk Control: A Rigorous Framework for Responsible Deployment of Large Language Models.,DOI:10.48550/ARXIV.2311.13628,large language model responsible,DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,DOI:10.48550/ARXIV.2305.13661,language model misinformation,DBLP
+Self-Diagnosis and Large Language Models: A New Front for Medical Misinformation.,DOI:10.48550/ARXIV.2307.04910,language model misinformation,DBLP
+"Topological Data Mapping of Online Hate Speech, Misinformation, and General Mental Health: A Large Language Model Based Study.",DOI:10.48550/ARXIV.2309.13098,language model misinformation,DBLP
+Automated Claim Matching with Large Language Models: Empowering Fact-Checkers in the Fight Against Misinformation.,DOI:10.48550/ARXIV.2310.09223,language model misinformation,DBLP
+Can Large Language Models Understand Content and Propagation for Misinformation Detection: An Empirical Study.,DOI:10.48550/ARXIV.2311.12699,language model misinformation,DBLP
+Developing a fake news identification model with advanced deep languagetransformers for Turkish COVID-19 misinformation data.,DOI:10.55730/1300-0632.3818,language model misinformation,DBLP
+Testing the Generalization of Neural Language Models for COVID-19 Misinformation Detection.,DOI:10.1007/978-3-030-96957-8_33,language model misinformation,DBLP
+Evaluating BERT-based Pre-training Language Models for Detecting Misinformation.,DOI:10.48550/ARXIV.2203.07731,language model misinformation,DBLP
+Testing the Generalization of Neural Language Models for COVID-19 Misinformation Detection.,url:https://dblp.org/rec/journals/corr/abs-2111-07819,language model misinformation,DBLP
+MoPe: Model Perturbation-based Privacy Attacks on Language Models.,DOI:10.48550/ARXIV.2310.14369,language model privacy,DBLP
+Privacy Regularization: Joint Privacy-Utility Optimization in Language Models.,url:https://dblp.org/rec/journals/corr/abs-2103-07567,language model privacy,DBLP
+Privacy Threat MOdeling Language.,DOI:10.1109/ACCESS.2023.3255548,language model privacy,DBLP
+Cybercrime and Privacy Threats of Large Language Models.,DOI:10.1109/MITP.2023.3275489,language model privacy,DBLP
+Federated Learning of Gboard Language Models with Differential Privacy.,DOI:10.18653/V1/2023.ACL-INDUSTRY.60,language model privacy,DBLP
+Knowledge Unlearning for Mitigating Privacy Risks in Language Models.,DOI:10.18653/V1/2023.ACL-LONG.805,language model privacy,DBLP
+Trade-Offs Between Fairness and Privacy in Language Modeling.,DOI:10.18653/V1/2023.FINDINGS-ACL.434,language model privacy,DBLP
+TextObfuscator: Making Pre-trained Language Model a Privacy Protector via Obfuscating Word Representations.,DOI:10.18653/V1/2023.FINDINGS-ACL.337,language model privacy,DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.1145/3627106.3627196,language model privacy,DBLP
+DP-Forward: Fine-tuning and Inference on Language Models with Differential Privacy in Forward Pass.,DOI:10.1145/3576915.3616592,language model privacy,DBLP
+Decepticons: Corrupted Transformers Breach Privacy in Federated Learning for Language Models.,url:https://dblp.org/rec/conf/iclr/FowlGRWCGG23,language model privacy,DBLP
+"Differential Privacy, Linguistic Fairness, and Training Data Influence: Impossibility and Possibility Theorems for Multilingual Language Models.",url:https://dblp.org/rec/conf/icml/RustS23,language model privacy,DBLP
+Preventing Generation of Verbatim Memorization in Language Models Gives a False Sense of Privacy.,url:https://dblp.org/rec/conf/inlg/IppolitoTNZJLCC23,language model privacy,DBLP
+Using Membership Inference Attacks to Evaluate Privacy-Preserving Language Modeling Fails for Pseudonymizing Data.,url:https://dblp.org/rec/conf/nodalida/VakiliD23,language model privacy,DBLP
+CodexLeaks: Privacy Leaks from Code Generation Language Models in GitHub Copilot.,url:https://dblp.org/rec/conf/uss/NiuMMP23,language model privacy,DBLP
+Privacy in the Time of Language Models.,DOI:10.1145/3539597.3575792,language model privacy,DBLP
+Context-Aware Differential Privacy for Language Modeling.,DOI:10.48550/ARXIV.2301.12288,language model privacy,DBLP
+Does Prompt-Tuning Language Model Ensure Privacy?,DOI:10.48550/ARXIV.2304.03472,language model privacy,DBLP
+Training Natural Language Processing Models on Encrypted Text for Enhanced Privacy.,DOI:10.48550/ARXIV.2305.03497,language model privacy,DBLP
+Privacy-Preserving Recommender Systems with Synthetic Query Generation using Differentially Private Large Language Models.,DOI:10.48550/ARXIV.2305.05973,language model privacy,DBLP
+Privacy-Preserving Prompt Tuning for Large Language Model Services.,DOI:10.48550/ARXIV.2305.06212,language model privacy,DBLP
+Quantifying Association Capabilities of Large Language Models and Its Implications on Privacy Leakage.,DOI:10.48550/ARXIV.2305.12707,language model privacy,DBLP
+Privacy Implications of Retrieval-Based Language Models.,DOI:10.48550/ARXIV.2305.14888,language model privacy,DBLP
+Trade-Offs Between Fairness and Privacy in Language Modeling.,DOI:10.48550/ARXIV.2305.14936,language model privacy,DBLP
+Federated Learning of Gboard Language Models with Differential Privacy.,DOI:10.48550/ARXIV.2305.18465,language model privacy,DBLP
+ProPILE: Probing Privacy Leakage in Large Language Models.,DOI:10.48550/ARXIV.2307.01881,language model privacy,DBLP
+"Differential Privacy, Linguistic Fairness, and Training Data Influence: Impossibility and Possibility Theorems for Multilingual Language Models.",DOI:10.48550/ARXIV.2308.08774,language model privacy,DBLP
+DP-Forward: Fine-tuning and Inference on Language Models with Differential Privacy in Forward Pass.,DOI:10.48550/ARXIV.2309.06746,language model privacy,DBLP
+Recovering from Privacy-Preserving Masking with Large Language Models.,DOI:10.48550/ARXIV.2309.08628,language model privacy,DBLP
+PolicyGPT: Automated Analysis of Privacy Policies with Large Language Models.,DOI:10.48550/ARXIV.2309.10238,language model privacy,DBLP
+Identifying and Mitigating Privacy Risks Stemming from Language Models: A Survey.,DOI:10.48550/ARXIV.2310.01424,language model privacy,DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.48550/ARXIV.2310.02431,language model privacy,DBLP
+Large Language Models Can Be Good Privacy Protection Learners.,DOI:10.48550/ARXIV.2310.02469,language model privacy,DBLP
+Beyond Memorization: Violating Privacy Via Inference with Large Language Models.,DOI:10.48550/ARXIV.2310.07298,language model privacy,DBLP
+Split-and-Denoise: Protect large language model inference with local differential privacy.,DOI:10.48550/ARXIV.2310.09130,language model privacy,DBLP
+"Privacy in Large Language Models: Attacks, Defenses and Future Directions.",DOI:10.48550/ARXIV.2310.10383,language model privacy,DBLP
+PrivInfer: Privacy-Preserving Inference for Black-box Large Language Model.,DOI:10.48550/ARXIV.2310.12214,language model privacy,DBLP
+Privacy Preserving Large Language Models: ChatGPT Case Study Based Vision and Framework.,DOI:10.48550/ARXIV.2310.12523,language model privacy,DBLP
+Assessing Privacy Risks in Language Models: A Case Study on Summarization Tasks.,DOI:10.48550/ARXIV.2310.13291,language model privacy,DBLP
+The Janus Interface: How Fine-Tuning in Large Language Models Amplifies the Privacy Risks.,DOI:10.48550/ARXIV.2310.15469,language model privacy,DBLP
+FLTrojan: Privacy Leakage Attacks against Federated Language Models Through Selective Weight Tampering.,DOI:10.48550/ARXIV.2310.16152,language model privacy,DBLP
+Can LLMs Keep a Secret? Testing Privacy Implications of Language Models via Contextual Integrity Theory.,DOI:10.48550/ARXIV.2310.17884,language model privacy,DBLP
+DEPN: Detecting and Editing Privacy Neurons in Pretrained Language Models.,DOI:10.48550/ARXIV.2310.20138,language model privacy,DBLP
+Automating Governing Knowledge Commons and Contextual Integrity (GKC-CI) Privacy Policy Annotations with Large Language Models.,DOI:10.48550/ARXIV.2311.02192,language model privacy,DBLP
+P-Bench: A Multi-level Privacy Evaluation Benchmark for Language Models.,DOI:10.48550/ARXIV.2311.04044,language model privacy,DBLP
+Reducing Privacy Risks in Online Self-Disclosures with Language Models.,DOI:10.48550/ARXIV.2311.09538,language model privacy,DBLP
+Privacy-Preserving Models for Legal Natural Language Processing.,url:https://dblp.org/rec/conf/acl-nllp/YinH22,language model privacy,DBLP
+User-Entity Differential Privacy in Learning Natural Language Models.,DOI:10.1109/BIGDATA55660.2022.10020247,language model privacy,DBLP
+Quantifying Privacy Risks of Masked Language Models Using Membership Inference Attacks.,DOI:10.18653/V1/2022.EMNLP-MAIN.570,language model privacy,DBLP
+Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.18653/V1/2022.EMNLP-MAIN.425,language model privacy,DBLP
+What Does it Mean for a Language Model to Preserve Privacy?,DOI:10.1145/3531146.3534642,language model privacy,DBLP
+EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.1109/ICDMW58026.2022.00078,language model privacy,DBLP
+Deduplicating Training Data Mitigates Privacy Risks in Language Models.,url:https://dblp.org/rec/conf/icml/KandpalWR22,language model privacy,DBLP
+Adapting Language Models When Training on Privacy-Transformed Data.,url:https://dblp.org/rec/conf/lrec/TuranK0J22,language model privacy,DBLP
+Detecting Privacy-Sensitive Code Changes with Language Modeling.,DOI:10.1145/3524842.3528518,language model privacy,DBLP
+Selective Differential Privacy for Language Modeling.,DOI:10.18653/V1/2022.NAACL-MAIN.205,language model privacy,DBLP
+Decepticons: Corrupted Transformers Breach Privacy in Federated Learning for Language Models.,url:https://dblp.org/rec/journals/corr/abs-2201-12675,language model privacy,DBLP
+What Does it Mean for a Language Model to Preserve Privacy?,url:https://dblp.org/rec/journals/corr/abs-2202-05520,language model privacy,DBLP
+Deduplicating Training Data Mitigates Privacy Risks in Language Models.,url:https://dblp.org/rec/journals/corr/abs-2202-06539,language model privacy,DBLP
+Quantifying Privacy Risks of Masked Language Models Using Membership Inference Attacks.,DOI:10.48550/ARXIV.2203.03929,language model privacy,DBLP
+Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.48550/ARXIV.2204.07667,language model privacy,DBLP
+You Are What You Write: Preserving Privacy in the Era of Large Language Models.,DOI:10.48550/ARXIV.2204.09391,language model privacy,DBLP
+Knowledge Unlearning for Mitigating Privacy Risks in Language Models.,DOI:10.48550/ARXIV.2210.01504,language model privacy,DBLP
+PQLM - Multilingual Decentralized Portable Quantum Language Model for Privacy Protection.,DOI:10.48550/ARXIV.2210.03221,language model privacy,DBLP
+EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.48550/ARXIV.2210.15042,language model privacy,DBLP
+Preventing Verbatim Memorization in Language Models Gives a False Sense of Privacy.,DOI:10.48550/ARXIV.2210.17546,language model privacy,DBLP
+User-Entity Differential Privacy in Learning Natural Language Models.,DOI:10.48550/ARXIV.2211.01141,language model privacy,DBLP
+Privacy-Preserving Models for Legal Natural Language Processing.,DOI:10.48550/ARXIV.2211.02956,language model privacy,DBLP
+KART: Privacy Leakage Framework of Language Models Pre-trained with Clinical Records.,url:https://dblp.org/rec/journals/corr/abs-2101-00036,language model privacy,DBLP
+Privacy Analysis in Language Models via Training Data Leakage Report.,url:https://dblp.org/rec/journals/corr/abs-2101-05405,language model privacy,DBLP
+Selective Differential Privacy for Language Modeling.,url:https://dblp.org/rec/journals/corr/abs-2108-12944,language model privacy,DBLP
+Modelling of a Privacy Language and Efficient Policy-based De-identification.,url:https://dblp.org/rec/phd/dnb/Gerl20,language model privacy,DBLP
+"Exploring Collection of Sign Language Datasets: Privacy, Participation, and Model Performance.",DOI:10.1145/3373625.3417024,language model privacy,DBLP
+Privacy Risks of General-Purpose Language Models.,DOI:10.1109/SP40000.2020.00095,language model privacy,DBLP
+Utility-Preserving Privacy Mechanisms for Counting Queries.,DOI:10.1007/978-3-030-21485-2_27,language model privacy,DBLP
+Analyzing Privacy Loss in Updates of Natural Language Models.,url:https://dblp.org/rec/journals/corr/abs-1912-07942,language model privacy,DBLP
+Beware the Rationalization Trap! When Language Model Explainability Diverges from our Mental Models of Language.,DOI:10.48550/ARXIV.2207.06897,language model explainability,DBLP
+Comparative Study of Language Models on Cross-Domain Data with Model Agnostic Explainability.,url:https://dblp.org/rec/journals/corr/abs-2009-04095,language model explainability,DBLP
+On the Explainability of Natural Language Processing Deep Models.,DOI:10.1145/3529755,language model explainability,DBLP
+Towards Self-Explainability of Deep Neural Networks with Heatmap Captioning and Large-Language Models.,DOI:10.48550/ARXIV.2304.02202,language model explainability,DBLP
+Explainability Techniques for Chemical Language Models.,DOI:10.48550/ARXIV.2305.16192,language model explainability,DBLP
+Explainability for Large Language Models: A Survey.,DOI:10.48550/ARXIV.2309.01029,language model explainability,DBLP
+On the Explainability of Natural Language Processing Deep Models.,DOI:10.48550/ARXIV.2210.06929,language model explainability,DBLP
+Ecco: An Open Source Library for the Explainability of Transformer Language Models.,DOI:10.18653/V1/2021.ACL-DEMO.30,language model explainability,DBLP
+Model Explainability in Deep Learning Based Natural Language Processing.,url:https://dblp.org/rec/journals/corr/abs-2106-07410,language model explainability,DBLP
+Trustworthy agent-based simulation: the case for domain-specific modelling languages.,DOI:10.1007/S10270-023-01082-9,language model trustworthy,DBLP
+TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,language model trustworthy,DBLP
+"CORE-GPT: Combining Open Access research and large language models for credible, trustworthy question answering.",DOI:10.48550/ARXIV.2307.04683,language model trustworthy,DBLP
+Trustworthy LLMs: a Survey and Guideline for Evaluating Large Language Models&apos; Alignment.,DOI:10.48550/ARXIV.2308.05374,language model trustworthy,DBLP
+"Towards Trustworthy Deception Detection: Benchmarking Model Robustness across Domains, Modalities, and Languages.",url:https://dblp.org/rec/journals/corr/abs-2104-11761,language model trustworthy,DBLP
+Responsible Task Automation: Empowering Large Language Models as Responsible Task Automators.,DOI:10.48550/ARXIV.2306.01242,language model responsible,DBLP
+Responsible Language Design.,url:https://dblp.org/rec/conf/modelsward/Zaytsev23,language model responsible,DBLP
+TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,language model responsible,DBLP
+Citation: A Key to Building Responsible and Accountable Large Language Models.,DOI:10.48550/ARXIV.2307.02185,language model responsible,DBLP
+Think-on-Graph: Deep and Responsible Reasoning of Large Language Model with Knowledge Graph.,DOI:10.48550/ARXIV.2307.07697,language model responsible,DBLP
+Ethical Considerations and Policy Implications for Large Language Models: Guiding Responsible Development and Deployment.,DOI:10.48550/ARXIV.2308.02678,language model responsible,DBLP
+Identifying and Adapting Transformer-Components Responsible for Gender Bias in an English Language Model.,DOI:10.48550/ARXIV.2310.12611,language model responsible,DBLP
+Design-Inclusive Language Models for Responsible Information Access.,DOI:10.48550/ARXIV.2310.18333,language model responsible,DBLP
+Building the Future of Responsible AI: A Reference Architecture for Designing Large Language Model based Agents.,DOI:10.48550/ARXIV.2311.13148,language model responsible,DBLP
+Prompt Risk Control: A Rigorous Framework for Responsible Deployment of Large Language Models.,DOI:10.48550/ARXIV.2311.13628,language model responsible,DBLP
+CodexLeaks: Privacy Leaks from Code Generation Language Models in GitHub Copilot.,url:https://dblp.org/rec/conf/uss/NiuMMP23,codex privacy,DBLP
+"Towards Reliable Misinformation Mitigation: Generalization, Uncertainty, and GPT-4.",DOI:10.48550/ARXIV.2305.14928,gpt misinformation,DBLP
+Integrating GPT-Technologies with Decision Models for Explainability.,DOI:10.1007/978-3-031-44070-0_22,gpt explainability,DBLP
+"CORE-GPT: Combining Open Access research and large language models for credible, trustworthy question answering.",DOI:10.48550/ARXIV.2307.04683,gpt trustworthy,DBLP
+"Towards Reliable Misinformation Mitigation: Generalization, Uncertainty, and GPT-4.",DOI:10.48550/ARXIV.2305.14928,gpt-4 misinformation,DBLP
