@@ -512,7 +512,6 @@ FewFedWeight: Few-shot Federated Learning Framework across Multiple NLP Tasks,DO
 "2nd Quarter Summer Issue Apr 1 to June 30, 2020",paperid:373fb25df1e0da28aeaf72e734bcdddd9fe8e481,large language model + privacy + mitigation,Semantic Scholar
 Adaptive Self-training for Few-shot Neural Sequence Labeling,DOI:10.48550/arXiv.2010.03680,large language model + privacy + mitigation,Semantic Scholar
 Deduplicating Training Data Mitigates Privacy Risks in Language Models,DOI:10.48550/arXiv.2202.06539,large language model + privacy + mitigation,Semantic Scholar
-UvA-DARE (Digital Summary of Tutorials at The Web Conference 2021,paperid:5825b1da62ffce1aaf95b30c2a3b3e0c2321b067,large language model + privacy + mitigation,Semantic Scholar
 Active Data Pattern Extraction Attacks on Generative Language Models,DOI:10.48550/arXiv.2207.10802,large language model + privacy + mitigation,Semantic Scholar
 Translatotron 2: High-quality direct speech-to-speech translation with voice preservation,DOI:10.48550/arXiv.2107.08661,large language model + privacy + mitigation,Semantic Scholar
 Large Language Models Can Be Strong Differentially Private Learners,DOI:10.48550/arXiv.2110.05679,large language model + privacy + mitigation,Semantic Scholar
@@ -863,11 +862,8 @@ Machine Learning Language Models: Achilles Heel for Social Media Platforms and a
 Discern and Answer: Mitigating the Impact of Misinformation in Retrieval-Augmented Models with Discriminators,DOI:10.48550/arXiv.2305.01579,language model + misinformation + mitigation,Semantic Scholar
 Expert Systems With Applications,paperid:1dd7d7e77d84af6ff213d436990c00c6aaf9aaff,language model + misinformation + mitigation,Semantic Scholar
 Detection of Fake News related to COVID-19 using Natural Language Processing,DOI:10.1109/ASIANCON51346.2021.9545047,language model + misinformation + mitigation,Semantic Scholar
-Expert Systems With Applications Social media-based COVID-19 sentiment classification model using Bi-LSTM,paperid:23a70981cdd6d19f059fbeb1c2bf30aab4ba0867,language model + misinformation + mitigation,Semantic Scholar
 The Surprising Performance of Simple Baselines for Misinformation Detection,DOI:10.1145/3442381.3450111,language model + misinformation + mitigation,Semantic Scholar
-Expert Systems With Applications Social media-based COVID-19 sentiment classification model using Bi-LSTM,paperid:35e9650ddd900f9232c05d241a21e824563de357,language model + misinformation + mitigation,Semantic Scholar
 Crisis Leadership During and Following COVID-19,DOI:10.1177/0846537120926752,language model + misinformation + mitigation,Semantic Scholar
-Expert Systems With Applications Social media-based COVID-19 sentiment classification model using Bi-LSTM,paperid:4bb0c08565bf335f440a3244a09fdc7a9129fcf8,language model + misinformation + mitigation,Semantic Scholar
 POST HISTORIES DISCRIMINATE B ETWEEN ACTORS IN THE MISINFORMATION ECOSYSTEM ∗,paperid:5089063c69c58ad18dbf74b7c20e19809cccb5fd,language model + misinformation + mitigation,Semantic Scholar
 From Pretraining Data to Language Models to Downstream Tasks: Tracking the Trails of Political Biases Leading to Unfair NLP Models,DOI:10.48550/arXiv.2305.08283,language model + misinformation + mitigation,Semantic Scholar
 MalFake: A Multimodal Fake News Identification for Malayalam using Recurrent Neural Networks and VGG-16,DOI:10.48550/arXiv.2310.18263,language model + misinformation + mitigation,Semantic Scholar
@@ -875,9 +871,7 @@ COVID-19 Misinformation Detection: Machine-Learned Solutions to the Infodemic,DO
 Empowering Fake-News Mitigation: Insights from Sharers' Social Media Post-Histories,DOI:10.48550/arXiv.2203.10560,language model + misinformation + mitigation,Semantic Scholar
 ML&AI_IIITRanchi@DravidianLangTech:Leveraging Transfer Learning for the discernment of Fake News within the Linguistic Domain of Dravidian Language,paperid:70076edccaa7495766feb64870bef107f806a465,language model + misinformation + mitigation,Semantic Scholar
 Multi-Context Based Neural Approach for COVID-19 Fake-News Detection,DOI:10.1145/3487553.3524662,language model + misinformation + mitigation,Semantic Scholar
-Expert Systems With Applications Social media-based COVID-19 sentiment classification model using Bi-LSTM,paperid:840910e9147f9381bfc448876fc6616140d4ee9a,language model + misinformation + mitigation,Semantic Scholar
 "Advances in AI for web integrity, equity, and well-being",DOI:10.3389/fdata.2023.1125083,language model + misinformation + mitigation,Semantic Scholar
-Expert Systems With Applications Social media-based COVID-19 sentiment classification model using Bi-LSTM,paperid:8e69432aeb717f13b9ddaf309043337bb2ee4a02,language model + misinformation + mitigation,Semantic Scholar
 Exploring the Role of Emotions in Arabic Rumor Detection in Social Media,DOI:10.3390/app13158815,language model + misinformation + mitigation,Semantic Scholar
 "As Easy as 1, 2, 3: Behavioural Testing of NMT Systems for Numerical Translation",DOI:10.18653/v1/2021.findings-acl.415,language model + misinformation + mitigation,Semantic Scholar
 A machine learning application for raising WASH awareness in the times of COVID-19 pandemic,DOI:10.1038/s41598-021-03869-6,language model + misinformation + mitigation,Semantic Scholar
@@ -1328,7 +1322,6 @@ of an Integrated Cartridge System for Efficient Loading and Characterization of 
 Echoes of Biases: How Stigmatizing Language Affects AI Performance,DOI:10.48550/arXiv.2305.10201,language model + explainability + mitigation,Semantic Scholar
 Bias-to-Text: Debiasing Unknown Visual Biases through Language Interpretation,DOI:10.48550/arXiv.2301.11104,language model + explainability + mitigation,Semantic Scholar
 Text Guide: Improving the Quality of Long Text Classification by a Text Selection Method Based on Feature Importance,DOI:10.1109/ACCESS.2021.3099758,language model + explainability + mitigation,Semantic Scholar
-Strength of Belief Guides Information Foraging,paperid:aa6ca3a2944ca05dccb7bc0d0a131813daeca6e9,language model + explainability + mitigation,Semantic Scholar
 Javanese Women’s Political Discourse in Response to the 2019 Indonesian General Election,paperid:aa6f978e5ef0efc0d1e2581f1575008f28f24d65,language model + explainability + mitigation,Semantic Scholar
 Post-depositional modication on seasonal and 1 interannual timescales resets the deuterium excess 2 signals in summer snow layers in Greenland,paperid:aa7c59a7ae2b2d3e233471ace0dc2539932117f2,language model + explainability + mitigation,Semantic Scholar
 Audit of Disaster Communication on TVOne Kabar Petang Program,DOI:10.25008/jkiski.v4i2.332,language model + explainability + mitigation,Semantic Scholar
@@ -1354,7 +1347,6 @@ Racial and Neighborhood-Level Disparities in COVID-19 Incidence among Patients o
 Chapter 2 The Misleading Aspects of the Mind / Computer Analogy The Grounding Problem and the Thorny Issue of Propriosensitive Information,paperid:05d450b4ea52f6176a294d392bcd30b4d354faa4,language model + explainability + ethics,Semantic Scholar
 Validation of the Patient Dignity Inventory in Mexican Cancer Patients.,DOI:10.1089/jpm.2020.0572,language model + explainability + ethics,Semantic Scholar
 Call for Manuscripts,DOI:10.1097/01.DCC.0000553303.89010.a0,language model + explainability + ethics,Semantic Scholar
-Call for Manuscripts,DOI:10.3776/TPRE.2019.V9N1P106,language model + explainability + ethics,Semantic Scholar
 The language of the media as an indicator of the language culture of modern society,DOI:10.32461/2226-0285.2.2020.222243,language model + explainability + ethics,Semantic Scholar
 Modeling Users and Online Communities for Abuse Detection: A Position on Ethics and Explainability,DOI:10.18653/v1/2021.findings-emnlp.287,language model + explainability + ethics,Semantic Scholar
 How to cheat on your final paper: Assigning AI for student writing,DOI:10.1007/s00146-022-01397-z,language model + explainability + ethics,Semantic Scholar
@@ -1744,7 +1736,6 @@ Successful Aging Among Older Hispanics,DOI:10.1093/geroni/igaa057.3370,language 
 Dil ilişkisi bağlamında Teyipcan Eliyev in şiirlerindeki Çince alıntılar,DOI:10.32925/tday.2019.34,language model + explainability + social,Semantic Scholar
 Editorial,DOI:10.1177/2455133320953502,language model + explainability + social,Semantic Scholar
 A Review of Educational Adaptation During the COVID-19 Pandemic via Online Learning,DOI:10.25147/ijcsr.2017.001.1.114,language model + explainability + social,Semantic Scholar
-AN ANALYSIS OF TRANSITIVITY CHOICES IN HASHMI’S WHEN THE MOON IS LOW,DOI:10.36755/ijll.v2i2.3,language model + explainability + social,Semantic Scholar
 LA INVESTIGACIÓN COMO ACTIVIDAD DIDÁCTICA EN LA CLASE DE ESPAÑOL COMO LENGUA EXTRANJERA: INSTRUMENTOS PARA EL DESARROLLO DE UNA COMPETENCIA PRAGMALINGÜÍSTICA CONTRASTIVA INTERCULTURAL EN ESTUDIANTES DE L2.,DOI:10.13130/PALEARI-VALENTINA_PHD2019-09-24,language model + explainability + social,Semantic Scholar
 A Shared Set of Solecisms: the Mamlūk and Ottoman Reception of al-Ḥarīrī’s Durrat al-ghawwāṣ,DOI:10.1163/24519197-12340063,language model + explainability + social,Semantic Scholar
 Dynamic modelling of medieval language contact: The case of Anglo-Norman and Middle English,paperid:6a799c1a85d7f79b13dda2853929409ffc47876f,language model + explainability + social,Semantic Scholar
@@ -2083,7 +2074,6 @@ Neural Computation links Neuroscience: a synergistic approach,DOI:10.1007/s00521
 Cognitive and Structural Social Capital as Predictors of Quality of Life for Sub-Saharan African Migrants in Germany,DOI:10.1007/s11482-019-09784-3,language model + explainability + social,Semantic Scholar
 Trend and Issue in Learning Strategy of Tahfiz Model Ulul Albab (TMUA),DOI:10.6007/ijarbss/v9-i7/6789,language model + explainability + social,Semantic Scholar
 Children - Centered Business Models in Tourism,DOI:10.31098/tsdr.v1i1.3,language model + explainability + social,Semantic Scholar
-Emotion theory in education research practice: an interdisciplinary critical literature review,DOI:10.1007/S11423-018-09642-3,language model + explainability + social,Semantic Scholar
 Change pattern of land cover and its driving force since 2001 in the New Eurasian Continental Bridge Economic Corridor,DOI:10.5846/stxb201903150492,language model + explainability + social,Semantic Scholar
 Features of Intercultural Communication’s Modeling Discourse,paperid:dfb1b48b5247962cab02909a7ceb731a74b32253,language model + explainability + social,Semantic Scholar
 "How to talk so AI will learn: Instructions, descriptions, and pragmatics",paperid:dfc896a182711b47e8ee3faac34bb54e7a31b19e,language model + explainability + social,Semantic Scholar
@@ -2353,7 +2343,6 @@ with the Grey Relation Coefficient Method",DOI:10.46632/tfe/1/4/2,language model
 Perdamaian Sebagai Perwujudan Dalam Dialog Antar Agama,DOI:10.31538/almada.v1i2.206,language model + responsible + social,Semantic Scholar
 Tipití: Journal of the Society for the Anthropology of Lowland South America,paperid:7d1da06dc1015ecf9216c1be610368cf10fd93e5,language model + responsible + social,Semantic Scholar
 Gender Sphere of Concepts in the Postmodern Periodicals for Women and Men in Ukraine,DOI:10.18662/po/12.3/347,language model + responsible + social,Semantic Scholar
-Editorial,DOI:10.1080/1358684x.2020.1742452,language model + responsible + social,Semantic Scholar
 A transfer learning approach for detecting offensive and hate speech on social media platforms,DOI:10.1007/s11042-023-14481-3,language model + responsible + social,Semantic Scholar
 Developing Cultural Literacy : The Contrastive Study of TV Advertisements,paperid:8572b605b97aafc6e5bfa6e6095dad921439f423,language model + responsible + social,Semantic Scholar
 A Conceptual Model of Adaptive Protective Factors for Migrant Workers,DOI:10.1177/09708464221128465,language model + responsible + social,Semantic Scholar
@@ -2450,7 +2439,6 @@ The Emergence of Multiple-Text Manuscripts,DOI:10.1515/9783110645989,codex + exp
 Die ›Kaiserchronik‹ und der deutsche Adel,DOI:10.1515/bgsl-2019-0013,codex + explainability + social,Semantic Scholar
 Reader Response Theory: Students’ Encounter and Challenges with E- Literature,paperid:6e57aa6ebe2771779a8bea903515b3ae8a1236c3,codex + explainability + social,Semantic Scholar
 Кодиколошки или материјални опис рукописа?,DOI:10.19090/CIT.2021.38.28-35,codex + explainability + social,Semantic Scholar
-The Emergence of Multiple-Text Manuscripts,DOI:10.1515/9783110646122,codex + explainability + social,Semantic Scholar
 "Inschriftlichkeit: Materialität, Präsenz und Poetik des Geschriebenen im höfischen Roman by Astrid Lembke (review)",paperid:c39856b5e17befebe145d2a14dea122faa2b9fd6,codex + explainability + ethical,Semantic Scholar
 Towards safer use of pesticides in Chile,DOI:10.1007/s11356-022-18843-6,codex + responsible + social,Semantic Scholar
 "DEVELOPMENT OF A VEGAN SAUSAGE WITH YOUNG GREEN JACKFRUIT, OYSTER MUSHROOM, AND COCONUT FLOUR AS AN ENVIRONMENTALLY FRIENDLY PRODUCT WITH CLEANER PRODUCTION APPROACH",DOI:10.15414/JMBFS.4029,codex + responsible + social,Semantic Scholar
