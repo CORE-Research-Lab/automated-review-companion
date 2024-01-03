@@ -8,6 +8,9 @@ import pandas as pd
 from urllib.parse import urlencode
 from importlib.resources import open_binary
 
+from requests import Timeout, RequestException, HTTPError, TooManyRedirects
+from urllib3.exceptions import MaxRetryError
+
 BASE_URL = 'https://dblp.org/search/publ/api'
 
 
@@ -79,13 +82,16 @@ def search(query: str):
         return results
 
     def make_request(options):
-        while True:
+        try:
             response = requests.get(f'{BASE_URL}?{urlencode(options)}')
-            if response.status_code == 429:
-                print('Received 429 Too Many Requests. Waiting 30 seconds before retrying...')
-                time.sleep(30)
-                continue
+            response.raise_for_status()
             return response
+        except MaxRetryError:
+            print("Max retries exceeded. Could not establish a connection.")
+            return None
+        except (ConnectionError, Timeout, TooManyRedirects, HTTPError, RequestException) as e:
+            print(f"An error occurred: {e}")
+            return None
 
     options = {
         'q': query,
