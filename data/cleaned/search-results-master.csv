@@ -2288,7 +2288,7 @@ Think-on-Graph: Deep and Responsible Reasoning of Large Language Model with Know
 Building the Future of Responsible AI: A Reference Architecture for Designing Large Language Model based Agents.,DOI:10.48550/ARXIV.2311.13148,large$ language$ model$ responsible$,DBLP
 SemanticCAP: Chromatin Accessibility Prediction Enhanced by Features Learning from a Language Model.,DOI:10.48550/ARXIV.2204.02130,language$ model$ accessibility$,DBLP
 TextObfuscator: Making Pre-trained Language Model a Privacy Protector via Obfuscating Word Representations.,DOI:10.18653/V1/2023.FINDINGS-ACL.337,language$ model$ privacy$,DBLP
-MoPe: Model Perturbation based Privacy Attacks on Language Models.,url:https://dblp.org/rec/conf/emnlp/LiWWN23,language$ model$ privacy$,DBLP
+MoPe: Model Perturbation based Privacy Attacks on Language Models.,DOI:10.18653/v1/2023.emnlp-main.842,language$ model$ privacy$,DBLP
 Does Prompt-Tuning Language Model Ensure Privacy?,DOI:10.48550/ARXIV.2304.03472,language$ model$ privacy$,DBLP
 MoPe: Model Perturbation-based Privacy Attacks on Language Models.,DOI:10.48550/ARXIV.2310.14369,language$ model$ privacy$,DBLP
 PQLM - Multilingual Decentralized Portable Quantum Language Model for Privacy Protection.,DOI:10.48550/ARXIV.2210.03221,language$ model$ privacy$,DBLP
@@ -2297,8 +2297,8 @@ PQLM - Multilingual Decentralized Portable Quantum Language Model for Privacy Pr
 "ESGBERT: Language Model to Help with Classification Tasks Related to Companies Environmental, Social, and Governance Practices.",DOI:10.48550/ARXIV.2203.16788,language$ model$ environmental$,DBLP
 Canalization of Language Structure From Environmental Constraints: A Computational Model of Word Learning From Multiple Cues.,DOI:10.1111/TOPS.12239,language$ model$ environmental$,DBLP
 Beware the Rationalization Trap! When Language Model Explainability Diverges from our Mental Models of Language.,DOI:10.48550/ARXIV.2207.06897,language$ model$ explainability$,DBLP
-Model Explainability in Deep Learning Based Natural Language Processing.,url:https://dblp.org/rec/journals/corr/abs-2106-07410,language$ model$ explainability$,DBLP
-Comparative Study of Language Models on Cross-Domain Data with Model Agnostic Explainability.,url:https://dblp.org/rec/journals/corr/abs-2009-04095,language$ model$ explainability$,DBLP
+Model Explainability in Deep Learning Based Natural Language Processing.,DOI:10.48550/arXiv.2106.07410,language$ model$ explainability$,DBLP
+Comparative Study of Language Models on Cross-Domain Data with Model Agnostic Explainability.,DOI:10.48550/arXiv.2009.04095,language$ model$ explainability$,DBLP
 Identifying and Adapting Transformer-Components Responsible for Gender Bias in an English Language Model.,DOI:10.48550/ARXIV.2310.12611,language$ model$ responsible$,DBLP
 Towards Understanding Substance Abuse Misinformation in YouTube Videos.,DOI:10.1145/3584931.3606974,PaLM$ misinformation$,DBLP
 CampusTracer: A Privacy-Aware Contact Tracing Protocol for Campus Environments.,DOI:10.1109/EUROSPW55150.2022.00026,PaLM$ privacy$,DBLP
@@ -2316,7 +2316,7 @@ Computational advances for spatio-temporal multivariate environmental models.,DO
 Structural Accessibility and Structural Observability of Nonlinear Networked Systems.,DOI:10.1109/TNSE.2019.2946535,Claude$ accessibility$,DBLP
 Three-dimensional indoor network accessibility auditing for floor plan design.,DOI:10.1111/TGIS.12310,Claude$ accessibility$,DBLP
 T-Accessibility for a class of nonlinear time-delay systems.,DOI:10.23919/ACC.2018.8431097,Claude$ accessibility$,DBLP
-Structural accessibility and structural observability of nonlinear networked systems.,url:https://dblp.org/rec/journals/corr/abs-1812-04961,Claude$ accessibility$,DBLP
+Structural accessibility and structural observability of nonlinear networked systems.,DOI:10.1109/TNSE.2019.2946535,Claude$ accessibility$,DBLP
 Accessibility of Nonlinear Time-Delay Systems.,DOI:10.1109/TAC.2016.2581701,Claude$ accessibility$,DBLP
 UPRISE-IoT: User-Centric Privacy &amp; Security in the IoT.,DOI:10.3233/AISE200004,Claude$ privacy$,DBLP
 Privacy-Preserving Release of Spatio-Temporal Density.,DOI:10.1007/978-3-319-98161-1_12,Claude$ privacy$,DBLP
@@ -2325,10 +2325,10 @@ Modeling data protection and privacy: application and experience with GDPR.,DOI:
 Privacy-preserving and bandwidth-efficient federated learning: an application to in-hospital mortality prediction.,DOI:10.1145/3450439.3451859,Claude$ privacy$,DBLP
 Privacy-Aware Ant Routing for Wireless Multimedia Sensor Networks in Healthcare.,DOI:10.1109/HPSR52026.2021.9481823,Claude$ privacy$,DBLP
 Æternum: A Decentralized Voting System with Unconditional Privacy.,DOI:10.1109/ICBC51069.2021.9461101,Claude$ privacy$,DBLP
-AI-enabled Automation for Completeness Checking of Privacy Policies.,url:https://dblp.org/rec/journals/corr/abs-2106-05688,Claude$ privacy$,DBLP
+AI-enabled Automation for Completeness Checking of Privacy Policies.,DOI:10.1109/TSE.2021.3124332,Claude$ privacy$,DBLP
 An AI-assisted Approach for Checking the Completeness of Privacy Policies Against GDPR.,DOI:10.1109/RE48521.2020.00025,Claude$ privacy$,DBLP
-Model Driven Engineering for Data Protection and Privacy: Application and Experience with GDPR.,url:https://dblp.org/rec/journals/corr/abs-2007-12046,Claude$ privacy$,DBLP
-"Privacy Preservation for Wireless Sensor Networks in Healthcare: State of the Art, and Open Research Challenges.",url:https://dblp.org/rec/journals/corr/abs-2012-12958,Claude$ privacy$,DBLP
+Model Driven Engineering for Data Protection and Privacy: Application and Experience with GDPR.,DOI:10.48550/arXiv.2007.12046,Claude$ privacy$,DBLP
+"Privacy Preservation for Wireless Sensor Networks in Healthcare: State of the Art, and Open Research Challenges.",DOI:10.48550/arXiv.2012.12958,Claude$ privacy$,DBLP
 Differential Inference Testing: A Practical Approach to Evaluate Sanitizations of Datasets.,DOI:10.1109/SPW.2019.00024,Claude$ privacy$,DBLP
 Construction of Efficient Codes for High-Order Direct Sum Masking.,DOI:10.3233/AISE200008,Claude$ privacy$,DBLP
 Direct Sum Masking as a Countermeasure to Side-Channel and Fault Injection Attacks.,DOI:10.3233/AISE200010,Claude$ privacy$,DBLP
@@ -2336,14 +2336,14 @@ Modeling Security and Privacy Requirements: a Use Case-Driven Approach.,DOI:10.1
 A Metric for Evaluating the Privacy Level of a Business Process Logic in a Multi-cloud Deployment.,DOI:10.1109/EDOC.2017.28,Claude$ privacy$,DBLP
 CEBA: A Data Lake for Data Sharing and Environmental Monitoring.,DOI:10.3390/S22072733,Claude$ environmental$,DBLP
 "Remote Sensing of Environmental Changes in Cold Regions: Methods, Achievements and Challenges.",DOI:10.3390/RS11161952,Claude$ environmental$,DBLP
-Lexical Profiling of Environmental Corpora.,url:https://dblp.org/rec/conf/lrec/DrouinLR18,Claude$ environmental$,DBLP
+Lexical Profiling of Environmental Corpora.,DOI:10.1177/21582440221126342,Claude$ environmental$,DBLP
 Plant Identification: Experts vs. Machines in the Era of Deep Learning - Deep Learning Techniques Challenge Flora Experts.,DOI:10.1007/978-3-319-76445-0_8,Claude$ environmental$,DBLP
 Towards Feminist Intersectional XAI: From Explainability to Response-Ability.,DOI:10.48550/ARXIV.2305.03375,Claude$ explainability$,DBLP
-"Towards Reliable Misinformation Mitigation: Generalization, Uncertainty, and GPT-4.",url:https://dblp.org/rec/conf/emnlp/PelrineITRGCGR23,GPT-4$ misinformation$,DBLP
+"Towards Reliable Misinformation Mitigation: Generalization, Uncertainty, and GPT-4.",DOI:10.48550/arXiv.2305.14928,GPT-4$ misinformation$,DBLP
 SwapMix: Diagnosing and Regularizing the Over-Reliance on Visual Context in Visual Question Answering.,DOI:10.1109/CVPR52688.2022.00502,Yi$ over-reliance$,DBLP
 The Battlefront of Combating Misinformation and Coping with Media Bias.,DOI:10.1145/3534678.3542615,Yi$ misinformation$,DBLP
 Cross-document Misinformation Detection based on Event Graph Reasoning.,DOI:10.18653/V1/2022.NAACL-MAIN.40,Yi$ misinformation$,DBLP
-Is Explanation the Cure? Misinformation Mitigation in the Short Term and Long Term.,url:https://dblp.org/rec/conf/emnlp/HsuDXK23,Yi$ misinformation$,DBLP
+Is Explanation the Cure? Misinformation Mitigation in the Short Term and Long Term.,DOI:10.18653/v1/2023.findings-emnlp.92,Yi$ misinformation$,DBLP
 AMICA: Alleviating Misinformation for Chinese Americans.,DOI:10.1145/3539618.3591810,Yi$ misinformation$,DBLP
 Making a Cocoon: The Social Factors of Pandemic Misinformation Evaluation.,DOI:10.1002/PRA2.739,Yi$ misinformation$,DBLP
 Not All Lies Are Equal. A Study Into the Engineering of Political Misinformation in the 2016 US Presidential Election.,DOI:10.1109/ACCESS.2019.2938389,Yi$ misinformation$,DBLP
@@ -2352,7 +2352,7 @@ Towards modeling and mitigating misinformation propagation in online social netw
 Misinformation Propagation in Online Social Networks: Game Theoretic and Reinforcement Learning Approaches.,DOI:10.1109/TCSS.2022.3208793,Yi$ misinformation$,DBLP
 Towards Cross-Lingual Multi-Modal Misinformation Detection for E-Commerce Management.,DOI:10.1109/TNSM.2023.3234114,Yi$ misinformation$,DBLP
 Capturing Cross-Platform Interaction for Identifying Coordinated Accounts of Misinformation Campaigns.,DOI:10.1007/978-3-031-28238-6_61,Yi$ misinformation$,DBLP
-On the Risk of Misinformation Pollution with Large Language Models.,url:https://dblp.org/rec/conf/emnlp/PanPCNKW23,Yi$ misinformation$,DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,DOI:10.48550/arXiv.2305.13661,Yi$ misinformation$,DBLP
 KESHEM: Knowledge Enabled Short Health Misinformation Detection Framework.,DOI:10.1007/978-3-031-43412-9_22,Yi$ misinformation$,DBLP
 What Will Make Misinformation Spread: An XAI Perspective.,DOI:10.1007/978-3-031-44067-0_17,Yi$ misinformation$,DBLP
 Modeling and Mitigating Online Misinformation: a Suggested Blockchain Approach.,DOI:10.48550/ARXIV.2303.10765,Yi$ misinformation$,DBLP
@@ -2490,7 +2490,7 @@ Stealthy Porn: Understanding Real-World Adversarial Images for Illicit Online Pr
 A watermark-based in situ access-control model for image big data.,DOI:10.1049/PBPC028E_CH4,Yi$ privacy$,DBLP
 "Blockchain Blockchain for Ensuring Security Security , Privacy Privacy , and Trust Trust in IoT IoT Environments: The State of the Art.",DOI:10.1007/978-3-030-18075-1_6,Yi$ privacy$,DBLP
 Blockchain based Privacy-Preserving Software Updates with Proof-of-Delivery for Internet of Things.,url:https://dblp.org/rec/journals/corr/abs-1902-03712,Yi$ privacy$,DBLP
-PPGAN: Privacy-preserving Generative Adversarial Network.,url:https://dblp.org/rec/journals/corr/abs-1910-02007,Yi$ privacy$,DBLP
+PPGAN: Privacy-preserving Generative Adversarial Network.,DOI:10.1109/ICPADS47876.2019.00150,Yi$ privacy$,DBLP
 A Privacy-Preserving Message Forwarding Framework for Opportunistic Cloud of Things.,DOI:10.1109/JIOT.2018.2864782,Yi$ privacy$,DBLP
 Love at First Sight: The Interplay Between Privacy Dispositions and Privacy Calculus in Online Social Connectivity Management.,DOI:10.17705/1JAIS.00487,Yi$ privacy$,DBLP
 Privacy-Preserving Sorting Algorithms Based on Logistic Map for Clouds.,DOI:10.1155/2018/2373545,Yi$ privacy$,DBLP
@@ -2501,7 +2501,7 @@ Privacy preserving Internet of Things: From privacy techniques to a blueprint ar
 Secure and Privacy-Preserving Data Sharing and Collaboration in Mobile Healthcare Social Networks of Smart Cities.,DOI:10.1155/2017/6426495,Yi$ privacy$,DBLP
 Location Privacy Leakage through Sensory Data.,DOI:10.1155/2017/7576307,Yi$ privacy$,DBLP
 MUSE: An Efficient and Accurate Verifiable Privacy-Preserving Multikeyword Text Search over Encrypted Cloud Data.,DOI:10.1155/2017/1923476,Yi$ privacy$,DBLP
-An Efficient NIZK Scheme for Privacy-Preserving Transactions over Account-Model Blockchain.,url:https://dblp.org/rec/journals/iacr/MaDHZX17,Yi$ privacy$,DBLP
+An Efficient NIZK Scheme for Privacy-Preserving Transactions over Account-Model Blockchain.,DOI:10.1109/TDSC.2020.2969418,Yi$ privacy$,DBLP
 Federated Learning-Based Privacy-Preserving Data Aggregation Scheme for IIoT.,DOI:10.1109/ACCESS.2022.3226245,Yi$ privacy$,DBLP
 FaceIDP: Face Identification Differential Privacy via Dictionary Learning Neural Networks.,DOI:10.1109/ACCESS.2023.3260260,Yi$ privacy$,DBLP
 A Privacy-Preserving Symptoms Retrieval System with the Aid of Homomorphic Encryption and Private Set Intersection Schemes.,DOI:10.3390/A16050244,Yi$ privacy$,DBLP
@@ -2560,7 +2560,7 @@ Concentrated Geo-Privacy.,DOI:10.1145/3576915.3623068,Yi$ privacy$,DBLP
 Modeling the Trade-off of Privacy Preservation and Activity Recognition on Low-Resolution Images.,DOI:10.1145/3544548.3581425,Yi$ privacy$,DBLP
 FL-PTD: A Privacy Preserving Defense Strategy Against Poisoning Attacks in Federated Learning.,DOI:10.1109/COMPSAC57700.2023.00101,Yi$ privacy$,DBLP
 Privacy Protection Technology for Internet of Vehicles.,DOI:10.1109/CSCLOUD-EDGECOM58631.2023.00075,Yi$ privacy$,DBLP
-TextMixer: Mixing Multiple Inputs for Privacy-Preserving Inference.,url:https://dblp.org/rec/conf/emnlp/ZhouLMG0H23,Yi$ privacy$,DBLP
+TextMixer: Mixing Multiple Inputs for Privacy-Preserving Inference.,DOI:10.18653/v1/2023.findings-emnlp.244,Yi$ privacy$,DBLP
 Comparing How a Chatbot References User Utterances from Previous Chatting Sessions: An Investigation of Users&apos; Privacy Concerns and Perceptions.,DOI:10.1145/3623809.3623875,Yi$ privacy$,DBLP
 PHEP: Paillier Homomorphic Encryption Processors for Privacy-Preserving Applications in Cloud Computing.,DOI:10.1109/HCS59251.2023.10254692,Yi$ privacy$,DBLP
 Wireless Sensing Privacy Protection via Multi-Carrier Chirp Waveform.,DOI:10.1109/ICCWORKSHOPS57953.2023.10283764,Yi$ privacy$,DBLP
@@ -2631,7 +2631,7 @@ Privacy-Preserving Spatiotemporal Scenario Generation of Renewable Energies: A F
 PMRSS: Privacy-Preserving Medical Record Searching Scheme for Intelligent Diagnosis in IoT Healthcare.,DOI:10.1109/TII.2021.3070544,Yi$ privacy$,DBLP
 PPVF: Privacy-Preserving Protocol for Vehicle Feedback in Cloud-Assisted VANET.,DOI:10.1109/TITS.2021.3117950,Yi$ privacy$,DBLP
 PLVA: Privacy-Preserving and Lightweight V2I Authentication Protocol.,DOI:10.1109/TITS.2021.3059638,Yi$ privacy$,DBLP
-Mace: A flexible framework for membership privacy estimation in generative models.,url:https://dblp.org/rec/journals/tmlr/XuMLTDF22,Yi$ privacy$,DBLP
+Mace: A flexible framework for membership privacy estimation in generative models.,DOI:10.48550/arXiv.2009.05683,Yi$ privacy$,DBLP
 PPRP: Preserving-Privacy Route Planning Scheme in VANETs.,DOI:10.1145/3430507,Yi$ privacy$,DBLP
 Cloud-Based Outsourcing for Enabling Privacy-Preserving Large-Scale Non-Negative Matrix Factorization.,DOI:10.1109/TSC.2019.2937484,Yi$ privacy$,DBLP
 Privacy-Preserving Spatio-Temporal Keyword Search for Outsourced Location-Based Services.,DOI:10.1109/TSC.2021.3088131,Yi$ privacy$,DBLP
@@ -2648,11 +2648,11 @@ Preserving Trajectory Privacy in Driving Data Release.,DOI:10.1109/ICASSP43922.2
 Enabling Privacy-Preserving Off-chain Payment via Hybrid Multi-hop Mechanism.,DOI:10.1109/ICC45855.2022.9839015,Yi$ privacy$,DBLP
 Collecting Triangle Counts with Edge Relationship Local Differential Privacy.,DOI:10.1109/ICDE53745.2022.00196,Yi$ privacy$,DBLP
 Lightweight and Practical Privacy-Preserving Image Masking in Smart Community.,DOI:10.1007/978-3-031-15777-6_13,Yi$ privacy$,DBLP
-Understanding Clipping for Federated Learning: Convergence and Client-Level Differential Privacy.,url:https://dblp.org/rec/conf/icml/ZhangCH0Y22,Yi$ privacy$,DBLP
+Understanding Clipping for Federated Learning: Convergence and Client-Level Differential Privacy.,DOI:10.48550/arXiv.2106.13673,Yi$ privacy$,DBLP
 Privacy Leakage Vulnerability Detection for Privacy-Preserving Computation Services.,DOI:10.1109/ICWS55610.2022.00043,Yi$ privacy$,DBLP
 Visual privacy protection in mobile image recognition using protective perturbation.,DOI:10.1145/3524273.3528189,Yi$ privacy$,DBLP
-"Identification, Amplification and Measurement: A bridge to Gaussian Differential Privacy.",url:https://dblp.org/rec/conf/nips/00620JK22,Yi$ privacy$,DBLP
-Network change point localisation under local differential privacy.,url:https://dblp.org/rec/conf/nips/LiBY22,Yi$ privacy$,DBLP
+"Identification, Amplification and Measurement: A bridge to Gaussian Differential Privacy.",DOI:10.48550/arXiv.2210.09269,Yi$ privacy$,DBLP
+Network change point localisation under local differential privacy.,DOI:10.48550/arXiv.2205.07144,Yi$ privacy$,DBLP
 An Efficient Clustering-Based Privacy-Preserving Recommender System.,DOI:10.1007/978-3-031-23020-2_22,Yi$ privacy$,DBLP
 Attribute-Based Non-Interactive Privacy-Protected Crowd-Sourcing Software Testing Engineer Selection Mechanism.,DOI:10.1109/QRS-C57518.2022.00040,Yi$ privacy$,DBLP
 A Framework for Scanning Privacy Information based on Static Analysis.,DOI:10.1109/QRS57517.2022.00116,Yi$ privacy$,DBLP
@@ -2667,7 +2667,7 @@ Proactively Control Privacy in Recommender Systems.,DOI:10.48550/ARXIV.2204.0027
 Differential Privacy on Dynamic Data.,DOI:10.48550/ARXIV.2209.01387,Yi$ privacy$,DBLP
 Personal Privacy Protection Problems in the Digital Age.,DOI:10.48550/ARXIV.2211.09591,Yi$ privacy$,DBLP
 Privacy-Preserving Visual Localization with Event Cameras.,DOI:10.48550/ARXIV.2212.03177,Yi$ privacy$,DBLP
-Ibex: Privacy-preserving ad conversion tracking and bidding (full version).,url:https://dblp.org/rec/journals/iacr/Zhong0A22,Yi$ privacy$,DBLP
+Ibex: Privacy-preserving ad conversion tracking and bidding (full version).,DOI:10.1145/3548606.3560651,Yi$ privacy$,DBLP
 Privacy-Preserving Image Classification With Deep Learning and Double Random Phase Encoding.,DOI:10.1109/ACCESS.2021.3116876,Yi$ privacy$,DBLP
 Privacy Model: Detect Privacy Leakage for Chinese Browser Extensions.,DOI:10.1109/ACCESS.2021.3063814,Yi$ privacy$,DBLP
 Privacy-Aware Image Authentication from Cryptographic Primitives.,DOI:10.1093/COMJNL/BXAA127,Yi$ privacy$,DBLP
@@ -2735,18 +2735,18 @@ POI Recommendation with Federated Learning and Privacy Preserving in Cross Domai
 Fast Settlement Scheme of Aviation Business Privacy Preservation Based on Consortium Blockchain.,DOI:10.1109/ISPA-BDCLOUD-SOCIALCOM-SUSTAINCOM52081.2021.00197,Yi$ privacy$,DBLP
 Fake Gradient: A Security and Privacy Protection Framework for DNN-based Image Classification.,DOI:10.1145/3474085.3475685,Yi$ privacy$,DBLP
 Privacy protection scheme for edge computing based on function encryption.,DOI:10.1109/NANA53684.2021.00030,Yi$ privacy$,DBLP
-Instance-optimal Mean Estimation Under Differential Privacy.,url:https://dblp.org/rec/conf/nips/HuangLY21,Yi$ privacy$,DBLP
+Instance-optimal Mean Estimation Under Differential Privacy.,DOI:10.48550/arXiv.2106.00463,Yi$ privacy$,DBLP
 Protecting Data Privacy in Federated Learning Combining Differential Privacy and Weak Encryption.,DOI:10.1007/978-3-030-89137-4_7,Yi$ privacy$,DBLP
 Differential Privacy in Privacy-Preserving Big Data and Learning: Challenge and Opportunity.,DOI:10.1007/978-3-030-96057-5_3,Yi$ privacy$,DBLP
 Efficient and Privacy-preserving Distributed Learning in Cloud-Edge Computing Systems.,DOI:10.1145/3468218.3469044,Yi$ privacy$,DBLP
-Privacy Inference Attacks and Defenses in Cloud-based Deep Neural Network: A Survey.,url:https://dblp.org/rec/journals/corr/abs-2105-06300,Yi$ privacy$,DBLP
-Towards Unsupervised Domain Adaptation for Deep Face Recognition under Privacy Constraints via Federated Learning.,url:https://dblp.org/rec/journals/corr/abs-2105-07606,Yi$ privacy$,DBLP
-DeFed: A Principled Decentralized and Privacy-Preserving Federated Learning Algorithm.,url:https://dblp.org/rec/journals/corr/abs-2107-07171,Yi$ privacy$,DBLP
-Privacy-preserving Spatiotemporal Scenario Generation of Renewable Energies: A Federated Deep Generative Learning Approach.,url:https://dblp.org/rec/journals/corr/abs-2107-07738,Yi$ privacy$,DBLP
-Privacy-Preserved Average Consensus Algorithms with Edge-based Additive Perturbations.,url:https://dblp.org/rec/journals/corr/abs-2109-02192,Yi$ privacy$,DBLP
-Noise-Augmented Privacy-Preserving Empirical Risk Minimization with Dual-purpose Regularizer and Privacy Budget Retrieval and Recycling.,url:https://dblp.org/rec/journals/corr/abs-2110-08676,Yi$ privacy$,DBLP
-Privacy-Aware Identity Cloning Detection based on Deep Forest.,url:https://dblp.org/rec/journals/corr/abs-2110-10897,Yi$ privacy$,DBLP
-Financial Vision Based Differential Privacy Applications.,url:https://dblp.org/rec/journals/corr/abs-2112-14075,Yi$ privacy$,DBLP
+Privacy Inference Attacks and Defenses in Cloud-based Deep Neural Network: A Survey.,DOI:10.48550/arXiv.2105.06300,Yi$ privacy$,DBLP
+Towards Unsupervised Domain Adaptation for Deep Face Recognition under Privacy Constraints via Federated Learning.,DOI:10.48550/arXiv.2105.07606,Yi$ privacy$,DBLP
+DeFed: A Principled Decentralized and Privacy-Preserving Federated Learning Algorithm.,DOI:10.48550/arXiv.2107.07171,Yi$ privacy$,DBLP
+Privacy-preserving Spatiotemporal Scenario Generation of Renewable Energies: A Federated Deep Generative Learning Approach.,DOI:10.1109/TII.2021.3098259,Yi$ privacy$,DBLP
+Privacy-Preserved Average Consensus Algorithms with Edge-based Additive Perturbations.,DOI:10.1016/j.automatica.2022.110223,Yi$ privacy$,DBLP
+Noise-Augmented Privacy-Preserving Empirical Risk Minimization with Dual-purpose Regularizer and Privacy Budget Retrieval and Recycling.,DOI:10.1007/978-3-031-10467-1_40,Yi$ privacy$,DBLP
+Privacy-Aware Identity Cloning Detection based on Deep Forest.,DOI:10.1007/978-3-030-91431-8_26,Yi$ privacy$,DBLP
+Financial Vision Based Differential Privacy Applications.,DOI:10.48550/arXiv.2112.14075,Yi$ privacy$,DBLP
 Preservation of DNA Privacy During the Large Scale Detection of COVID.,url:https://dblp.org/rec/journals/iacr/HollensteinNRRW21,Yi$ privacy$,DBLP
 A Privacy-Preserving Multi-Keyword Ranked Search Over Encrypted Data in Hybrid Clouds.,DOI:10.1109/ACCESS.2019.2963096,Yi$ privacy$,DBLP
 Using User Behavior to Measure Privacy on Online Social Networks.,DOI:10.1109/ACCESS.2020.3000780,Yi$ privacy$,DBLP
@@ -2786,13 +2786,13 @@ Secure and Efficient Privacy-Preserving Authentication Scheme for 5G Software De
 Privacy-Enhancing Preferential LBS Query for Mobile Social Network Users.,DOI:10.1155/2020/8892321,Yi$ privacy$,DBLP
 Adversarial Learning of Privacy-Preserving and Task-Oriented Representations.,DOI:10.1609/AAAI.V34I07.6930,Yi$ privacy$,DBLP
 SGX-based Users Matching with Privacy Protection.,DOI:10.1145/3373017.3373021,Yi$ privacy$,DBLP
-Privacy-Preserving Methods for Vertically Partitioned Incomplete Data.,url:https://dblp.org/rec/conf/amia/DengJL20,Yi$ privacy$,DBLP
+Privacy-Preserving Methods for Vertically Partitioned Incomplete Data.,DOI:10.48550/arXiv.2012.14954,Yi$ privacy$,DBLP
 A Privacy-Preserving Federated Learning System for Android Malware Detection Based on Edge Computing.,DOI:10.1109/ASIAJCIS50894.2020.00031,Yi$ privacy$,DBLP
 Privacy-Aware Federated Learning for Page Recommendation.,DOI:10.1109/BIGDATA50022.2020.9377942,Yi$ privacy$,DBLP
 Privacy Preserving Average Consensus by Adding Edge-based Perturbation Signals.,DOI:10.1109/CCTA41146.2020.9206263,Yi$ privacy$,DBLP
 A privacy protection secure communication protocols for the Industrial Internet of Things.,DOI:10.1145/3444370.3444580,Yi$ privacy$,DBLP
 Privacy Attack and Defense in Network Embedding.,DOI:10.1007/978-3-030-66046-8_19,Yi$ privacy$,DBLP
-Interpretable Complex-Valued Neural Networks for Privacy Protection.,url:https://dblp.org/rec/conf/iclr/XiangZMZRZ20,Yi$ privacy$,DBLP
+Interpretable Complex-Valued Neural Networks for Privacy Protection.,DOI:10.48550/arXiv.1901.09546,Yi$ privacy$,DBLP
 FedGRU: Privacy-preserving Traffic Flow Prediction via Federated Learning.,DOI:10.1109/ITSC45102.2020.9294453,Yi$ privacy$,DBLP
 Re-identification Attack to Privacy-Preserving Data Analysis with Noisy Sample-Mean.,DOI:10.1145/3394486.3403148,Yi$ privacy$,DBLP
 The privacy paradox and its implications for learning analytics.,DOI:10.1145/3375462.3375536,Yi$ privacy$,DBLP
@@ -2805,17 +2805,17 @@ An Optimization Framework for Privacy-preserving Access Control in Cloud-Fog Com
 Blockchain-Based Privacy-Preserving Dynamic Spectrum Sharing.,DOI:10.1007/978-3-030-59016-1_37,Yi$ privacy$,DBLP
 Projection-free Online Empirical Risk Minimization with Privacy-preserving and Privacy Expiration.,DOI:10.1109/WIIAT50758.2020.00006,Yi$ privacy$,DBLP
 Over-the-air membership inference attacks as privacy threats for deep learning-based wireless signal classifiers.,DOI:10.1145/3395352.3404070,Yi$ privacy$,DBLP
-Input Perturbation: A New Paradigm between Central and Local Differential Privacy.,url:https://dblp.org/rec/journals/corr/abs-2002-08570,Yi$ privacy$,DBLP
-Deep Quaternion Features for Privacy Protection.,url:https://dblp.org/rec/journals/corr/abs-2003-08365,Yi$ privacy$,DBLP
-Privacy-preserving Traffic Flow Prediction: A Federated Learning Approach.,url:https://dblp.org/rec/journals/corr/abs-2003-08725,Yi$ privacy$,DBLP
-Privacy-preserving Distributed Probabilistic Load Flow.,url:https://dblp.org/rec/journals/corr/abs-2004-09131,Yi$ privacy$,DBLP
-Rotation-Equivariant Neural Networks for Privacy Protection.,url:https://dblp.org/rec/journals/corr/abs-2006-13016,Yi$ privacy$,DBLP
-Over-the-Air Membership Inference Attacks as Privacy Threats for Deep Learning-based Wireless Signal Classifiers.,url:https://dblp.org/rec/journals/corr/abs-2006-14576,Yi$ privacy$,DBLP
-Octopus: Privacy-Preserving Collaborative Evaluation of Loan Stacking.,url:https://dblp.org/rec/journals/corr/abs-2007-02234,Yi$ privacy$,DBLP
-Exploiting vulnerabilities of deep neural networks for privacy protection.,url:https://dblp.org/rec/journals/corr/abs-2007-09766,Yi$ privacy$,DBLP
-Privacy Preservation in Federated Learning: Insights from the GDPR Perspective.,url:https://dblp.org/rec/journals/corr/abs-2011-05411,Yi$ privacy$,DBLP
-Privacy-Preserving Pose Estimation for Human-Robot Interaction.,url:https://dblp.org/rec/journals/corr/abs-2011-07387,Yi$ privacy$,DBLP
-Low Latency Privacy-preserving Outsourcing of Deep Neural Network Inference.,url:https://dblp.org/rec/journals/iacr/TianNYY20,Yi$ privacy$,DBLP
+Input Perturbation: A New Paradigm between Central and Local Differential Privacy.,DOI:10.48550/arXiv.2002.08570,Yi$ privacy$,DBLP
+Deep Quaternion Features for Privacy Protection.,DOI:10.48550/arXiv.2003.08365,Yi$ privacy$,DBLP
+Privacy-preserving Traffic Flow Prediction: A Federated Learning Approach.,DOI:10.1109/JIOT.2020.2991401,Yi$ privacy$,DBLP
+Privacy-preserving Distributed Probabilistic Load Flow.,DOI:10.1109/TPWRS.2020.3022476,Yi$ privacy$,DBLP
+Rotation-Equivariant Neural Networks for Privacy Protection.,DOI:10.48550/arXiv.2006.13016,Yi$ privacy$,DBLP
+Over-the-Air Membership Inference Attacks as Privacy Threats for Deep Learning-based Wireless Signal Classifiers.,DOI:10.1145/3395352.3404070,Yi$ privacy$,DBLP
+Octopus: Privacy-Preserving Collaborative Evaluation of Loan Stacking.,DOI:10.48550/arXiv.2007.02234,Yi$ privacy$,DBLP
+Exploiting vulnerabilities of deep neural networks for privacy protection.,DOI:10.1109/TMM.2020.2987694,Yi$ privacy$,DBLP
+Privacy Preservation in Federated Learning: Insights from the GDPR Perspective.,SOI:10.48550/arXiv.2011.05411,Yi$ privacy$,DBLP
+Privacy-Preserving Pose Estimation for Human-Robot Interaction.,DOI:10.48550/arXiv.2011.07387,Yi$ privacy$,DBLP
+Low Latency Privacy-preserving Outsourcing of Deep Neural Network Inference.,DOI:10.1109/JIOT.2020.3003468,Yi$ privacy$,DBLP
 Security and Privacy for Next-Generation Wireless Networks,DOI:10.1007/978-3-030-01150-5,Yi$ privacy$,DBLP
 LRM: A Location Recombination Mechanism for Achieving Trajectory k-Anonymity Privacy Protection.,DOI:10.1109/ACCESS.2019.2960008,Yi$ privacy$,DBLP
 An efficient privacy-preserving protocol for database-driven cognitive radio networks.,DOI:10.1016/J.ADHOC.2018.08.009,Yi$ privacy$,DBLP
@@ -2831,7 +2831,7 @@ A Hybrid Approach to Privacy-Preserving Federated Learning - (Extended Abstract)
 Privacy-Aware Sensor Network Via Multilayer Nonlinear Processing.,DOI:10.1109/JIOT.2019.2941979,Yi$ privacy$,DBLP
 A Markov Prediction-Based Privacy Protection Scheme for Continuous Query.,DOI:10.1142/S0218126619501470,Yi$ privacy$,DBLP
 Privacy-Protective-GAN for Privacy Preserving Face De-Identification.,DOI:10.1007/S11390-019-1898-8,Yi$ privacy$,DBLP
-A Privacy-Preserving Approach in Friendly-Correlations of Graph Based on Edge-Differential Privacy.,url:https://dblp.org/rec/journals/jise/HuYWLZ19,Yi$ privacy$,DBLP
+A Privacy-Preserving Approach in Friendly-Correlations of Graph Based on Edge-Differential Privacy.,DOI:10.6688/JISE.201907_35(4).0007,Yi$ privacy$,DBLP
 Privacy-preserving aggregation for cooperative spectrum sensing.,DOI:10.1016/J.JNCA.2019.05.011,Yi$ privacy$,DBLP
 Privacy-preserving anomaly detection in the cloud for quality assured decision-making in smart cities.,DOI:10.1016/J.JPDC.2017.12.011,Yi$ privacy$,DBLP
 基于聚类的社交网络隐私保护方法 (Cluster-based Social Network Privacy Protection Method).,DOI:10.11896/JSJKX.180901749,Yi$ privacy$,DBLP
@@ -2846,14 +2846,14 @@ A Practical Privacy-Preserving Data Aggregation (3PDA) Scheme for Smart Grid.,DO
 A Distributed Trust Evaluation Protocol with Privacy Protection for Intercloud.,DOI:10.1109/TPDS.2018.2883080,Yi$ privacy$,DBLP
 IOV Privacy Protection System Based on Double-Layered Chains.,DOI:10.1155/2019/3013562,Yi$ privacy$,DBLP
 Privacy-Preserving Certificateless Cloud Auditing with Multiple Users.,DOI:10.1007/S11277-019-06208-1,Yi$ privacy$,DBLP
-How You Act Tells a Lot: Privacy-Leaking Attack on Deep Reinforcement Learning.,url:https://dblp.org/rec/conf/atal/PanWZLYS19,Yi$ privacy$,DBLP
+How You Act Tells a Lot: Privacy-Leaking Attack on Deep Reinforcement Learning.,DOI:10.5555/3306127.3331715,Yi$ privacy$,DBLP
 A Hybrid Approach to Privacy-Preserving Federated Learning.,DOI:10.1145/3338501.3357370,Yi$ privacy$,DBLP
 HybridAlpha: An Efficient Approach for Privacy-Preserving Federated Learning.,DOI:10.1145/3338501.3357371,Yi$ privacy$,DBLP
 Can Privacy Be Satisfying?: On Improving Viewer Satisfaction for Privacy-Enhanced Photos Using Aesthetic Transforms.,DOI:10.1145/3290605.3300597,Yi$ privacy$,DBLP
 Secure and Privacy-Preserving Warning Message Dissemination in Cloud-Assisted Internet of Vehicles.,DOI:10.1109/CNS.2019.8802649,Yi$ privacy$,DBLP
 Privacy-Preserving Collaborative Medical Time Series Analysis Based on Dynamic Time Warping.,DOI:10.1007/978-3-030-29962-0_21,Yi$ privacy$,DBLP
 Location Privacy-Preserving Mobile Crowd Sensing with Anonymous Reputation.,DOI:10.1007/978-3-030-29962-0_19,Yi$ privacy$,DBLP
-A Novel Privacy Preserving Search Technique for Stego Data in Untrusted Cloud.,url:https://dblp.org/rec/conf/hicss/RahmanKYG19,Yi$ privacy$,DBLP
+A Novel Privacy Preserving Search Technique for Stego Data in Untrusted Cloud.,DOI:10125/59862,Yi$ privacy$,DBLP
 PMRS: A Privacy-Preserving Multi-keyword Ranked Search over Encrypted Cloud Data.,DOI:10.1007/978-3-030-38961-1_43,Yi$ privacy$,DBLP
 Scene Privacy Protection.,DOI:10.1109/ICASSP.2019.8682225,Yi$ privacy$,DBLP
 A Privacy-Preserving Multi-keyword Ranked Search over Encrypted Data in Hybrid Clouds.,DOI:10.1007/978-3-030-24271-8_7,Yi$ privacy$,DBLP
