@@ -166,10 +166,68 @@ A case for object capabilities as the foundation of a distributed environmental 
 FREE: The Foundational Semantic Recognition for Modeling Environmental Ecosystems.,DOI:10.48550/ARXIV.2311.10255,"""foundation model""$ ""environmental""$ ",DBLP
 Towards Responsible AI in the Era of ChatGPT: A Reference Architecture for Designing Foundation Model-based AI Systems.,DOI:10.48550/ARXIV.2304.11090,"""foundation model""$ ""responsible""$ ",DBLP
 Decentralised Governance for Foundation Model based AI Systems: Exploring the Role of Blockchain in Responsible AI.,DOI:10.48550/ARXIV.2308.05962,"""foundation model""$ ""responsible""$ ",DBLP
+"Security and Privacy for Smart, Connected, and Mobile IoT Devices and Platforms.",DOI:10.1155/2018/5346596,"""PaLM 2""$ ""privacy""$ ",DBLP
+Transmission of Digital Data in the 5G Era: Compression and Privacy.,DOI:10.3390/INFO14020135,"""PaLM 2""$ ""privacy""$ ",DBLP
+Privacy-preserving Secure Media Streaming for Multi-user Smart Environments.,DOI:10.1145/3423047,"""PaLM 2""$ ""privacy""$ ",DBLP
+Environmental Variables and their Relation with the SARS-COV-2 Transmission: A Data Mining Approach.,DOI:10.13053/CYS-26-1-4011,"""PaLM 2""$ ""environmental""$ ",DBLP
+Computational advances for spatio-temporal multivariate environmental models.,DOI:10.1007/S00180-021-01132-0,"""PaLM 2""$ ""environmental""$ ",DBLP
+Three-dimensional indoor network accessibility auditing for floor plan design.,DOI:10.1111/TGIS.12310,"""Claude 1""$ ""accessibility""$ ",DBLP
+Privacy-Aware Ant Routing for Wireless Multimedia Sensor Networks in Healthcare.,DOI:10.1109/HPSR52026.2021.9481823,"""Claude 1""$ ""privacy""$ ",DBLP
+Æternum: A Decentralized Voting System with Unconditional Privacy.,DOI:10.1109/ICBC51069.2021.9461101,"""Claude 1""$ ""privacy""$ ",DBLP
+Towards Understanding Substance Abuse Misinformation in YouTube Videos.,DOI:10.1145/3584931.3606974,"""PaLM""$ ""misinformation""$ ",DBLP
+On the Design of a Misinformation Widget (MsW) Against Cloaked Science.,DOI:10.1007/978-3-031-39828-5_21,"""PaLM""$ ""misinformation""$ ",DBLP
+Following Negationists on Twitter and Telegram: Application of NCD to the Analysis of Multiplatform Misinformation Dynamics.,DOI:10.1007/978-3-031-21333-5_110,"""PaLM""$ ""misinformation""$ ",DBLP
+"The Teacher Accessibility, Equity, and Content (TEC) Rubric for Evaluating Computing Curricula.",DOI:10.1145/3371155,"""PaLM""$ ""accessibility""$ ",DBLP
+A Case Study on Implementing Screen Reader Accessibility in Dynamic Visualizations.,DOI:10.2312/EVP.20221134,"""PaLM""$ ""accessibility""$ ",DBLP
+"From Ta-Kesh to Ta-Kush: The affordances of digital, haptic visualisation for heritage accessibility.",DOI:10.1016/J.DAACH.2020.E00159,"""PaLM""$ ""accessibility""$ ",DBLP
+"Clinical Image-Based Procedures, Distributed and Collaborative Learning, Artificial Intelligence for Combating COVID-19 and Secure and Privacy-Preserving Machine Learning - 10th Workshop, CLIP 2021, Second Workshop, DCL 2021, First Workshop, LL-COVID19 2021, and First Workshop and Tutorial, PPML 2021, Held in Conjunction with MICCAI 2021, Strasbourg, France, September 27 and October 1, 2021, Proceedings",DOI:10.1007/978-3-030-90874-4,"""PaLM""$ ""privacy""$ ",DBLP
+What Does the GDPR Mean for IoToys Data Security and Privacy?,DOI:10.1007/978-3-030-16184-2_83,"""PaLM""$ ""privacy""$ ",DBLP
+A Transparent and Privacy-Aware Approach Using Smart Contracts for Car Insurance Reward Programs.,DOI:10.1007/978-3-030-36945-3_1,"""PaLM""$ ""privacy""$ ",DBLP
+Systematic review on privacy categorisation.,DOI:10.1016/J.COSREV.2023.100574,"""PaLM""$ ""privacy""$ ",DBLP
+Privacy-preserving malware detection in Android-based IoT devices through federated Markov chains.,DOI:10.1016/J.FUTURE.2023.05.021,"""PaLM""$ ""privacy""$ ",DBLP
+Homomorphic Encryption-Based Privacy Protection for Palmprint Recognition.,DOI:10.1007/978-981-99-8565-4_34,"""PaLM""$ ""privacy""$ ",DBLP
+Privacy risk analysis and metrics in capturing and storing network traffic.,DOI:10.1109/CSCS59211.2023.00097,"""PaLM""$ ""privacy""$ ",DBLP
+Prevention of Cyber-Attacks and Privacy Breaches in Healthcare Sector.,DOI:10.1007/978-3-031-37120-2_11,"""PaLM""$ ""privacy""$ ",DBLP
+Systematic Review on Privacy Categorization.,DOI:10.48550/ARXIV.2307.03652,"""PaLM""$ ""privacy""$ ",DBLP
+CampusTracer: A Privacy-Aware Contact Tracing Protocol for Campus Environments.,DOI:10.1109/EUROSPW55150.2022.00026,"""PaLM""$ ""privacy""$ ",DBLP
+Introduction to the special issue on privacy and security for location-based services and devices.,DOI:10.1016/J.JISA.2021.102800,"""PaLM""$ ""privacy""$ ",DBLP
+End-to-end privacy preserving deep learning on multi-institutional medical imaging.,DOI:10.1038/S42256-021-00337-8,"""PaLM""$ ""privacy""$ ",DBLP
+Adversarial interference and its mitigations in privacy-preserving collaborative machine learning.,DOI:10.1038/S42256-021-00390-3,"""PaLM""$ ""privacy""$ ",DBLP
+Statistical Privacy Guarantees of Machine Learning Preprocessing Techniques.,URL:https://dblp.org/rec/journals/corr/abs-2109-02496,"""PaLM""$ ""privacy""$ ",DBLP
+"Security, Privacy and Trust for Smart Mobile- Internet of Things (M-IoT): A Survey.",DOI:10.1109/ACCESS.2020.3022661,"""PaLM""$ ""privacy""$ ",DBLP
+Special issue on advanced techniques for security and privacy of internet-of-things with machine learning.,DOI:10.1016/J.JNCA.2020.102697,"""PaLM""$ ""privacy""$ ",DBLP
+Lightweight and Privacy-Preserving Template Generation for Palm-Vein-Based Human Recognition.,DOI:10.1109/TIFS.2019.2917156,"""PaLM""$ ""privacy""$ ",DBLP
+Blockchain-orchestrated machine learning for privacy preserving federated learning in electronic health data.,DOI:10.1109/BLOCKCHAIN50366.2020.00080,"""PaLM""$ ""privacy""$ ",DBLP
+Robust Aggregation for Adaptive Privacy Preserving Federated Learning in Healthcare.,URL:https://dblp.org/rec/journals/corr/abs-2009-08294,"""PaLM""$ ""privacy""$ ",DBLP
+Privacy-preserving medical image analysis.,URL:https://dblp.org/rec/journals/corr/abs-2012-06354,"""PaLM""$ ""privacy""$ ",DBLP
+Cancelable palmprint templates based on random measurement and noise data for security and privacy-preserving authentication.,DOI:10.1016/J.COSE.2018.12.003,"""PaLM""$ ""privacy""$ ",DBLP
+Special Issue on Security and Privacy in Machine Learning.,DOI:10.1016/J.INS.2019.03.045,"""PaLM""$ ""privacy""$ ",DBLP
+Special issue on advances in security and privacy in IoT.,DOI:10.1016/J.JNCA.2019.04.009,"""PaLM""$ ""privacy""$ ",DBLP
+A privacy-preserving protocol for indoor wi-fi localization.,DOI:10.1145/3310273.3323400,"""PaLM""$ ""privacy""$ ",DBLP
+"Security, Privacy and Trust for Smart Mobile-Internet of Things (M-IoT): A Survey.",URL:https://dblp.org/rec/journals/corr/abs-1903-05362,"""PaLM""$ ""privacy""$ ",DBLP
+PrOnto: Privacy Ontology for Legal Reasoning.,DOI:10.1007/978-3-319-98349-3_11,"""PaLM""$ ""privacy""$ ",DBLP
+The Spyware Used in Intimate Partner Violence.,DOI:10.1109/SP.2018.00061,"""PaLM""$ ""privacy""$ ",DBLP
+A generic framework for privacy preserving deep learning.,URL:https://dblp.org/rec/journals/corr/abs-1811-04017,"""PaLM""$ ""privacy""$ ",DBLP
+Efficient biometric palm-print matching on smart-cards for high security and privacy.,DOI:10.1007/S11042-016-4271-8,"""PaLM""$ ""privacy""$ ",DBLP
+An Efficient Privacy-Preserving Palmprint Authentication Scheme Based on Homomorphic Encryption.,DOI:10.1007/978-3-319-69471-9_39,"""PaLM""$ ""privacy""$ ",DBLP
+A Privacy-preserving Cancelable Palmprint Template Generation Scheme Using Noise Data.,DOI:10.1145/3144789.3144822,"""PaLM""$ ""privacy""$ ",DBLP
+System for automated Quality Control (SaQC) to enable traceable and reproducible data streams in environmental science.,DOI:10.1016/J.ENVSOFT.2023.105809,"""PaLM""$ ""environmental""$ ",DBLP
+Raise Awareness of the Environmental Impacts of Retail Food Products: A User-Centered Scenario-Based Approach.,DOI:10.1007/978-3-031-48590-9_24,"""PaLM""$ ""environmental""$ ",DBLP
+Development of young sago palm environmental monitoring system with wireless sensor networks.,DOI:10.1016/J.COMPAG.2022.106723,"""PaLM""$ ""environmental""$ ",DBLP
+Recognition Beyond Perception: Environmental Model Completion by Reasoning for Occluded Vehicles.,DOI:10.1109/LRA.2022.3196459,"""PaLM""$ ""environmental""$ ",DBLP
+"Assistive Smart, Structured 3D Environmental Information for the Visually Impaired and Blind: Leveraging the INSPEX Concept.",DOI:10.15439/2018F20,"""PaLM""$ ""environmental""$ ",DBLP
+Design of microspheres and microbubbles for environmental chemical/biological optical sensing.,DOI:10.1109/I2MTC.2017.7969868,"""PaLM""$ ""environmental""$ ",DBLP
+A comparative study of palmprint feature extraction methods for contact-less biometrics under different environmental conditions.,DOI:10.1109/CCST.2017.8167806,"""PaLM""$ ""environmental""$ ",DBLP
+A swarm of wheeled and aerial robots for environmental monitoring.,DOI:10.1109/ICNSC.2017.8000073,"""PaLM""$ ""environmental""$ ",DBLP
+A Survey on Methods and Metrics for the Assessment of Explainability Under the Proposed AI Act.,DOI:10.3233/FAIA210342,"""PaLM""$ ""explainability""$ ",DBLP
+A Survey on Methods and Metrics for the Assessment of Explainability under the Proposed AI Act.,URL:https://dblp.org/rec/journals/corr/abs-2110-11168,"""PaLM""$ ""explainability""$ ",DBLP
+Modelling GDPR-Compliant Explanations for Trustworthy AI.,URL:https://dblp.org/rec/journals/corr/abs-2109-04165,"""PaLM""$ ""trustworthy""$ ",DBLP
+Development and Operation of Trustworthy Smart IoT Systems: The ENACT Framework.,DOI:10.1007/978-3-030-39306-9_9,"""PaLM""$ ""trustworthy""$ ",DBLP
+"A Complete IoT Infrastructure to Ensure Responsible, Effective and Efficient Execution of Field Survey, Documentation and Preservation of Archaeological Sites.",DOI:10.1109/RTSI.2018.8548386,"""PaLM""$ ""responsible""$ ",DBLP
+Building Trust in Earth Science Findings through Data Traceability and Results Explainability.,DOI:10.1109/TPDS.2022.3220539,"""Llama 2""$ ""explainability""$ ",DBLP
 "Towards Reliable Misinformation Mitigation: Generalization, Uncertainty, and GPT-4.",URL:https://dblp.org/rec/conf/emnlp/PelrineITRGCGR23,"""GPT-4""$ ""misinformation""$ ",DBLP
 "Metric, Topological, and Syntactic Accessibility in Three-Dimensional Urban Networked Spaces: Modeling Options and Visualization.",DOI:10.3390/IJGI11090467,"""Claude""$ ""accessibility""$ ",DBLP
 Structural Accessibility and Structural Observability of Nonlinear Networked Systems.,DOI:10.1109/TNSE.2019.2946535,"""Claude""$ ""accessibility""$ ",DBLP
-Three-dimensional indoor network accessibility auditing for floor plan design.,DOI:10.1111/TGIS.12310,"""Claude""$ ""accessibility""$ ",DBLP
 T-Accessibility for a class of nonlinear time-delay systems.,DOI:10.23919/ACC.2018.8431097,"""Claude""$ ""accessibility""$ ",DBLP
 Structural accessibility and structural observability of nonlinear networked systems.,URL:https://dblp.org/rec/journals/corr/abs-1812-04961,"""Claude""$ ""accessibility""$ ",DBLP
 Accessibility of Nonlinear Time-Delay Systems.,DOI:10.1109/TAC.2016.2581701,"""Claude""$ ""accessibility""$ ",DBLP
@@ -179,8 +237,6 @@ AI-Enabled Automation for Completeness Checking of Privacy Policies.,DOI:10.1109
 On Differential Privacy and Traffic State Estimation Problem for Connected Vehicles.,DOI:10.1109/CDC51059.2022.9993094,"""Claude""$ ""privacy""$ ",DBLP
 Modeling data protection and privacy: application and experience with GDPR.,DOI:10.1007/S10270-021-00935-5,"""Claude""$ ""privacy""$ ",DBLP
 Privacy-preserving and bandwidth-efficient federated learning: an application to in-hospital mortality prediction.,DOI:10.1145/3450439.3451859,"""Claude""$ ""privacy""$ ",DBLP
-Privacy-Aware Ant Routing for Wireless Multimedia Sensor Networks in Healthcare.,DOI:10.1109/HPSR52026.2021.9481823,"""Claude""$ ""privacy""$ ",DBLP
-Æternum: A Decentralized Voting System with Unconditional Privacy.,DOI:10.1109/ICBC51069.2021.9461101,"""Claude""$ ""privacy""$ ",DBLP
 AI-enabled Automation for Completeness Checking of Privacy Policies.,URL:https://dblp.org/rec/journals/corr/abs-2106-05688,"""Claude""$ ""privacy""$ ",DBLP
 An AI-assisted Approach for Checking the Completeness of Privacy Policies Against GDPR.,DOI:10.1109/RE48521.2020.00025,"""Claude""$ ""privacy""$ ",DBLP
 Model Driven Engineering for Data Protection and Privacy: Application and Experience with GDPR.,URL:https://dblp.org/rec/journals/corr/abs-2007-12046,"""Claude""$ ""privacy""$ ",DBLP
@@ -198,6 +254,7 @@ Real-time Mobile Sensor Management Framework for city-scale environmental monito
 Lexical Profiling of Environmental Corpora.,URL:https://dblp.org/rec/conf/lrec/DrouinLR18,"""Claude""$ ""environmental""$ ",DBLP
 Plant Identification: Experts vs. Machines in the Era of Deep Learning - Deep Learning Techniques Challenge Flora Experts.,DOI:10.1007/978-3-319-76445-0_8,"""Claude""$ ""environmental""$ ",DBLP
 Towards Feminist Intersectional XAI: From Explainability to Response-Ability.,DOI:10.48550/ARXIV.2305.03375,"""Claude""$ ""explainability""$ ",DBLP
+Thermal Vision for Soil Assessment in a Multipurpose Environmental Chamber under Martian Conditions towards Robot Navigation.,DOI:10.48550/ARXIV.2304.13525,"""Llama""$ ""environmental""$ ",DBLP
 SwapMix: Diagnosing and Regularizing the Over-Reliance on Visual Context in Visual Question Answering.,DOI:10.1109/CVPR52688.2022.00502,"""Yi""$ ""over-reliance""$ ",DBLP
 The Battlefront of Combating Misinformation and Coping with Media Bias.,DOI:10.1145/3534678.3542615,"""Yi""$ ""misinformation""$ ",DBLP
 Cross-document Misinformation Detection based on Event Graph Reasoning.,DOI:10.18653/V1/2022.NAACL-MAIN.40,"""Yi""$ ""misinformation""$ ",DBLP
@@ -845,6 +902,7 @@ Privacy-preserving generative framework for images against membership inference 
 Privacy-preserving global user profile construction through federated learning.,DOI:10.1504/IJCSE.2023.10054910,"""Yi""$ ""privacy""$ ",DBLP
 Cloud computing data privacy protection method based on blockchain.,DOI:10.1504/IJGUC.2023.133436,"""Yi""$ ""privacy""$ ",DBLP
 A systematic review of privacy techniques in recommendation systems.,DOI:10.1007/S10207-023-00710-1,"""Yi""$ ""privacy""$ ",DBLP
+CPPABK: conditional privacy-preserving authentication scheme for VANETs based on the key derivation algorithm.,DOI:10.1504/IJSN.2023.135510,"""Yi""$ ""privacy""$ ",DBLP
 Two-phase privacy-preserving scheme for federated learning in edge networks.,DOI:10.1504/IJSNET.2023.132540,"""Yi""$ ""privacy""$ ",DBLP
 VoiceCloak: Adversarial Example Enabled Voice De-Identification with Balanced Privacy and Utility.,DOI:10.1145/3596266,"""Yi""$ ""privacy""$ ",DBLP
 The role of privacy and emotion in ARBS continuing use intention.,DOI:10.1108/INTR-08-2021-0571,"""Yi""$ ""privacy""$ ",DBLP
@@ -2311,9 +2369,3 @@ Toward an Understanding of Responsible Artificial Intelligence Practices.,URL:ht
 MithraRanking: A System for Responsible Ranking Design.,DOI:10.1145/3299869.3320244,"""Yi""$ ""responsible""$ ",DBLP
 Coordination of a socially responsible two-stage supply chain under price-dependent random demand.,DOI:10.1007/S10288-017-0368-9,"""Yi""$ ""responsible""$ ",DBLP
 Diagnosis and repair of cells (DRC) responsible for power-supply-noise violations.,DOI:10.1109/VLSI-DAT.2018.8373274,"""Yi""$ ""responsible""$ ",DBLP
-"Security and Privacy for Smart, Connected, and Mobile IoT Devices and Platforms.",DOI:10.1155/2018/5346596,"""PaLM 2""$ ""privacy""$ ",DBLP
-Transmission of Digital Data in the 5G Era: Compression and Privacy.,DOI:10.3390/INFO14020135,"""PaLM 2""$ ""privacy""$ ",DBLP
-Privacy-preserving Secure Media Streaming for Multi-user Smart Environments.,DOI:10.1145/3423047,"""PaLM 2""$ ""privacy""$ ",DBLP
-Environmental Variables and their Relation with the SARS-COV-2 Transmission: A Data Mining Approach.,DOI:10.13053/CYS-26-1-4011,"""PaLM 2""$ ""environmental""$ ",DBLP
-Computational advances for spatio-temporal multivariate environmental models.,DOI:10.1007/S00180-021-01132-0,"""PaLM 2""$ ""environmental""$ ",DBLP
-Building Trust in Earth Science Findings through Data Traceability and Results Explainability.,DOI:10.1109/TPDS.2022.3220539,"""Llama 2""$ ""explainability""$ ",DBLP

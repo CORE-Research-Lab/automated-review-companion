@@ -105,6 +105,7 @@ ChatGPT Isn't Magic,DOI:10.5204/mcj.3004,"""Generative AI"" + ""explainability""
 Embracing the Future of Distance Science Education: Opportunities and Challenges of ChatGPT Integration,paperid:72796b832b6046f8d9496389645a0fe63447a055,"""Generative AI"" + ""explainability"" + ""education""",Semantic Scholar
 Challenges and Opportunities of Generative AI for Higher Education as Explained by ChatGPT,DOI:10.3390/educsci13090856,"""Generative AI"" + ""explainability"" + ""education""",Semantic Scholar
 Reflections on the Artificial Intelligence Transformation: Responsible Use and the Role of Institutional Research and Institutional Effectiveness Professionals,DOI:10.34315/apf1642023,"""Generative AI"" + ""explainability"" + ""education""",Semantic Scholar
+Investigation of the moderation effect of gender and study level on the acceptance and use of generative AI by higher education students: Comparative evidence from Poland and Egypt,DOI:10.1111/bjet.13425,"""Generative AI"" + ""explainability"" + ""education""",Semantic Scholar
 "AI’s 10 to Watch, 2022",DOI:10.1109/MIS.2023.3252919,"""Generative AI"" + ""explainability"" + ""education""",Semantic Scholar
 Generative AI – a Threat or an Opportunity for Universities,DOI:10.7206/kp.2080-1084.591,"""Generative AI"" + ""explainability"" + ""education""",Semantic Scholar
 Knowledge-Based and Generative-AI-Driven Pedagogical Conversational Agents: A Comparative Study of Grice’s Cooperative Principles and Trust,DOI:10.3390/bdcc8010002,"""Generative AI"" + ""trustworthy"" + ""education""",Semantic Scholar
@@ -574,6 +575,7 @@ A Report on the Use of ChatGPT in Software Engineering and Systems Analysis Cour
 The Use of Artificial Intelligence Tools to Prepare Medical School Applications,DOI:10.1097/ACM.0000000000005309,"""language model"" + ""accessibility"" + ""education""",Semantic Scholar
 A Tête-à-tête with ChatGPT on the impact of artificial intelligence in medical education.,paperid:ecdec46a9579382651735eae850864dd61a060ce,"""language model"" + ""accessibility"" + ""education""",Semantic Scholar
 Performance of large language models at the MRCS Part A: a tool for medical education?,DOI:10.1308/rcsann.2023.0085,"""language model"" + ""accessibility"" + ""education""",Semantic Scholar
+Bringing legal knowledge to the public by constructing a legal question bank using large-scale pre-trained language model,DOI:10.1007/s10506-023-09367-6,"""language model"" + ""accessibility"" + ""education""",Semantic Scholar
 The Impact of ChatGPT on Education and Future Prospects,DOI:10.54097/hset.v61i.10285,"""language model"" + ""accessibility"" + ""education""",Semantic Scholar
 Invention of Line-ChatBot: An Innovative Application of ChatGPT API and LINE Bot for Enhanced Student Learning,DOI:10.1109/ICKII58656.2023.10332623,"""language model"" + ""accessibility"" + ""education""",Semantic Scholar
 The role of an open artificial intelligence platform in modern neurosurgical education: a preliminary study,DOI:10.1007/s10143-023-01998-2,"""language model"" + ""accessibility"" + ""education""",Semantic Scholar
@@ -683,6 +685,7 @@ Exploring the potential of using ChatGPT in physics education,DOI:10.1186/s40561
 "Artificial Intelligence for Science in Quantum, Atomistic, and Continuum Systems",DOI:10.48550/arXiv.2307.08423,"""language model"" + ""explainability"" + ""education""",Semantic Scholar
 Unraveling the landscape of large language models: a systematic review and future perspectives,DOI:10.1108/jebde-08-2023-0015,"""language model"" + ""explainability"" + ""education""",Semantic Scholar
 Performance of ChatGPT on Clinical Medicine Entrance Examination for Chinese Postgraduate in Chinese,DOI:10.1101/2023.04.12.23288452,"""language model"" + ""explainability"" + ""education""",Semantic Scholar
+Bringing legal knowledge to the public by constructing a legal question bank using large-scale pre-trained language model,DOI:10.1007/s10506-023-09367-6,"""language model"" + ""explainability"" + ""education""",Semantic Scholar
 Decoding Logic Errors: A Comparative Study on Bug Detection by Students and Large Language Models,DOI:10.1145/3636243.3636245,"""language model"" + ""explainability"" + ""education""",Semantic Scholar
 A Passion that Leads to Destiny,paperid:fee2c1c44d673b572d724677a2ab4b7b3554ba8a,"""language model"" + ""explainability"" + ""education""",Semantic Scholar
 ChatGPT has entered the classroom: how LLMs could transform education,DOI:10.1038/d41586-023-03507-3,"""language model"" + ""trustworthy"" + ""education""",Semantic Scholar
@@ -751,20 +754,197 @@ Educational restoration: a foundational model inspired by ecological restoration
 The challenges and opportunities of global neurosurgery in East Africa: the Neurosurgery Education and Development model.,DOI:10.3171/2018.7.FOCUS18287,"""foundation model"" + ""explainability"" + ""education""",Semantic Scholar
 Launching the strategic plan: a critical but missing piece of strategic management education and practice,DOI:10.1108/sl-11-2022-0112,"""foundation model"" + ""explainability"" + ""education""",Semantic Scholar
 "AI’s 10 to Watch, 2022",DOI:10.1109/MIS.2023.3252919,"""foundation model"" + ""trustworthy"" + ""education""",Semantic Scholar
+Detecting Generated Text and Attributing Language Model Source with Fine-tuned Models and Semantic Understanding,paperid:57dafe6527ce4bfa9bf26679371fa4df515072ff,"""text-davinci-003"" + ""misinformation"" + ""education""",Semantic Scholar
+Who is ChatGPT? Benchmarking LLMs' Psychological Portrayal Using PsychoBench,DOI:10.48550/arXiv.2310.01386,"""text-davinci-003"" + ""accessibility"" + ""education""",Semantic Scholar
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" + ""accessibility"" + ""education""",Semantic Scholar
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" + ""trustworthy"" + ""education""",Semantic Scholar
 Detecting Generated Text and Attributing Language Model Source with Fine-tuned Models and Semantic Understanding,paperid:57dafe6527ce4bfa9bf26679371fa4df515072ff,"""text-davinci"" + ""misinformation"" + ""education""",Semantic Scholar
 Who is ChatGPT? Benchmarking LLMs' Psychological Portrayal Using PsychoBench,DOI:10.48550/arXiv.2310.01386,"""text-davinci"" + ""accessibility"" + ""education""",Semantic Scholar
-Stratified Evaluation of GPT’s Question Answering in Surgery Reveals Artificial Intelligence (AI) Knowledge Gaps,DOI:10.7759/cureus.48788,"""GPT-3.5"" + ""misinformation"" + ""education""",Semantic Scholar
-"Generative AI for Programming Education: Benchmarking ChatGPT, GPT-4, and Human Tutors",DOI:10.1145/3568812.3603476,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
-Using Generative Artificial Intelligence for Language Education Research: Insights from Using OpenAI's ChatGPT,DOI:10.1002/tesq.3253,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
-ChatGPT is Good but Bing Chat is Better for Vietnamese Students,DOI:10.48550/arXiv.2307.08272,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
-ChatGPT and Patient Information in Nuclear Medicine: GPT-3.5 Versus GPT-4,DOI:10.2967/jnmt.123.266151,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
-Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
-Capabilities of GPT-4 on Medical Challenge Problems,DOI:10.48550/arXiv.2303.13375,"""GPT-3.5"" + ""explainability"" + ""education""",Semantic Scholar
-"Generative AI for Programming Education: Benchmarking ChatGPT, GPT-4, and Human Tutors",DOI:10.1145/3568812.3603476,"""GPT-3.5"" + ""explainability"" + ""education""",Semantic Scholar
-Exploring the Responses of Large Language Models to Beginner Programmers’ Help Requests,DOI:10.1145/3568813.3600139,"""GPT-3.5"" + ""explainability"" + ""education""",Semantic Scholar
-Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5"" + ""trustworthy"" + ""education""",Semantic Scholar
-Identifying the local factors of resilience during cyclone Hudhud and Phailin on the east coast of India,DOI:10.1007/s13280-019-01241-7,"""Palmyra"" + ""environmental"" + ""education""",Semantic Scholar
-"The Commander: Fawzi al-Qawuqji and the Fight for Arab Independence, 1914–1948 by Laila Parsons (review)",paperid:200b798e5a25816f8b4485390c20c4b6fe846628,"""Palmyra"" + ""responsible"" + ""education""",Semantic Scholar
+On the application of Large Language Models for language teaching and assessment technology,DOI:10.48550/arXiv.2307.08393,"""PaLM"" + ""misinformation"" + ""education""",Semantic Scholar
+"SG-APSIC1038: Hospital-wide study to evaluate the tolerability and acceptability of alcohol-based hand rubs according to WHO protocol, and healthcare worker hand hygiene behavior during the COVID-19 pandemic",DOI:10.1017/ash.2023.49,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Accessibility to urban services: influence on pedestrian users of public transit,DOI:10.24294/TM.V0I0.460,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Role of Information Tools in Teaching and Learning,DOI:10.1051/shsconf/202213903003,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+DESERT RESORT,DOI:10.31838/jcr.07.08.140,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+KONDISI SOSIAL EKONOMI DAN KESEHATAN MASYARAKAT KAMPUNG PUNAN MALINAU KABUPATEN BERAU DENGAN KEBERADAAN BEBERAPA PERUSAHAAN SAWIT,DOI:10.51967/jurnalagriment.v6i1.491,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Novel Education Modules Addressing the Underrepresentation of Skin of Color in Dermatology Training,DOI:10.1177/12034754211035093,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Spectrum and Pattern of Harmful Traditional Practices Affecting Children Among Mothers in Rural Sub-Saharan Africa,DOI:10.11648/j.wjph.20230803.14,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Mobile Technologies to Improve Graduate Students' Communication Abilities,DOI:10.32996/ijahs.2023.3.2.1,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Ethnomedical Beliefs and Utilization of Alcohol Herbal Remedy for Malaria in South-Coastal Nigeria,DOI:10.1177/0272684X18819978,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+"Determinants of oil palm smallholder farmers’ adaptation strategy to climate change in Bengkulu, Indonesia",DOI:10.1590/1806-9479.2019.186452,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Exploring and expanding frontiers in dermatology: Indigenous African dermatology,DOI:10.1111/dth.15431,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+AI Based Tamil Palm Leaf Character Recognition,DOI:10.55041/ijsrem26050,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+FACTORS INFLUENCING THE CERTIFICATION PROCESS OF MALAYSIAN SUSTAINABLE PALM OIL (MSPO) DURING THE PREPARATION PHASE FOR INDEPENDENT SMALLHOLDERS IN MALAYSIA,DOI:10.21894/OPIEJ.2021.02,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+ANALISIS PENGEMBANGAN KAWASAN WISATA ALAM AIR TERJUN TAHAPAN TELU BERDASARKAN POTENSI BIOFISIK,DOI:10.35791/AGRSOSEK.17.2.2021.33842,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+"STATUS KEBERLANJUTAN PENGELOLAAN PERKEBUNAN INTI RAKYAT KELAPA SAWIT BERKELANJUTAN DI TRUMON, KABUPATEN ACEH SELATAN",DOI:10.29244/fagb.9.1.53-68,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+THE DETERMINANTS OF TECHNICAL EFFICIENCY OF OIL PALM SMALLHOLDERS IN INDONESIA,DOI:10.32479/ijefi.10594,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+PENERAPAN ANALISIS SWOT DALAM UPAYA PENGEMBANGAN USAHA PENYADAPAN POHON AREN DI DESA WANGUNSARI,DOI:10.36618/competitive.v13i1.343,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+PENGEMBANGAN POTENSI DESA HENDROSARI SEBAGAI DESA WISATA EDUKASI DI KABUPATEN GRESIK,DOI:10.35817/JPU.V4I1.18079,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Cartography of Gender Mainstreaming in Women-Exclusive Colleges,DOI:10.4018/978-1-7998-2819-8.ch005,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+"Factors Influencing Economic Performance of Palm Oil Producers in Akwa Ibom State, Nigeria",DOI:10.35876/IJOP.V3I3.52,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+An exploration of the potential for collaborative management of palm leaf manuscripts as Lanna cultural material in northern Thailand,paperid:ba2764016a10a1181ae71a8f01bb4d884abdb1da,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Introducing JAMA Internal Medicine Patient Pages.,DOI:10.1001/jamainternmed.2018.3738,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Young People and The Digital Age : An Investigation of The ‘ Sociability ’ of Teenagers In Lusaka . ( Conference ID : CFP / 519 / 2017 ),paperid:c17f0cb0797473c47cb4250f34efaed9940584a6,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+An Enhanced Methodology for Creating Digital Twins within a Paleontological Museum Using Photogrammetry and Laser Scanning Techniques,DOI:10.3390/heritage6090314,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+A Light-Weight Rapid Control Prototyping System Based on Open Source Hardware,DOI:10.1109/ACCESS.2017.2715184,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Technical Efficiency of Independent Oil Palm Smallholder In Indonesia,DOI:10.24843/JEKT.2021.V14.I01.P04,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Women Empowerment as Panacea to Social Media Challenges in the 21st Century Muslim Society: The Role of Muslim Women Faith Based Organizations in Nigeria.,DOI:10.6007/ijarbss/v10-i4/7105,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+Developing new approaches for improving classroom activities,DOI:10.36550/2415-7988-2020-1-189-139-142,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+"Socioeconomic Development of the Local Community and Causes of Land Use Change in Belaga, Sarawak, Malaysia",DOI:10.5539/ass.v19n4p27,"""PaLM"" + ""accessibility"" + ""education""",Semantic Scholar
+DESERT RESORT,DOI:10.31838/jcr.07.08.140,"""PaLM"" + ""privacy"" + ""education""",Semantic Scholar
+Improving Syphilis Follow-up Rates: A Quality Improvement Project,DOI:10.22371/07.2017.035,"""PaLM"" + ""privacy"" + ""education""",Semantic Scholar
+Anti-aliasing convolution neural network of finger vein recognition for virtual reality (VR) human–robot equipment of metaverse,DOI:10.1007/s11227-022-04680-4,"""PaLM"" + ""privacy"" + ""education""",Semantic Scholar
+Young People and The Digital Age : An Investigation of The ‘ Sociability ’ of Teenagers In Lusaka . ( Conference ID : CFP / 519 / 2017 ),paperid:c17f0cb0797473c47cb4250f34efaed9940584a6,"""PaLM"" + ""privacy"" + ""education""",Semantic Scholar
+Parent and Educator Perspectives on the Benefits of an Online Space to Promote Offline Program Collaborative Learning,paperid:d48ef530df7f1a76753e0279b770a7679f0ad185,"""PaLM"" + ""privacy"" + ""education""",Semantic Scholar
+The Arus Kualan Traditional School: Preservation Of Dayak Simpank Environmental And Cultural Heritage,DOI:10.1088/1755-1315/747/1/012049,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+The regional market for non-timber forest products,DOI:10.5380/DMA.V48I0.58685,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Ecology and Conservation of Tropical Ungulates in Latin America,DOI:10.1007/978-3-030-28868-6,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+In the Shadow of the Palms: The Selected Works of David Eugene Smith,DOI:10.56315/pscf9-23abbey,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"EVALUASI PROGRAM CORPORATE SOCIAL RESPONSIBILITY (CSR) PT. PILAR WANAPERSADA DALAM MENDUKUNG KETAHANAN EKONOMI DAERAH DI KABUPATEN LAMANDAU, KALIMANTAN TENGAH",paperid:0ff45f49c4fa0f49cd45af7dbbdb40804831735d,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+What Does “Sustainable Development” Mean?,DOI:10.5642/ENVIROLABASIA.20170103.05,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Pengaruh Tipe Petani dan Ekspektasi Harga dalam Sertifikasi Kelapa Sawit,DOI:10.21776/UB.JEPA.2021.005.03.7,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Analysis of Palm Oil Farmers Behavioral Factors in Land Clearing and Prevention of Land Fire at Tanjung Leban Village, Kubu Subdistrict, Rokan Hilir Regency",paperid:16e4e2cef2c30aa6c9473f699942fbc65f1feaec,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"KAJIAN KERAGAAN KARAKTERISTIK DAN TINGKAT PENGETAHUAN PETANI TENTANG SISTEM INTEGRASI SAPI DAN KELAPA SAWIT (SISKA) DI KECAMATAN PANGKALAN LESUNG, KABUPATEN PELALAWAN",DOI:10.20961/SEPA.V11I1.14160,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+APLICAÇÃO DE PRÁTICAS AGROECOLÓGICAS CONSERVACIONISTAS EM PEQUENAS PROPRIEDADES RURAIS NO TRAIRI POTIGUAR,DOI:10.31692/2526-7701.iiicointerpdvagro.2018.00029,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Ungulates in Sierra La Laguna Biosphere Reserve, Baja California Sur, México",DOI:10.1007/978-3-030-28868-6_2,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+EVALUASI KONDISI LINGKUNGAN KERJA TERHADAP KINERJA KARYAWAN PABRIK PENGOLAHAN KELAPA SAWIT PT. SENTOSA KALIMANTAN JAYA,DOI:10.51967/JURNALAGRIMENT.V5I01.287,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Farmers’ Perceptions of Sustainable Palm Oil Certification in Jambi Province,DOI:10.1051/e3sconf/202344402032,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"The Agrarian, Structural and Cultural Constraints of Smallholders’ Readiness for Sustainability Standards Implementation: The Case of Indonesian Sustainable Palm Oil in East Kalimantan",DOI:10.3390/SU13052611,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"A CONTAÇÃO DE HISTÓRIAS NA RECICLAGEM DE ÓLEO DE DENDÊ USADO PELAS BAIANAS DE ACARAJÉ, NO EIXO ITABUNA-ILHÉUS (BA)/ STORYTELLING IN THE RECYCLING OF PALM OIL USED BY THE ACARAJÉ BAHIAN WOMEN IN ITABUNA-ILHÉUS (BA)",DOI:10.34117/bjdv6n10-363,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Pengaruh Kegiatan Industri terhadap Spasial dan Sosial Ekonomi di Desa Tumbang Marikoi, Kec. Damang Batu, Kab. Gunung Mas",DOI:10.24843/jrs.2020.v07.i01.p09,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Occupancy and probability of detection of the introduced population of Eleutherodactylus coqui in Turrialba, Costa Rica",DOI:10.36253/a_h-13209,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Palm oil’s contribution to the United Nations sustainable development goals: outcomes of a review of socio-economic aspects,DOI:10.1088/1748-9326/ac6e77,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Hydropower, Oil Palm, and Sustainability",DOI:10.5642/envirolabasia.20170101.09,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+THE EFFECTS OF CROP INTEGRATION ON FERTILIZER COST AND OIL PALM YIELD,paperid:4b43af7f0f4f1013726e6ed9429b984c378c1816,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Analysis of ISPO Adoption Effect to Environmental Management Improvement and Social Economic Change of the Community,paperid:4df085f3479c90299debafb739cdb99f70ab1a0c,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Environmentalism and education for sustainability in Indonesia,DOI:10.1080/13639811.2018.1519994,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Humane Education: A Call to Action for Elementary School Students,DOI:10.4018/978-1-5225-0640-9.CH005,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+DESERT RESORT,DOI:10.31838/jcr.07.08.140,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Effects of peat fires on soil chemical and physical properties: a case study in South Sumatra,DOI:10.1088/1755-1315/648/1/012146,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Studies on the Production and Consumer Acceptability of Eco-Friendly Household Cleaning Products from Locally Available Materials,DOI:10.9734/cjast/2020/v39i3130988,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Limits of acceptable change for sustainable management of the Pelawan Biodiversity Park, Bangka Belitung Islands",DOI:10.1088/1755-1315/913/1/012056,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Evaluating Relationship of Associative CSR Actions, Brand Attitudes, Consumer Satisfaction & Local Welfare: Mixed Method Approach for the Case Study of Sinar Mas Indonesia",DOI:10.5220/0008428901740182,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+ANALISIS PENGARUH ADOPSI ISPO TERHADAP PERBAIKAN KINERJA PENGELOLAAN LINGKUNGAN DAN PERUBAHAN SOSIAL EKONOMI MASYARAKAT,DOI:10.29244/JPSL.8.2.199-206,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"New media and civil society : a study of Native Customary Rights (NCR) Land and Community-based Organisations (CBOs) in Sarawak, Malaysia",paperid:71271ae038bdedfd1502b7a706246ca73924e30f,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+The Importance of Education and the Evolution of Teaching in the Modern Era,DOI:10.54392/ijmrd223s136,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Perceived Environment-Economic Benefits and Factors Influencing the Adoption of Indonesian Sustainable Palm Oil Production System by Smallholder Farmers,DOI:10.1088/1755-1315/347/1/012098,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Analysis of Factors Influencing Employee Performance in Palm Oil Harvesting at PT. Semadam,DOI:10.37149/jia.v8i5.733,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+New approach to health and the environment to avoid future pandemics,DOI:10.51291/2377-7478.1644,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+The Impacts of Logging and Palm Oil on Aquatic Ecosystems and Freshwater Sources in Southeast Asia,DOI:10.5642/ENVIROLABASIA.20170103.03,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Problems of Palm Oil Farmers in West Sumatra, Indonesia",DOI:10.2991/ICIIR-18.2019.35,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+AI Based Tamil Palm Leaf Character Recognition,DOI:10.55041/ijsrem26050,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+FACTORS INFLUENCING THE CERTIFICATION PROCESS OF MALAYSIAN SUSTAINABLE PALM OIL (MSPO) DURING THE PREPARATION PHASE FOR INDEPENDENT SMALLHOLDERS IN MALAYSIA,DOI:10.21894/OPIEJ.2021.02,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Up Close: An Interview,DOI:10.5642/ENVIROLABASIA.20170103.07,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Management Of Training Systems In Improving Hr Competency In Oil Palm Plantation Companies PT. Kayung Agro Lestari, And PT. Austindo Jaya Nusantara Agri Siais",DOI:10.46729/ijstm.v3i4.553,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Oil Palm and Livelihood Disparities in Kapuas Hulu Regency, West Kalimantan Province, Indonesia",DOI:10.1353/gss.2021.0029,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+THE DETERMINANTS OF TECHNICAL EFFICIENCY OF OIL PALM SMALLHOLDERS IN INDONESIA,DOI:10.32479/ijefi.10594,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Neoliberal Conservation in Central Kalimantan, Indonesia",DOI:10.1080/13639811.2018.1531968,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Problems of Palm Oil Plantation Industry in Indonesia,paperid:929d755b74f6e2a4c5767e5f5582fa057cf2201b,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Impacts of landscape-scale forest loss and a dry event on the demographic structure of the endangered palm Euterpe edulis Mart. in the Atlantic Forest,DOI:10.3389/ffgc.2022.909901,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Role of Culture, Social and Religious Aspects in Achieving Climate Change Mitigation, Adaptation and Sustainable Environmental Development",DOI:10.56557/jogee/2023/v19i3-48479,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Technological Environmental Education in the Arab World: Case of Kingdom of Bahrain,DOI:10.1109/IEEECONF53624.2021.9668089,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Iconic but Invasive: The Public Perception of the Chinese Windmill Palm (Trachycarpus fortunei) in Switzerland,DOI:10.1007/s00267-022-01646-3,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"The Implementation of Indonesian Sustainable Palm Oil on Oil Palm Plantations Smallholders in Kumai District, Central Kalimantan Province",DOI:10.22146/ae.69503,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Impact of Innovation Platforms in Promoting the Dissemination of Biotechnological Innovation: Case of Compost in Date Palm in Southeastern Morocco,DOI:10.12911/22998993/163448,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Preface,DOI:10.1088/1755-1315/1243/1/011001,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+DAMPAK PERALIHAN LAHAN PERTANIAN TERHADAP PENDAPATAN RUMAH TANGGA PETANI,paperid:a58dbf0abed9ca2d658d59e7db82b770c09620ea,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Farmers and Local Residents Collaborate: Application of a Participatory Citizen Science Approach to Characterising Air Quality in a Rural Area in The Netherlands,DOI:10.3390/s22208053,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Replanting unproductive palm oil with smallholder plantations can help achieve Sustainable Development Goals in Sumatra, Indonesia",DOI:10.1038/s43247-023-01037-4,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Analysis of Smallholders’ Progress in Implementing Sustainable Management in North Sumatra, Indonesia",DOI:10.32734/INJAR.V1I3.677,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"The Structure and Composition of Mangrove Vegetation in Dolago, South Parigi, Moutong",paperid:b4d40b98968a5b72b76b166373bd884bcf0a0157,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Global Warming Mitigation through the Local Action of Environmental Education in the Plantation Area of Palm Oil,DOI:10.23917/FORGEO.V31I1.3861,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Enhancement of yield in nutmeg (Myristica fragrans Houtt.) through pruning,DOI:10.25081/JPC.2019.V47.I2.5782,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+The influence of zinc-dialkyl-dithiophosphate (ZDDP) additives on the tribological performance of RBD palm kernel,paperid:b7e2ba1b1f6c1a3a3cf3670d761130f7841c15f6,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"De’Maydarling (Digital Education for Environmentally Conscious Villagers) Business Group of Palm Sugar in Kaiti Village, Rokan Hulu [De’Maydarling (Digital Edukasi Masyarakat Desa Sadar Lingkungan) Kelompok Usaha Gula Aren Desa Kaiti, Rokan Hulu]",DOI:10.30874/COMDEV.2017.7,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"ANALISIS FAKTOR YANG MEMPENGARUHI PENGOLAHAN LIMBAH KAKAO MENJADI PAKAN TERNAK DI PT BERAU COCOA, KALIMANTAN TIMUR",DOI:10.46846/jurnalinkofar.v5i1.189,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Social and Economic Effects of Partnering for Sustainable Change in Agricultural Commodity Chains: A Southern Perspective.,DOI:10.9774/GLEAF.4291.2016.SE.00003,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Adaptation and Power,DOI:10.5642/envirolabasia.20170101.13,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Sustainability practices among Indonesian oil palm smallholders,DOI:10.22515/sustinere.jes.v3i2.78,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Low Input Sustainable Agriculture and Its Development Status in China,paperid:c271c295bede7559e53f1a2828038815d9655886,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"FOOD PRODUCT EDUCATION OF SIWALAN FRUIT (BORASSUS FLABELLIVER L.) INNOVATION IN HENDROSARI VILLAGE, MENGANTI, GRESIK",DOI:10.30587/umgeshic.v1i2.3442,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Land-use change and rural development in Indonesia: Economic, institutional and demographic aspects of deforestation and oil palm expansion",paperid:c5c9386398b6fd496194a2cfc6aa142d3e61f933,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Enhancing sustainability amongst oil palm smallholders in Malaysia,DOI:10.1504/IJARGE.2018.090853,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Perancangan pusat edukasi mitigasi bencana kebakaran hutan terpadu Provinsi Riau dengan pendekatan eco-sustainable architecture di Kota Pekanbaru,paperid:cb5b7bb8d21617ca87f45fabbf954a749066f8cd,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Turberas en Valle del Alto Mayo, Perú: importancia, amenazas y perspectivas de conservación",DOI:10.30878/CES.V28N1A10,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+IPTEK BAGI WILAYAH KECAMATAN LEBONG TENGAH KABUPATEN LEBONG,DOI:10.33369/DR.V14I2.4311,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Dinamika Kesiapan Petani Kelapa Sawit dalam Penerapan Indonesia Sustainable Palm Oil (ISPO) di Provinsi Jambi.,paperid:cfbf1c5e99c33132db7ac0bf327555f01c8ec8a6,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+EFFECT OF EDUCATION LEVEL AND WORK ENVIRONMENT ON EMPLOYEE PRODUCTIVITY IN PT.TESO INDAH INDRAGIRI HULU REGENCY,DOI:10.34006/jmbi.v9i2.235,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Hold Infinity in the Palm of Your Hand: Learning the World Through Place-Based Craft,DOI:10.1007/978-3-319-65088-3_9,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+A Review on used cooking oil as a sustainable biodiesel feedstock in Indonesia,DOI:10.1088/1755-1315/1187/1/012011,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Project MOSAIK: Model-based city planning and application in climate change – development of the new urban climate model PALM-4U,paperid:dfbe796c3184e2f4c81ce5447f2a8aeaeb95b8e0,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Effectiveness of conservation education at the Chattanooga Zoo,paperid:e0243e02db4904b8c5be3150a3c170daa31709df,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"APPLICATION OF MULTI-CRITERIA DECISION ANALYSIS TO SUPPORT LAND USE DECISION-MAKING IN ANKASA CONSERVATION AREA, GHANA",DOI:10.46909/alse-563104,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Use of Local Labour in Oil Palm Agriculture,DOI:10.6007/ijarbss/v11-i9/10992,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Implementation of Character Education in Students in State Schools 09 Review Tapakis,DOI:10.24036/IJEDS.V1I1.12,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+"Adaptasi Masyarakat terhadap Perubahan Penutup Lahan di Kecamatan Kelapa Kampit, Belitung Timur",DOI:10.15294/FIS.V46I2.21223,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+UPAYA MENUMBUHKAN KARAKTER PEDULI LINGKUNGAN MELALUI KAJIAN KONSEP FISIKA PADA ARSITEKTUR KEARIFAN LOKAL BUDAYA SUMATERA BARAT,DOI:10.24036/JEP.V1I2.60,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Beyond perspectives: Integrating local Indigenous knowledge/s into humanities and social science education,DOI:10.18793/lcj2019.25.10,"""PaLM"" + ""environmental"" + ""education""",Semantic Scholar
+Your Classroom as an Orchestra: Practical Differentiation Strategies,DOI:10.55254/1835-1492.1447,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+"The dynamics of mobile phone usage among small-scale oil palm processors: Evidence from the Eastern Region, Ghana",DOI:10.1080/23311886.2023.2222570,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+In the Shadow of the Palms: The Selected Works of David Eugene Smith,DOI:10.56315/pscf9-23abbey,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Editorial,DOI:10.51846/the-sky.v7i.2939,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+"Field excursion: Petroleum traps and structures along the San Andreas convergent strike-slip plate boundary, California",DOI:10.1306/011817DIG17040,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Glove type and Spatiotemporal variables of wheelchair racer in 100m sprint Glove type and Spatiotemporalvariables of wheelchair racer according Paralympic sports classification in 100m sprint,paperid:2be04a05dc60d8e6c59acffc7f8cd2912590b42a,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+"Pattern of Farm Land Use on Crop Diversification in Ido Local Government Area Oyo State, Nigeria",paperid:2f2fe0063c83cd0db2e23284da5ee53af1c68d5f,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Book Review: An Introduction to Character Education (Pendidikan Karakter Suatu Pengantar),DOI:10.31235/osf.io/83m2h,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+A Study on Sustainability of Contemporary Cropping Systems in Bam,DOI:10.14738/assrj.710.9080,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Capabilities of GPT-4 on Medical Challenge Problems,DOI:10.48550/arXiv.2303.13375,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+"Occupancy and probability of detection of the introduced population of Eleutherodactylus coqui in Turrialba, Costa Rica",DOI:10.36253/a_h-13209,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+THE EFFECTS OF CROP INTEGRATION ON FERTILIZER COST AND OIL PALM YIELD,paperid:4b43af7f0f4f1013726e6ed9429b984c378c1816,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Measurement and Drivers of Financial Inclusion in Cote d’Ivoire: A Case Study of Oil Palm and Rubber Tree Producers in Sud-Comoé Region,DOI:10.5539/ijef.v12n10p11,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Analysis of Factors Influencing Employee Performance in Palm Oil Harvesting at PT. Semadam,DOI:10.37149/jia.v8i5.733,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+ANALISIS PENGARUH LINGKUNGAN KERJA DAN KARAKTERISTIK INDIVIDU TERHADAP EFEKTIVITAS KERJA KARYAWAN PT. KENCANA INTI PERKASA MEDAN,paperid:7c1e165945affeea6487f267e731860a300616db,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Up Close: An Interview,DOI:10.5642/ENVIROLABASIA.20170103.07,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Examining Dietary Change as a Determinant of Improving Child Nutritional Status in Bangladesh from 1992 to 2005 (OR10-07-19).,DOI:10.1093/cdn/nzz034.OR10-07-19,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+RELATIONSHIP BETWEEN GROSS MARGIN AND SOME SOCIO-ECONOMIC VARIABLES IN SOME SELECTED DATE PALM MARKETS OF JIGAWA STATE NIGERIA,paperid:8a3643f5666f6de85788abcd9ff406c7d4406eb5,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Economic Potentials Of Bee Bread As A Non-Wood Forest Products In Some Selected Local Government Areas Of Ogun State,paperid:8d28406ca04465cba3ee79722edfe969a84290cb,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+KONSEP HIDUP DALAM PUISI SAWÉR BAYI DI KECAMATAN CIMENYAN DAN PEMANFAATANNYA SEBAGAI BAHAN AJAR SASTRA DI SMA,paperid:8e1fefc480ff8ba19a6e4d6003a55a9318653dee,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Constructing Identities: Amos Tutuola and the Ibadan Literary Elite in the wake of Nigerian Independence,DOI:10.32473/ysr.v2i2.129908,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Islamic Education’s Responses to Social Changes and Community Behaviors,DOI:10.15408/TJEMS.V7I1.16717,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+"Akses Petani Aren ke Lembaga Keuangan Mikro Perdesaan di Kabupaten Rokan Hulu, Provinsi Riau",DOI:10.37403/sultanist.v8i1.178,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Icheke Journal of the Faculty of Humanities,paperid:92fd5ace5668eabaa38829a45fd16e7be28b5bfb,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Impacts of landscape-scale forest loss and a dry event on the demographic structure of the endangered palm Euterpe edulis Mart. in the Atlantic Forest,DOI:10.3389/ffgc.2022.909901,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Technological Environmental Education in the Arab World: Case of Kingdom of Bahrain,DOI:10.1109/IEEECONF53624.2021.9668089,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Purchasing products with sustainable palm oil: designing and evaluating an online intervention for Australian consumers,DOI:10.1017/aee.2022.27,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Socioeconomic Factors and Cultural Changes Explain the Knowledge and Use of Ouricuri Palm (Syagrus coronata) by the Fulni–ô Indigenous People of Northeast Brazil,DOI:10.1007/s12231-019-09457-0,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Socioeconomic Factors and Cultural Changes Explain the Knowledge and Use of Ouricuri Palm (Syagrus coronata) by the Fulni–ô Indigenous People of Northeast Brazil,DOI:10.1007/s12231-019-09457-0,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Why does a labor-saving technology decrease fertility rates? Evidence from the oil palm boom in Indonesia,paperid:aacca400210304d86818cef186bd472381f0f5df,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Medical algorithm: Treatment of atopic dermatitis in early childhood (part II),DOI:10.1111/all.14512,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+A Study of Labanotation and its Applications from 20th Century Europe to 21st Century America,paperid:bafd4d9ad866493a87fac4b59afdbd0a3c2ce470,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Gender wage discrimination in south Africa within the affirmative action framework,DOI:10.1353/jda.2021.0048,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Adaptation and Power,DOI:10.5642/envirolabasia.20170101.13,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+"Colonialism, Cash Crops and Women in Africa",paperid:c24af02f7e5b2a1191aae9673cf3313a2d5b50e4,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Abstracts of the Academy of Pediatric Physical Therapy Platform Presentations at the Combined Sections Meeting,DOI:10.1097/pep.0000000000000678,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+"Land-use change and rural development in Indonesia: Economic, institutional and demographic aspects of deforestation and oil palm expansion",paperid:c5c9386398b6fd496194a2cfc6aa142d3e61f933,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Unmute: Delivering Diabetes Education Online,DOI:10.1177/2633559x20969183,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Educational Motives and Perceived Educational Consequences as Predictors of Facebook Usage,paperid:d765d9ea028006555536b0c38e0918d952381507,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+KONTRIBUSI AGROINDUSTRI KELAPA SAWIT TERHADAP KESEJAHTERAAN MASYARAKAT MELALUI PROGRAM CORPORATE SOCIAL RESPONSIBILITY (CSR),DOI:10.24952/TAGHYIR.V1I2.1343,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Use of Local Labour in Oil Palm Agriculture,DOI:10.6007/ijarbss/v11-i9/10992,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Marketing of CSR,DOI:10.2991/EMT-19.2019.3,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+DAMPAK PERUBAHAN PEMANFAATAN LAHAN HUTAN MENJADI PERKEBUNAN KELAPA SAWIT TERHADAPKONDISI SOSIAL EKONOMI MASYARAKAT DESA SUNGAI SEPETI KECAMATAN SEPONTI KABUPATEN KAYONG UTARA,DOI:10.26418/jhl.v11i4.66124,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+EFFECTIVENESS OF AGRICULTURAL EXTENSION IN THE PRODUCTION OF DATE PALM CROP AT BAHARIYA OASIS IN GIZA GOVERNORATE,DOI:10.21608/AJS.2017.34121,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Factors explaining the technical efficiency of independent producers in Cameroon: the case of oil palm producers in the Sanaga-Maritime,DOI:10.29322/ijsrp.11.05.2021.p11339,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Normative data for the Turkish version of the pyramids and palm trees test,DOI:10.1080/23279095.2021.1900187,"""PaLM"" + ""explainability"" + ""education""",Semantic Scholar
+Niger Delta Women in Colonial Nigeria: Reflections on Their Economic and Political Roles,paperid:0040ea3896788e7f495ea4871051ad53efc15e94,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Palm-Oil-Based Biodiesel in Indonesia: A Case Study on a Socioscientific Issue That Engages Students to Learn Chemistry and Its Impact on Society,DOI:10.1021/acs.jchemed.1c00244,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+EVALUASI KONDISI LINGKUNGAN KERJA TERHADAP KINERJA KARYAWAN PABRIK PENGOLAHAN KELAPA SAWIT PT. SENTOSA KALIMANTAN JAYA,DOI:10.51967/JURNALAGRIMENT.V5I01.287,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+PERSEPSI PERKHIDMATAN PENGEMBANGAN DAN AMALAN PERTANIAN BAIK PEKEBUN KECIL SAWIT PERSENDIRIAN (Perception of the Extension Services and Good Agricultural Practices Among Independent Oil Palm Smallholders),paperid:5369c0e7adb19b06f8bdbd235de3ee9996e0c3e5,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+THE ROLE OF CORPORATE SOCIAL RESPONSIBILITY IN QUALITY IMPROVEMENT OF 9-YEAR EDUCATION,DOI:10.29061/JERAM.V1I1.27,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Farmers knowledge and executive of extension recommendations to mitigate climatic changes effects on some fruit crops in Qalyubia governorate,DOI:10.21608/jsas.2020.23838.1202,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Re-branding global neurosurgery in paradise,DOI:10.1080/02688697.2021.1879013,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Up Close: An Interview,DOI:10.5642/ENVIROLABASIA.20170103.07,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+"Corporate Social Responsibility of Oil Palm Companies in East Kutai Regency, East Kalimantan Province, Indonesia",paperid:a2511a81dedb747785895c0372804abcbac9c6cc,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Impact of Innovation Platforms in Promoting the Dissemination of Biotechnological Innovation: Case of Compost in Date Palm in Southeastern Morocco,DOI:10.12911/22998993/163448,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+An exploration of the potential for collaborative management of palm leaf manuscripts as Lanna cultural material in northern Thailand,paperid:ba2764016a10a1181ae71a8f01bb4d884abdb1da,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Values Implied in the Wratisasana Palm Manuscripts as Guideline of Politeness in Language of the Character Education: A Study of Theo-Ethno Pedagogy,DOI:10.17507/JLTR.0901.11,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Enhancing sustainability amongst oil palm smallholders in Malaysia,DOI:10.1504/IJARGE.2018.090853,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Project MOSAIK: Model-based city planning and application in climate change – development of the new urban climate model PALM-4U,paperid:dfbe796c3184e2f4c81ce5447f2a8aeaeb95b8e0,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Marketing of CSR,DOI:10.2991/EMT-19.2019.3,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+The Covid-19 pandemic: An opportunity for reflection on the place of humanity in relation to nature?,DOI:10.17159/2224-7912/2020/V60N4-2A1,"""PaLM"" + ""responsible"" + ""education""",Semantic Scholar
+Small and Moderate Aperture Telescopes for Research and Education,DOI:10.5281/ZENODO.3756119,"""Gemini"" + ""accessibility"" + ""education""",Semantic Scholar
+"HORIZONTAL ACCURACY ASSESSMENT OF PLANETSCOPE, RAPIDEYE AND WORLDVIEW-2 SATELLITE IMAGERY",DOI:10.5593/SGEM2018/2.3/S10.017,"""Gemini"" + ""environmental"" + ""education""",Semantic Scholar
+"Methodology paper for the General Medicine Inpatient Initiative Medical Education Database (GEMINI MedED): a retrospective cohort study of internal medicine resident case-mix, clinical care and patient outcomes",DOI:10.1136/bmjopen-2022-062264,"""Gemini"" + ""responsible"" + ""education""",Semantic Scholar
+Preparing to Revolutionize Education with the Multi-Model GenAI Tool Google Gemini? A Journey towards Effective Policy Making,DOI:10.36348/jaep.2023.v07i08.001,"""Gemini"" + ""responsible"" + ""education""",Semantic Scholar
+Who is ChatGPT? Benchmarking LLMs' Psychological Portrayal Using PsychoBench,DOI:10.48550/arXiv.2310.01386,"""Llama 2"" + ""accessibility"" + ""education""",Semantic Scholar
 More Than Meets the AI: Evaluating the performance of GPT-4 on Computer Graphics assessment questions,DOI:10.1145/3636243.3636263,"""GPT-4"" + ""over-reliance"" + ""education""",Semantic Scholar
 Can we use ChatGPT for Mental Health and Substance Use Education? Examining Its Quality and Potential Harms,DOI:10.2196/51243,"""GPT-4"" + ""misinformation"" + ""education""",Semantic Scholar
 "AI-Enabled Medical Education: Threads of Change, Promising Futures, and Risky Realities Across Four Potential Future Worlds.",DOI:10.2196/50373,"""GPT-4"" + ""misinformation"" + ""education""",Semantic Scholar
@@ -798,6 +978,7 @@ Capabilities of GPT-4 on Medical Challenge Problems,DOI:10.48550/arXiv.2303.1337
 ChatGPT Isn't Magic,DOI:10.5204/mcj.3004,"""GPT-4"" + ""explainability"" + ""education""",Semantic Scholar
 Kaleidoscope,DOI:10.1192/bjp.2023.47,"""GPT-4"" + ""explainability"" + ""education""",Semantic Scholar
 Is GPT-4 a reliable rater? Evaluating Consistency in GPT-4 Text Ratings,DOI:10.48550/arXiv.2308.02575,"""GPT-4"" + ""explainability"" + ""education""",Semantic Scholar
+Performance of ChatGPT incorporated chain-of-thought method in bilingual nuclear medicine physician board examinations,DOI:10.1177/20552076231224074,"""GPT-4"" + ""explainability"" + ""education""",Semantic Scholar
 Decoding Logic Errors: A Comparative Study on Bug Detection by Students and Large Language Models,DOI:10.1145/3636243.3636245,"""GPT-4"" + ""explainability"" + ""education""",Semantic Scholar
 Performance of ChatGPT on the US Fundamentals of Engineering Exam: Comprehensive Assessment of Proficiency and Potential Implications for Professional Environmental Engineering Practice,DOI:10.48550/arXiv.2304.12198,"""GPT-4"" + ""responsible"" + ""education""",Semantic Scholar
 Retraining fact-checkers: The emergence of ChatGPT in information verification,DOI:10.3145/epi.2023.sep.15,"""GPT-4"" + ""responsible"" + ""education""",Semantic Scholar
@@ -806,6 +987,16 @@ Large Language Models in Ophthalmology: Potential and Pitfalls.,DOI:10.1080/0882
 AGI: Artificial General Intelligence for Education,DOI:10.48550/arXiv.2304.12479,"""GPT-4"" + ""responsible"" + ""education""",Semantic Scholar
 Taking the Next Step with Generative Artificial Intelligence: The Transformative Role of Multimodal Large Language Models in Science Education,DOI:10.48550/arXiv.2401.00832,"""GPT-4"" + ""responsible"" + ""education""",Semantic Scholar
 Transforming Gambling Harm Reduction in Youth: Leveraging AI Language Models for Personalized Intervention and Prevention,DOI:10.12681/jpentai.35821,"""GPT-4"" + ""responsible"" + ""education""",Semantic Scholar
+Stratified Evaluation of GPT’s Question Answering in Surgery Reveals Artificial Intelligence (AI) Knowledge Gaps,DOI:10.7759/cureus.48788,"""GPT-3.5"" + ""misinformation"" + ""education""",Semantic Scholar
+"Generative AI for Programming Education: Benchmarking ChatGPT, GPT-4, and Human Tutors",DOI:10.1145/3568812.3603476,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
+Using Generative Artificial Intelligence for Language Education Research: Insights from Using OpenAI's ChatGPT,DOI:10.1002/tesq.3253,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
+ChatGPT is Good but Bing Chat is Better for Vietnamese Students,DOI:10.48550/arXiv.2307.08272,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
+ChatGPT and Patient Information in Nuclear Medicine: GPT-3.5 Versus GPT-4,DOI:10.2967/jnmt.123.266151,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5"" + ""accessibility"" + ""education""",Semantic Scholar
+Capabilities of GPT-4 on Medical Challenge Problems,DOI:10.48550/arXiv.2303.13375,"""GPT-3.5"" + ""explainability"" + ""education""",Semantic Scholar
+"Generative AI for Programming Education: Benchmarking ChatGPT, GPT-4, and Human Tutors",DOI:10.1145/3568812.3603476,"""GPT-3.5"" + ""explainability"" + ""education""",Semantic Scholar
+Exploring the Responses of Large Language Models to Beginner Programmers’ Help Requests,DOI:10.1145/3568813.3600139,"""GPT-3.5"" + ""explainability"" + ""education""",Semantic Scholar
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5"" + ""trustworthy"" + ""education""",Semantic Scholar
 DIGITAL SELF DEFENCE – TOWARD A HUMANIST CIVIC CYBER-SECURITY SYLLABUS,paperid:80bc8a245ed1a219549ef601829e696fca27fa50,"""Claude"" + ""accessibility"" + ""education""",Semantic Scholar
 Cultural Factors Affecting African Americans of Caribbean Descent with Type II Diabetes,paperid:b681bb752dc552ac9b0c0bd825d7c0c622fe4b09,"""Claude"" + ""accessibility"" + ""education""",Semantic Scholar
 Masthead Logo,paperid:c36b1ce5eac0903805137da06d879baeb7afeb2d,"""Claude"" + ""accessibility"" + ""education""",Semantic Scholar
@@ -843,10 +1034,17 @@ The Importance of Including Human Rights Education in Primary and Secondary Scho
 Analyzing the Group Effectiveness and Dynamics of a Heterogeneous International Research Group In Cartagena (Colombia): A Case Study,DOI:10.18260/1-2--32093,"""Claude"" + ""responsible"" + ""education""",Semantic Scholar
 Experiences of African American Women and their Ascension to Senior Academic Leadership Positions in Higher Education Institutions,paperid:d9a4ea4bf5f8b35722c7100fb2888a2a71ec95ee,"""Claude"" + ""responsible"" + ""education""",Semantic Scholar
 Chapter X Fast Track : School Based Student Software Design,paperid:f292c2e60f75dcf947f71666988dbcc635594185,"""Claude"" + ""responsible"" + ""education""",Semantic Scholar
-Small and Moderate Aperture Telescopes for Research and Education,DOI:10.5281/ZENODO.3756119,"""Gemini"" + ""accessibility"" + ""education""",Semantic Scholar
-"HORIZONTAL ACCURACY ASSESSMENT OF PLANETSCOPE, RAPIDEYE AND WORLDVIEW-2 SATELLITE IMAGERY",DOI:10.5593/SGEM2018/2.3/S10.017,"""Gemini"" + ""environmental"" + ""education""",Semantic Scholar
-"Methodology paper for the General Medicine Inpatient Initiative Medical Education Database (GEMINI MedED): a retrospective cohort study of internal medicine resident case-mix, clinical care and patient outcomes",DOI:10.1136/bmjopen-2022-062264,"""Gemini"" + ""responsible"" + ""education""",Semantic Scholar
-Preparing to Revolutionize Education with the Multi-Model GenAI Tool Google Gemini? A Journey towards Effective Policy Making,DOI:10.36348/jaep.2023.v07i08.001,"""Gemini"" + ""responsible"" + ""education""",Semantic Scholar
+Nível de informação e conhecimento sobre políticas de inclusão no ensino superior,DOI:10.20396/ETD.V23I2.8657171,"""Llama"" + ""misinformation"" + ""education""",Semantic Scholar
+Who is ChatGPT? Benchmarking LLMs' Psychological Portrayal Using PsychoBench,DOI:10.48550/arXiv.2310.01386,"""Llama"" + ""accessibility"" + ""education""",Semantic Scholar
+Environmental Education as a Means for Valuing and Conserving Camelids and Pastoralism in the Argentinean Altiplano of Jujuy,DOI:10.1659/MRD-JOURNAL-D-20-00009.1,"""Llama"" + ""environmental"" + ""education""",Semantic Scholar
+Chat GPT versus human touch in stereotactic radiosurgery,DOI:10.1007/s11060-023-04353-z,"""Llama"" + ""explainability"" + ""education""",Semantic Scholar
+LA ESCRITURA DE UN BUEN ARTÍCULO CIENTÍFICO EN EDUCACIÓN Y EL ENTRENAMIENTO DE PROFESORES UNIVERSITARIOS EN EL DISCURSO ACADÉMICO,DOI:10.37618/paradigma.1011-2251.2020.p222-250.id875,"""Llama"" + ""explainability"" + ""education""",Semantic Scholar
+Tendencias en el diseño metodológico de investigación sobre la evaluación de competencias en la educación superior,paperid:8046bd588d67b31c1f54a1d8e95b128c0761aef7,"""Llama"" + ""explainability"" + ""education""",Semantic Scholar
+Governamentalidade e memória: quando a reflexão se torna flexão,DOI:10.14393/revedfil.v37n79a2023-65631,"""Llama"" + ""explainability"" + ""education""",Semantic Scholar
+Nível de informação e conhecimento sobre políticas de inclusão no ensino superior,DOI:10.20396/ETD.V23I2.8657171,"""Llama"" + ""explainability"" + ""education""",Semantic Scholar
+Los conocimientos y sus protagonistas,paperid:55d22ed8f911d8d9bc0a2388bfae2822a2912df5,"""Llama"" + ""responsible"" + ""education""",Semantic Scholar
+Proactive Advising for At-Risk Students: Comparing a Predictive Model to Faculty Identification.,paperid:6efeb9066ecb5b9442e486cb1511746b019d8d03,"""Llama"" + ""responsible"" + ""education""",Semantic Scholar
+Una apuesta por la Formación Profesional: Proyectos y experiencias de innovación en el IES Montesclaros,paperid:ac04282202bbeb591599fd4e11725e53a9f42029,"""Llama"" + ""responsible"" + ""education""",Semantic Scholar
 Utilizing the AECT Instructional Design Standards for Distance Learning.,paperid:0cd9287dc5164db211bd0b3583b694b0e97e49db,"""Yi"" + ""accessibility"" + ""education""",Semantic Scholar
 "Dietary polyacetylenes, falcarinol and falcarindiol, prevents the formation of neoplastic lesions in the colon of azoxymethaneinduced rats",paperid:0d3c2ce41cd52ee0d42c698f9c0aa973a8ca9679,"""Yi"" + ""accessibility"" + ""education""",Semantic Scholar
 Managing Changes in Collection Development,paperid:25a5e17f33ae787d8a76cabc452b36be271b327c,"""Yi"" + ""accessibility"" + ""education""",Semantic Scholar
@@ -924,8 +1122,5 @@ The Burden of neural tube defects in the United States,DOI:10.13016/M2416T16S,""
 Utilization History of Emergency Medical Services Among West Virginia Drug Overdose Decedents,DOI:10.5210/OJPHI.V11I1.9939,"""Yi"" + ""explainability"" + ""education""",Semantic Scholar
 "Martuwarra Fitzroy River Watershed: One society, one river law",DOI:10.1371/journal.pwat.0000104,"""Yi"" + ""responsible"" + ""education""",Semantic Scholar
 Fraudster duping jobseekers nabbed in Lok Bhawan,paperid:b50d60abbbff07eb017ab37543bbf5e94c08604a,"""Yi"" + ""responsible"" + ""education""",Semantic Scholar
-Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" + ""accessibility"" + ""education""",Semantic Scholar
-Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" + ""trustworthy"" + ""education""",Semantic Scholar
-Who is ChatGPT? Benchmarking LLMs' Psychological Portrayal Using PsychoBench,DOI:10.48550/arXiv.2310.01386,"""Llama 2"" + ""accessibility"" + ""education""",Semantic Scholar
-Detecting Generated Text and Attributing Language Model Source with Fine-tuned Models and Semantic Understanding,paperid:57dafe6527ce4bfa9bf26679371fa4df515072ff,"""text-davinci-003"" + ""misinformation"" + ""education""",Semantic Scholar
-Who is ChatGPT? Benchmarking LLMs' Psychological Portrayal Using PsychoBench,DOI:10.48550/arXiv.2310.01386,"""text-davinci-003"" + ""accessibility"" + ""education""",Semantic Scholar
+Identifying the local factors of resilience during cyclone Hudhud and Phailin on the east coast of India,DOI:10.1007/s13280-019-01241-7,"""Palmyra"" + ""environmental"" + ""education""",Semantic Scholar
+"The Commander: Fawzi al-Qawuqji and the Fight for Arab Independence, 1914–1948 by Laila Parsons (review)",paperid:200b798e5a25816f8b4485390c20c4b6fe846628,"""Palmyra"" + ""responsible"" + ""education""",Semantic Scholar

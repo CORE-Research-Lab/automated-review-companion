@@ -1,37 +1,62 @@
 PaperTitle,ID,SearchString,SearchedFrom
 An Autoethnographic Case Study of Generative Artificial Intelligence&apos;s Utility for Accessibility.,DOI:10.1145/3597638.3614548,"""Generative Artificial Intelligence""$ ""accessibility""$ ",DBLP
+An Autoethnographic Case Study of Generative Artificial Intelligence&apos;s Utility for Accessibility.,DOI:10.48550/ARXIV.2308.09924,"""Generative Artificial Intelligence""$ ""accessibility""$ ",DBLP
 "Deepfakes, Misinformation, and Disinformation in the Era of Frontier AI, Generative AI, and Large AI Models.",DOI:10.48550/ARXIV.2311.17394,"""Generative AI""$ ""misinformation""$ ",DBLP
 Combating Misinformation in the Era of Generative AI Models.,DOI:10.1145/3581783.3612704,"""Generative AI""$ ""misinformation""$ ",DBLP
 Integrating synthetic accessibility with AI-based generative drug design.,DOI:10.1186/S13321-023-00742-8,"""Generative AI""$ ""accessibility""$ ",DBLP
 From ChatGPT to ThreatGPT: Impact of Generative AI in Cybersecurity and Privacy.,DOI:10.1109/ACCESS.2023.3300381,"""Generative AI""$ ""privacy""$ ",DBLP
 Leveraging Generative AI Models for Synthetic Data Generation in Healthcare: Balancing Research and Privacy.,DOI:10.1109/SMARTNETS58706.2023.10215825,"""Generative AI""$ ""privacy""$ ",DBLP
+Leveraging Generative AI Models for Synthetic Data Generation in Healthcare: Balancing Research and Privacy.,DOI:10.48550/ARXIV.2305.05247,"""Generative AI""$ ""privacy""$ ",DBLP
+From ChatGPT to ThreatGPT: Impact of Generative AI in Cybersecurity and Privacy.,DOI:10.48550/ARXIV.2307.00691,"""Generative AI""$ ""privacy""$ ",DBLP
 GenAIPABench: A Benchmark for Generative AI-based Privacy Assistants.,DOI:10.48550/ARXIV.2309.05138,"""Generative AI""$ ""privacy""$ ",DBLP
 $Λ$-Split: A Privacy-Preserving Split Computing Framework for Cloud-Powered Generative AI.,DOI:10.48550/ARXIV.2310.14651,"""Generative AI""$ ""privacy""$ ",DBLP
 Navigating Privacy and Copyright Challenges Across the Data Lifecycle of Generative AI.,DOI:10.48550/ARXIV.2311.18252,"""Generative AI""$ ""privacy""$ ",DBLP
 Privacy preserving Generative Adversarial Networks to model Electronic Health Records.,DOI:10.1016/J.NEUNET.2022.06.022,"""Generative AI""$ ""privacy""$ ",DBLP
 A Graph Data Privacy-Preserving Method Based on Generative Adversarial Networks.,DOI:10.1007/978-3-030-62008-0_16,"""Generative AI""$ ""privacy""$ ",DBLP
 Investigating Explainability of Generative AI for Code through Scenario-based Design.,DOI:10.1145/3490099.3511119,"""Generative AI""$ ""explainability""$ ",DBLP
+Investigating Explainability of Generative AI for Code through Scenario-based Design.,URL:https://dblp.org/rec/journals/corr/abs-2202-04903,"""Generative AI""$ ""explainability""$ ",DBLP
 Assessing User Perceptions of Bias in Generative AI Models: Promoting Social Awareness for Trustworthy AI.,DOI:10.1145/3633083.3633094,"""Generative AI""$ ""trustworthy""$ ",DBLP
 Getting from Generative AI to Trustworthy AI: What LLMs might learn from Cyc.,DOI:10.48550/ARXIV.2308.04445,"""Generative AI""$ ""trustworthy""$ ",DBLP
 Generative AI meets Responsible AI: Practical Challenges and Opportunities.,DOI:10.1145/3580305.3599557,"""Generative AI""$ ""responsible""$ ",DBLP
 A Framework for Automated Measurement of Responsible AI Harms in Generative AI Applications.,DOI:10.48550/ARXIV.2310.17750,"""Generative AI""$ ""responsible""$ ",DBLP
 A Framework for Responsible Development of Automated Student Feedback with Generative AI.,DOI:10.48550/ARXIV.2308.15334,"""Generative AI""$ ""responsible""$ ",DBLP
+GenAIPABench: A Benchmark for Generative AI-based Privacy Assistants.,DOI:10.48550/ARXIV.2309.05138,"""GenAI""$ ""privacy""$ ",DBLP
+"Deepfakes, Misinformation, and Disinformation in the Era of Frontier AI, Generative AI, and Large AI Models.",DOI:10.48550/ARXIV.2311.17394,"""Gen AI""$ ""misinformation""$ ",DBLP
 Synthetic Lies: Understanding AI-Generated Misinformation and Evaluating Algorithmic and Human Solutions.,DOI:10.1145/3544548.3581318,"""Gen AI""$ ""misinformation""$ ",DBLP
+Combating Misinformation in the Era of Generative AI Models.,DOI:10.1145/3581783.3612704,"""Gen AI""$ ""misinformation""$ ",DBLP
 Towards Detection of AI-Generated Texts and Misinformation.,DOI:10.1007/978-3-031-10183-0_10,"""Gen AI""$ ""misinformation""$ ",DBLP
+Integrating synthetic accessibility with AI-based generative drug design.,DOI:10.1186/S13321-023-00742-8,"""Gen AI""$ ""accessibility""$ ",DBLP
 AI Algorithm for the Generation of Three-Dimensional Accessibility Ramps in Grasshopper / Rhinoceros 7.,DOI:10.48550/ARXIV.2310.07728,"""Gen AI""$ ""accessibility""$ ",DBLP
+Leveraging Generative AI Models for Synthetic Data Generation in Healthcare: Balancing Research and Privacy.,DOI:10.1109/SMARTNETS58706.2023.10215825,"""Gen AI""$ ""privacy""$ ",DBLP
+Leveraging Generative AI Models for Synthetic Data Generation in Healthcare: Balancing Research and Privacy.,DOI:10.48550/ARXIV.2305.05247,"""Gen AI""$ ""privacy""$ ",DBLP
+GenAIPABench: A Benchmark for Generative AI-based Privacy Assistants.,DOI:10.48550/ARXIV.2309.05138,"""Gen AI""$ ""privacy""$ ",DBLP
+From ChatGPT to ThreatGPT: Impact of Generative AI in Cybersecurity and Privacy.,DOI:10.1109/ACCESS.2023.3300381,"""Gen AI""$ ""privacy""$ ",DBLP
 An Optimized Privacy Information Exchange Schema for Explainable AI Empowered WiMAX-based IoT networks.,DOI:10.1016/J.FUTURE.2023.06.003,"""Gen AI""$ ""privacy""$ ",DBLP
+From ChatGPT to ThreatGPT: Impact of Generative AI in Cybersecurity and Privacy.,DOI:10.48550/ARXIV.2307.00691,"""Gen AI""$ ""privacy""$ ",DBLP
+$Λ$-Split: A Privacy-Preserving Split Computing Framework for Cloud-Powered Generative AI.,DOI:10.48550/ARXIV.2310.14651,"""Gen AI""$ ""privacy""$ ",DBLP
+Navigating Privacy and Copyright Challenges Across the Data Lifecycle of Generative AI.,DOI:10.48550/ARXIV.2311.18252,"""Gen AI""$ ""privacy""$ ",DBLP
+Privacy preserving Generative Adversarial Networks to model Electronic Health Records.,DOI:10.1016/J.NEUNET.2022.06.022,"""Gen AI""$ ""privacy""$ ",DBLP
+A Graph Data Privacy-Preserving Method Based on Generative Adversarial Networks.,DOI:10.1007/978-3-030-62008-0_16,"""Gen AI""$ ""privacy""$ ",DBLP
 Semantic IoT Gateway: Towards Automated Generation of Privacy-Preserving Smart Contracts in the Internet of Things.,DOI:10.1007/978-3-030-02610-3_12,"""Gen AI""$ ""privacy""$ ",DBLP
 "Know, Know Where, Knowwheregraph: A Densely Connected, Cross-Domain Knowledge Graph and Geo-Enrichment Service Stack for Applications in Environmental Intelligence.",DOI:10.1609/AIMAG.V43I1.19120,"""Gen AI""$ ""environmental""$ ",DBLP
 Argumentation schemes: From genetics to international relations to environmental science policy to AI ethics.,DOI:10.3233/AAC-210551,"""Gen AI""$ ""environmental""$ ",DBLP
 Environmental Parameters Analysis and Power Prediction for Photovoltaic Power Generation Based on Ensembles of Decision Trees.,DOI:10.1007/978-3-030-46931-3_8,"""Gen AI""$ ""environmental""$ ",DBLP
 Comparing methods for drug-gene interaction prediction on the biomedical literature knowledge graph: performance versus explainability.,DOI:10.1186/S12859-023-05373-2,"""Gen AI""$ ""explainability""$ ",DBLP
+Investigating Explainability of Generative AI for Code through Scenario-based Design.,DOI:10.1145/3490099.3511119,"""Gen AI""$ ""explainability""$ ",DBLP
+Investigating Explainability of Generative AI for Code through Scenario-based Design.,URL:https://dblp.org/rec/journals/corr/abs-2202-04903,"""Gen AI""$ ""explainability""$ ",DBLP
+Assessing User Perceptions of Bias in Generative AI Models: Promoting Social Awareness for Trustworthy AI.,DOI:10.1145/3633083.3633094,"""Gen AI""$ ""trustworthy""$ ",DBLP
+Getting from Generative AI to Trustworthy AI: What LLMs might learn from Cyc.,DOI:10.48550/ARXIV.2308.04445,"""Gen AI""$ ""trustworthy""$ ",DBLP
 Examining the Role of Genuine Emotions for Trustworthy AI.,DOI:10.1145/3623809.3623951,"""Gen AI""$ ""trustworthy""$ ",DBLP
 Trustworthy AI for Next Generation Networks: the Fed-XAI innovative paradigm from the Hexa-X EU Flagship Project.,URL:https://dblp.org/rec/conf/ital-ia/DucangeMMNRSSV23,"""Gen AI""$ ""trustworthy""$ ",DBLP
 Applying a Trustworthy AI Framework to Mitigate Bias and Increase Workforce Gender Diversity.,DOI:10.1109/ISTAS55053.2022.10227119,"""Gen AI""$ ""trustworthy""$ ",DBLP
+Generative AI meets Responsible AI: Practical Challenges and Opportunities.,DOI:10.1145/3580305.3599557,"""Gen AI""$ ""responsible""$ ",DBLP
+A Framework for Automated Measurement of Responsible AI Harms in Generative AI Applications.,DOI:10.48550/ARXIV.2310.17750,"""Gen AI""$ ""responsible""$ ",DBLP
 Ethics and Gender for Responsible Research and Innovation in AI (extended abstract).,URL:https://dblp.org/rec/conf/aiia/Lisi22,"""Gen AI""$ ""responsible""$ ",DBLP
 Virginia Dignum: Responsible Artificial Intelligence: How to Develop and Use AI in a Responsible Way.,DOI:10.1007/S10710-020-09394-1,"""Gen AI""$ ""responsible""$ ",DBLP
 A Pathway Towards Responsible AI Generated Content.,DOI:10.24963/IJCAI.2023/803,"""Gen AI""$ ""responsible""$ ",DBLP
+A Pathway Towards Responsible AI Generated Content.,DOI:10.48550/ARXIV.2303.01325,"""Gen AI""$ ""responsible""$ ",DBLP
 A Method for Generating Dynamic Responsible AI Guidelines for Collaborative Action.,DOI:10.48550/ARXIV.2307.15158,"""Gen AI""$ ""responsible""$ ",DBLP
+A Framework for Responsible Development of Automated Student Feedback with Generative AI.,DOI:10.48550/ARXIV.2308.15334,"""Gen AI""$ ""responsible""$ ",DBLP
 Responsible AI: Gender bias assessment in emotion recognition.,URL:https://dblp.org/rec/journals/corr/abs-2103-11436,"""Gen AI""$ ""responsible""$ ",DBLP
 Med-MMHL: A Multi-Modal Dataset for Detecting Human- and LLM-Generated Misinformation in the Medical Domain.,DOI:10.48550/ARXIV.2306.08871,"""LLM""$ ""misinformation""$ ",DBLP
 Detecting Misinformation with LLM-Predicted Credibility Signals and Weak Supervision.,DOI:10.48550/ARXIV.2309.07601,"""LLM""$ ""misinformation""$ ",DBLP
@@ -41,27 +66,33 @@ Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the A
 LLM for Patient-Trial Matching: Privacy-Aware Data Augmentation Towards Better Performance and Generalizability.,DOI:10.48550/ARXIV.2303.16756,"""LLM""$ ""privacy""$ ",DBLP
 LLMs Can Understand Encrypted Prompt: Towards Privacy-Computing Friendly Transformers.,DOI:10.48550/ARXIV.2305.18396,"""LLM""$ ""privacy""$ ",DBLP
 "Building Trust in Conversational AI: A Comprehensive Review and Solution Architecture for Explainable, Privacy-Aware Systems using LLMs and Knowledge Graph.",DOI:10.48550/ARXIV.2308.13534,"""LLM""$ ""privacy""$ ",DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.48550/ARXIV.2310.02431,"""LLM""$ ""privacy""$ ",DBLP
 Can LLMs Keep a Secret? Testing Privacy Implications of Language Models via Contextual Integrity Theory.,DOI:10.48550/ARXIV.2310.17884,"""LLM""$ ""privacy""$ ",DBLP
 PrivateLoRA For Efficient Privacy Preserving LLM.,DOI:10.48550/ARXIV.2311.14030,"""LLM""$ ""privacy""$ ",DBLP
 "A Survey on Large Language Model (LLM) Security and Privacy: The Good, the Bad, and the Ugly.",DOI:10.48550/ARXIV.2312.02003,"""LLM""$ ""privacy""$ ",DBLP
+Getting from Generative AI to Trustworthy AI: What LLMs might learn from Cyc.,DOI:10.48550/ARXIV.2308.04445,"""LLM""$ ""trustworthy""$ ",DBLP
 Trustworthy LLMs: a Survey and Guideline for Evaluating Large Language Models&apos; Alignment.,DOI:10.48550/ARXIV.2308.05374,"""LLM""$ ""trustworthy""$ ",DBLP
 "Know Where to Go: Make LLM a Relevant, Responsible, and Trustworthy Searcher.",DOI:10.48550/ARXIV.2310.12443,"""LLM""$ ""trustworthy""$ ",DBLP
 Creating Trustworthy LLMs: Dealing with Hallucinations in Healthcare AI.,DOI:10.48550/ARXIV.2311.01463,"""LLM""$ ""trustworthy""$ ",DBLP
 How Trustworthy are Open-Source LLMs? An Assessment under Malicious Demonstrations Shows their Vulnerabilities.,DOI:10.48550/ARXIV.2311.09447,"""LLM""$ ""trustworthy""$ ",DBLP
 How Responsible LLMs are beneficial to search and exploration in Retail industry.,DOI:10.1145/3591106.3592299,"""LLM""$ ""responsible""$ ",DBLP
+"Know Where to Go: Make LLM a Relevant, Responsible, and Trustworthy Searcher.",DOI:10.48550/ARXIV.2310.12443,"""LLM""$ ""responsible""$ ",DBLP
 On the Risk of Misinformation Pollution with Large Language Models.,URL:https://dblp.org/rec/conf/emnlp/PanPCNKW23,"""large language model""$ ""misinformation""$ ",DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,DOI:10.48550/ARXIV.2305.13661,"""large language model""$ ""misinformation""$ ",DBLP
 Self-Diagnosis and Large Language Models: A New Front for Medical Misinformation.,DOI:10.48550/ARXIV.2307.04910,"""large language model""$ ""misinformation""$ ",DBLP
 "Topological Data Mapping of Online Hate Speech, Misinformation, and General Mental Health: A Large Language Model Based Study.",DOI:10.48550/ARXIV.2309.13098,"""large language model""$ ""misinformation""$ ",DBLP
 Automated Claim Matching with Large Language Models: Empowering Fact-Checkers in the Fight Against Misinformation.,DOI:10.48550/ARXIV.2310.09223,"""large language model""$ ""misinformation""$ ",DBLP
 Can Large Language Models Understand Content and Propagation for Misinformation Detection: An Empirical Study.,DOI:10.48550/ARXIV.2311.12699,"""large language model""$ ""misinformation""$ ",DBLP
 Fostering websites accessibility: A case study on the use of the Large Language Models ChatGPT for automatic remediation.,DOI:10.1145/3594806.3596542,"""large language model""$ ""accessibility""$ ",DBLP
 Cybercrime and Privacy Threats of Large Language Models.,DOI:10.1109/MITP.2023.3275489,"""large language model""$ ""privacy""$ ",DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.1145/3627106.3627196,"""large language model""$ ""privacy""$ ",DBLP
 Privacy-Preserving Recommender Systems with Synthetic Query Generation using Differentially Private Large Language Models.,DOI:10.48550/ARXIV.2305.05973,"""large language model""$ ""privacy""$ ",DBLP
 Privacy-Preserving Prompt Tuning for Large Language Model Services.,DOI:10.48550/ARXIV.2305.06212,"""large language model""$ ""privacy""$ ",DBLP
 Quantifying Association Capabilities of Large Language Models and Its Implications on Privacy Leakage.,DOI:10.48550/ARXIV.2305.12707,"""large language model""$ ""privacy""$ ",DBLP
 ProPILE: Probing Privacy Leakage in Large Language Models.,DOI:10.48550/ARXIV.2307.01881,"""large language model""$ ""privacy""$ ",DBLP
 Recovering from Privacy-Preserving Masking with Large Language Models.,DOI:10.48550/ARXIV.2309.08628,"""large language model""$ ""privacy""$ ",DBLP
 PolicyGPT: Automated Analysis of Privacy Policies with Large Language Models.,DOI:10.48550/ARXIV.2309.10238,"""large language model""$ ""privacy""$ ",DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.48550/ARXIV.2310.02431,"""large language model""$ ""privacy""$ ",DBLP
 Large Language Models Can Be Good Privacy Protection Learners.,DOI:10.48550/ARXIV.2310.02469,"""large language model""$ ""privacy""$ ",DBLP
 Beyond Memorization: Violating Privacy Via Inference with Large Language Models.,DOI:10.48550/ARXIV.2310.07298,"""large language model""$ ""privacy""$ ",DBLP
 Split-and-Denoise: Protect large language model inference with local differential privacy.,DOI:10.48550/ARXIV.2310.09130,"""large language model""$ ""privacy""$ ",DBLP
@@ -70,35 +101,50 @@ PrivInfer: Privacy-Preserving Inference for Black-box Large Language Model.,DOI:
 Privacy Preserving Large Language Models: ChatGPT Case Study Based Vision and Framework.,DOI:10.48550/ARXIV.2310.12523,"""large language model""$ ""privacy""$ ",DBLP
 The Janus Interface: How Fine-Tuning in Large Language Models Amplifies the Privacy Risks.,DOI:10.48550/ARXIV.2310.15469,"""large language model""$ ""privacy""$ ",DBLP
 Automating Governing Knowledge Commons and Contextual Integrity (GKC-CI) Privacy Policy Annotations with Large Language Models.,DOI:10.48550/ARXIV.2311.02192,"""large language model""$ ""privacy""$ ",DBLP
+"A Survey on Large Language Model (LLM) Security and Privacy: The Good, the Bad, and the Ugly.",DOI:10.48550/ARXIV.2312.02003,"""large language model""$ ""privacy""$ ",DBLP
 DP-OPT: Make Large Language Model Your Privacy-Preserving Prompt Engineer.,DOI:10.48550/ARXIV.2312.03724,"""large language model""$ ""privacy""$ ",DBLP
 Privacy Issues in Large Language Models: A Survey.,DOI:10.48550/ARXIV.2312.06717,"""large language model""$ ""privacy""$ ",DBLP
 Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.18653/V1/2022.EMNLP-MAIN.425,"""large language model""$ ""privacy""$ ",DBLP
 EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.1109/ICDMW58026.2022.00078,"""large language model""$ ""privacy""$ ",DBLP
+Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.48550/ARXIV.2204.07667,"""large language model""$ ""privacy""$ ",DBLP
 You Are What You Write: Preserving Privacy in the Era of Large Language Models.,DOI:10.48550/ARXIV.2204.09391,"""large language model""$ ""privacy""$ ",DBLP
+EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.48550/ARXIV.2210.15042,"""large language model""$ ""privacy""$ ",DBLP
 Towards Self-Explainability of Deep Neural Networks with Heatmap Captioning and Large-Language Models.,DOI:10.48550/ARXIV.2304.02202,"""large language model""$ ""explainability""$ ",DBLP
 Explainability for Large Language Models: A Survey.,DOI:10.48550/ARXIV.2309.01029,"""large language model""$ ""explainability""$ ",DBLP
 "CORE-GPT: Combining Open Access Research and Large Language Models for Credible, Trustworthy Question Answering.",DOI:10.1007/978-3-031-43849-3_13,"""large language model""$ ""trustworthy""$ ",DBLP
 TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,"""large language model""$ ""trustworthy""$ ",DBLP
 "CORE-GPT: Combining Open Access research and large language models for credible, trustworthy question answering.",DOI:10.48550/ARXIV.2307.04683,"""large language model""$ ""trustworthy""$ ",DBLP
+Trustworthy LLMs: a Survey and Guideline for Evaluating Large Language Models&apos; Alignment.,DOI:10.48550/ARXIV.2308.05374,"""large language model""$ ""trustworthy""$ ",DBLP
 Responsible Task Automation: Empowering Large Language Models as Responsible Task Automators.,DOI:10.48550/ARXIV.2306.01242,"""large language model""$ ""responsible""$ ",DBLP
+TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,"""large language model""$ ""responsible""$ ",DBLP
 Citation: A Key to Building Responsible and Accountable Large Language Models.,DOI:10.48550/ARXIV.2307.02185,"""large language model""$ ""responsible""$ ",DBLP
 Think-on-Graph: Deep and Responsible Reasoning of Large Language Model with Knowledge Graph.,DOI:10.48550/ARXIV.2307.07697,"""large language model""$ ""responsible""$ ",DBLP
 Ethical Considerations and Policy Implications for Large Language Models: Guiding Responsible Development and Deployment.,DOI:10.48550/ARXIV.2308.02678,"""large language model""$ ""responsible""$ ",DBLP
 Building the Future of Responsible AI: A Reference Architecture for Designing Large Language Model based Agents.,DOI:10.48550/ARXIV.2311.13148,"""large language model""$ ""responsible""$ ",DBLP
 Prompt Risk Control: A Rigorous Framework for Responsible Deployment of Large Language Models.,DOI:10.48550/ARXIV.2311.13628,"""large language model""$ ""responsible""$ ",DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,URL:https://dblp.org/rec/conf/emnlp/PanPCNKW23,"""language model""$ ""misinformation""$ ",DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,DOI:10.48550/ARXIV.2305.13661,"""language model""$ ""misinformation""$ ",DBLP
+Self-Diagnosis and Large Language Models: A New Front for Medical Misinformation.,DOI:10.48550/ARXIV.2307.04910,"""language model""$ ""misinformation""$ ",DBLP
+"Topological Data Mapping of Online Hate Speech, Misinformation, and General Mental Health: A Large Language Model Based Study.",DOI:10.48550/ARXIV.2309.13098,"""language model""$ ""misinformation""$ ",DBLP
+Automated Claim Matching with Large Language Models: Empowering Fact-Checkers in the Fight Against Misinformation.,DOI:10.48550/ARXIV.2310.09223,"""language model""$ ""misinformation""$ ",DBLP
+Can Large Language Models Understand Content and Propagation for Misinformation Detection: An Empirical Study.,DOI:10.48550/ARXIV.2311.12699,"""language model""$ ""misinformation""$ ",DBLP
 Developing a fake news identification model with advanced deep languagetransformers for Turkish COVID-19 misinformation data.,DOI:10.55730/1300-0632.3818,"""language model""$ ""misinformation""$ ",DBLP
 Testing the Generalization of Neural Language Models for COVID-19 Misinformation Detection.,DOI:10.1007/978-3-030-96957-8_33,"""language model""$ ""misinformation""$ ",DBLP
 Evaluating BERT-based Pre-training Language Models for Detecting Misinformation.,DOI:10.48550/ARXIV.2203.07731,"""language model""$ ""misinformation""$ ",DBLP
+Testing the Generalization of Neural Language Models for COVID-19 Misinformation Detection.,URL:https://dblp.org/rec/journals/corr/abs-2111-07819,"""language model""$ ""misinformation""$ ",DBLP
+Fostering websites accessibility: A case study on the use of the Large Language Models ChatGPT for automatic remediation.,DOI:10.1145/3594806.3596542,"""language model""$ ""accessibility""$ ",DBLP
 SemanticCAP: Chromatin Accessibility Prediction Enhanced by Features Learning from a Language Model.,DOI:10.48550/ARXIV.2204.02130,"""language model""$ ""accessibility""$ ",DBLP
 "GIS tools and programming languages for creating models of public and private transport potential accessibility in Szczecin, Poland.",DOI:10.1007/S10109-020-00337-Z,"""language model""$ ""accessibility""$ ",DBLP
 MoPe: Model Perturbation based Privacy Attacks on Language Models.,URL:https://dblp.org/rec/conf/emnlp/LiWWN23,"""language model""$ ""privacy""$ ",DBLP
 MoPe: Model Perturbation-based Privacy Attacks on Language Models.,DOI:10.48550/ARXIV.2310.14369,"""language model""$ ""privacy""$ ",DBLP
 Privacy Regularization: Joint Privacy-Utility Optimization in Language Models.,URL:https://dblp.org/rec/journals/corr/abs-2103-07567,"""language model""$ ""privacy""$ ",DBLP
 Privacy Threat MOdeling Language.,DOI:10.1109/ACCESS.2023.3255548,"""language model""$ ""privacy""$ ",DBLP
+Cybercrime and Privacy Threats of Large Language Models.,DOI:10.1109/MITP.2023.3275489,"""language model""$ ""privacy""$ ",DBLP
 Federated Learning of Gboard Language Models with Differential Privacy.,DOI:10.18653/V1/2023.ACL-INDUSTRY.60,"""language model""$ ""privacy""$ ",DBLP
 Knowledge Unlearning for Mitigating Privacy Risks in Language Models.,DOI:10.18653/V1/2023.ACL-LONG.805,"""language model""$ ""privacy""$ ",DBLP
 Trade-Offs Between Fairness and Privacy in Language Modeling.,DOI:10.18653/V1/2023.FINDINGS-ACL.434,"""language model""$ ""privacy""$ ",DBLP
 TextObfuscator: Making Pre-trained Language Model a Privacy Protector via Obfuscating Word Representations.,DOI:10.18653/V1/2023.FINDINGS-ACL.337,"""language model""$ ""privacy""$ ",DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.1145/3627106.3627196,"""language model""$ ""privacy""$ ",DBLP
 DP-Forward: Fine-tuning and Inference on Language Models with Differential Privacy in Forward Pass.,DOI:10.1145/3576915.3616592,"""language model""$ ""privacy""$ ",DBLP
 Privacy Implications of Retrieval-Based Language Models.,URL:https://dblp.org/rec/conf/emnlp/HuangGZLC23,"""language model""$ ""privacy""$ ",DBLP
 Preserving Privacy Through Dememorization: An Unlearning Technique For Mitigating Memorization Risks In Language Models.,URL:https://dblp.org/rec/conf/emnlp/KassemMS23,"""language model""$ ""privacy""$ ",DBLP
@@ -113,23 +159,62 @@ Privacy in the Time of Language Models.,DOI:10.1145/3539597.3575792,"""language 
 Context-Aware Differential Privacy for Language Modeling.,DOI:10.48550/ARXIV.2301.12288,"""language model""$ ""privacy""$ ",DBLP
 Does Prompt-Tuning Language Model Ensure Privacy?,DOI:10.48550/ARXIV.2304.03472,"""language model""$ ""privacy""$ ",DBLP
 Training Natural Language Processing Models on Encrypted Text for Enhanced Privacy.,DOI:10.48550/ARXIV.2305.03497,"""language model""$ ""privacy""$ ",DBLP
+Privacy-Preserving Recommender Systems with Synthetic Query Generation using Differentially Private Large Language Models.,DOI:10.48550/ARXIV.2305.05973,"""language model""$ ""privacy""$ ",DBLP
+Privacy-Preserving Prompt Tuning for Large Language Model Services.,DOI:10.48550/ARXIV.2305.06212,"""language model""$ ""privacy""$ ",DBLP
+Quantifying Association Capabilities of Large Language Models and Its Implications on Privacy Leakage.,DOI:10.48550/ARXIV.2305.12707,"""language model""$ ""privacy""$ ",DBLP
+Privacy Implications of Retrieval-Based Language Models.,DOI:10.48550/ARXIV.2305.14888,"""language model""$ ""privacy""$ ",DBLP
+Trade-Offs Between Fairness and Privacy in Language Modeling.,DOI:10.48550/ARXIV.2305.14936,"""language model""$ ""privacy""$ ",DBLP
+Federated Learning of Gboard Language Models with Differential Privacy.,DOI:10.48550/ARXIV.2305.18465,"""language model""$ ""privacy""$ ",DBLP
+ProPILE: Probing Privacy Leakage in Large Language Models.,DOI:10.48550/ARXIV.2307.01881,"""language model""$ ""privacy""$ ",DBLP
+"Differential Privacy, Linguistic Fairness, and Training Data Influence: Impossibility and Possibility Theorems for Multilingual Language Models.",DOI:10.48550/ARXIV.2308.08774,"""language model""$ ""privacy""$ ",DBLP
+DP-Forward: Fine-tuning and Inference on Language Models with Differential Privacy in Forward Pass.,DOI:10.48550/ARXIV.2309.06746,"""language model""$ ""privacy""$ ",DBLP
+Recovering from Privacy-Preserving Masking with Large Language Models.,DOI:10.48550/ARXIV.2309.08628,"""language model""$ ""privacy""$ ",DBLP
+PolicyGPT: Automated Analysis of Privacy Policies with Large Language Models.,DOI:10.48550/ARXIV.2309.10238,"""language model""$ ""privacy""$ ",DBLP
 Identifying and Mitigating Privacy Risks Stemming from Language Models: A Survey.,DOI:10.48550/ARXIV.2310.01424,"""language model""$ ""privacy""$ ",DBLP
+Can Large Language Models Provide Security &amp; Privacy Advice? Measuring the Ability of LLMs to Refute Misconceptions.,DOI:10.48550/ARXIV.2310.02431,"""language model""$ ""privacy""$ ",DBLP
+Large Language Models Can Be Good Privacy Protection Learners.,DOI:10.48550/ARXIV.2310.02469,"""language model""$ ""privacy""$ ",DBLP
+Beyond Memorization: Violating Privacy Via Inference with Large Language Models.,DOI:10.48550/ARXIV.2310.07298,"""language model""$ ""privacy""$ ",DBLP
+Split-and-Denoise: Protect large language model inference with local differential privacy.,DOI:10.48550/ARXIV.2310.09130,"""language model""$ ""privacy""$ ",DBLP
+"Privacy in Large Language Models: Attacks, Defenses and Future Directions.",DOI:10.48550/ARXIV.2310.10383,"""language model""$ ""privacy""$ ",DBLP
+PrivInfer: Privacy-Preserving Inference for Black-box Large Language Model.,DOI:10.48550/ARXIV.2310.12214,"""language model""$ ""privacy""$ ",DBLP
+Privacy Preserving Large Language Models: ChatGPT Case Study Based Vision and Framework.,DOI:10.48550/ARXIV.2310.12523,"""language model""$ ""privacy""$ ",DBLP
+Assessing Privacy Risks in Language Models: A Case Study on Summarization Tasks.,DOI:10.48550/ARXIV.2310.13291,"""language model""$ ""privacy""$ ",DBLP
+The Janus Interface: How Fine-Tuning in Large Language Models Amplifies the Privacy Risks.,DOI:10.48550/ARXIV.2310.15469,"""language model""$ ""privacy""$ ",DBLP
 FLTrojan: Privacy Leakage Attacks against Federated Language Models Through Selective Weight Tampering.,DOI:10.48550/ARXIV.2310.16152,"""language model""$ ""privacy""$ ",DBLP
+Can LLMs Keep a Secret? Testing Privacy Implications of Language Models via Contextual Integrity Theory.,DOI:10.48550/ARXIV.2310.17884,"""language model""$ ""privacy""$ ",DBLP
+DEPN: Detecting and Editing Privacy Neurons in Pretrained Language Models.,DOI:10.48550/ARXIV.2310.20138,"""language model""$ ""privacy""$ ",DBLP
+Automating Governing Knowledge Commons and Contextual Integrity (GKC-CI) Privacy Policy Annotations with Large Language Models.,DOI:10.48550/ARXIV.2311.02192,"""language model""$ ""privacy""$ ",DBLP
 P-Bench: A Multi-level Privacy Evaluation Benchmark for Language Models.,DOI:10.48550/ARXIV.2311.04044,"""language model""$ ""privacy""$ ",DBLP
 Reducing Privacy Risks in Online Self-Disclosures with Language Models.,DOI:10.48550/ARXIV.2311.09538,"""language model""$ ""privacy""$ ",DBLP
+"A Survey on Large Language Model (LLM) Security and Privacy: The Good, the Bad, and the Ugly.",DOI:10.48550/ARXIV.2312.02003,"""language model""$ ""privacy""$ ",DBLP
+DP-OPT: Make Large Language Model Your Privacy-Preserving Prompt Engineer.,DOI:10.48550/ARXIV.2312.03724,"""language model""$ ""privacy""$ ",DBLP
 Beyond Gradient and Priors in Privacy Attacks: Leveraging Pooler Layer Inputs of Language Models in Federated Learning.,DOI:10.48550/ARXIV.2312.05720,"""language model""$ ""privacy""$ ",DBLP
+Privacy Issues in Large Language Models: A Survey.,DOI:10.48550/ARXIV.2312.06717,"""language model""$ ""privacy""$ ",DBLP
 Privacy-Preserving Models for Legal Natural Language Processing.,URL:https://dblp.org/rec/conf/acl-nllp/YinH22,"""language model""$ ""privacy""$ ",DBLP
 User-Entity Differential Privacy in Learning Natural Language Models.,DOI:10.1109/BIGDATA55660.2022.10020247,"""language model""$ ""privacy""$ ",DBLP
 Quantifying Privacy Risks of Masked Language Models Using Membership Inference Attacks.,DOI:10.18653/V1/2022.EMNLP-MAIN.570,"""language model""$ ""privacy""$ ",DBLP
+Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.18653/V1/2022.EMNLP-MAIN.425,"""language model""$ ""privacy""$ ",DBLP
 What Does it Mean for a Language Model to Preserve Privacy?,DOI:10.1145/3531146.3534642,"""language model""$ ""privacy""$ ",DBLP
+EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.1109/ICDMW58026.2022.00078,"""language model""$ ""privacy""$ ",DBLP
 Deduplicating Training Data Mitigates Privacy Risks in Language Models.,URL:https://dblp.org/rec/conf/icml/KandpalWR22,"""language model""$ ""privacy""$ ",DBLP
 Adapting Language Models When Training on Privacy-Transformed Data.,URL:https://dblp.org/rec/conf/lrec/TuranK0J22,"""language model""$ ""privacy""$ ",DBLP
 Detecting Privacy-Sensitive Code Changes with Language Modeling.,DOI:10.1145/3524842.3528518,"""language model""$ ""privacy""$ ",DBLP
 Selective Differential Privacy for Language Modeling.,DOI:10.18653/V1/2022.NAACL-MAIN.205,"""language model""$ ""privacy""$ ",DBLP
+Decepticons: Corrupted Transformers Breach Privacy in Federated Learning for Language Models.,URL:https://dblp.org/rec/journals/corr/abs-2201-12675,"""language model""$ ""privacy""$ ",DBLP
+What Does it Mean for a Language Model to Preserve Privacy?,URL:https://dblp.org/rec/journals/corr/abs-2202-05520,"""language model""$ ""privacy""$ ",DBLP
+Deduplicating Training Data Mitigates Privacy Risks in Language Models.,URL:https://dblp.org/rec/journals/corr/abs-2202-06539,"""language model""$ ""privacy""$ ",DBLP
+Quantifying Privacy Risks of Masked Language Models Using Membership Inference Attacks.,DOI:10.48550/ARXIV.2203.03929,"""language model""$ ""privacy""$ ",DBLP
+Just Fine-tune Twice: Selective Differential Privacy for Large Language Models.,DOI:10.48550/ARXIV.2204.07667,"""language model""$ ""privacy""$ ",DBLP
+You Are What You Write: Preserving Privacy in the Era of Large Language Models.,DOI:10.48550/ARXIV.2204.09391,"""language model""$ ""privacy""$ ",DBLP
+Knowledge Unlearning for Mitigating Privacy Risks in Language Models.,DOI:10.48550/ARXIV.2210.01504,"""language model""$ ""privacy""$ ",DBLP
 PQLM - Multilingual Decentralized Portable Quantum Language Model for Privacy Protection.,DOI:10.48550/ARXIV.2210.03221,"""language model""$ ""privacy""$ ",DBLP
+EW-Tune: A Framework for Privately Fine-Tuning Large Language Models with Differential Privacy.,DOI:10.48550/ARXIV.2210.15042,"""language model""$ ""privacy""$ ",DBLP
 Preventing Verbatim Memorization in Language Models Gives a False Sense of Privacy.,DOI:10.48550/ARXIV.2210.17546,"""language model""$ ""privacy""$ ",DBLP
+User-Entity Differential Privacy in Learning Natural Language Models.,DOI:10.48550/ARXIV.2211.01141,"""language model""$ ""privacy""$ ",DBLP
+Privacy-Preserving Models for Legal Natural Language Processing.,DOI:10.48550/ARXIV.2211.02956,"""language model""$ ""privacy""$ ",DBLP
 KART: Privacy Leakage Framework of Language Models Pre-trained with Clinical Records.,URL:https://dblp.org/rec/journals/corr/abs-2101-00036,"""language model""$ ""privacy""$ ",DBLP
 Privacy Analysis in Language Models via Training Data Leakage Report.,URL:https://dblp.org/rec/journals/corr/abs-2101-05405,"""language model""$ ""privacy""$ ",DBLP
+Selective Differential Privacy for Language Modeling.,URL:https://dblp.org/rec/journals/corr/abs-2108-12944,"""language model""$ ""privacy""$ ",DBLP
 Modelling of a Privacy Language and Efficient Policy-based De-identification.,URL:https://dblp.org/rec/phd/dnb/Gerl20,"""language model""$ ""privacy""$ ",DBLP
 "Exploring Collection of Sign Language Datasets: Privacy, Participation, and Model Performance.",DOI:10.1145/3373625.3417024,"""language model""$ ""privacy""$ ",DBLP
 Privacy Risks of General-Purpose Language Models.,DOI:10.1109/SP40000.2020.00095,"""language model""$ ""privacy""$ ",DBLP
@@ -142,20 +227,35 @@ Generating Executable Action Plans with Environmentally-Aware Language Models.,D
 "Managing the Complexity in Ethical, Social and Environmental Accounting: Engineering and Evaluating a Modelling Language.",URL:https://dblp.org/rec/conf/bir/RamautarE22,"""language model""$ ""environmental""$ ",DBLP
 "ESGBERT: Language Model to Help with Classification Tasks Related to Companies Environmental, Social, and Governance Practices.",DOI:10.48550/ARXIV.2203.16788,"""language model""$ ""environmental""$ ",DBLP
 "The openESEA Modelling Language for Ethical, Social and Environmental Accounting: Technical Report.",DOI:10.48550/ARXIV.2205.15279,"""language model""$ ""environmental""$ ",DBLP
+Generating Executable Action Plans with Environmentally-Aware Language Models.,DOI:10.48550/ARXIV.2210.04964,"""language model""$ ""environmental""$ ",DBLP
 "Detecting Environmental, Social and Governance (ESG) Topics Using Domain-Specific Language Models and Data Augmentation.",DOI:10.1007/978-3-030-86967-0_12,"""language model""$ ""environmental""$ ",DBLP
 Canalization of Language Structure From Environmental Constraints: A Computational Model of Word Learning From Multiple Cues.,DOI:10.1111/TOPS.12239,"""language model""$ ""environmental""$ ",DBLP
 Beware the Rationalization Trap! When Language Model Explainability Diverges from our Mental Models of Language.,DOI:10.48550/ARXIV.2207.06897,"""language model""$ ""explainability""$ ",DBLP
 Comparative Study of Language Models on Cross-Domain Data with Model Agnostic Explainability.,URL:https://dblp.org/rec/journals/corr/abs-2009-04095,"""language model""$ ""explainability""$ ",DBLP
 On the Explainability of Natural Language Processing Deep Models.,DOI:10.1145/3529755,"""language model""$ ""explainability""$ ",DBLP
+Towards Self-Explainability of Deep Neural Networks with Heatmap Captioning and Large-Language Models.,DOI:10.48550/ARXIV.2304.02202,"""language model""$ ""explainability""$ ",DBLP
 Explainability Techniques for Chemical Language Models.,DOI:10.48550/ARXIV.2305.16192,"""language model""$ ""explainability""$ ",DBLP
+Explainability for Large Language Models: A Survey.,DOI:10.48550/ARXIV.2309.01029,"""language model""$ ""explainability""$ ",DBLP
+On the Explainability of Natural Language Processing Deep Models.,DOI:10.48550/ARXIV.2210.06929,"""language model""$ ""explainability""$ ",DBLP
 Ecco: An Open Source Library for the Explainability of Transformer Language Models.,DOI:10.18653/V1/2021.ACL-DEMO.30,"""language model""$ ""explainability""$ ",DBLP
 Model Explainability in Deep Learning Based Natural Language Processing.,URL:https://dblp.org/rec/journals/corr/abs-2106-07410,"""language model""$ ""explainability""$ ",DBLP
 Trustworthy agent-based simulation: the case for domain-specific modelling languages.,DOI:10.1007/S10270-023-01082-9,"""language model""$ ""trustworthy""$ ",DBLP
+"CORE-GPT: Combining Open Access Research and Large Language Models for Credible, Trustworthy Question Answering.",DOI:10.1007/978-3-031-43849-3_13,"""language model""$ ""trustworthy""$ ",DBLP
+TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,"""language model""$ ""trustworthy""$ ",DBLP
+"CORE-GPT: Combining Open Access research and large language models for credible, trustworthy question answering.",DOI:10.48550/ARXIV.2307.04683,"""language model""$ ""trustworthy""$ ",DBLP
+Trustworthy LLMs: a Survey and Guideline for Evaluating Large Language Models&apos; Alignment.,DOI:10.48550/ARXIV.2308.05374,"""language model""$ ""trustworthy""$ ",DBLP
 Adventures of Trustworthy Vision-Language Models: A Survey.,DOI:10.48550/ARXIV.2312.04231,"""language model""$ ""trustworthy""$ ",DBLP
 "Towards Trustworthy Deception Detection: Benchmarking Model Robustness across Domains, Modalities, and Languages.",URL:https://dblp.org/rec/journals/corr/abs-2104-11761,"""language model""$ ""trustworthy""$ ",DBLP
+Responsible Task Automation: Empowering Large Language Models as Responsible Task Automators.,DOI:10.48550/ARXIV.2306.01242,"""language model""$ ""responsible""$ ",DBLP
 Responsible Language Design.,URL:https://dblp.org/rec/conf/modelsward/Zaytsev23,"""language model""$ ""responsible""$ ",DBLP
+TrustGPT: A Benchmark for Trustworthy and Responsible Large Language Models.,DOI:10.48550/ARXIV.2306.11507,"""language model""$ ""responsible""$ ",DBLP
+Citation: A Key to Building Responsible and Accountable Large Language Models.,DOI:10.48550/ARXIV.2307.02185,"""language model""$ ""responsible""$ ",DBLP
+Think-on-Graph: Deep and Responsible Reasoning of Large Language Model with Knowledge Graph.,DOI:10.48550/ARXIV.2307.07697,"""language model""$ ""responsible""$ ",DBLP
+Ethical Considerations and Policy Implications for Large Language Models: Guiding Responsible Development and Deployment.,DOI:10.48550/ARXIV.2308.02678,"""language model""$ ""responsible""$ ",DBLP
 Identifying and Adapting Transformer-Components Responsible for Gender Bias in an English Language Model.,DOI:10.48550/ARXIV.2310.12611,"""language model""$ ""responsible""$ ",DBLP
 Design-Inclusive Language Models for Responsible Information Access.,DOI:10.48550/ARXIV.2310.18333,"""language model""$ ""responsible""$ ",DBLP
+Building the Future of Responsible AI: A Reference Architecture for Designing Large Language Model based Agents.,DOI:10.48550/ARXIV.2311.13148,"""language model""$ ""responsible""$ ",DBLP
+Prompt Risk Control: A Rigorous Framework for Responsible Deployment of Large Language Models.,DOI:10.48550/ARXIV.2311.13628,"""language model""$ ""responsible""$ ",DBLP
 Medical Foundation Models are Susceptible to Targeted Misinformation Attacks.,DOI:10.48550/ARXIV.2309.17007,"""foundation model""$ ""misinformation""$ ",DBLP
 Federated Foundation Models: Privacy-Preserving and Collaborative Learning for Large Models.,DOI:10.48550/ARXIV.2305.11414,"""foundation model""$ ""privacy""$ ",DBLP
 Building Privacy-Preserving and Secure Geospatial Artificial Intelligence Foundation Models (Vision Paper).,DOI:10.1145/3589132.3625611,"""foundation model""$ ""privacy""$ ",DBLP
@@ -166,7 +266,73 @@ A case for object capabilities as the foundation of a distributed environmental 
 FREE: The Foundational Semantic Recognition for Modeling Environmental Ecosystems.,DOI:10.48550/ARXIV.2311.10255,"""foundation model""$ ""environmental""$ ",DBLP
 Towards Responsible AI in the Era of ChatGPT: A Reference Architecture for Designing Foundation Model-based AI Systems.,DOI:10.48550/ARXIV.2304.11090,"""foundation model""$ ""responsible""$ ",DBLP
 Decentralised Governance for Foundation Model based AI Systems: Exploring the Role of Blockchain in Responsible AI.,DOI:10.48550/ARXIV.2308.05962,"""foundation model""$ ""responsible""$ ",DBLP
+"Security and Privacy for Smart, Connected, and Mobile IoT Devices and Platforms.",DOI:10.1155/2018/5346596,"""PaLM 2""$ ""privacy""$ ",DBLP
+Transmission of Digital Data in the 5G Era: Compression and Privacy.,DOI:10.3390/INFO14020135,"""PaLM 2""$ ""privacy""$ ",DBLP
+Privacy-preserving Secure Media Streaming for Multi-user Smart Environments.,DOI:10.1145/3423047,"""PaLM 2""$ ""privacy""$ ",DBLP
+Environmental Variables and their Relation with the SARS-COV-2 Transmission: A Data Mining Approach.,DOI:10.13053/CYS-26-1-4011,"""PaLM 2""$ ""environmental""$ ",DBLP
+Computational advances for spatio-temporal multivariate environmental models.,DOI:10.1007/S00180-021-01132-0,"""PaLM 2""$ ""environmental""$ ",DBLP
+Three-dimensional indoor network accessibility auditing for floor plan design.,DOI:10.1111/TGIS.12310,"""Claude 1""$ ""accessibility""$ ",DBLP
+Privacy-Aware Ant Routing for Wireless Multimedia Sensor Networks in Healthcare.,DOI:10.1109/HPSR52026.2021.9481823,"""Claude 1""$ ""privacy""$ ",DBLP
+Æternum: A Decentralized Voting System with Unconditional Privacy.,DOI:10.1109/ICBC51069.2021.9461101,"""Claude 1""$ ""privacy""$ ",DBLP
+Towards Understanding Substance Abuse Misinformation in YouTube Videos.,DOI:10.1145/3584931.3606974,"""PaLM""$ ""misinformation""$ ",DBLP
+On the Design of a Misinformation Widget (MsW) Against Cloaked Science.,DOI:10.1007/978-3-031-39828-5_21,"""PaLM""$ ""misinformation""$ ",DBLP
+Following Negationists on Twitter and Telegram: Application of NCD to the Analysis of Multiplatform Misinformation Dynamics.,DOI:10.1007/978-3-031-21333-5_110,"""PaLM""$ ""misinformation""$ ",DBLP
+"The Teacher Accessibility, Equity, and Content (TEC) Rubric for Evaluating Computing Curricula.",DOI:10.1145/3371155,"""PaLM""$ ""accessibility""$ ",DBLP
+A Case Study on Implementing Screen Reader Accessibility in Dynamic Visualizations.,DOI:10.2312/EVP.20221134,"""PaLM""$ ""accessibility""$ ",DBLP
+"From Ta-Kesh to Ta-Kush: The affordances of digital, haptic visualisation for heritage accessibility.",DOI:10.1016/J.DAACH.2020.E00159,"""PaLM""$ ""accessibility""$ ",DBLP
+"Clinical Image-Based Procedures, Distributed and Collaborative Learning, Artificial Intelligence for Combating COVID-19 and Secure and Privacy-Preserving Machine Learning - 10th Workshop, CLIP 2021, Second Workshop, DCL 2021, First Workshop, LL-COVID19 2021, and First Workshop and Tutorial, PPML 2021, Held in Conjunction with MICCAI 2021, Strasbourg, France, September 27 and October 1, 2021, Proceedings",DOI:10.1007/978-3-030-90874-4,"""PaLM""$ ""privacy""$ ",DBLP
+What Does the GDPR Mean for IoToys Data Security and Privacy?,DOI:10.1007/978-3-030-16184-2_83,"""PaLM""$ ""privacy""$ ",DBLP
+A Transparent and Privacy-Aware Approach Using Smart Contracts for Car Insurance Reward Programs.,DOI:10.1007/978-3-030-36945-3_1,"""PaLM""$ ""privacy""$ ",DBLP
+"Security and Privacy for Smart, Connected, and Mobile IoT Devices and Platforms.",DOI:10.1155/2018/5346596,"""PaLM""$ ""privacy""$ ",DBLP
+Systematic review on privacy categorisation.,DOI:10.1016/J.COSREV.2023.100574,"""PaLM""$ ""privacy""$ ",DBLP
+Privacy-preserving malware detection in Android-based IoT devices through federated Markov chains.,DOI:10.1016/J.FUTURE.2023.05.021,"""PaLM""$ ""privacy""$ ",DBLP
+Transmission of Digital Data in the 5G Era: Compression and Privacy.,DOI:10.3390/INFO14020135,"""PaLM""$ ""privacy""$ ",DBLP
+Homomorphic Encryption-Based Privacy Protection for Palmprint Recognition.,DOI:10.1007/978-981-99-8565-4_34,"""PaLM""$ ""privacy""$ ",DBLP
+Privacy risk analysis and metrics in capturing and storing network traffic.,DOI:10.1109/CSCS59211.2023.00097,"""PaLM""$ ""privacy""$ ",DBLP
+Prevention of Cyber-Attacks and Privacy Breaches in Healthcare Sector.,DOI:10.1007/978-3-031-37120-2_11,"""PaLM""$ ""privacy""$ ",DBLP
+Systematic Review on Privacy Categorization.,DOI:10.48550/ARXIV.2307.03652,"""PaLM""$ ""privacy""$ ",DBLP
+Privacy-preserving Secure Media Streaming for Multi-user Smart Environments.,DOI:10.1145/3423047,"""PaLM""$ ""privacy""$ ",DBLP
+CampusTracer: A Privacy-Aware Contact Tracing Protocol for Campus Environments.,DOI:10.1109/EUROSPW55150.2022.00026,"""PaLM""$ ""privacy""$ ",DBLP
+Introduction to the special issue on privacy and security for location-based services and devices.,DOI:10.1016/J.JISA.2021.102800,"""PaLM""$ ""privacy""$ ",DBLP
+End-to-end privacy preserving deep learning on multi-institutional medical imaging.,DOI:10.1038/S42256-021-00337-8,"""PaLM""$ ""privacy""$ ",DBLP
+Adversarial interference and its mitigations in privacy-preserving collaborative machine learning.,DOI:10.1038/S42256-021-00390-3,"""PaLM""$ ""privacy""$ ",DBLP
+Statistical Privacy Guarantees of Machine Learning Preprocessing Techniques.,URL:https://dblp.org/rec/journals/corr/abs-2109-02496,"""PaLM""$ ""privacy""$ ",DBLP
+"Security, Privacy and Trust for Smart Mobile- Internet of Things (M-IoT): A Survey.",DOI:10.1109/ACCESS.2020.3022661,"""PaLM""$ ""privacy""$ ",DBLP
+Special issue on advanced techniques for security and privacy of internet-of-things with machine learning.,DOI:10.1016/J.JNCA.2020.102697,"""PaLM""$ ""privacy""$ ",DBLP
+Lightweight and Privacy-Preserving Template Generation for Palm-Vein-Based Human Recognition.,DOI:10.1109/TIFS.2019.2917156,"""PaLM""$ ""privacy""$ ",DBLP
+Blockchain-orchestrated machine learning for privacy preserving federated learning in electronic health data.,DOI:10.1109/BLOCKCHAIN50366.2020.00080,"""PaLM""$ ""privacy""$ ",DBLP
+Robust Aggregation for Adaptive Privacy Preserving Federated Learning in Healthcare.,URL:https://dblp.org/rec/journals/corr/abs-2009-08294,"""PaLM""$ ""privacy""$ ",DBLP
+Privacy-preserving medical image analysis.,URL:https://dblp.org/rec/journals/corr/abs-2012-06354,"""PaLM""$ ""privacy""$ ",DBLP
+Cancelable palmprint templates based on random measurement and noise data for security and privacy-preserving authentication.,DOI:10.1016/J.COSE.2018.12.003,"""PaLM""$ ""privacy""$ ",DBLP
+Special Issue on Security and Privacy in Machine Learning.,DOI:10.1016/J.INS.2019.03.045,"""PaLM""$ ""privacy""$ ",DBLP
+Special issue on advances in security and privacy in IoT.,DOI:10.1016/J.JNCA.2019.04.009,"""PaLM""$ ""privacy""$ ",DBLP
+A privacy-preserving protocol for indoor wi-fi localization.,DOI:10.1145/3310273.3323400,"""PaLM""$ ""privacy""$ ",DBLP
+"Security, Privacy and Trust for Smart Mobile-Internet of Things (M-IoT): A Survey.",URL:https://dblp.org/rec/journals/corr/abs-1903-05362,"""PaLM""$ ""privacy""$ ",DBLP
+PrOnto: Privacy Ontology for Legal Reasoning.,DOI:10.1007/978-3-319-98349-3_11,"""PaLM""$ ""privacy""$ ",DBLP
+The Spyware Used in Intimate Partner Violence.,DOI:10.1109/SP.2018.00061,"""PaLM""$ ""privacy""$ ",DBLP
+A generic framework for privacy preserving deep learning.,URL:https://dblp.org/rec/journals/corr/abs-1811-04017,"""PaLM""$ ""privacy""$ ",DBLP
+Efficient biometric palm-print matching on smart-cards for high security and privacy.,DOI:10.1007/S11042-016-4271-8,"""PaLM""$ ""privacy""$ ",DBLP
+An Efficient Privacy-Preserving Palmprint Authentication Scheme Based on Homomorphic Encryption.,DOI:10.1007/978-3-319-69471-9_39,"""PaLM""$ ""privacy""$ ",DBLP
+A Privacy-preserving Cancelable Palmprint Template Generation Scheme Using Noise Data.,DOI:10.1145/3144789.3144822,"""PaLM""$ ""privacy""$ ",DBLP
+Environmental Variables and their Relation with the SARS-COV-2 Transmission: A Data Mining Approach.,DOI:10.13053/CYS-26-1-4011,"""PaLM""$ ""environmental""$ ",DBLP
+System for automated Quality Control (SaQC) to enable traceable and reproducible data streams in environmental science.,DOI:10.1016/J.ENVSOFT.2023.105809,"""PaLM""$ ""environmental""$ ",DBLP
+Raise Awareness of the Environmental Impacts of Retail Food Products: A User-Centered Scenario-Based Approach.,DOI:10.1007/978-3-031-48590-9_24,"""PaLM""$ ""environmental""$ ",DBLP
+Development of young sago palm environmental monitoring system with wireless sensor networks.,DOI:10.1016/J.COMPAG.2022.106723,"""PaLM""$ ""environmental""$ ",DBLP
+Computational advances for spatio-temporal multivariate environmental models.,DOI:10.1007/S00180-021-01132-0,"""PaLM""$ ""environmental""$ ",DBLP
+Recognition Beyond Perception: Environmental Model Completion by Reasoning for Occluded Vehicles.,DOI:10.1109/LRA.2022.3196459,"""PaLM""$ ""environmental""$ ",DBLP
+"Assistive Smart, Structured 3D Environmental Information for the Visually Impaired and Blind: Leveraging the INSPEX Concept.",DOI:10.15439/2018F20,"""PaLM""$ ""environmental""$ ",DBLP
+Design of microspheres and microbubbles for environmental chemical/biological optical sensing.,DOI:10.1109/I2MTC.2017.7969868,"""PaLM""$ ""environmental""$ ",DBLP
+A comparative study of palmprint feature extraction methods for contact-less biometrics under different environmental conditions.,DOI:10.1109/CCST.2017.8167806,"""PaLM""$ ""environmental""$ ",DBLP
+A swarm of wheeled and aerial robots for environmental monitoring.,DOI:10.1109/ICNSC.2017.8000073,"""PaLM""$ ""environmental""$ ",DBLP
+A Survey on Methods and Metrics for the Assessment of Explainability Under the Proposed AI Act.,DOI:10.3233/FAIA210342,"""PaLM""$ ""explainability""$ ",DBLP
+A Survey on Methods and Metrics for the Assessment of Explainability under the Proposed AI Act.,URL:https://dblp.org/rec/journals/corr/abs-2110-11168,"""PaLM""$ ""explainability""$ ",DBLP
+Modelling GDPR-Compliant Explanations for Trustworthy AI.,URL:https://dblp.org/rec/journals/corr/abs-2109-04165,"""PaLM""$ ""trustworthy""$ ",DBLP
+Modelling GDPR-Compliant Explanations for Trustworthy AI.,DOI:10.1007/978-3-030-58957-8_16,"""PaLM""$ ""trustworthy""$ ",DBLP
+Development and Operation of Trustworthy Smart IoT Systems: The ENACT Framework.,DOI:10.1007/978-3-030-39306-9_9,"""PaLM""$ ""trustworthy""$ ",DBLP
+"A Complete IoT Infrastructure to Ensure Responsible, Effective and Efficient Execution of Field Survey, Documentation and Preservation of Archaeological Sites.",DOI:10.1109/RTSI.2018.8548386,"""PaLM""$ ""responsible""$ ",DBLP
+Building Trust in Earth Science Findings through Data Traceability and Results Explainability.,DOI:10.1109/TPDS.2022.3220539,"""Llama 2""$ ""explainability""$ ",DBLP
 "Towards Reliable Misinformation Mitigation: Generalization, Uncertainty, and GPT-4.",URL:https://dblp.org/rec/conf/emnlp/PelrineITRGCGR23,"""GPT-4""$ ""misinformation""$ ",DBLP
+"Towards Reliable Misinformation Mitigation: Generalization, Uncertainty, and GPT-4.",DOI:10.48550/ARXIV.2305.14928,"""GPT-4""$ ""misinformation""$ ",DBLP
 "Metric, Topological, and Syntactic Accessibility in Three-Dimensional Urban Networked Spaces: Modeling Options and Visualization.",DOI:10.3390/IJGI11090467,"""Claude""$ ""accessibility""$ ",DBLP
 Structural Accessibility and Structural Observability of Nonlinear Networked Systems.,DOI:10.1109/TNSE.2019.2946535,"""Claude""$ ""accessibility""$ ",DBLP
 Three-dimensional indoor network accessibility auditing for floor plan design.,DOI:10.1111/TGIS.12310,"""Claude""$ ""accessibility""$ ",DBLP
@@ -177,6 +343,7 @@ UPRISE-IoT: User-Centric Privacy &amp; Security in the IoT.,DOI:10.3233/AISE2000
 Privacy-Preserving Release of Spatio-Temporal Density.,DOI:10.1007/978-3-319-98161-1_12,"""Claude""$ ""privacy""$ ",DBLP
 AI-Enabled Automation for Completeness Checking of Privacy Policies.,DOI:10.1109/TSE.2021.3124332,"""Claude""$ ""privacy""$ ",DBLP
 On Differential Privacy and Traffic State Estimation Problem for Connected Vehicles.,DOI:10.1109/CDC51059.2022.9993094,"""Claude""$ ""privacy""$ ",DBLP
+On Differential Privacy and Traffic State Estimation Problem for Connected Vehicles.,DOI:10.48550/ARXIV.2209.03349,"""Claude""$ ""privacy""$ ",DBLP
 Modeling data protection and privacy: application and experience with GDPR.,DOI:10.1007/S10270-021-00935-5,"""Claude""$ ""privacy""$ ",DBLP
 Privacy-preserving and bandwidth-efficient federated learning: an application to in-hospital mortality prediction.,DOI:10.1145/3450439.3451859,"""Claude""$ ""privacy""$ ",DBLP
 Privacy-Aware Ant Routing for Wireless Multimedia Sensor Networks in Healthcare.,DOI:10.1109/HPSR52026.2021.9481823,"""Claude""$ ""privacy""$ ",DBLP
@@ -198,23 +365,30 @@ Real-time Mobile Sensor Management Framework for city-scale environmental monito
 Lexical Profiling of Environmental Corpora.,URL:https://dblp.org/rec/conf/lrec/DrouinLR18,"""Claude""$ ""environmental""$ ",DBLP
 Plant Identification: Experts vs. Machines in the Era of Deep Learning - Deep Learning Techniques Challenge Flora Experts.,DOI:10.1007/978-3-319-76445-0_8,"""Claude""$ ""environmental""$ ",DBLP
 Towards Feminist Intersectional XAI: From Explainability to Response-Ability.,DOI:10.48550/ARXIV.2305.03375,"""Claude""$ ""explainability""$ ",DBLP
+Thermal Vision for Soil Assessment in a Multipurpose Environmental Chamber under Martian Conditions towards Robot Navigation.,DOI:10.48550/ARXIV.2304.13525,"""Llama""$ ""environmental""$ ",DBLP
+Building Trust in Earth Science Findings through Data Traceability and Results Explainability.,DOI:10.1109/TPDS.2022.3220539,"""Llama""$ ""explainability""$ ",DBLP
 SwapMix: Diagnosing and Regularizing the Over-Reliance on Visual Context in Visual Question Answering.,DOI:10.1109/CVPR52688.2022.00502,"""Yi""$ ""over-reliance""$ ",DBLP
+SwapMix: Diagnosing and Regularizing the Over-Reliance on Visual Context in Visual Question Answering.,DOI:10.48550/ARXIV.2204.02285,"""Yi""$ ""over-reliance""$ ",DBLP
 The Battlefront of Combating Misinformation and Coping with Media Bias.,DOI:10.1145/3534678.3542615,"""Yi""$ ""misinformation""$ ",DBLP
 Cross-document Misinformation Detection based on Event Graph Reasoning.,DOI:10.18653/V1/2022.NAACL-MAIN.40,"""Yi""$ ""misinformation""$ ",DBLP
 Is Explanation the Cure? Misinformation Mitigation in the Short Term and Long Term.,URL:https://dblp.org/rec/conf/emnlp/HsuDXK23,"""Yi""$ ""misinformation""$ ",DBLP
 AMICA: Alleviating Misinformation for Chinese Americans.,DOI:10.1145/3539618.3591810,"""Yi""$ ""misinformation""$ ",DBLP
+Is Explanation the Cure? Misinformation Mitigation in the Short Term and Long Term.,DOI:10.48550/ARXIV.2310.17711,"""Yi""$ ""misinformation""$ ",DBLP
 Making a Cocoon: The Social Factors of Pandemic Misinformation Evaluation.,DOI:10.1002/PRA2.739,"""Yi""$ ""misinformation""$ ",DBLP
 Not All Lies Are Equal. A Study Into the Engineering of Political Misinformation in the 2016 US Presidential Election.,DOI:10.1109/ACCESS.2019.2938389,"""Yi""$ ""misinformation""$ ",DBLP
 Towards modeling and mitigating misinformation propagation in online social networks (Çevrimiçi sosyal ağlarda yanlış bilgi yayılımının modellenmesi ve azaltılması üzerine),URL:https://dblp.org/rec/phd/tr/Yilmaz23a,"""Yi""$ ""misinformation""$ ",DBLP
 &quot;Is COVID-19 a hoax?&quot;: auditing the quality of COVID-19 conspiracy-related information and misinformation in Google search results in four languages.,DOI:10.1108/INTR-07-2022-0560,"""Yi""$ ""misinformation""$ ",DBLP
 Misinformation Propagation in Online Social Networks: Game Theoretic and Reinforcement Learning Approaches.,DOI:10.1109/TCSS.2022.3208793,"""Yi""$ ""misinformation""$ ",DBLP
 Towards Cross-Lingual Multi-Modal Misinformation Detection for E-Commerce Management.,DOI:10.1109/TNSM.2023.3234114,"""Yi""$ ""misinformation""$ ",DBLP
+Synthetic Lies: Understanding AI-Generated Misinformation and Evaluating Algorithmic and Human Solutions.,DOI:10.1145/3544548.3581318,"""Yi""$ ""misinformation""$ ",DBLP
 Capturing Cross-Platform Interaction for Identifying Coordinated Accounts of Misinformation Campaigns.,DOI:10.1007/978-3-031-28238-6_61,"""Yi""$ ""misinformation""$ ",DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,URL:https://dblp.org/rec/conf/emnlp/PanPCNKW23,"""Yi""$ ""misinformation""$ ",DBLP
 KESHEM: Knowledge Enabled Short Health Misinformation Detection Framework.,DOI:10.1007/978-3-031-43412-9_22,"""Yi""$ ""misinformation""$ ",DBLP
 What Will Make Misinformation Spread: An XAI Perspective.,DOI:10.1007/978-3-031-44067-0_17,"""Yi""$ ""misinformation""$ ",DBLP
 Modeling and Mitigating Online Misinformation: a Suggested Blockchain Approach.,DOI:10.48550/ARXIV.2303.10765,"""Yi""$ ""misinformation""$ ",DBLP
 A Large-Scale Comparative Study of Accurate COVID-19 Information versus Misinformation.,DOI:10.48550/ARXIV.2304.04811,"""Yi""$ ""misinformation""$ ",DBLP
 Detecting Out-of-Context Multimodal Misinformation with interpretable neural-symbolic model.,DOI:10.48550/ARXIV.2304.07633,"""Yi""$ ""misinformation""$ ",DBLP
+On the Risk of Misinformation Pollution with Large Language Models.,DOI:10.48550/ARXIV.2305.13661,"""Yi""$ ""misinformation""$ ",DBLP
 "A Survey on the Role of Crowds in Combating Online Misinformation: Annotators, Evaluators, and Creators.",DOI:10.48550/ARXIV.2310.02095,"""Yi""$ ""misinformation""$ ",DBLP
 A Persuasive Approach to Combating Misinformation.,DOI:10.48550/ARXIV.2310.12065,"""Yi""$ ""misinformation""$ ",DBLP
 Prebunking Design as a Defense Mechanism Against Misinformation Propagation on Social Networks.,DOI:10.48550/ARXIV.2311.14200,"""Yi""$ ""misinformation""$ ",DBLP
@@ -227,6 +401,8 @@ An Interpretable Deep Learning Approach to Understand Health Misinformation Tran
 COVID-19 Vaccine Misinformation Campaigns and Social Media Narratives.,URL:https://dblp.org/rec/conf/icwsm/SharmaZ022,"""Yi""$ ""misinformation""$ ",DBLP
 Counterfactual Neural Temporal Point Process for Estimating Causal Influence of Misinformation on Social Media.,URL:https://dblp.org/rec/conf/nips/ZhangC022,"""Yi""$ ""misinformation""$ ",DBLP
 Identifying and Characterizing Active Citizens who Refute Misinformation in Social Media.,DOI:10.1145/3501247.3531559,"""Yi""$ ""misinformation""$ ",DBLP
+Identifying and Characterizing Active Citizens who Refute Misinformation in Social Media.,DOI:10.48550/ARXIV.2204.10080,"""Yi""$ ""misinformation""$ ",DBLP
+Counterfactual Neural Temporal Point Process for Estimating Causal Influence of Misinformation on Social Media.,DOI:10.48550/ARXIV.2210.07518,"""Yi""$ ""misinformation""$ ",DBLP
 Countering Misinformation on Social Networks Using Graph Alterations.,DOI:10.48550/ARXIV.2211.04617,"""Yi""$ ""misinformation""$ ",DBLP
 "Misinformation During the COVID-19 Outbreak in China: Cultural, Social and Political Entanglements.",DOI:10.1109/TBDATA.2021.3055758,"""Yi""$ ""misinformation""$ ",DBLP
 Detecting Medical Misinformation on Social Media Using Multimodal Deep Learning.,DOI:10.1109/JBHI.2020.3037027,"""Yi""$ ""misinformation""$ ",DBLP
@@ -235,20 +411,27 @@ Detecting and Forecasting Misinformation via Temporal and Geometric Propagation 
 e-Health for Older Adults: Navigating Misinformation.,DOI:10.5220/0010463001950202,"""Yi""$ ""misinformation""$ ",DBLP
 On Unifying Misinformation Detection.,DOI:10.18653/V1/2021.NAACL-MAIN.432,"""Yi""$ ""misinformation""$ ",DBLP
 Understanding Health Misinformation Transmission: An Interpretable Deep Learning Approach to Manage Infodemics.,URL:https://dblp.org/rec/journals/corr/abs-2101-01076,"""Yi""$ ""misinformation""$ ",DBLP
+On Unifying Misinformation Detection.,URL:https://dblp.org/rec/journals/corr/abs-2104-05243,"""Yi""$ ""misinformation""$ ",DBLP
 COVID-19 Vaccines: Characterizing Misinformation Campaigns and Vaccine Hesitancy on Twitter.,URL:https://dblp.org/rec/journals/corr/abs-2106-08423,"""Yi""$ ""misinformation""$ ",DBLP
 Learning to Detect Few-Shot-Few-Clue Misinformation.,URL:https://dblp.org/rec/journals/corr/abs-2108-03805,"""Yi""$ ""misinformation""$ ",DBLP
 Analyzing Behavioral Changes of Twitter Users After Exposure to Misinformation.,URL:https://dblp.org/rec/journals/corr/abs-2111-00700,"""Yi""$ ""misinformation""$ ",DBLP
 Addressing Misinformation in Online Social Networks: Diverse Platforms and the Potential of Multiagent Trust Modeling.,DOI:10.3390/INFO11110539,"""Yi""$ ""misinformation""$ ",DBLP
 A Linguistic Approach to Misinformation in Chinese.,URL:https://dblp.org/rec/conf/chr/LamLYY20,"""Yi""$ ""misinformation""$ ",DBLP
 "Analysis of misinformation during the COVID-19 outbreak in China: cultural, social and political entanglements.",URL:https://dblp.org/rec/journals/corr/abs-2005-10414,"""Yi""$ ""misinformation""$ ",DBLP
+Detecting Medical Misinformation on Social Media Using Multimodal Deep Learning.,URL:https://dblp.org/rec/journals/corr/abs-2012-13968,"""Yi""$ ""misinformation""$ ",DBLP
 QuickStop: A Markov Optimal Stopping Approach for Quickest Misinformation Detection.,DOI:10.1145/3341617.3326156,"""Yi""$ ""misinformation""$ ",DBLP
 "A social informatics perspective on misinformation, disinformation, deception and conflict.",DOI:10.1002/PRA2.85,"""Yi""$ ""misinformation""$ ",DBLP
 Addressing Health Misinformation Dissemination on Mobile Social Media.,URL:https://dblp.org/rec/conf/icis/GuH19,"""Yi""$ ""misinformation""$ ",DBLP
+QuickStop: A Markov Optimal Stopping Approach for Quickest Misinformation Detection.,DOI:10.1145/3309697.3331513,"""Yi""$ ""misinformation""$ ",DBLP
 Reply-Aided Detection of Misinformation via Bayesian Deep Learning.,DOI:10.1145/3308558.3313718,"""Yi""$ ""misinformation""$ ",DBLP
+QuickStop: A Markov Optimal Stopping Approach for Quickest Misinformation Detection.,URL:https://dblp.org/rec/journals/corr/abs-1903-04887,"""Yi""$ ""misinformation""$ ",DBLP
 PersonalTouch: Improving Touchscreen Usability by Personalizing Accessibility Settings based on Individual User&apos;s Touchscreen Interaction.,DOI:10.1145/3290605.3300913,"""Yi""$ ""accessibility""$ ",DBLP
 ASTER: Automatic Speech Recognition System Accessibility Testing for Stutterers.,DOI:10.1109/ASE56229.2023.00107,"""Yi""$ ""accessibility""$ ",DBLP
+ASTER: Automatic Speech Recognition System Accessibility Testing for Stutterers.,DOI:10.48550/ARXIV.2308.15742,"""Yi""$ ""accessibility""$ ",DBLP
+AI Algorithm for the Generation of Three-Dimensional Accessibility Ramps in Grasshopper / Rhinoceros 7.,DOI:10.48550/ARXIV.2310.07728,"""Yi""$ ""accessibility""$ ",DBLP
 AIscEA: unsupervised integration of single-cell gene expression and chromatin accessibility via their biological consistency.,DOI:10.1093/BIOINFORMATICS/BTAC683,"""Yi""$ ""accessibility""$ ",DBLP
 Say It All: Feedback for Improving Non-Visual Presentation Accessibility.,DOI:10.1145/3411764.3445572,"""Yi""$ ""accessibility""$ ",DBLP
+Say It All: Feedback for Improving Non-Visual Presentation Accessibility.,URL:https://dblp.org/rec/journals/corr/abs-2103-14491,"""Yi""$ ""accessibility""$ ",DBLP
 Web accessibility of healthcare Web sites of Korean government and public agencies: a user test for persons with visual impairment.,DOI:10.1007/S10209-018-0625-5,"""Yi""$ ""accessibility""$ ",DBLP
 Customers&apos; cherry picking and mobile accessibility on competing firms&apos; profitability.,DOI:10.1080/01605682.2018.1489345,"""Yi""$ ""accessibility""$ ",DBLP
 Perception and Adoption of Mobile Accessibility Features by Older Adults Experiencing Ability Changes.,DOI:10.1145/3308561.3353780,"""Yi""$ ""accessibility""$ ",DBLP
@@ -269,6 +452,7 @@ Assessing the Accessibility of Swimming Pools in Nanjing by Walking and Cycling 
 Alignment Work for Urban Accessibility: A Study of How Wheelchair Users Travel in Urban Spaces.,DOI:10.1145/3555165,"""Yi""$ ""accessibility""$ ",DBLP
 A new evacuation accessibility analysis approach based on spatial information.,DOI:10.1016/J.RESS.2022.108395,"""Yi""$ ""accessibility""$ ",DBLP
 Development of a Tool for Auditing Accessibility of Public Infrastructure and Points of Interest in Urban Areas.,DOI:10.1109/SEEDA-CECNSM57760.2022.9932916,"""Yi""$ ""accessibility""$ ",DBLP
+SemanticCAP: Chromatin Accessibility Prediction Enhanced by Features Learning from a Language Model.,DOI:10.48550/ARXIV.2204.02130,"""Yi""$ ""accessibility""$ ",DBLP
 Measuring accessibility of urban scales: A trip-based interaction potential model.,DOI:10.1016/J.AEI.2021.101293,"""Yi""$ ""accessibility""$ ",DBLP
 Accessibility and Convergence Analysis of the Beamformer Design Based on Fibonacci Branch Search.,DOI:10.1007/S00034-020-01497-5,"""Yi""$ ""accessibility""$ ",DBLP
 An Improved Accessibility-Based Model to Evaluate Educational Equity: A Case Study in the City of Wuhan.,DOI:10.3390/IJGI10070458,"""Yi""$ ""accessibility""$ ",DBLP
@@ -278,6 +462,7 @@ A comparison of proximity and accessibility drivers in simulating dynamic urban 
 Visionary Caption: Improving the Accessibility of Presentation Slides Through Highlighting Visualization.,DOI:10.1145/3441852.3476539,"""Yi""$ ""accessibility""$ ",DBLP
 GEDIT: Geographic-Enhanced and Dependency-Guided Tagging for Joint POI and Accessibility Extraction at Baidu Maps.,DOI:10.1145/3459637.3481924,"""Yi""$ ""accessibility""$ ",DBLP
 Applying Geographic Information System to Evaluate the Relationship between Highway Accessibility and Economic Development.,DOI:10.1109/ICKII51822.2021.9574780,"""Yi""$ ""accessibility""$ ",DBLP
+GEDIT: Geographic-Enhanced and Dependency-Guided Tagging for Joint POI and Accessibility Extraction at Baidu Maps.,URL:https://dblp.org/rec/journals/corr/abs-2108-09104,"""Yi""$ ""accessibility""$ ",DBLP
 Exploring Boundary Conditions of the Impact of Accessibility to Mobile Networks on Employees&apos; Perceptions of Presenteeism: from Both Individual and Social Perspectives.,DOI:10.1007/S10796-019-09898-X,"""Yi""$ ""accessibility""$ ",DBLP
 Bilevel Decision-Support Model for Bus-Route Optimization and Accessibility Improvement for Seniors.,DOI:10.1061/(ASCE)CP.1943-5487.0000875,"""Yi""$ ""accessibility""$ ",DBLP
 A spatial data model for urban spatial-temporal accessibility analysis.,DOI:10.1007/S10109-020-00330-6,"""Yi""$ ""accessibility""$ ",DBLP
@@ -413,6 +598,7 @@ VFAS: Reliable and Privacy-Preserving V2F Authentication Scheme for Road Conditi
 Physically Secure and Conditional-Privacy Authenticated Key Agreement for VANETs.,DOI:10.1109/TVT.2023.3241882,"""Yi""$ ""privacy""$ ",DBLP
 A framework of blockchain-based secure and privacy-preserving E-government system.,DOI:10.1007/S11276-018-1883-0,"""Yi""$ ""privacy""$ ",DBLP
 Web-based practical privacy-preserving distributed image storage for financial services in cloud computing.,DOI:10.1007/S11280-022-01090-7,"""Yi""$ ""privacy""$ ",DBLP
+TextObfuscator: Making Pre-trained Language Model a Privacy Protector via Obfuscating Word Representations.,DOI:10.18653/V1/2023.FINDINGS-ACL.337,"""Yi""$ ""privacy""$ ",DBLP
 Detecting Privacy Threats with Machine Learning: A Design Framework for Identifying Side-Channel Risks of Illegitimate User Profiling.,URL:https://dblp.org/rec/conf/amcis/AnwarZR23,"""Yi""$ ""privacy""$ ",DBLP
 Concentrated Geo-Privacy.,DOI:10.1145/3576915.3623068,"""Yi""$ ""privacy""$ ",DBLP
 Modeling the Trade-off of Privacy Preservation and Activity Recognition on Low-Resolution Images.,DOI:10.1145/3544548.3581425,"""Yi""$ ""privacy""$ ",DBLP
@@ -433,14 +619,18 @@ Continual Observation under User-level Differential Privacy.,DOI:10.1109/SP46215
 Privacy Leakage via Unrestricted Motion-Position Sensors in the Age of Virtual Reality: A Study of Snooping Typed Input on Virtual Keyboards.,DOI:10.1109/SP46215.2023.10179301,"""Yi""$ ""privacy""$ ",DBLP
 Priv-S: Privacy-Sensitive Data Identification in Online Social Networks.,DOI:10.1007/978-981-99-7254-8_17,"""Yi""$ ""privacy""$ ",DBLP
 Food Intake Activities Using Sensors with Heterogeneous Privacy Sensitivity Levels.,DOI:10.21227/3NFB-6227,"""Yi""$ ""privacy""$ ",DBLP
+Trade Privacy for Utility: A Learning-Based Privacy Pricing Game in Federated Learning.,DOI:10.48550/ARXIV.2301.08474,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Electricity Theft Detection based on Blockchain.,DOI:10.48550/ARXIV.2302.13079,"""Yi""$ ""privacy""$ ",DBLP
 Usability of Privacy Controls in Top Health Websites.,DOI:10.48550/ARXIV.2303.01838,"""Yi""$ ""privacy""$ ",DBLP
 "FedREP: A Byzantine-Robust, Communication-Efficient and Privacy-Preserving Framework for Federated Learning.",DOI:10.48550/ARXIV.2303.05206,"""Yi""$ ""privacy""$ ",DBLP
+Modeling the Trade-off of Privacy Preservation and Activity Recognition on Low-Resolution Images.,DOI:10.48550/ARXIV.2303.10435,"""Yi""$ ""privacy""$ ",DBLP
 Towards the Flatter Landscape and Better Generalization in Federated Learning under Client-level Differential Privacy.,DOI:10.48550/ARXIV.2305.00873,"""Yi""$ ""privacy""$ ",DBLP
 Efficient Federated Learning with Enhanced Privacy via Lottery Ticket Pruning in Edge Computing.,DOI:10.48550/ARXIV.2305.01387,"""Yi""$ ""privacy""$ ",DBLP
 Trustworthy Privacy-preserving Hierarchical Ensemble and Federated Learning in Healthcare 4.0 with Blockchain.,DOI:10.48550/ARXIV.2305.09209,"""Yi""$ ""privacy""$ ",DBLP
+Concentrated Geo-Privacy.,DOI:10.48550/ARXIV.2305.19756,"""Yi""$ ""privacy""$ ",DBLP
 Protecting User Privacy in Remote Conversational Systems: A Privacy-Preserving framework based on text sanitization.,DOI:10.48550/ARXIV.2306.08223,"""Yi""$ ""privacy""$ ",DBLP
 Bullying10K: A Neuromorphic Dataset towards Privacy-Preserving Bullying Recognition.,DOI:10.48550/ARXIV.2306.11546,"""Yi""$ ""privacy""$ ",DBLP
+Comparing How a Chatbot References User Utterances from Previous Chatting Sessions: An Investigation of Users&apos; Privacy Concerns and Perceptions.,DOI:10.48550/ARXIV.2308.04879,"""Yi""$ ""privacy""$ ",DBLP
 "A Survey on Privacy in Graph Neural Networks: Attacks, Preservation, and Applications.",DOI:10.48550/ARXIV.2308.16375,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Encrypted Low-Dose CT Denoising.,DOI:10.48550/ARXIV.2310.09101,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Federated Learning over Vertically and Horizontally Partitioned Data for Financial Anomaly Detection.,DOI:10.48550/ARXIV.2310.19304,"""Yi""$ ""privacy""$ ",DBLP
@@ -523,8 +713,15 @@ Preserving Location Privacy and Accurate Task Allocation in Edge-assisted Mobile
 Privacy-Preserving Vertical Federated Learning.,DOI:10.1007/978-3-030-96896-0_18,"""Yi""$ ""privacy""$ ",DBLP
 Training privacy-preserving video analytics pipelines by suppressing features that reveal information about private attributes.,DOI:10.48550/ARXIV.2203.02635,"""Yi""$ ""privacy""$ ",DBLP
 Proactively Control Privacy in Recommender Systems.,DOI:10.48550/ARXIV.2204.00279,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Analytics on Decentralized Social Graphs: The Case of Eigendecomposition.,DOI:10.48550/ARXIV.2206.09388,"""Yi""$ ""privacy""$ ",DBLP
+DeTrust-FL: Privacy-Preserving Federated Learning in Decentralized Trust Setting.,DOI:10.48550/ARXIV.2207.07779,"""Yi""$ ""privacy""$ ",DBLP
+A New Implementation of Federated Learning for Privacy and Security Enhancement.,DOI:10.48550/ARXIV.2208.01826,"""Yi""$ ""privacy""$ ",DBLP
+DPVisCreator: Incorporating Pattern Constraints to Privacy-preserving Visualizations via Differential Privacy.,DOI:10.48550/ARXIV.2208.13418,"""Yi""$ ""privacy""$ ",DBLP
 Differential Privacy on Dynamic Data.,DOI:10.48550/ARXIV.2209.01387,"""Yi""$ ""privacy""$ ",DBLP
+"Identification, Amplification and Measurement: A bridge to Gaussian Differential Privacy.",DOI:10.48550/ARXIV.2210.09269,"""Yi""$ ""privacy""$ ",DBLP
+Privacy against Real-Time Speech Emotion Detection via Acoustic Adversarial Evasion of Machine Learning.,DOI:10.48550/ARXIV.2211.09273,"""Yi""$ ""privacy""$ ",DBLP
 Personal Privacy Protection Problems in the Digital Age.,DOI:10.48550/ARXIV.2211.09591,"""Yi""$ ""privacy""$ ",DBLP
+Anonymizing Periodical Releases of SRS Data by Fusing Differential Privacy.,DOI:10.48550/ARXIV.2211.10648,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Visual Localization with Event Cameras.,DOI:10.48550/ARXIV.2212.03177,"""Yi""$ ""privacy""$ ",DBLP
 Ibex: Privacy-preserving ad conversion tracking and bidding (full version).,URL:https://dblp.org/rec/journals/iacr/Zhong0A22,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Image Classification With Deep Learning and Double Random Phase Encoding.,DOI:10.1109/ACCESS.2021.3116876,"""Yi""$ ""privacy""$ ",DBLP
@@ -598,13 +795,22 @@ Instance-optimal Mean Estimation Under Differential Privacy.,URL:https://dblp.or
 Protecting Data Privacy in Federated Learning Combining Differential Privacy and Weak Encryption.,DOI:10.1007/978-3-030-89137-4_7,"""Yi""$ ""privacy""$ ",DBLP
 Differential Privacy in Privacy-Preserving Big Data and Learning: Challenge and Opportunity.,DOI:10.1007/978-3-030-96057-5_3,"""Yi""$ ""privacy""$ ",DBLP
 Efficient and Privacy-preserving Distributed Learning in Cloud-Edge Computing Systems.,DOI:10.1145/3468218.3469044,"""Yi""$ ""privacy""$ ",DBLP
+BU-Trace: A Permissionless Mobile System for Privacy-Preserving Intelligent Contact Tracing.,URL:https://dblp.org/rec/journals/corr/abs-2101-09653,"""Yi""$ ""privacy""$ ",DBLP
+FedV: Privacy-Preserving Federated Learning over Vertically Partitioned Data.,URL:https://dblp.org/rec/journals/corr/abs-2103-03918,"""Yi""$ ""privacy""$ ",DBLP
+Frequency Estimation Under Multiparty Differential Privacy: One-shot and Streaming.,URL:https://dblp.org/rec/journals/corr/abs-2104-01808,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Inference Attacks and Defenses in Cloud-based Deep Neural Network: A Survey.,URL:https://dblp.org/rec/journals/corr/abs-2105-06300,"""Yi""$ ""privacy""$ ",DBLP
 Towards Unsupervised Domain Adaptation for Deep Face Recognition under Privacy Constraints via Federated Learning.,URL:https://dblp.org/rec/journals/corr/abs-2105-07606,"""Yi""$ ""privacy""$ ",DBLP
+Instance-optimal Mean Estimation Under Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2106-00463,"""Yi""$ ""privacy""$ ",DBLP
+Understanding Clipping for Federated Learning: Convergence and Client-Level Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2106-13673,"""Yi""$ ""privacy""$ ",DBLP
 DeFed: A Principled Decentralized and Privacy-Preserving Federated Learning Algorithm.,URL:https://dblp.org/rec/journals/corr/abs-2107-07171,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving Spatiotemporal Scenario Generation of Renewable Energies: A Federated Deep Generative Learning Approach.,URL:https://dblp.org/rec/journals/corr/abs-2107-07738,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserved Average Consensus Algorithms with Edge-based Additive Perturbations.,URL:https://dblp.org/rec/journals/corr/abs-2109-02192,"""Yi""$ ""privacy""$ ",DBLP
+Efficient-FedRec: Efficient Federated Learning Framework for Privacy-Preserving News Recommendation.,URL:https://dblp.org/rec/journals/corr/abs-2109-05446,"""Yi""$ ""privacy""$ ",DBLP
+PSSPR: A Source Location Privacy Protection Scheme Based on Sector Phantom Routing in WSNs.,URL:https://dblp.org/rec/journals/corr/abs-2109-13774,"""Yi""$ ""privacy""$ ",DBLP
+NPS-AntiClone: Identity Cloning Detection based on Non-Privacy-Sensitive User Profile Data.,URL:https://dblp.org/rec/journals/corr/abs-2109-15179,"""Yi""$ ""privacy""$ ",DBLP
 Noise-Augmented Privacy-Preserving Empirical Risk Minimization with Dual-purpose Regularizer and Privacy Budget Retrieval and Recycling.,URL:https://dblp.org/rec/journals/corr/abs-2110-08676,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Aware Identity Cloning Detection based on Deep Forest.,URL:https://dblp.org/rec/journals/corr/abs-2110-10897,"""Yi""$ ""privacy""$ ",DBLP
+Differential Privacy in Privacy-Preserving Big Data and Learning: Challenge and Opportunity.,URL:https://dblp.org/rec/journals/corr/abs-2112-01704,"""Yi""$ ""privacy""$ ",DBLP
 Financial Vision Based Differential Privacy Applications.,URL:https://dblp.org/rec/journals/corr/abs-2112-14075,"""Yi""$ ""privacy""$ ",DBLP
 Preservation of DNA Privacy During the Large Scale Detection of COVID.,URL:https://dblp.org/rec/journals/iacr/HollensteinNRRW21,"""Yi""$ ""privacy""$ ",DBLP
 A Privacy-Preserving Multi-Keyword Ranked Search Over Encrypted Data in Hybrid Clouds.,DOI:10.1109/ACCESS.2019.2963096,"""Yi""$ ""privacy""$ ",DBLP
@@ -665,15 +871,18 @@ Blockchain-Based Privacy-Preserving Dynamic Spectrum Sharing.,DOI:10.1007/978-3-
 Projection-free Online Empirical Risk Minimization with Privacy-preserving and Privacy Expiration.,DOI:10.1109/WIIAT50758.2020.00006,"""Yi""$ ""privacy""$ ",DBLP
 Over-the-air membership inference attacks as privacy threats for deep learning-based wireless signal classifiers.,DOI:10.1145/3395352.3404070,"""Yi""$ ""privacy""$ ",DBLP
 Input Perturbation: A New Paradigm between Central and Local Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2002-08570,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Distributed Clustering for Electrical Load Profiling.,URL:https://dblp.org/rec/journals/corr/abs-2002-12769,"""Yi""$ ""privacy""$ ",DBLP
 Deep Quaternion Features for Privacy Protection.,URL:https://dblp.org/rec/journals/corr/abs-2003-08365,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving Traffic Flow Prediction: A Federated Learning Approach.,URL:https://dblp.org/rec/journals/corr/abs-2003-08725,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving Distributed Probabilistic Load Flow.,URL:https://dblp.org/rec/journals/corr/abs-2004-09131,"""Yi""$ ""privacy""$ ",DBLP
 Rotation-Equivariant Neural Networks for Privacy Protection.,URL:https://dblp.org/rec/journals/corr/abs-2006-13016,"""Yi""$ ""privacy""$ ",DBLP
+A framework of blockchain-based secure and privacy-preserving E-government system.,URL:https://dblp.org/rec/journals/corr/abs-2006-14231,"""Yi""$ ""privacy""$ ",DBLP
 Over-the-Air Membership Inference Attacks as Privacy Threats for Deep Learning-based Wireless Signal Classifiers.,URL:https://dblp.org/rec/journals/corr/abs-2006-14576,"""Yi""$ ""privacy""$ ",DBLP
 Octopus: Privacy-Preserving Collaborative Evaluation of Loan Stacking.,URL:https://dblp.org/rec/journals/corr/abs-2007-02234,"""Yi""$ ""privacy""$ ",DBLP
 Exploiting vulnerabilities of deep neural networks for privacy protection.,URL:https://dblp.org/rec/journals/corr/abs-2007-09766,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Preservation in Federated Learning: Insights from the GDPR Perspective.,URL:https://dblp.org/rec/journals/corr/abs-2011-05411,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Pose Estimation for Human-Robot Interaction.,URL:https://dblp.org/rec/journals/corr/abs-2011-07387,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Methods for Vertically Partitioned Incomplete Data.,URL:https://dblp.org/rec/journals/corr/abs-2012-14954,"""Yi""$ ""privacy""$ ",DBLP
 Low Latency Privacy-preserving Outsourcing of Deep Neural Network Inference.,URL:https://dblp.org/rec/journals/iacr/TianNYY20,"""Yi""$ ""privacy""$ ",DBLP
 Security and Privacy for Next-Generation Wireless Networks,DOI:10.1007/978-3-030-01150-5,"""Yi""$ ""privacy""$ ",DBLP
 LRM: A Location Recombination Mechanism for Achieving Trajectory k-Anonymity Privacy Protection.,DOI:10.1109/ACCESS.2019.2960008,"""Yi""$ ""privacy""$ ",DBLP
@@ -728,6 +937,8 @@ A Cache Privacy Protection Strategy Based on Content Privacy and User Security C
 Complex-Valued Neural Networks for Privacy Protection.,URL:https://dblp.org/rec/journals/corr/abs-1901-09546,"""Yi""$ ""privacy""$ ",DBLP
 The Cost of Privacy: Optimal Rates of Convergence for Parameter Estimation with Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-1902-04495,"""Yi""$ ""privacy""$ ",DBLP
 How You Act Tells a Lot: Privacy-Leakage Attack on Deep Reinforcement Learning.,URL:https://dblp.org/rec/journals/corr/abs-1904-11082,"""Yi""$ ""privacy""$ ",DBLP
+Adversarial Learning of Privacy-Preserving and Task-Oriented Representations.,URL:https://dblp.org/rec/journals/corr/abs-1911-10143,"""Yi""$ ""privacy""$ ",DBLP
+HybridAlpha: An Efficient Approach for Privacy-Preserving Federated Learning.,URL:https://dblp.org/rec/journals/corr/abs-1912-05897,"""Yi""$ ""privacy""$ ",DBLP
 DP-LSTM: Differential Privacy-inspired LSTM for Stock Prediction Using Financial News.,URL:https://dblp.org/rec/journals/corr/abs-1912-10806,"""Yi""$ ""privacy""$ ",DBLP
 Towards Privacy-Preserving and Efficient Attribute-Based Multi-Keyword Search.,URL:https://dblp.org/rec/journals/iacr/LiLGYZWL19,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Network Path Validation.,URL:https://dblp.org/rec/journals/iacr/SenguptaLBD19,"""Yi""$ ""privacy""$ ",DBLP
@@ -818,6 +1029,7 @@ Inference of Security-Sensitive Entities in Libraries.,DOI:10.1109/SPW.2017.26,"
 Access Control Policy Combination from Similarity Analysis for Secure Privacy-Preserved EHR Systems.,DOI:10.1109/TRUSTCOM/BIGDATASE/ICESS.2017.262,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Preserving Location Recommendations.,DOI:10.1007/978-3-319-68786-5_40,"""Yi""$ ""privacy""$ ",DBLP
 Performance of Digital Signature Schemes on Mobile Devices.,DOI:10.1016/B978-0-12-804629-6.00012-2,"""Yi""$ ""privacy""$ ",DBLP
+Inference-Based Similarity Search in Randomized Montgomery Domains for Privacy-Preserving Biometric Identification.,URL:https://dblp.org/rec/journals/corr/abs-1711-01587,"""Yi""$ ""privacy""$ ",DBLP
 Dropping Activation Outputs with Localized First-layer Deep Network for Enhancing User Privacy and Data Security.,URL:https://dblp.org/rec/journals/corr/abs-1711-07520,"""Yi""$ ""privacy""$ ",DBLP
 The value of personal information in vertically differentiated markets with privacy concerns.,DOI:10.1007/S10479-020-03794-3,"""Yi""$ ""privacy""$ ",DBLP
 Fast privacy-preserving utility mining algorithm based on utility-list dictionary.,DOI:10.1007/S10489-023-04791-2,"""Yi""$ ""privacy""$ ",DBLP
@@ -845,6 +1057,7 @@ Privacy-preserving generative framework for images against membership inference 
 Privacy-preserving global user profile construction through federated learning.,DOI:10.1504/IJCSE.2023.10054910,"""Yi""$ ""privacy""$ ",DBLP
 Cloud computing data privacy protection method based on blockchain.,DOI:10.1504/IJGUC.2023.133436,"""Yi""$ ""privacy""$ ",DBLP
 A systematic review of privacy techniques in recommendation systems.,DOI:10.1007/S10207-023-00710-1,"""Yi""$ ""privacy""$ ",DBLP
+CPPABK: conditional privacy-preserving authentication scheme for VANETs based on the key derivation algorithm.,DOI:10.1504/IJSN.2023.135510,"""Yi""$ ""privacy""$ ",DBLP
 Two-phase privacy-preserving scheme for federated learning in edge networks.,DOI:10.1504/IJSNET.2023.132540,"""Yi""$ ""privacy""$ ",DBLP
 VoiceCloak: Adversarial Example Enabled Voice De-Identification with Balanced Privacy and Utility.,DOI:10.1145/3596266,"""Yi""$ ""privacy""$ ",DBLP
 The role of privacy and emotion in ARBS continuing use intention.,DOI:10.1108/INTR-08-2021-0571,"""Yi""$ ""privacy""$ ",DBLP
@@ -947,6 +1160,7 @@ People Taking Photos That Faces Never Share: Privacy Protection and Fairness Enh
 Lightweight and Efficient Privacy-Preserving Multimodal Representation Inference via Fully Homomorphic Encryption.,DOI:10.1007/978-981-99-5834-4_25,"""Yi""$ ""privacy""$ ",DBLP
 An Empirical Study on Vagueness Detection in Privacy Policy Texts.,DOI:10.21428/594757DB.2728303D,"""Yi""$ ""privacy""$ ",DBLP
 Data-Driven Sequential Change Detection in Privacy-Sensitive Networks.,DOI:10.1109/ALLERTON58177.2023.10313371,"""Yi""$ ""privacy""$ ",DBLP
+Bridging the Gap: Towards Advancing Privacy and Accessibility.,DOI:10.1145/3597638.3615653,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving Job Scheduler for GPU Sharing.,DOI:10.1109/CCGRIDW59191.2023.00077,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Leakage via Speech-induced Vibrations on Room Objects through Remote Sensing based on Phased-MIMO.,DOI:10.1145/3576915.3616634,"""Yi""$ ""privacy""$ ",DBLP
 Detecting Violations of Differential Privacy for Quantum Algorithms.,DOI:10.1145/3576915.3623108,"""Yi""$ ""privacy""$ ",DBLP
@@ -996,23 +1210,37 @@ An Efficient Blockchain-based Privacy-Preserving Authentication Scheme in VANET.
 Interpreting Disparate Privacy-Utility Tradeoff in Adversarial Learning via Attribute Correlation.,DOI:10.1109/WACV56688.2023.00468,"""Yi""$ ""privacy""$ ",DBLP
 Efficient Privacy-Preserving Federated Learning Against Inference Attacks for IoT.,DOI:10.1109/WCNC55385.2023.10118613,"""Yi""$ ""privacy""$ ",DBLP
 "A Survey of Trustworthy Federated Learning with Perspectives on Security, Robustness and Privacy.",DOI:10.1145/3543873.3587681,"""Yi""$ ""privacy""$ ",DBLP
+PMP: Privacy-Aware Matrix Profile against Sensitive Pattern Inference for Time Series.,DOI:10.48550/ARXIV.2301.01838,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Joint Edge Association and Power Optimization for the Internet of Vehicles via Federated Multi-Agent Reinforcement Learning.,DOI:10.48550/ARXIV.2301.11014,"""Yi""$ ""privacy""$ ",DBLP
+Concurrent Shuffle Differential Privacy Under Continual Observation.,DOI:10.48550/ARXIV.2301.12535,"""Yi""$ ""privacy""$ ",DBLP
+"A Survey on Digital Twins: Architecture, Enabling Technologies, Security and Privacy, and Future Prospects.",DOI:10.48550/ARXIV.2301.13350,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Preserving Ultra-Short-term Wind Power Prediction Based on Secure Multi Party Computation.,DOI:10.48550/ARXIV.2301.13513,"""Yi""$ ""privacy""$ ",DBLP
 "A Survey of Trustworthy Federated Learning with Perspectives on Security, Robustness, and Privacy.",DOI:10.48550/ARXIV.2302.10637,"""Yi""$ ""privacy""$ ",DBLP
 Do as You Say: Consistency Detection of Data Practice in Program Code and Privacy Policy in Mini-App.,DOI:10.48550/ARXIV.2302.13860,"""Yi""$ ""privacy""$ ",DBLP
+FedScore: A privacy-preserving framework for federated scoring system development.,DOI:10.48550/ARXIV.2303.00282,"""Yi""$ ""privacy""$ ",DBLP
 Differentially Private Neural Tangent Kernels for Privacy-Preserving Data Generation.,DOI:10.48550/ARXIV.2303.01687,"""Yi""$ ""privacy""$ ",DBLP
 Exploring the Benefits of Visual Prompting in Differential Privacy.,DOI:10.48550/ARXIV.2303.12247,"""Yi""$ ""privacy""$ ",DBLP
+Echo of Neighbors: Privacy Amplification for Personalized Private Federated Learning with Shuffle Model.,DOI:10.48550/ARXIV.2304.05516,"""Yi""$ ""privacy""$ ",DBLP
 Towards Prompt-robust Face Privacy Protection via Adversarial Decoupling Augmentation Framework.,DOI:10.48550/ARXIV.2305.03980,"""Yi""$ ""privacy""$ ",DBLP
 Location Privacy Threats and Protections in Future Vehicular Networks: A Comprehensive Review.,DOI:10.48550/ARXIV.2305.04503,"""Yi""$ ""privacy""$ ",DBLP
+Demand Privacy in Hotplug Caching Systems.,DOI:10.48550/ARXIV.2305.06518,"""Yi""$ ""privacy""$ ",DBLP
+Privet: A Privacy-Preserving Vertical Federated Learning Service for Gradient Boosted Decision Tables.,DOI:10.48550/ARXIV.2305.12652,"""Yi""$ ""privacy""$ ",DBLP
 Incentive Mechanism for Uncertain Tasks under Differential Privacy.,DOI:10.48550/ARXIV.2305.16793,"""Yi""$ ""privacy""$ ",DBLP
 CRS-FL: Conditional Random Sampling for Communication-Efficient and Privacy-Preserving Federated Learning.,DOI:10.48550/ARXIV.2306.00674,"""Yi""$ ""privacy""$ ",DBLP
 Personalized Graph Federated Learning with Differential Privacy.,DOI:10.48550/ARXIV.2306.06399,"""Yi""$ ""privacy""$ ",DBLP
 PrivaScissors: Enhance the Privacy of Collaborative Inference through the Lens of Mutual Information.,DOI:10.48550/ARXIV.2306.07973,"""Yi""$ ""privacy""$ ",DBLP
+A Unified Framework of Graph Information Bottleneck for Robustness and Membership Privacy.,DOI:10.48550/ARXIV.2306.08604,"""Yi""$ ""privacy""$ ",DBLP
 Deep Reinforcement Learning for Privacy-Preserving Task Offloading in Integrated Satellite-Terrestrial Networks.,DOI:10.48550/ARXIV.2306.17183,"""Yi""$ ""privacy""$ ",DBLP
 Towards Fair and Privacy Preserving Federated Learning for the Healthcare Domain.,DOI:10.48550/ARXIV.2308.01529,"""Yi""$ ""privacy""$ ",DBLP
 Labeling without Seeing? Blind Annotation for Privacy-Preserving Entity Resolution.,DOI:10.48550/ARXIV.2308.03734,"""Yi""$ ""privacy""$ ",DBLP
+Unveiling the Role of Message Passing in Dual-Privacy Preservation on GNNs.,DOI:10.48550/ARXIV.2308.13513,"""Yi""$ ""privacy""$ ",DBLP
 Tight Bounds for Machine Unlearning via Differential Privacy.,DOI:10.48550/ARXIV.2309.00886,"""Yi""$ ""privacy""$ ",DBLP
+Detecting Violations of Differential Privacy for Quantum Algorithms.,DOI:10.48550/ARXIV.2309.04819,"""Yi""$ ""privacy""$ ",DBLP
 Do Not Give Away My Secrets: Uncovering the Privacy Issue of Neural Code Completion Tools.,DOI:10.48550/ARXIV.2309.07639,"""Yi""$ ""privacy""$ ",DBLP
+Recovering from Privacy-Preserving Masking with Large Language Models.,DOI:10.48550/ARXIV.2309.08628,"""Yi""$ ""privacy""$ ",DBLP
+PolicyGPT: Automated Analysis of Privacy Policies with Large Language Models.,DOI:10.48550/ARXIV.2309.10238,"""Yi""$ ""privacy""$ ",DBLP
 Quantum Privacy-Preserving Price E-Negotiation.,DOI:10.48550/ARXIV.2309.13668,"""Yi""$ ""privacy""$ ",DBLP
+Large Language Models Can Be Good Privacy Protection Learners.,DOI:10.48550/ARXIV.2310.02469,"""Yi""$ ""privacy""$ ",DBLP
 Shielding the Unseen: Privacy Protection through Poisoning NeRF with Spatial Deformation.,DOI:10.48550/ARXIV.2310.03125,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Financial Anomaly Detection via Federated Learning &amp; Multi-Party Computation.,DOI:10.48550/ARXIV.2310.04546,"""Yi""$ ""privacy""$ ",DBLP
 No Privacy Left Outside: On the (In-)Security of TEE-Shielded DNN Partition for On-Device ML.,DOI:10.48550/ARXIV.2310.07152,"""Yi""$ ""privacy""$ ",DBLP
@@ -1025,7 +1253,9 @@ On the Inherent Privacy Properties of Discrete Denoising Diffusion Models.,DOI:1
 "Breaking the Trilemma of Privacy, Utility, Efficiency via Controllable Machine Unlearning.",DOI:10.48550/ARXIV.2310.18574,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving Federated Primal-dual Learning for Non-convex and Non-smooth Problems with Model Sparsification.,DOI:10.48550/ARXIV.2310.19558,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving design of graph neural networks with applications to vertical federated learning.,DOI:10.48550/ARXIV.2310.20552,"""Yi""$ ""privacy""$ ",DBLP
+PrivateLoRA For Efficient Privacy Preserving LLM.,DOI:10.48550/ARXIV.2311.14030,"""Yi""$ ""privacy""$ ",DBLP
 PROFL: A Privacy-Preserving Federated Learning Method with Stringent Defense Against Poisoning Attacks.,DOI:10.48550/ARXIV.2312.01045,"""Yi""$ ""privacy""$ ",DBLP
+"A Survey on Large Language Model (LLM) Security and Privacy: The Good, the Bad, and the Ugly.",DOI:10.48550/ARXIV.2312.02003,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Task-Oriented Semantic Communications Against Model Inversion Attacks.,DOI:10.48550/ARXIV.2312.03252,"""Yi""$ ""privacy""$ ",DBLP
 Identity-Obscured Neural Radiance Fields: Privacy-Preserving 3D Facial Reconstruction.,DOI:10.48550/ARXIV.2312.04106,"""Yi""$ ""privacy""$ ",DBLP
 Privacy preserving data analysis for information systems (Bilgi sistemleri için gizliliği koruyan veri analizi),URL:https://dblp.org/rec/phd/tr/Yildiz22,"""Yi""$ ""privacy""$ ",DBLP
@@ -1145,6 +1375,7 @@ Fast-adapting and privacy-preserving federated recommender system.,DOI:10.1007/S
 A Lightweight Certificateless Aggregate Ring Signature Scheme for Privacy Protection in Smart Grids.,DOI:10.1007/S11277-022-09809-5,"""Yi""$ ""privacy""$ ",DBLP
 Subspace Differential Privacy.,DOI:10.1609/AAAI.V36I4.20315,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Face Recognition in the Frequency Domain.,DOI:10.1609/AAAI.V36I3.20157,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Models for Legal Natural Language Processing.,URL:https://dblp.org/rec/conf/acl-nllp/YinH22,"""Yi""$ ""privacy""$ ",DBLP
 Compressed Federated Learning Based on Adaptive Local Differential Privacy.,DOI:10.1145/3564625.3567973,"""Yi""$ ""privacy""$ ",DBLP
 Hunter: HE-Friendly Structured Pruning for Efficient Privacy-Preserving Deep Learning.,DOI:10.1145/3488932.3517401,"""Yi""$ ""privacy""$ ",DBLP
 Optimal Local Bayesian Differential Privacy over Markov Chains.,URL:https://dblp.org/rec/conf/atal/Chakrabarti0SSY22,"""Yi""$ ""privacy""$ ",DBLP
@@ -1220,12 +1451,17 @@ On Scalable Source Coding Problem with Side Information Privacy.,DOI:10.1109/WCS
 Compressive Sensing Approaches for Sparse Distribution Estimation Under Local Privacy.,DOI:10.1145/3485447.3512220,"""Yi""$ ""privacy""$ ",DBLP
 Meta-Generalization for Multiparty Privacy Learning to Identify Anomaly Multimedia Traffic in Graynet.,URL:https://dblp.org/rec/journals/corr/abs-2201-03027,"""Yi""$ ""privacy""$ ",DBLP
 An Example of Privacy and Data Protection Best Practices for Biometrics Data Processing in Border Control: Lesson Learned from SMILE.,URL:https://dblp.org/rec/journals/corr/abs-2201-03401,"""Yi""$ ""privacy""$ ",DBLP
+Border Control and Use of Biometrics: Reasons Why the Right to Privacy Can Not Be Absolute.,URL:https://dblp.org/rec/journals/corr/abs-2201-03410,"""Yi""$ ""privacy""$ ",DBLP
 A Privacy-Preserving Unsupervised Domain Adaptation Framework for Clinical Text Analysis.,URL:https://dblp.org/rec/journals/corr/abs-2201-07317,"""Yi""$ ""privacy""$ ",DBLP
+"CoAvoid: Secure, Privacy-Preserved Tracing of Contacts for Infectious Diseases.",URL:https://dblp.org/rec/journals/corr/abs-2201-08133,"""Yi""$ ""privacy""$ ",DBLP
+Over-the-Air Ensemble Inference with Model Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2202-03129,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Concerns Raised by Pervasive User Data Collection From Cyberspace and Their Countermeasures.,URL:https://dblp.org/rec/journals/corr/abs-2202-04313,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving Generative Framework Against Membership Inference Attacks.,URL:https://dblp.org/rec/journals/corr/abs-2202-05469,"""Yi""$ ""privacy""$ ",DBLP
 "HUT: Enabling High-UTility, Batched Queries under Differential Privacy Protection for Internet-of-Vehicles.",URL:https://dblp.org/rec/journals/corr/abs-2202-06495,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Graph Neural Network Training and Inference as a Cloud Service.,URL:https://dblp.org/rec/journals/corr/abs-2202-07835,"""Yi""$ ""privacy""$ ",DBLP
 "Feasibility Study of Multi-Site Split Learning for Privacy-Preserving Medical Systems under Data Imbalance Constraints in COVID-19, X-Ray, and Cholesterol Dataset.",URL:https://dblp.org/rec/journals/corr/abs-2202-10456,"""Yi""$ ""privacy""$ ",DBLP
+Privacy Leakage of Adversarial Training Models in Federated Learning Systems.,URL:https://dblp.org/rec/journals/corr/abs-2202-10546,"""Yi""$ ""privacy""$ ",DBLP
+Sensor Deception Attacks Against Initial-State Privacy in Supervisory Control Systems.,DOI:10.48550/ARXIV.2203.17096,"""Yi""$ ""privacy""$ ",DBLP
 Towards Privacy-Preserving and Verifiable Federated Matrix Factorization.,DOI:10.48550/ARXIV.2204.01601,"""Yi""$ ""privacy""$ ",DBLP
 All-Pairs Shortest Path Distances with Differential Privacy: Improved Algorithms for Bounded and Unbounded Weights.,DOI:10.48550/ARXIV.2204.02335,"""Yi""$ ""privacy""$ ",DBLP
 Invertible Mask Network for Face Privacy-Preserving.,DOI:10.48550/ARXIV.2204.08895,"""Yi""$ ""privacy""$ ",DBLP
@@ -1234,19 +1470,30 @@ Privacy-Preserving Model Upgrades with Bidirectional Compatible Training in Imag
 Privacy-Preserving Distributed Machine Learning Made Faster.,DOI:10.48550/ARXIV.2205.05825,"""Yi""$ ""privacy""$ ",DBLP
 Comprehensive Privacy Analysis on Federated Recommender System against Attribute Inference Attacks.,DOI:10.48550/ARXIV.2205.11857,"""Yi""$ ""privacy""$ ",DBLP
 Towards Better Privacy-preserving Electronic Voting System.,DOI:10.48550/ARXIV.2205.12094,"""Yi""$ ""privacy""$ ",DBLP
+Privacy and correctness trade-offs for information-theoretically secure quantum homomorphic encryption.,DOI:10.48550/ARXIV.2205.12127,"""Yi""$ ""privacy""$ ",DBLP
+FedWalk: Communication Efficient Federated Unsupervised Node Embedding with Differential Privacy.,DOI:10.48550/ARXIV.2205.15896,"""Yi""$ ""privacy""$ ",DBLP
 Per-Instance Privacy Accounting for Differentially Private Stochastic Gradient Descent.,DOI:10.48550/ARXIV.2206.02617,"""Yi""$ ""privacy""$ ",DBLP
+Optimal Local Bayesian Differential Privacy over Markov Chains.,DOI:10.48550/ARXIV.2206.11402,"""Yi""$ ""privacy""$ ",DBLP
+LightFR: Lightweight Federated Recommendation with Privacy-preserving Matrix Factorization.,DOI:10.48550/ARXIV.2206.11743,"""Yi""$ ""privacy""$ ",DBLP
+A Novel Length-Flexible Lightweight Cancelable Fingerprint Template for Privacy-Preserving Authentication Systems in Resource-Constrained IoT Applications.,DOI:10.48550/ARXIV.2206.12864,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-preserving Reflection Rendering for Augmented Reality.,DOI:10.48550/ARXIV.2207.03056,"""Yi""$ ""privacy""$ ",DBLP
 MUD-PQFed: Towards Malicious User Detection in Privacy-Preserving Quantized Federated Learning.,DOI:10.48550/ARXIV.2207.09080,"""Yi""$ ""privacy""$ ",DBLP
 Scalable and Sparsity-Aware Privacy-Preserving K-means Clustering with Application to Fraud Detection.,DOI:10.48550/ARXIV.2208.06093,"""Yi""$ ""privacy""$ ",DBLP
 Evaluating the Feasibility of a Provably Secure Privacy-Preserving Entity Resolution Adaptation of PPJoin using Homomorphic Encryption.,DOI:10.48550/ARXIV.2208.07999,"""Yi""$ ""privacy""$ ",DBLP
 On Privacy Preserving Data Aggregation Protocols using BGN cryptosystem.,DOI:10.48550/ARXIV.2208.11304,"""Yi""$ ""privacy""$ ",DBLP
 SecSkyline: Fast Privacy-Preserving Skyline Queries over Encrypted Cloud Databases.,DOI:10.48550/ARXIV.2209.07064,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Synthetic Data Generation for Recommendation Systems.,DOI:10.48550/ARXIV.2209.13133,"""Yi""$ ""privacy""$ ",DBLP
+Federated Learning for Tabular Data: Exploring Potential Risk to Privacy.,DOI:10.48550/ARXIV.2210.06856,"""Yi""$ ""privacy""$ ",DBLP
 Security and Privacy in Big Data Sharing: State-of-the-Art and Research Directions.,DOI:10.48550/ARXIV.2210.09230,"""Yi""$ ""privacy""$ ",DBLP
 Learning Location from Shared Elevation Profiles in Fitness Apps: A Privacy Perspective.,DOI:10.48550/ARXIV.2210.15529,"""Yi""$ ""privacy""$ ",DBLP
 Dynamic Event-Triggered Discrete-Time Linear Time-Varying System with Privacy-Preservation.,DOI:10.48550/ARXIV.2210.15875,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Models for Legal Natural Language Processing.,DOI:10.48550/ARXIV.2211.02956,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Utility Balanced Voice De-Identification Using Adversarial Examples.,DOI:10.48550/ARXIV.2211.05446,"""Yi""$ ""privacy""$ ",DBLP
 Securer and Faster Privacy-Preserving Distributed Machine Learning.,DOI:10.48550/ARXIV.2211.09353,"""Yi""$ ""privacy""$ ",DBLP
 Lemmas of Differential Privacy.,DOI:10.48550/ARXIV.2211.11189,"""Yi""$ ""privacy""$ ",DBLP
 Data Privacy Protection in DeFi Protocols.,DOI:10.48550/ARXIV.2211.16082,"""Yi""$ ""privacy""$ ",DBLP
+Integer Subspace Differential Privacy.,DOI:10.48550/ARXIV.2212.00936,"""Yi""$ ""privacy""$ ",DBLP
+Skellam Mixture Mechanism: a Novel Approach to Federated Learning with Differential Privacy.,DOI:10.48550/ARXIV.2212.04371,"""Yi""$ ""privacy""$ ",DBLP
 Detecting Features Concerning Privacy From App Reviews.,DOI:10.48550/ARXIV.2212.09289,"""Yi""$ ""privacy""$ ",DBLP
 "Spatio-Temporal Split Learning for Privacy-Preserving Medical Platforms: Case Studies With COVID-19 CT, X-Ray, and Cholesterol Data.",DOI:10.1109/ACCESS.2021.3108455,"""Yi""$ ""privacy""$ ",DBLP
 Local Privacy-Preserving Dynamic Worker Locations in Spatial Crowdsourcing.,DOI:10.1109/ACCESS.2021.3058574,"""Yi""$ ""privacy""$ ",DBLP
@@ -1399,8 +1646,10 @@ Slice-based Motion Trajectory Privacy Protection Method in Crowd Sensing.,DOI:10
 Data Privacy Protection for Maritime Mobile Terminals.,DOI:10.1109/WCSP52459.2021.9613596,"""Yi""$ ""privacy""$ ",DBLP
 Spearphone: a lightweight speech privacy exploit via accelerometer-sensed reverberations from smartphone loudspeakers.,DOI:10.1145/3448300.3468499,"""Yi""$ ""privacy""$ ",DBLP
 On the Practicality of Differential Privacy in Federated Learning by Tuning Iteration Times.,URL:https://dblp.org/rec/journals/corr/abs-2101-04163,"""Yi""$ ""privacy""$ ",DBLP
+Privacy Protection of Grid Users Data with Blockchain and Adversarial Machine Learning.,URL:https://dblp.org/rec/journals/corr/abs-2101-06308,"""Yi""$ ""privacy""$ ",DBLP
 MPC-CSAS: Multi-Party Computation for Real-time Privacy-preserving Speed Advisory Systems.,URL:https://dblp.org/rec/journals/corr/abs-2101-06451,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Distributed Optimal Power Flow with Partially Homomorphic Encryption.,URL:https://dblp.org/rec/journals/corr/abs-2101-08395,"""Yi""$ ""privacy""$ ",DBLP
+Genomic Data Sharing under Dependent Local Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2102-07357,"""Yi""$ ""privacy""$ ",DBLP
 Defending Medical Image Diagnostics against Privacy Attacks using Generative Methods.,URL:https://dblp.org/rec/journals/corr/abs-2103-03078,"""Yi""$ ""privacy""$ ",DBLP
 Achieve Efficient Position-Heap-based Privacy-Preserving Substring-of-Keyword Query over Cloud.,URL:https://dblp.org/rec/journals/corr/abs-2103-08455,"""Yi""$ ""privacy""$ ",DBLP
 Fast-adapting and Privacy-preserving Federated Recommender System.,URL:https://dblp.org/rec/journals/corr/abs-2104-00919,"""Yi""$ ""privacy""$ ",DBLP
@@ -1410,11 +1659,18 @@ Privacy-Preserving Federated Learning on Partitioned Attributes.,URL:https://dbl
 Differential Privacy for Pairwise Learning: Non-convex Analysis.,URL:https://dblp.org/rec/journals/corr/abs-2105-03033,"""Yi""$ ""privacy""$ ",DBLP
 Swarm Differential Privacy for Purpose Driven Data-Information-Knowledge-Wisdom Architecture.,URL:https://dblp.org/rec/journals/corr/abs-2105-04045,"""Yi""$ ""privacy""$ ",DBLP
 Risk-Based Tenant Impatience for Privacy-Intolerant Queuing in B5G Cloud Services.,URL:https://dblp.org/rec/journals/corr/abs-2105-11727,"""Yi""$ ""privacy""$ ",DBLP
+Numerical Composition of Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2106-02848,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Threats Analysis to Secure Federated Learning.,URL:https://dblp.org/rec/journals/corr/abs-2106-13076,"""Yi""$ ""privacy""$ ",DBLP
+A Trust-Centric Privacy-Preserving Blockchain for Dynamic Spectrum Management in IoT Networks.,URL:https://dblp.org/rec/journals/corr/abs-2106-13958,"""Yi""$ ""privacy""$ ",DBLP
 Dynamically Adjusting Case-Reporting Policy to Maximize Privacy and Utility in the Face of a Pandemic.,URL:https://dblp.org/rec/journals/corr/abs-2106-14649,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Representation Learning on Graphs: A Mutual Information Perspective.,URL:https://dblp.org/rec/journals/corr/abs-2107-01475,"""Yi""$ ""privacy""$ ",DBLP
 Optimizing the Numbers of Queries and Replies in Federated Learning with Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2107-01895,"""Yi""$ ""privacy""$ ",DBLP
+AMPPERE: A Universal Abstract Machine for Privacy-Preserving Entity Resolution Evaluation.,URL:https://dblp.org/rec/journals/corr/abs-2108-09879,"""Yi""$ ""privacy""$ ",DBLP
 "Spatio-Temporal Split Learning for Privacy-Preserving Medical Platforms: Case Studies with COVID-19 CT, X-Ray, and Cholesterol Data.",URL:https://dblp.org/rec/journals/corr/abs-2108-10147,"""Yi""$ ""privacy""$ ",DBLP
+Subspace Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2108-11527,"""Yi""$ ""privacy""$ ",DBLP
 Security and privacy for 6G: A survey on prospective technologies and challenges.,URL:https://dblp.org/rec/journals/corr/abs-2108-11861,"""Yi""$ ""privacy""$ ",DBLP
+Differential Privacy in Personalized Pricing with Nonparametric Demand Models.,URL:https://dblp.org/rec/journals/corr/abs-2109-04615,"""Yi""$ ""privacy""$ ",DBLP
+DPGen: Automated Program Synthesis for Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2109-07441,"""Yi""$ ""privacy""$ ",DBLP
 Decentralized Wireless Federated Learning with Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2109-09142,"""Yi""$ ""privacy""$ ",DBLP
 MORSE-STF: A Privacy Preserving Computation System.,URL:https://dblp.org/rec/journals/corr/abs-2109-11726,"""Yi""$ ""privacy""$ ",DBLP
 A Privacy-preserving Distributed Training Framework for Cooperative Multi-agent Deep Reinforcement Learning.,URL:https://dblp.org/rec/journals/corr/abs-2109-14998,"""Yi""$ ""privacy""$ ",DBLP
@@ -1422,6 +1678,7 @@ A Privacy-preserving Distributed Training Framework for Cooperative Multi-agent 
 ML with HE: Privacy Preserving Machine Learning Inferences for Genome Studies.,URL:https://dblp.org/rec/journals/corr/abs-2110-11446,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Preserving Inference on the Ratio of Two Gaussians Using (Weighted) Sums.,URL:https://dblp.org/rec/journals/corr/abs-2110-15449,"""Yi""$ ""privacy""$ ",DBLP
 Data privacy protection in microscopic image analysis for material data mining.,URL:https://dblp.org/rec/journals/corr/abs-2111-07892,"""Yi""$ ""privacy""$ ",DBLP
+Automated PII Extraction from Social Media for Raising Privacy Awareness: A Deep Transfer Learning Approach.,URL:https://dblp.org/rec/journals/corr/abs-2111-09415,"""Yi""$ ""privacy""$ ",DBLP
 A Privacy-Preserving and Efficient k-Nearest Neighbor Query and Classification Scheme Based on k-Dimensional Tree for Outsourced Data.,DOI:10.1109/ACCESS.2020.2986245,"""Yi""$ ""privacy""$ ",DBLP
 A Survey of Privacy Protection and Network Security in User On-Demand Anonymous Communication.,DOI:10.1109/ACCESS.2020.2981517,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Aware Secure Anonymous Communication Protocol in CPSS Cloud Computing.,DOI:10.1109/ACCESS.2020.2982961,"""Yi""$ ""privacy""$ ",DBLP
@@ -1495,6 +1752,7 @@ P4Mobi: A Probabilistic Privacy-Preserving Framework for Publishing Mobility Dat
 Lightweight and Privacy-Preserving ID-as-a-Service Provisioning in Vehicular Cloud Computing.,DOI:10.1109/TVT.2019.2960831,"""Yi""$ ""privacy""$ ",DBLP
 Secure mutual authentication with privacy preservation in vehicular ad hoc networks.,DOI:10.1016/J.VEHCOM.2019.100200,"""Yi""$ ""privacy""$ ",DBLP
 Achieving Fine-Grained QoS for Privacy-Aware Users in LBSs.,DOI:10.1109/MWC.001.1900469,"""Yi""$ ""privacy""$ ",DBLP
+Personalized Location Privacy Protection for Location-Based Services in Vehicular Networks.,DOI:10.1109/LWC.2020.2999524,"""Yi""$ ""privacy""$ ",DBLP
 A Global Optimal Model for Protecting Privacy.,DOI:10.1007/S11277-020-07110-X,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving conjunctive keyword search on encrypted data with enhanced fine-grained access control.,DOI:10.1007/S11280-019-00671-3,"""Yi""$ ""privacy""$ ",DBLP
 SGPM: a privacy protected approach of time-constrained graph pattern matching in cloud.,DOI:10.1007/S11280-020-00784-0,"""Yi""$ ""privacy""$ ",DBLP
@@ -1544,6 +1802,7 @@ A Light-Weight Crowdsourcing Aggregation in Privacy-Preserving Federated Learnin
 An IoT data sharing privacy preserving scheme.,DOI:10.1109/INFOCOMWKSHPS50562.2020.9162939,"""Yi""$ ""privacy""$ ",DBLP
 Search Me in the Dark: Privacy-preserving Boolean Range Query over Encrypted Spatial Data.,DOI:10.1109/INFOCOM41043.2020.9155505,"""Yi""$ ""privacy""$ ",DBLP
 Differential Privacy Practice on Diagnosis of COVID-19 Radiology Imaging Using EfficientNet.,DOI:10.1109/INISTA49547.2020.9194651,"""Yi""$ ""privacy""$ ",DBLP
+An Example of Privacy and Data Protection Best Practices for Biometrics Data Processing in Border Control: Lesson Learned from SMILE.,DOI:10.1007/978-3-030-71711-7_29,"""Yi""$ ""privacy""$ ",DBLP
 Data Privacy in IoT Equipped Future Smart Homes.,DOI:10.1007/978-3-030-71711-7_32,"""Yi""$ ""privacy""$ ",DBLP
 Tesseract Optimization for Data Privacy and Sharing Economics.,DOI:10.1109/ISTAS50296.2020.9462236,"""Yi""$ ""privacy""$ ",DBLP
 TIPRDC: Task-Independent Privacy-Respecting Data Crowdsourcing Framework for Deep Learning with Anonymized Intermediate Representations.,DOI:10.1145/3394486.3403125,"""Yi""$ ""privacy""$ ",DBLP
@@ -1556,6 +1815,7 @@ A Dummy-Based Privacy Protection Scheme for Location-Based Services under Spatio
 K-modes Based Categorical Data Clustering Algorithms Satisfying Differential Privacy.,DOI:10.1109/NANA51271.2020.00022,"""Yi""$ ""privacy""$ ",DBLP
 Differential Privacy Preserving Naive Bayes Classification via Wavelet Transform.,DOI:10.1109/NANA51271.2020.00021,"""Yi""$ ""privacy""$ ",DBLP
 OIDPR: Optimized Insulin Dosage based on Privacy-Preserving Reinforcement Learning.,URL:https://dblp.org/rec/conf/networking/YingZCXL20,"""Yi""$ ""privacy""$ ",DBLP
+Adversarially Robust Streaming Algorithms via Differential Privacy.,URL:https://dblp.org/rec/conf/nips/HassidimKMMS20,"""Yi""$ ""privacy""$ ",DBLP
 A Pufferfish Privacy Mechanism for the Trajectory Clustering Task.,DOI:10.1007/978-981-16-0010-4_27,"""Yi""$ ""privacy""$ ",DBLP
 Role of Privacy and Emotion in ARBS Continuing Use Intention.,URL:https://dblp.org/rec/conf/pacis/YinH20,"""Yi""$ ""privacy""$ ",DBLP
 A Novel Framework for Collaborated IT Project with the Consideration of Data Security and Privacy.,DOI:10.1145/3368308.3415441,"""Yi""$ ""privacy""$ ",DBLP
@@ -1568,6 +1828,7 @@ Double Insurance: Incentivized Federated Learning with Differential Privacy in M
 "Towards Efficient, Credible and Privacy-Preserving Service QoS Prediction in Unreliable Mobile Edge Environments.",DOI:10.1109/SRDS51746.2020.00038,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Ride-Hailing with Verifiable Order-Linking in Vehicular Networks.,DOI:10.1109/TRUSTCOM50675.2020.00085,"""Yi""$ ""privacy""$ ",DBLP
 zkrpChain: Privacy-preserving Data Auditing for Consortium Blockchains Based on Zero-knowledge Range Proofs.,DOI:10.1109/TRUSTCOM50675.2020.00092,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Aware Online Task Offloading for Mobile-Edge Computing.,DOI:10.1007/978-3-030-59016-1_21,"""Yi""$ ""privacy""$ ",DBLP
 K-Anonymous Privacy Preserving Scheme Based on Bilinear Pairings over Medical Data.,DOI:10.1007/978-3-030-59016-1_32,"""Yi""$ ""privacy""$ ",DBLP
 Exploring Privacy-traces of Users from Online Community: A Case Study of Diabetes Topic Discussions.,URL:https://dblp.org/rec/conf/whiceb/ChenWLW20,"""Yi""$ ""privacy""$ ",DBLP
 Research on Privacy Paradox in Social Networks Based on Evolutionary Game Theory and Data Mining.,URL:https://dblp.org/rec/conf/whiceb/HuangLCW20,"""Yi""$ ""privacy""$ ",DBLP
@@ -1578,9 +1839,12 @@ Task-Agnostic Privacy-Preserving Representation Learning via Federated Learning.
 Protecting GANs against privacy attacks by preventing overfitting.,URL:https://dblp.org/rec/journals/corr/abs-2001-00071,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Preserving PCA for Multiparty Modeling.,URL:https://dblp.org/rec/journals/corr/abs-2002-02091,"""Yi""$ ""privacy""$ ",DBLP
 Industrial Scale Privacy Preserving Deep Neural Network.,URL:https://dblp.org/rec/journals/corr/abs-2003-05198,"""Yi""$ ""privacy""$ ",DBLP
+ENSEI: Efficient Secure Inference via Frequency-Domain Homomorphic Convolution for Privacy-Preserving Visual Recognition.,URL:https://dblp.org/rec/journals/corr/abs-2003-05328,"""Yi""$ ""privacy""$ ",DBLP
 A Privacy-Preserving DNN Pruning and Mobile Acceleration Framework.,URL:https://dblp.org/rec/journals/corr/abs-2003-06513,"""Yi""$ ""privacy""$ ",DBLP
 Towards Privacy Protection by Generating Adversarial Identity Masks.,URL:https://dblp.org/rec/journals/corr/abs-2003-06814,"""Yi""$ ""privacy""$ ",DBLP
 A Fair and Privacy-Aware EV Discharging Strategy using Decentralized Whale Optimization Algorithm.,URL:https://dblp.org/rec/journals/corr/abs-2004-05280,"""Yi""$ ""privacy""$ ",DBLP
+Adversarially Robust Streaming Algorithms via Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2004-05975,"""Yi""$ ""privacy""$ ",DBLP
+"PASTRAMI: Privacy-preserving, Auditable, Scalable &amp; Trustworthy Auctions for Multiple Items.",URL:https://dblp.org/rec/journals/corr/abs-2004-06403,"""Yi""$ ""privacy""$ ",DBLP
 Customizable and Rigorous Location Privacy through Policy Graph.,URL:https://dblp.org/rec/journals/corr/abs-2005-01263,"""Yi""$ ""privacy""$ ",DBLP
 TIPRDC: Task-Independent Privacy-Respecting Data Crowdsourcing Framework with Anonymized Intermediate Representations.,URL:https://dblp.org/rec/journals/corr/abs-2005-11480,"""Yi""$ ""privacy""$ ",DBLP
 Asynchrony-Resilient and Privacy-Preserving Charging Protocol for Plug-in Electric Vehicles.,URL:https://dblp.org/rec/journals/corr/abs-2005-12519,"""Yi""$ ""privacy""$ ",DBLP
@@ -1588,17 +1852,22 @@ Median regression with differential privacy.,URL:https://dblp.org/rec/journals/c
 Cloud-based Privacy-Preserving Collaborative Consumption for Sharing Economy.,URL:https://dblp.org/rec/journals/corr/abs-2007-07499,"""Yi""$ ""privacy""$ ",DBLP
 Preservation of DNA Privacy During the Large Scale Detection of COVID-19.,URL:https://dblp.org/rec/journals/corr/abs-2007-09085,"""Yi""$ ""privacy""$ ",DBLP
 FedEmail: Performance Measurement of Privacy-friendly Phishing Detection Enabled by Federated Learning.,URL:https://dblp.org/rec/journals/corr/abs-2007-13300,"""Yi""$ ""privacy""$ ",DBLP
+Data Privacy in IoT Equipped Future Smart Homes.,URL:https://dblp.org/rec/journals/corr/abs-2008-04979,"""Yi""$ ""privacy""$ ",DBLP
 Shared MF: A privacy-preserving recommendation system.,URL:https://dblp.org/rec/journals/corr/abs-2008-07759,"""Yi""$ ""privacy""$ ",DBLP
 MACE: A Flexible Framework for Membership Privacy Estimation in Generative Models.,URL:https://dblp.org/rec/journals/corr/abs-2009-05683,"""Yi""$ ""privacy""$ ",DBLP
 SAPAG: A Self-Adaptive Privacy Attack From Gradients.,URL:https://dblp.org/rec/journals/corr/abs-2009-06228,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Dynamic Personalized Pricing with Demand Learning.,URL:https://dblp.org/rec/journals/corr/abs-2009-12920,"""Yi""$ ""privacy""$ ",DBLP
+Differentially Private Representation for NLP: Formal Guarantee and An Empirical Study on Privacy and Fairness.,URL:https://dblp.org/rec/journals/corr/abs-2010-01285,"""Yi""$ ""privacy""$ ",DBLP
 Decentralized and Secure Generation Maintenance with Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2010-09099,"""Yi""$ ""privacy""$ ",DBLP
 Mitigating Sybil Attacks on Differential Privacy based Federated Learning.,URL:https://dblp.org/rec/journals/corr/abs-2010-10572,"""Yi""$ ""privacy""$ ",DBLP
+Budget Sharing for Multi-Analyst Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2011-01192,"""Yi""$ ""privacy""$ ",DBLP
 The Cost of Privacy in Generalized Linear Models: Algorithms and Minimax Lower Bounds.,URL:https://dblp.org/rec/journals/corr/abs-2011-03900,"""Yi""$ ""privacy""$ ",DBLP
 Compressive Privatization: Sparse Distribution Estimation under Locally Differentially Privacy.,URL:https://dblp.org/rec/journals/corr/abs-2012-02081,"""Yi""$ ""privacy""$ ",DBLP
 Preference-Based Privacy Trading.,URL:https://dblp.org/rec/journals/corr/abs-2012-05484,"""Yi""$ ""privacy""$ ",DBLP
 Provable Defense against Privacy Leakage in Federated Learning from Representation Perspective.,URL:https://dblp.org/rec/journals/corr/abs-2012-06043,"""Yi""$ ""privacy""$ ",DBLP
 Data Trading with a Monopoly Social Network: Outcomes are Mostly Privacy Welfare Damaging.,URL:https://dblp.org/rec/journals/corr/abs-2012-08729,"""Yi""$ ""privacy""$ ",DBLP
 Towards Scalable and Privacy-Preserving Deep Neural Network via Algorithmic-Cryptographic Co-design.,URL:https://dblp.org/rec/journals/corr/abs-2012-09364,"""Yi""$ ""privacy""$ ",DBLP
+"DPoS: Decentralized, Privacy-Preserving, and Low-Complexity Online Slicing for Multi-Tenant Networks.",URL:https://dblp.org/rec/journals/corr/abs-2012-14108,"""Yi""$ ""privacy""$ ",DBLP
 Certificateless Deniable Authenticated Encryption for Location-Based Privacy Protection.,DOI:10.1109/ACCESS.2019.2931056,"""Yi""$ ""privacy""$ ",DBLP
 DPRF: A Differential Privacy Protection Random Forest.,DOI:10.1109/ACCESS.2019.2939891,"""Yi""$ ""privacy""$ ",DBLP
 Efficient Privacy-Preserving Access Control of Mobile Multimedia Data in Cloud Computing.,DOI:10.1109/ACCESS.2019.2939299,"""Yi""$ ""privacy""$ ",DBLP
@@ -1709,18 +1978,22 @@ Towards Automated Safety Vetting of PLC Code in Real-World Plants.,DOI:10.1109/S
 Why Does Your Data Leak? Uncovering the Data Leakage in Cloud from Mobile Apps.,DOI:10.1109/SP.2019.00009,"""Yi""$ ""privacy""$ ",DBLP
 Automated and Personalized Privacy Policy Extraction Under GDPR Consideration.,DOI:10.1007/978-3-030-23597-0_4,"""Yi""$ ""privacy""$ ",DBLP
 Assessing Security and Privacy Behavioural Risks for Self-Protection Systems.,DOI:10.1007/978-981-13-2185-6_6,"""Yi""$ ""privacy""$ ",DBLP
+Collaborative Privacy for Web Applications.,URL:https://dblp.org/rec/journals/corr/abs-1901-03383,"""Yi""$ ""privacy""$ ",DBLP
 LEP-CNN: A Lightweight Edge Device Assisted Privacy-preserving CNN Inference Solution for IoT.,URL:https://dblp.org/rec/journals/corr/abs-1901-04100,"""Yi""$ ""privacy""$ ",DBLP
 Personal Privacy Filtering via Face Pixelation in Live Video Streaming.,URL:https://dblp.org/rec/journals/corr/abs-1903-10836,"""Yi""$ ""privacy""$ ",DBLP
 Towards Fair and Decentralized Privacy-Preserving Deep Learning with Blockchain.,URL:https://dblp.org/rec/journals/corr/abs-1906-01167,"""Yi""$ ""privacy""$ ",DBLP
+Collecting and Analyzing Multidimensional Data with Local Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-1907-00782,"""Yi""$ ""privacy""$ ",DBLP
 Spearphone: A Speech Privacy Exploit via Accelerometer-Sensed Reverberations from Smartphone Loudspeakers.,URL:https://dblp.org/rec/journals/corr/abs-1907-05972,"""Yi""$ ""privacy""$ ",DBLP
 Utility-aware and privacy-preserving mobile query services.,URL:https://dblp.org/rec/journals/corr/abs-1907-06778,"""Yi""$ ""privacy""$ ",DBLP
 "Aggregating Votes with Local Differential Privacy: Usefulness, Soundness vs. Indistinguishability.",URL:https://dblp.org/rec/journals/corr/abs-1908-04920,"""Yi""$ ""privacy""$ ",DBLP
 Answering Summation Queries for Numerical Attributes under Differential Privacy.,URL:https://dblp.org/rec/journals/corr/abs-1908-10268,"""Yi""$ ""privacy""$ ",DBLP
 DeepObfuscator: Adversarial Training Framework for Privacy-Preserving Image Classification.,URL:https://dblp.org/rec/journals/corr/abs-1909-04126,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Aware Cost-Effective Scheduling Considering Non-Schedulable Appliances in Smart Home.,URL:https://dblp.org/rec/journals/corr/abs-1909-05300,"""Yi""$ ""privacy""$ ",DBLP
 Towards Efficient and Secure Delivery of Data for Deep Learning with Privacy-Preserving.,URL:https://dblp.org/rec/journals/corr/abs-1909-07632,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving Double Auction Mechanism Based on Homomorphic Encryption and Sorting Networks.,URL:https://dblp.org/rec/journals/corr/abs-1909-07637,"""Yi""$ ""privacy""$ ",DBLP
 "You Can Run, But You Cannot Hide: Using Elevation Profiles to Breach Location Privacy through Trajectory Prediction.",URL:https://dblp.org/rec/journals/corr/abs-1910-09041,"""Yi""$ ""privacy""$ ",DBLP
 Weighted Distributed Differential Privacy ERM: Convex and Non-convex.,URL:https://dblp.org/rec/journals/corr/abs-1910-10308,"""Yi""$ ""privacy""$ ",DBLP
+Visual Privacy Protection via Mapping Distortion.,URL:https://dblp.org/rec/journals/corr/abs-1911-01769,"""Yi""$ ""privacy""$ ",DBLP
 Towards Privacy and Security of Deep Learning Systems: A Survey.,URL:https://dblp.org/rec/journals/corr/abs-1911-12562,"""Yi""$ ""privacy""$ ",DBLP
 The Novel Location Privacy-Preserving CKD for Mobile Crowdsourcing Systems.,DOI:10.1109/ACCESS.2017.2783322,"""Yi""$ ""privacy""$ ",DBLP
 Cognitive Approach for Location Privacy Protection.,DOI:10.1109/ACCESS.2018.2805464,"""Yi""$ ""privacy""$ ",DBLP
@@ -1822,7 +2095,9 @@ Acies: A Privacy-Preserving System for Edge-Based Classification.,DOI:10.1109/TR
 Fast Time Series Discords Detection with Privacy Preserving.,DOI:10.1109/TRUSTCOM/BIGDATASE.2018.00157,"""Yi""$ ""privacy""$ ",DBLP
 SACP: A Signcryption-Based Authentication Scheme with Conditional Privacy Preservation for VANET.,DOI:10.1007/978-3-319-94268-1_66,"""Yi""$ ""privacy""$ ",DBLP
 Privacy Preserving Social Network Against Dopv Attacks.,DOI:10.1007/978-3-030-02922-7_12,"""Yi""$ ""privacy""$ ",DBLP
+Privacy-Preserving Aggregate Queries for Optimal Location Selection.,URL:https://dblp.org/rec/journals/corr/abs-1801-02069,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Preserving Secret Shared Computations using MapReduce.,URL:https://dblp.org/rec/journals/corr/abs-1801-10323,"""Yi""$ ""privacy""$ ",DBLP
+Towards Robust and Privacy-preserving Text Representations.,URL:https://dblp.org/rec/journals/corr/abs-1805-06093,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-preserving and Efficient Aggregation based on Blockchain for Power Grid Communications in Smart Communities.,URL:https://dblp.org/rec/journals/corr/abs-1806-01056,"""Yi""$ ""privacy""$ ",DBLP
 MicroShare: Privacy-Preserved Medical Resource Sharing through MicroService Architecture.,URL:https://dblp.org/rec/journals/corr/abs-1806-02134,"""Yi""$ ""privacy""$ ",DBLP
 Privacy-Protective-GAN for Face De-identification.,URL:https://dblp.org/rec/journals/corr/abs-1806-08906,"""Yi""$ ""privacy""$ ",DBLP
@@ -1948,6 +2223,7 @@ Research on Road Environmental Sense Method of Intelligent Vehicle Based on Trac
 AI-EMS: An Environmental Monitoring System with AI Prediction.,DOI:10.1109/SENSORS56945.2023.10324969,"""Yi""$ ""environmental""$ ",DBLP
 Spatiotemporal Disparity and Environmental Inequality in Fossil Fuel Carbon Emissions in China: 2010-2019.,DOI:10.1109/IGARSS52108.2023.10282947,"""Yi""$ ""environmental""$ ",DBLP
 Intelligent Communication Planning for Constrained Environmental IoT Sensing with Reinforcement Learning.,DOI:10.1109/SECON58729.2023.10287493,"""Yi""$ ""environmental""$ ",DBLP
+Intelligent Communication Planning for Constrained Environmental IoT Sensing with Reinforcement Learning.,DOI:10.48550/ARXIV.2308.10124,"""Yi""$ ""environmental""$ ",DBLP
 Developing machine learning models with multi-source environmental data to predict wheat yield in China.,DOI:10.1016/J.COMPAG.2022.106790,"""Yi""$ ""environmental""$ ",DBLP
 Handling missing data in near real-time environmental monitoring: A system and a review of selected methods.,DOI:10.1016/J.FUTURE.2021.09.033,"""Yi""$ ""environmental""$ ",DBLP
 Leveraging Open Electronic Health Record Data and Environmental Exposures Data to Derive Insights Into Rare Pulmonary Disease.,DOI:10.3389/FRAI.2022.918888,"""Yi""$ ""environmental""$ ",DBLP
@@ -1970,6 +2246,7 @@ Effectiveness of Integrating AR and IoT technologies into Environmental Educatio
 Vision-Language Navigation with Random Environmental Mixup.,DOI:10.1109/ICCV48922.2021.00167,"""Yi""$ ""environmental""$ ",DBLP
 "Visualizing, Exploring, and Communicating Environmental Effects of COVID-19 Using Earth Observation Dashboard.",DOI:10.1109/IGARSS47720.2021.9553461,"""Yi""$ ""environmental""$ ",DBLP
 Underwater Object Recognition for Offshore Wind Farm Environmental Impact Assessment.,DOI:10.1109/ISPACS51563.2021.9651121,"""Yi""$ ""environmental""$ ",DBLP
+Vision-Language Navigation with Random Environmental Mixup.,URL:https://dblp.org/rec/journals/corr/abs-2106-07876,"""Yi""$ ""environmental""$ ",DBLP
 Spatiotemporal Change and Landscape Pattern Variation of Eco-Environmental Quality in Jing-Jin-Ji Urban Agglomeration From 2001 to 2015.,DOI:10.1109/ACCESS.2020.3007786,"""Yi""$ ""environmental""$ ",DBLP
 Studying the Eco-Environmental Quality Variations of Jing-Jin-Ji Urban Agglomeration and Its Driving Factors in Different Ecosystem Service Regions From 2001 to 2015.,DOI:10.1109/ACCESS.2020.3018730,"""Yi""$ ""environmental""$ ",DBLP
 Fitting Analysis of Inland Ship Fuel Consumption Considering Navigation Status and Environmental Factors.,DOI:10.1109/ACCESS.2020.3030614,"""Yi""$ ""environmental""$ ",DBLP
@@ -2032,6 +2309,7 @@ Techno-Environmental-Economic Analysis of Electric Vehicle Charging Station Depl
 GreenFlow: A Computation Allocation Framework for Building Environmentally Sound Recommendation System.,DOI:10.24963/IJCAI.2023/677,"""Yi""$ ""environmental""$ ",DBLP
 Data Augmentation for Environmental Sound Classification Using Diffusion Probabilistic Model with Top-k Selection Discriminator.,DOI:10.48550/ARXIV.2303.15161,"""Yi""$ ""environmental""$ ",DBLP
 Interpretable machine learning-accelerated seed treatment by nanomaterials for environmental stress alleviation.,DOI:10.48550/ARXIV.2304.03928,"""Yi""$ ""environmental""$ ",DBLP
+FREE: The Foundational Semantic Recognition for Modeling Environmental Ecosystems.,DOI:10.48550/ARXIV.2311.10255,"""Yi""$ ""environmental""$ ",DBLP
 Forecasting vegetation dynamics in an open ecosystem by integrating deep learning and environmental variables.,DOI:10.1016/J.JAG.2022.103060,"""Yi""$ ""environmental""$ ",DBLP
 "Monitoring urbanization and environmental impact in Kigali, Rwanda using Sentinel-2 MSI data and ecosystem service bundles.",DOI:10.1016/J.JAG.2022.102775,"""Yi""$ ""environmental""$ ",DBLP
 Unsupervised neural network-enabled spatial-temporal analytics for data authenticity under environmental smart reporting system.,DOI:10.1016/J.COMPIND.2022.103700,"""Yi""$ ""environmental""$ ",DBLP
@@ -2065,6 +2343,8 @@ Energy-economic-environmental Feasibility of Building-integrated Photovoltaic Sy
 Reshaping Geostatistical Modeling and Prediction for Extreme-Scale Environmental Applications.,DOI:10.1109/SC41404.2022.00007,"""Yi""$ ""environmental""$ ",DBLP
 Multi-objective Bacterial Colony Optimization Based on Multi-subsystem for Environmental Economic Dispatching.,DOI:10.1007/978-3-031-09677-8_44,"""Yi""$ ""environmental""$ ",DBLP
 "Environmental, User, and Social Context-Aware Augmented Reality for Supporting Personal Development and Change.",DOI:10.1109/VRW55335.2022.00042,"""Yi""$ ""environmental""$ ",DBLP
+"ESGBERT: Language Model to Help with Classification Tasks Related to Companies Environmental, Social, and Governance Practices.",DOI:10.48550/ARXIV.2203.16788,"""Yi""$ ""environmental""$ ",DBLP
+Reactive Informative Planning for Mobile Manipulation Tasks under Sensing and Environmental Uncertainty.,DOI:10.48550/ARXIV.2205.06301,"""Yi""$ ""environmental""$ ",DBLP
 An Empirical Study of Environmental Data Prediction in the United States Energy-Water Nexus.,DOI:10.1109/ACCESS.2021.3058887,"""Yi""$ ""environmental""$ ",DBLP
 "Enhancing light olefins and aromatics production from naphthenic-based vacuum gas oil: Process integration, techno-economic analysis and life cycle environmental assessment.",DOI:10.1016/J.COMPCHEMENG.2020.107207,"""Yi""$ ""environmental""$ ",DBLP
 Energy efficient and environmentally friendly pervaporation-distillation hybrid process for ternary azeotrope purification.,DOI:10.1016/J.COMPCHEMENG.2021.107236,"""Yi""$ ""environmental""$ ",DBLP
@@ -2093,6 +2373,7 @@ i3dLoc: Image-to-range Cross-domain Localization Robust to Inconsistent Environm
 Lightweight Implementation of FPGA-Based Environmental Sound Recognition System.,DOI:10.1109/UCET54125.2021.9674966,"""Yi""$ ""environmental""$ ",DBLP
 REAM: Revolutionary Environmental and Agricultural Monitoring System.,DOI:10.1109/WF-IOT51360.2021.9595962,"""Yi""$ ""environmental""$ ",DBLP
 Dynamic Autonomous Surface Vehicle Control and Applications in Environmental Monitoring.,URL:https://dblp.org/rec/journals/corr/abs-2103-15951,"""Yi""$ ""environmental""$ ",DBLP
+i3dLoc: Image-to-range Cross-domain Localization Robust to Inconsistent Environmental Conditions.,URL:https://dblp.org/rec/journals/corr/abs-2105-12883,"""Yi""$ ""environmental""$ ",DBLP
 Research on Environmental Protection Treatment for Ex-Service SF6 Adsorbent.,DOI:10.1109/ACCESS.2020.2994818,"""Yi""$ ""environmental""$ ",DBLP
 Improving Motorway Mobility and Environmental Performance via Vehicle Trajectory Data-Based Control.,DOI:10.1109/ACCESS.2020.2992722,"""Yi""$ ""environmental""$ ",DBLP
 An environmental pollution management method based on extended belief rule base and data envelopment analysis under interval uncertainty.,DOI:10.1016/J.CIE.2020.106454,"""Yi""$ ""environmental""$ ",DBLP
@@ -2153,6 +2434,8 @@ Environmentally Stable 100 GHz Hybrid Mode-locked Burst-mode Fiber Laser with En
 An Environmental Scan of the Various Oral-Systemic Contact Points.,DOI:10.1007/978-3-319-98298-4_3,"""Yi""$ ""environmental""$ ",DBLP
 Multi-objective Differential-Based Brain Storm Optimization for Environmental Economic Dispatch Problem.,DOI:10.1007/978-3-030-15070-9_4,"""Yi""$ ""environmental""$ ",DBLP
 To save the Environmental degradation: Please pay for ecosystem services!,URL:https://dblp.org/rec/journals/corr/abs-1907-04139,"""Yi""$ ""environmental""$ ",DBLP
+Dynamic Autonomous Surface Vehicle Controls Under Changing Environmental Forces.,URL:https://dblp.org/rec/journals/corr/abs-1908-02850,"""Yi""$ ""environmental""$ ",DBLP
+"Real-Time, Environmentally-Robust 3D LiDAR Localization.",URL:https://dblp.org/rec/journals/corr/abs-1910-12728,"""Yi""$ ""environmental""$ ",DBLP
 Surrogate Model-Based Energy-Efficient Scheduling for LPWA-Based Environmental Monitoring Systems.,DOI:10.1109/ACCESS.2018.2874948,"""Yi""$ ""environmental""$ ",DBLP
 "An ontology-based approach supporting holistic structural design with the consideration of safety, environmental impact and cost.",DOI:10.1016/J.ADVENGSOFT.2017.08.010,"""Yi""$ ""environmental""$ ",DBLP
 A stochastic reverse logistics production routing model with environmental considerations.,DOI:10.1007/S10479-018-3045-2,"""Yi""$ ""environmental""$ ",DBLP
@@ -2173,6 +2456,7 @@ Environmental Reconstruction for Autonomous Vehicle Based on Image Feature Match
 Environmentally Adaptive Real-Time Detection of RFID False Readings in a New Practical Scenario.,DOI:10.1109/SMARTWORLD.2018.00090,"""Yi""$ ""environmental""$ ",DBLP
 Towards Improved Air Quality Monitoring Using Publicly Available Sky Images.,DOI:10.1007/978-3-319-76445-0_5,"""Yi""$ ""environmental""$ ",DBLP
 Learning Partially Structured Environmental Dynamics for Marine Robotic Navigation.,URL:https://dblp.org/rec/journals/corr/abs-1803-04057,"""Yi""$ ""environmental""$ ",DBLP
+IR2VI: Enhanced Night Environmental Perception by Unsupervised Thermal Image Translation.,URL:https://dblp.org/rec/journals/corr/abs-1806-09565,"""Yi""$ ""environmental""$ ",DBLP
 Real-time monitoring system for paddy environmental information based on DC powerline communication technology.,DOI:10.1016/J.COMPAG.2017.01.002,"""Yi""$ ""environmental""$ ",DBLP
 On precisely relating the growth of Phalaenopsis leaves to greenhouse environmental factors by using an IoT-based monitoring system.,DOI:10.1016/J.COMPAG.2017.03.003,"""Yi""$ ""environmental""$ ",DBLP
 Environmental-friendly reliability allocation for product platform based on expert measurement and ICN.,DOI:10.1016/J.COMPELECENG.2017.02.028,"""Yi""$ ""environmental""$ ",DBLP
@@ -2195,6 +2479,7 @@ HIVE: Hierarchical Information Visualization for Explainability.,DOI:10.24963/IJ
 SketchXAI: A First Look at Explainability for Human Sketches.,DOI:10.1109/CVPR52729.2023.02234,"""Yi""$ ""explainability""$ ",DBLP
 XFed: Improving Explainability in Federated Learning by Intersection Over Union Ratio Extended Client Selection.,DOI:10.3233/FAIA230628,"""Yi""$ ""explainability""$ ",DBLP
 CLIP Surgery for Better Explainability with Enhancement in Open-Vocabulary Tasks.,DOI:10.48550/ARXIV.2304.05653,"""Yi""$ ""explainability""$ ",DBLP
+SketchXAI: A First Look at Explainability for Human Sketches.,DOI:10.48550/ARXIV.2304.11744,"""Yi""$ ""explainability""$ ",DBLP
 A new xAI framework with feature explainability for tumors decision-making in Ultrasound data: comparing with Grad-CAM.,DOI:10.1016/J.CMPB.2023.107527,"""Yi""$ ""explainability""$ ",DBLP
 "Knowledge Graph Empowered Machine Learning Pipelines for Improved Efficiency, Reusability, and Explainability.",DOI:10.1109/MIC.2022.3228087,"""Yi""$ ""explainability""$ ",DBLP
 Explainability in NLP model: Detection of Covid-19 Twitter Fake News.,DOI:10.1145/3633083.3633212,"""Yi""$ ""explainability""$ ",DBLP
@@ -2202,6 +2487,8 @@ Generic Attention-model Explainability by Weighted Relevance Accumulation.,DOI:1
 Interactive Personalization of Classifiers for Explainability using Multi-Objective Bayesian Optimization.,DOI:10.1145/3565472.3592956,"""Yi""$ ""explainability""$ ",DBLP
 Expanding Explainability: From Explainable Artificial Intelligence to Explainable Hardware.,DOI:10.48550/ARXIV.2302.14661,"""Yi""$ ""explainability""$ ",DBLP
 R-Cut: Enhancing Explainability in Vision Transformers with Relationship Weighted Out and Cut.,DOI:10.48550/ARXIV.2307.09050,"""Yi""$ ""explainability""$ ",DBLP
+Generic Attention-model Explainability by Weighted Relevance Accumulation.,DOI:10.48550/ARXIV.2308.10240,"""Yi""$ ""explainability""$ ",DBLP
+Explainability for Large Language Models: A Survey.,DOI:10.48550/ARXIV.2309.01029,"""Yi""$ ""explainability""$ ",DBLP
 TempME: Towards the Explainability of Temporal Graph Neural Networks via Motif Discovery.,DOI:10.48550/ARXIV.2310.19324,"""Yi""$ ""explainability""$ ",DBLP
 Deep Explainability: Spin-Geometrical Neural Meta-Structures.,DOI:10.48550/ARXIV.2311.16111,"""Yi""$ ""explainability""$ ",DBLP
 H-ProSeg: Hybrid ultrasound prostate segmentation based on explainability-guided mathematical model.,DOI:10.1016/J.CMPB.2022.106752,"""Yi""$ ""explainability""$ ",DBLP
@@ -2211,20 +2498,29 @@ An Application of Localized Model Explainability: Identifying Key Disparities in
 Appley: Approximate Shapley Value for Model Explainability in Linear Time.,DOI:10.1109/BIGDATA55660.2022.10020352,"""Yi""$ ""explainability""$ ",DBLP
 Rethinking Attention-Model Explainability through Faithfulness Violation Test.,URL:https://dblp.org/rec/conf/icml/LiuLGKL022,"""Yi""$ ""explainability""$ ",DBLP
 GraphFramEx: Towards Systematic Evaluation of Explainability Methods for Graph Neural Networks.,URL:https://dblp.org/rec/conf/log/AmaraYZHZSBS022,"""Yi""$ ""explainability""$ ",DBLP
+Rethinking Attention-Model Explainability through Faithfulness Violation Test.,URL:https://dblp.org/rec/journals/corr/abs-2201-12114,"""Yi""$ ""explainability""$ ",DBLP
 Explainability in Graph Neural Networks: An Experimental Survey.,DOI:10.48550/ARXIV.2203.09258,"""Yi""$ ""explainability""$ ",DBLP
+GraphFramEx: Towards Systematic Evaluation of Explainability Methods for Graph Neural Networks.,DOI:10.48550/ARXIV.2206.09677,"""Yi""$ ""explainability""$ ",DBLP
 Explainability Metrics of Deep Convolutional Networks for Photoplethysmography Quality Assessment.,DOI:10.1109/ACCESS.2021.3054613,"""Yi""$ ""explainability""$ ",DBLP
 Amazon SageMaker Clarify: Machine Learning Bias Detection and Explainability in the Cloud.,DOI:10.1145/3447548.3467177,"""Yi""$ ""explainability""$ ",DBLP
 Towards Multi-Grained Explainability for Graph Neural Networks.,URL:https://dblp.org/rec/conf/nips/WangWZHC21,"""Yi""$ ""explainability""$ ",DBLP
 ExpMRC: Explainability Evaluation for Machine Reading Comprehension.,URL:https://dblp.org/rec/journals/corr/abs-2105-04126,"""Yi""$ ""explainability""$ ",DBLP
 Comparing interpretability and explainability for feature selection.,URL:https://dblp.org/rec/journals/corr/abs-2105-05328,"""Yi""$ ""explainability""$ ",DBLP
+Amazon SageMaker Clarify: Machine Learning Bias Detection and Explainability in the Cloud.,URL:https://dblp.org/rec/journals/corr/abs-2109-03285,"""Yi""$ ""explainability""$ ",DBLP
 The FacT: Taming Latent Factor Models for Explainability with Factorization Trees.,DOI:10.1145/3331184.3331244,"""Yi""$ ""explainability""$ ",DBLP
+The FacT: Taming Latent Factor Models for Explainability with Factorization Trees.,URL:https://dblp.org/rec/journals/corr/abs-1906-02037,"""Yi""$ ""explainability""$ ",DBLP
 An Improved Method of Time-Frequency Joint Analysis of Mouse Behavior for Website User Trustworthy Authentication.,DOI:10.1007/978-3-030-50309-3_39,"""Yi""$ ""trustworthy""$ ",DBLP
 Time-Lapse Detection for Evolution of Trustworthy Network User Operation Behavior Using Bayesian Network.,DOI:10.1007/978-3-030-50309-3_45,"""Yi""$ ""trustworthy""$ ",DBLP
 "Blockchain and Trustworthy Systems - 4th International Conference, BlockSys 2022, Chengdu, China, August 4-5, 2022, Revised Selected Papers",DOI:10.1007/978-981-19-8043-5,"""Yi""$ ""trustworthy""$ ",DBLP
+IvyCross: A Trustworthy and Privacy-preserving Framework for Blockchain Interoperability.,URL:https://dblp.org/rec/journals/iacr/LiWLWWLD21,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy AI: From Principles to Practices.,DOI:10.1145/3555803,"""Yi""$ ""trustworthy""$ ",DBLP
+Toward Trustworthy and Privacy-Preserving Federated Deep Learning Service Framework for Industrial Internet of Things.,DOI:10.1109/TII.2022.3209200,"""Yi""$ ""trustworthy""$ ",DBLP
+Trustworthy Privacy-Preserving Hierarchical Ensemble and Federated Learning in Healthcare 4.0 With Blockchain.,DOI:10.1109/TII.2022.3214998,"""Yi""$ ""trustworthy""$ ",DBLP
 ETAUS: An Edge and Trustworthy AI UAV System with Self-Adaptivity for Air Quality Monitoring.,DOI:10.1109/IROS55552.2023.10342087,"""Yi""$ ""trustworthy""$ ",DBLP
 EVIL: Evidential Inference Learning for Trustworthy Semi-Supervised Medical Image Segmentation.,DOI:10.1109/ISBI53787.2023.10230589,"""Yi""$ ""trustworthy""$ ",DBLP
 CATFL: Certificateless Authentication-based Trustworthy Federated Learning for 6G Semantic Communications.,DOI:10.1109/WCNC55385.2023.10118885,"""Yi""$ ""trustworthy""$ ",DBLP
+CATFL: Certificateless Authentication-based Trustworthy Federated Learning for 6G Semantic Communications.,DOI:10.48550/ARXIV.2302.00271,"""Yi""$ ""trustworthy""$ ",DBLP
+Trustworthy Privacy-preserving Hierarchical Ensemble and Federated Learning in Healthcare 4.0 with Blockchain.,DOI:10.48550/ARXIV.2305.09209,"""Yi""$ ""trustworthy""$ ",DBLP
 EVIL: Evidential Inference Learning for Trustworthy Semi-supervised Medical Image Segmentation.,DOI:10.48550/ARXIV.2307.08988,"""Yi""$ ""trustworthy""$ ",DBLP
 A Trustworthy Classification Model for Intelligent Building Fire Risk.,DOI:10.1109/ACCESS.2022.3143614,"""Yi""$ ""trustworthy""$ ",DBLP
 An trustworthy intrusion detection framework enabled by ex-post-interpretation-enabled approach.,DOI:10.1016/J.JISA.2022.103364,"""Yi""$ ""trustworthy""$ ",DBLP
@@ -2232,11 +2528,13 @@ Guest Editorial: Trustworthy AI.,DOI:10.1145/3534957,"""Yi""$ ""trustworthy""$ "
 Towards Trustworthy Edge Intelligence: Insights from Voice-Activated Services.,DOI:10.1109/SCC55611.2022.00043,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy Software Development - practical view of security processes through MVP methodology.,DOI:10.23919/ICACT53585.2022.9728811,"""Yi""$ ""trustworthy""$ ",DBLP
 WUT-NGSIM: A High-precision and Trustworthy Vehicle Trajectory Dataset.,DOI:10.21227/HMSB-KA76,"""Yi""$ ""trustworthy""$ ",DBLP
+Towards Trustworthy Edge Intelligence: Insights from Voice-Activated Services.,DOI:10.48550/ARXIV.2206.09523,"""Yi""$ ""trustworthy""$ ",DBLP
 A secure and trustworthy medical record sharing scheme based on searchable encryption and blockchain.,DOI:10.1016/J.COMNET.2021.108540,"""Yi""$ ""trustworthy""$ ",DBLP
 An attribute-based cross-domain trustworthy model for internet of vehicles.,DOI:10.1504/IJAACS.2021.114273,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy Jammer Selection with Truth-Telling for Wireless Cooperative Systems.,DOI:10.1155/2021/6626355,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy Multimedia Analysis.,DOI:10.1145/3474085.3478871,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy and Sustainable Edge AI: A Research Agenda.,DOI:10.1109/TPSISA52974.2021.00019,"""Yi""$ ""trustworthy""$ ",DBLP
+Trustworthy AI: From Principles to Practices.,URL:https://dblp.org/rec/journals/corr/abs-2110-01167,"""Yi""$ ""trustworthy""$ ",DBLP
 A Secure and Trustworthy Intelligent System for Clustering in VANETs Using Fuzzy Logic.,DOI:10.1007/978-3-030-15032-7_13,"""Yi""$ ""trustworthy""$ ",DBLP
 SIX-Trust for 6G: Toward a Secure and Trustworthy Future Network.,DOI:10.1109/ACCESS.2023.3321114,"""Yi""$ ""trustworthy""$ ",DBLP
 TB-ICT: A Trustworthy Blockchain-Enabled System for Indoor Contact Tracing in Epidemic Control.,DOI:10.1109/JIOT.2022.3223329,"""Yi""$ ""trustworthy""$ ",DBLP
@@ -2256,11 +2554,15 @@ Trustworthy and Load-Balancing Routing Scheme for Satellite Services with Multi-
 RR-CP: Reliable-Region-Based Conformal Prediction for Trustworthy Medical Image Classification.,DOI:10.1007/978-3-031-44336-7_2,"""Yi""$ ""trustworthy""$ ",DBLP
 CALM: An Enhanced Encoding and Confidence Evaluating Framework for Trustworthy Multi-view Learning.,DOI:10.1145/3581783.3611965,"""Yi""$ ""trustworthy""$ ",DBLP
 Towards Trustworthy Augmented Reality in The Metaverse Era: Probing Manipulative Designs in Virtual-Physical Commercial Platforms.,DOI:10.1109/VRW58643.2023.00232,"""Yi""$ ""trustworthy""$ ",DBLP
+"A Survey of Trustworthy Federated Learning with Perspectives on Security, Robustness and Privacy.",DOI:10.1145/3543873.3587681,"""Yi""$ ""trustworthy""$ ",DBLP
 EvidenceCap: Towards trustworthy medical image segmentation via evidential identity cap.,DOI:10.48550/ARXIV.2301.00349,"""Yi""$ ""trustworthy""$ ",DBLP
+"A Survey of Trustworthy Federated Learning with Perspectives on Security, Robustness, and Privacy.",DOI:10.48550/ARXIV.2302.10637,"""Yi""$ ""trustworthy""$ ",DBLP
 A roadmap to fair and trustworthy prediction model validation in healthcare.,DOI:10.48550/ARXIV.2304.03779,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy Multi-phase Liver Tumor Segmentation via Evidence-based Uncertainty.,DOI:10.48550/ARXIV.2305.05344,"""Yi""$ ""trustworthy""$ ",DBLP
 We are all Individuals: The Role of Robot Personality and Human Traits in Trustworthy Interaction.,DOI:10.48550/ARXIV.2307.15568,"""Yi""$ ""trustworthy""$ ",DBLP
+RR-CP: Reliable-Region-Based Conformal Prediction for Trustworthy Medical Image Classification.,DOI:10.48550/ARXIV.2309.04760,"""Yi""$ ""trustworthy""$ ",DBLP
 Towards Trustworthy Artificial Intelligence for Equitable Global Health.,DOI:10.48550/ARXIV.2309.05088,"""Yi""$ ""trustworthy""$ ",DBLP
+"Know Where to Go: Make LLM a Relevant, Responsible, and Trustworthy Searcher.",DOI:10.48550/ARXIV.2310.12443,"""Yi""$ ""trustworthy""$ ",DBLP
 RLHF-V: Towards Trustworthy MLLMs via Behavior Alignment from Fine-grained Correctional Human Feedback.,DOI:10.48550/ARXIV.2312.00849,"""Yi""$ ""trustworthy""$ ",DBLP
 "Toward Trustworthy DeFi Oracles: Past, Present, and Future.",DOI:10.1109/ACCESS.2022.3179374,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy blockchain-based medical Internet of thing for minimal invasive surgery training simulator.,DOI:10.1002/CPE.5816,"""Yi""$ ""trustworthy""$ ",DBLP
@@ -2272,6 +2574,7 @@ An Energy-efficient And Trustworthy Unsupervised Anomaly Detection Framework (EA
 A Trustworthy Ciphertext-Policy Attribute-Based Encryption Access Control Method Based on FAME and Blockchain.,DOI:10.1145/3559795.3559801,"""Yi""$ ""trustworthy""$ ",DBLP
 Trustworthy AI Solutions for Cyberbiosecurity Challenges in Water Supply Systems.,DOI:10.32473/FLAIRS.V35I.130664,"""Yi""$ ""trustworthy""$ ",DBLP
 Towards Secure and Trustworthy Flash Loans: A Blockchain-Based Trust Management Approach.,DOI:10.1007/978-3-031-23020-2_28,"""Yi""$ ""trustworthy""$ ",DBLP
+We are all Individuals: The Role of Robot Personality and Human Traits in Trustworthy Interaction.,DOI:10.1109/RO-MAN53752.2022.9900772,"""Yi""$ ""trustworthy""$ ",DBLP
 "Towards Trustworthy DeFi Oracles: Past, Present and Future.",URL:https://dblp.org/rec/journals/corr/abs-2201-02358,"""Yi""$ ""trustworthy""$ ",DBLP
 A Survey on Trustworthy Recommender Systems.,DOI:10.48550/ARXIV.2207.12515,"""Yi""$ ""trustworthy""$ ",DBLP
 A Comprehensive Survey on Trustworthy Recommender Systems.,DOI:10.48550/ARXIV.2209.10117,"""Yi""$ ""trustworthy""$ ",DBLP
@@ -2280,13 +2583,17 @@ Trustworthy Data Analysis and Sensor Data Protection in Cyber-Physical Systems.,
 Selection of trustworthy crowd workers for telemedical diagnosis of pediatric autism spectrum disorder.,DOI:10.1142/9789811232701_0002,"""Yi""$ ""trustworthy""$ ",DBLP
 Achieving Trustworthy Biomedical Data Solutions.,DOI:10.1142/9789811232701_0001,"""Yi""$ ""trustworthy""$ ",DBLP
 Towards Secure and Trustworthy Crowdsourcing with Versatile Data Analytics.,DOI:10.1007/978-3-030-91424-0_3,"""Yi""$ ""trustworthy""$ ",DBLP
+A Privacy-preserving Location Recommendation Scheme without Trustworthy Entity.,DOI:10.1109/TRUSTCOM53373.2021.00073,"""Yi""$ ""trustworthy""$ ",DBLP
 Beyond Relevance: Trustworthy Answer Selection via Consensus Verification.,DOI:10.1145/3437963.3441781,"""Yi""$ ""trustworthy""$ ",DBLP
+Trustworthy AI: A Computational Perspective.,URL:https://dblp.org/rec/journals/corr/abs-2107-06641,"""Yi""$ ""trustworthy""$ ",DBLP
 TDM: Trustworthy Decision-Making via Interpretability Enhancement.,URL:https://dblp.org/rec/journals/corr/abs-2108-06080,"""Yi""$ ""trustworthy""$ ",DBLP
 TB-ICT: A Trustworthy Blockchain-Enabled System for Indoor COVID-19 Contact Tracing.,URL:https://dblp.org/rec/journals/corr/abs-2108-08275,"""Yi""$ ""trustworthy""$ ",DBLP
 A Collaborative Auditing Blockchain for Trustworthy Data Integrity in Cloud Storage System.,DOI:10.1109/ACCESS.2020.2993606,"""Yi""$ ""trustworthy""$ ",DBLP
 Validating trustworthy service composition through VIPLE and pi-calculus.,DOI:10.1504/IJSPM.2020.106971,"""Yi""$ ""trustworthy""$ ",DBLP
 Edge-Computing-Based Trustworthy Data Collection Model in the Internet of Things.,DOI:10.1109/JIOT.2020.2966870,"""Yi""$ ""trustworthy""$ ",DBLP
 A Unified Trustworthy Environment Establishment Based on Edge Computing in Industrial IoT.,DOI:10.1109/TII.2019.2955152,"""Yi""$ ""trustworthy""$ ",DBLP
+"PASTRAMI: Privacy-preserving, Auditable, Scalable &amp; Trustworthy Auctions for Multiple Items.",DOI:10.1145/3423211.3425669,"""Yi""$ ""trustworthy""$ ",DBLP
+"PASTRAMI: Privacy-preserving, Auditable, Scalable &amp; Trustworthy Auctions for Multiple Items.",URL:https://dblp.org/rec/journals/corr/abs-2004-06403,"""Yi""$ ""trustworthy""$ ",DBLP
 Blockchain-Based Secure and Trustworthy Internet of Things in SDN-Enabled 5G-VANETs.,DOI:10.1109/ACCESS.2019.2913682,"""Yi""$ ""trustworthy""$ ",DBLP
 Towards Efficient Fine-Grained Access Control and Trustworthy Data Processing for Remote Monitoring Services in IoT.,DOI:10.1109/TIFS.2018.2885287,"""Yi""$ ""trustworthy""$ ",DBLP
 A Scheme for Trustworthy Friendly Jammer Selection in Cooperative Cognitive Radio Networks.,DOI:10.1109/TVT.2019.2895639,"""Yi""$ ""trustworthy""$ ",DBLP
@@ -2295,6 +2602,7 @@ A novel energy-aware trustworthy multi-hop routing model for Internet of things.
 Fog-Based Evaluation Approach for Trustworthy Communication in Sensor-Cloud System.,DOI:10.1109/LCOMM.2017.2740279,"""Yi""$ ""trustworthy""$ ",DBLP
 Protecting Outsourced Data in Semi-Trustworthy Cloud: A Hierarchical System.,DOI:10.1109/ICDCSW.2017.19,"""Yi""$ ""trustworthy""$ ",DBLP
 Responsible Roboticists [From the Editor&apos;s Desk].,DOI:10.1109/MRA.2023.3293336,"""Yi""$ ""responsible""$ ",DBLP
+Responsible Task Automation: Empowering Large Language Models as Responsible Task Automators.,DOI:10.48550/ARXIV.2306.01242,"""Yi""$ ""responsible""$ ",DBLP
 Ethical hacking for boosting IoT vulnerability management: a first look into bug bounty programs and responsible disclosure.,DOI:10.1145/3357767.3357774,"""Yi""$ ""responsible""$ ",DBLP
 Ethical Hacking for IoT Security: A First Look into Bug Bounty Programs and Responsible Disclosure.,URL:https://dblp.org/rec/journals/corr/abs-1909-11166,"""Yi""$ ""responsible""$ ",DBLP
 Responsible Facial Recognition and Beyond.,URL:https://dblp.org/rec/journals/corr/abs-1909-12935,"""Yi""$ ""responsible""$ ",DBLP
@@ -2304,16 +2612,13 @@ AFCMiner: Finding Absolute Fair Cliques From Attributed Social Networks for Resp
 Two-sided Calibration for Quality-aware Responsible Recommendation.,DOI:10.1145/3604915.3608799,"""Yi""$ ""responsible""$ ",DBLP
 TAPS Responsibility Matrix: A tool for responsible data science by design.,DOI:10.48550/ARXIV.2302.01041,"""Yi""$ ""responsible""$ ",DBLP
 ORES: Open-vocabulary Responsible Visual Synthesis.,DOI:10.48550/ARXIV.2308.13785,"""Yi""$ ""responsible""$ ",DBLP
+"Know Where to Go: Make LLM a Relevant, Responsible, and Trustworthy Searcher.",DOI:10.48550/ARXIV.2310.12443,"""Yi""$ ""responsible""$ ",DBLP
 How Do Chemistry Faculty and Graduate Students Engage in Decision Making on Issues Related to Ethical and Responsible Conduct of Research Including Authorship?,DOI:10.1007/S11948-022-00381-6,"""Yi""$ ""responsible""$ ",DBLP
+Fostering Environmentally Responsible Consumer Behavior: A Hierarchical Approach Toward Smartphone Recycling.,DOI:10.1109/TEM.2020.3007605,"""Yi""$ ""responsible""$ ",DBLP
 "An iSchool approach to data science: Human-centered, socially responsible, and context-driven.",DOI:10.1002/ASI.24444,"""Yi""$ ""responsible""$ ",DBLP
+"Implications for pure profit, environmental impact and social welfare in a socially responsible supply chain.",DOI:10.1108/K-12-2019-0852,"""Yi""$ ""responsible""$ ",DBLP
 Responsible Manufacturing with Information Disclosure Under Regulatory Inspections.,DOI:10.1007/978-3-030-85910-7_19,"""Yi""$ ""responsible""$ ",DBLP
 Toward an Understanding of Responsible Artificial Intelligence Practices.,URL:https://dblp.org/rec/conf/hicss/WangXO20,"""Yi""$ ""responsible""$ ",DBLP
 MithraRanking: A System for Responsible Ranking Design.,DOI:10.1145/3299869.3320244,"""Yi""$ ""responsible""$ ",DBLP
 Coordination of a socially responsible two-stage supply chain under price-dependent random demand.,DOI:10.1007/S10288-017-0368-9,"""Yi""$ ""responsible""$ ",DBLP
 Diagnosis and repair of cells (DRC) responsible for power-supply-noise violations.,DOI:10.1109/VLSI-DAT.2018.8373274,"""Yi""$ ""responsible""$ ",DBLP
-"Security and Privacy for Smart, Connected, and Mobile IoT Devices and Platforms.",DOI:10.1155/2018/5346596,"""PaLM 2""$ ""privacy""$ ",DBLP
-Transmission of Digital Data in the 5G Era: Compression and Privacy.,DOI:10.3390/INFO14020135,"""PaLM 2""$ ""privacy""$ ",DBLP
-Privacy-preserving Secure Media Streaming for Multi-user Smart Environments.,DOI:10.1145/3423047,"""PaLM 2""$ ""privacy""$ ",DBLP
-Environmental Variables and their Relation with the SARS-COV-2 Transmission: A Data Mining Approach.,DOI:10.13053/CYS-26-1-4011,"""PaLM 2""$ ""environmental""$ ",DBLP
-Computational advances for spatio-temporal multivariate environmental models.,DOI:10.1007/S00180-021-01132-0,"""PaLM 2""$ ""environmental""$ ",DBLP
-Building Trust in Earth Science Findings through Data Traceability and Results Explainability.,DOI:10.1109/TPDS.2022.3220539,"""Llama 2""$ ""explainability""$ ",DBLP
