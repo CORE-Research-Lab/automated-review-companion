@@ -81,17 +81,18 @@ def search(query: str):
             results[total_processed + i] = paper
         return results
 
-    def make_request(options):
-        try:
-            response = requests.get(f'{BASE_URL}?{urlencode(options)}')
-            response.raise_for_status()
-            return response
-        except MaxRetryError:
-            print("Max retries exceeded. Could not establish a connection.")
-            return None
-        except (ConnectionError, Timeout, TooManyRedirects, HTTPError, RequestException) as e:
-            print(f"An error occurred: {e}")
-            return None
+    def make_request(options, max_retries=3):
+        attempts = 0
+        while attempts < max_retries:
+            try:
+                response = requests.get(f'{BASE_URL}?{urlencode(options)}')
+                response.raise_for_status()
+                return response
+            except (MaxRetryError, ConnectionError, Timeout, TooManyRedirects, HTTPError, RequestException) as e:
+                attempts += 1
+                print(f"Error occurred: {e}, Attempt {attempts} failed. Retrying...")
+        print("Max retries exceeded. Could not establish a connection.")
+        return None
 
     options = {
         'q': query,
@@ -106,6 +107,7 @@ def search(query: str):
     except json.decoder.JSONDecodeError:
         print(f'Error when searching for: {query}. Got response: {response.text}')
         return None
+
 
     response_count = int(response.get('result').get('hits').get('@total', 0))
     response_papers = response.get('result').get('hits').get('hit')
