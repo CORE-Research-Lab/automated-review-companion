@@ -102,10 +102,14 @@ def search(query: str):
     }
 
     response = make_request(options)
-    try:
-        response = response.json()
-    except json.decoder.JSONDecodeError:
-        print(f'Error when searching for: {query}. Got response: {response.text}')
+    if response is not None:
+        try:
+            response = response.json()
+        except json.decoder.JSONDecodeError:
+            print(f'Error when searching for: {query}. Got response: {response.text}')
+            return None
+    else:
+        print("No response received.")
         return None
 
 
