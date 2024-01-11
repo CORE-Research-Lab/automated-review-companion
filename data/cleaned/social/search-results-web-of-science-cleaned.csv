@@ -58,6 +58,7 @@ LECTURE HELD AT THE ACADEMIA EUROPAEA BUILDING BRIDGES CONFERENCE 2022 An Introd
 "General Purpose Artificial Intelligence Systems (GPAIS): Properties, definition, taxonomy, societal implications and responsible governance",DOI:10.1016/j.inffus.2023.102135,"""Generative AI"" ""trustworthy"" ""societal"" ",Web of Science
 Machine-Generated Text: A Comprehensive Survey of Threat Models and Detection Methods,DOI:10.1109/ACCESS.2023.3294090,"""Generative AI"" ""trustworthy"" ""social"" ",Web of Science
 Enhancing Kidney Transplant Care through the Integration of Chatbot,DOI:10.3390/healthcare11182518,"""Generative AI"" ""responsible"" ""mitigation"" ",Web of Science
+Typology of Risks of Generative Text-to-Image Models,DOI:10.1145/3600211.3604722,"""Generative AI"" ""responsible"" ""ethics"" ",Web of Science
 From principles to practices: the intertextual interaction between AI ethical and legal discourses,DOI:10.1515/ijld-2023-2001,"""Generative AI"" ""responsible"" ""ethics"" ",Web of Science
 AI's Regimes of Representation: A Community-centered Study of Text-to-Image Models in South Asia,DOI:10.1145/3593013.3594016,"""Generative AI"" ""responsible"" ""social"" ",Web of Science
 The impact of generative AI tools on researchers and research: Implications for academia in higher education,DOI:10.1080/14703297.2023.2271445,"""Generative AI"" ""responsible"" ""ethical"" ",Web of Science
@@ -65,6 +66,7 @@ A Conversation with ChatGPT about Digital Leadership and Technology Integration:
 The false positives and false negatives of generative AI detection tools in education and academic research: The case of ChatGPT,DOI:10.1016/j.ijme.2023.100822,"""Generative AI"" ""responsible"" ""ethical"" ",Web of Science
 Impact of Artificial Intelligence on Dental Education: A Review and Guide for Curriculum Update,DOI:10.3390/educsci13020150,"""Generative AI"" ""responsible"" ""ethical"" ",Web of Science
 "Malicious Design in AIVR, Falsehood and Cybersecurity-oriented Immersive Defenses",DOI:10.1109/AIVR50618.2020.00031,"""Generative AI"" ""responsible"" ""ethical"" ",Web of Science
+GiusBERTo: Italy's AI-Based Judicial Transformation: A Case,DOI:10.17705/1CAIS.05331,"""LLM"" ""misinformation"" ""social"" ",Web of Science
 Leveraging ChatGPT in the Pediatric Neurology Clinic: Practical Considerations for Use to Improve Efficiency and Outcomes,DOI:10.1016/j.pediatrneurol.2023.08.035,"""LLM"" ""misinformation"" ""ethical"" ",Web of Science
 Artificial intelligence takes center stage: exploring the capabilities and implications of ChatGPT and other AI-assisted technologies in scientific research and education,DOI:10.1111/imcb.12689,"""LLM"" ""privacy"" ""ethics"" ",Web of Science
 AUTOGEN: A Personalized Large Language Model for Academic Enhancement-Ethics and Proof of Principle,DOI:10.1080/15265161.2023.2233356,"""LLM"" ""privacy"" ""ethics"" ",Web of Science
@@ -173,7 +175,6 @@ The Advent of Generative Language Models in Medical Education,DOI:10.2196/48163,
 The ChatGPT Storm and What Faculty Can Do,DOI:10.1097/NNE.0000000000001390,"""language model"" ""responsible"" ""ethical"" ",Web of Science
 Development of Integrated 3-Dimensional Computer Graphics Human Head Model,DOI:10.1093/ons/opab012,"""foundation model"" ""accessibility"" ""social"" ",Web of Science
 DeFACT in ManuVerse for Parallel Manufacturing: Foundation Models and Parallel Workers in Smart Factories,DOI:10.1109/TSMC.2022.3228817,"""foundation model"" ""responsible"" ""social"" ",Web of Science
-Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" ""trustworthy"" ""social"" ",Web of Science
 Application of Nanomaterials for Cadmium Adsorption for Sustainable Treatment of Wastewater: a Review,DOI:10.1007/s11270-023-06064-7,"""PaLM"" ""accessibility"" ""mitigation"" ",Web of Science
 Spatial Prioritization for Wildfire Mitigation by Integrating Heterogeneous Spatial Data: A New Multi-Dimensional Approach for Tropical Rainforests,DOI:10.3390/rs14030543,"""PaLM"" ""accessibility"" ""mitigation"" ",Web of Science
 Utilization of shell-based agricultural waste adsorbents for removing dyes: A review,DOI:10.1016/j.chemosphere.2021.132737,"""PaLM"" ""accessibility"" ""mitigation"" ",Web of Science
@@ -647,6 +648,15 @@ The Covid-19 pandemic: An opportunity for reflection on the place of humanity in
 Occupational risk factors for shoulder chronic tendinous pathology in the Spanish automotive manufacturing sector: a case-control study,DOI:10.1186/s12891-020-03801-5,"""PaLM"" ""responsible"" ""social"" ",Web of Science
 "The Global Politics of the Business of ""Sustainable"" Palm Oil",DOI:10.1162/glep_a_00455,"""PaLM"" ""responsible"" ""social"" ",Web of Science
 "Evapotranspiration of urban landscapes in Los Angeles, California at the municipal scale",DOI:10.1002/2016WR020254,"""PaLM"" ""responsible"" ""social"" ",Web of Science
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" ""trustworthy"" ""social"" ",Web of Science
+BERTuit: Understanding Spanish language in Twitter with transformers,DOI:10.1111/exsy.13404,"""GPT-3"" ""misinformation"" ""social"" ",Web of Science
+Exploring the Boundaries of Reality: Investigating the Phenomenon of Artificial Intelligence Hallucination in Scientific Writing Through ChatGPT References,DOI:10.7759/cureus.37432,"""GPT-3"" ""accessibility"" ""ethical"" ",Web of Science
+A Medical Ethics Framework for Conversational Artificial Intelligence,DOI:10.2196/43068,"""GPT-3"" ""privacy"" ""ethics"" ",Web of Science
+Ethical implications of text generation in the age of artificial intelligence,DOI:10.1111/beer.12479,"""GPT-3"" ""privacy"" ""ethics"" ",Web of Science
+Precognition of mental health and neurogenerative disorders using AI-parsed text and sentiment analysis,DOI:10.2478/ausi-2023-0022,"""GPT-3"" ""privacy"" ""social"" ",Web of Science
+The great transformer: Examining the role of large language models in the political economy of AI,DOI:10.1177/20539517211047734,"""GPT-3"" ""environmental"" ""ethics"" ",Web of Science
+Madeleine: Poetry and Art of an Artificial Intelligence,DOI:10.3390/arts11050083,"""GPT-3"" ""trustworthy"" ""social"" ",Web of Science
+"Corrosion Mitigation of Carbon Steel using Pyrazole Derivative: Correlation of Gravimetric, Electrochemical, Surface Studies with Quantum Chemical Calculations",DOI:10.22034/abec.2023.709114,"""Gemini"" ""accessibility"" ""mitigation"" ",Web of Science
 Experimental and computational approach on the development of a new Green corrosion inhibitor formulation for N80 steel in 20% formic acid,DOI:10.1016/j.jcis.2023.08.190,"""Gemini"" ""environmental"" ""mitigation"" ",Web of Science
 Comprehensive Review on the Use of Biocides in Microbiologically Influenced Corrosion,DOI:10.3390/microorganisms11092194,"""Gemini"" ""environmental"" ""mitigation"" ",Web of Science
 Mitigation of eco-unfriendly and costly microbial induced corrosion using novel synthesized Schiff base cationic surfactants,DOI:10.1002/jctb.6603,"""Gemini"" ""environmental"" ""mitigation"" ",Web of Science
@@ -657,9 +667,27 @@ A POST-COVID-19 ECONOMIC ASSESSMENT OF THE CHILEAN NDC REVISION,DOI:10.1142/S201
 Red blood cell exchange for SARS-CoV-2: A Gemini of therapeutic opportunities,DOI:10.1016/j.mehy.2020.110227,"""Gemini"" ""environmental"" ""social"" ",Web of Science
 Understand and correct for the low wind effect on the SPHERE and GRAVITY plus adaptive optics,DOI:10.1117/12.2629793,"""Gemini"" ""responsible"" ""mitigation"" ",Web of Science
 "Methodology paper for the General Medicine Inpatient Initiative Medical Education Database (GEMINI MedED ): a retrospective cohort study of internal medicine resident case-mix, clinical care and patient outcomes",DOI:10.1136/bmjopen-2022-062264,"""Gemini"" ""responsible"" ""ethics"" ",Web of Science
-A Medical Ethics Framework for Conversational Artificial Intelligence,DOI:10.2196/43068,"""GPT-4"" ""privacy"" ""ethics"" ",Web of Science
-From ChatGPT to Treatment: the Future of AI and Large Language Models in Surgical Oncology,DOI:10.1007/s13193-023-01836-3,"""GPT-4"" ""privacy"" ""ethical"" ",Web of Science
-ChatGPT in Colorectal Surgery: A Promising Tool or a Passing Fad?,DOI:10.1007/s10439-023-03232-y,"""GPT-4"" ""privacy"" ""ethical"" ",Web of Science
+Justified: Ecocriticism and Moral Development in Espido Freire's <i>Irlanda</i> (1998),DOI:10.1007/s11061-017-9529-5,"""Llama"" ""environmental"" ""ethics"" ",Web of Science
+Seminal plasma nerve growth factor signaling on the reproductive physiology of female llamas,DOI:10.1590/1984-3143-AR2022-0116,"""Llama"" ""environmental"" ""social"" ",Web of Science
+Development of Calibration Models to Predict Mean Fibre Diameter in Llama (<i>Lama glama</i>) Fleeces with Near Infrared Spectroscopy,DOI:10.3390/ani11071998,"""Llama"" ""environmental"" ""social"" ",Web of Science
+Environmental Education as a Means for Valuing and Conserving Camelids and Pastoralism in the Argentinean Altiplano of Jujuy,DOI:10.1659/MRD-JOURNAL-D-20-00009.1,"""Llama"" ""environmental"" ""social"" ",Web of Science
+"Saving the Vicuna: The Political, Biophysical, and Cultural History of Wild Animal Conservation in Peru, 1964-2000",DOI:10.1093/ahr/rhz939,"""Llama"" ""environmental"" ""social"" ",Web of Science
+"SOME REFLECTIONS ON THE SOCIAL AND RITUAL ASPECTS OF A LAMAS CARAVAN, FROM A REVERSED ETHNOARCHAEOLOGICAL APROACH",DOI:10.4067/S0717-73562019005000503,"""Llama"" ""environmental"" ""social"" ",Web of Science
+Market access and community size influence pastoral management of native and exotic livestock species: A case study in communities of the Cordillera Real in Bolivia's high Andean wetlands,DOI:10.1371/journal.pone.0189409,"""Llama"" ""environmental"" ""social"" ",Web of Science
+Comparative Perspectives on CSR 2.0 in the Contexts of Galicia and North of Portugal,DOI:10.4018/978-1-5225-1842-6.ch009,"""Llama"" ""responsible"" ""ethics"" ",Web of Science
+We asked Chat GPT to describe brain fog in chronic pain: What did we learn?,DOI:10.1177/20552076231218120,"""GPT"" ""misinformation"" ""social"" ",Web of Science
+Towards Detection of AI-Generated Texts and Misinformation,DOI:10.1007/978-3-031-10183-0_10,"""GPT"" ""misinformation"" ""social"" ",Web of Science
+Privacy Risks of General-Purpose Language Models,DOI:10.1109/SP40000.2020.00095,"""GPT"" ""privacy"" ""mitigation"" ",Web of Science
+A Future of Smarter Digital Health Empowered by Generative Pretrained Transformer,DOI:10.2196/49963,"""GPT"" ""privacy"" ""ethics"" ",Web of Science
+Provably Confidential Language Modelling,WOS:000859869501004,"""GPT"" ""privacy"" ""social"" ",Web of Science
+From ChatGPT to Treatment: the Future of AI and Large Language Models in Surgical Oncology,DOI:10.1007/s13193-023-01836-3,"""GPT"" ""privacy"" ""ethical"" ",Web of Science
+ChatGPT in Colorectal Surgery: A Promising Tool or a Passing Fad?,DOI:10.1007/s10439-023-03232-y,"""GPT"" ""privacy"" ""ethical"" ",Web of Science
+Formation uplift analysis during geological CO2-Storage using the Gaussian pressure transient method: Krechba (Algeria) validation and South Korean case studies,DOI:10.1016/j.geoen.2022.211404,"""GPT"" ""environmental"" ""mitigation"" ",Web of Science
+A Comparative Analysis of Active Learning for Rumor Detection on Social Media Platforms,DOI:10.3390/app132212098,"""GPT"" ""environmental"" ""social"" ",Web of Science
+Unveiling Sustainability in Ecommerce: GPT-Powered Software for Identifying Sustainable Product Features,DOI:10.3390/su151512015,"""GPT"" ""environmental"" ""social"" ",Web of Science
+Artificial Intelligence Assisted Social Failure Mode and Effect Analysis (FMEA) for Sustainable Product Design,DOI:10.3390/su15118678,"""GPT"" ""environmental"" ""social"" ",Web of Science
+Blockchain Materialization as a General Purpose Technology: A Research Framework,DOI:10.1007/978-3-030-48340-1_17,"""GPT"" ""environmental"" ""social"" ",Web of Science
+"Stronger together: Strategies to protect local sovereignty, ecosystems, and place-based communities from the global fossil fuel trade",DOI:10.1016/j.marpol.2016.10.019,"""GPT"" ""environmental"" ""social"" ",Web of Science
 The New German-speaking School of <i>Balkankompetenzen</i> : Knowledge production and truth claims in post-colonial post-communist context,DOI:10.1177/2336825X211065569,"""Claude"" ""over-reliance"" ""social"" ",Web of Science
 Bearing Witness in Analog and Digital Witness Films: Ethical Aesthetics in Shoah [1985] and Waltz with Bashir [2008],DOI:10.3390/genealogy6010014,"""Claude"" ""accessibility"" ""ethical"" ",Web of Science
 The power of the natural environment in Nicolas Bouvier's use of the world,WOS:000497659300003,"""Claude"" ""environmental"" ""ethics"" ",Web of Science
@@ -670,28 +698,3 @@ The VASCERN European Reference Network: An overview,DOI:10.1016/j.ejmg.2022.1044
 The Importance of Including Human Rights Education in Primary and Secondary Schools: A Focus on Empathy and Respect,DOI:10.1007/978-94-024-0871-3_9,"""Claude"" ""responsible"" ""social"" ",Web of Science
 Research Priorities to Advance the Health and Health Care of Older Adults with Multiple Chronic Conditions,DOI:10.1111/jgs.14943,"""Claude"" ""responsible"" ""social"" ",Web of Science
 Conversations with French medical geneticists. A personal perspective on the origins and early years of medical genetics in France,DOI:10.1111/cge.13167,"""Claude"" ""responsible"" ""ethical"" ",Web of Science
-Justified: Ecocriticism and Moral Development in Espido Freire's <i>Irlanda</i> (1998),DOI:10.1007/s11061-017-9529-5,"""Llama"" ""environmental"" ""ethics"" ",Web of Science
-Seminal plasma nerve growth factor signaling on the reproductive physiology of female llamas,DOI:10.1590/1984-3143-AR2022-0116,"""Llama"" ""environmental"" ""social"" ",Web of Science
-Development of Calibration Models to Predict Mean Fibre Diameter in Llama (<i>Lama glama</i>) Fleeces with Near Infrared Spectroscopy,DOI:10.3390/ani11071998,"""Llama"" ""environmental"" ""social"" ",Web of Science
-Environmental Education as a Means for Valuing and Conserving Camelids and Pastoralism in the Argentinean Altiplano of Jujuy,DOI:10.1659/MRD-JOURNAL-D-20-00009.1,"""Llama"" ""environmental"" ""social"" ",Web of Science
-"Saving the Vicuna: The Political, Biophysical, and Cultural History of Wild Animal Conservation in Peru, 1964-2000",DOI:10.1093/ahr/rhz939,"""Llama"" ""environmental"" ""social"" ",Web of Science
-"SOME REFLECTIONS ON THE SOCIAL AND RITUAL ASPECTS OF A LAMAS CARAVAN, FROM A REVERSED ETHNOARCHAEOLOGICAL APROACH",DOI:10.4067/S0717-73562019005000503,"""Llama"" ""environmental"" ""social"" ",Web of Science
-Market access and community size influence pastoral management of native and exotic livestock species: A case study in communities of the Cordillera Real in Bolivia's high Andean wetlands,DOI:10.1371/journal.pone.0189409,"""Llama"" ""environmental"" ""social"" ",Web of Science
-Comparative Perspectives on CSR 2.0 in the Contexts of Galicia and North of Portugal,DOI:10.4018/978-1-5225-1842-6.ch009,"""Llama"" ""responsible"" ""ethics"" ",Web of Science
-Confucian ethics perspective The effect of course style on the information ethics cognition of students,DOI:10.1108/MD-07-2016-0447,"""Yi"" ""accessibility"" ""ethics"" ",Web of Science
-Yi Zeng: promoting good governance of artificial intelligence,DOI:10.1093/nsr/nwaa255,"""Yi"" ""privacy"" ""ethics"" ",Web of Science
-"Does the ""Tian-Ren-He-Yi"" Belief System Promote Corporate Environmental Performance?",DOI:10.3389/fpsyg.2022.886114,"""Yi"" ""environmental"" ""ethics"" ",Web of Science
-Indigenous people's perceptions of benefits and costs of China's second phase of the grain for green program and the influencing factors,DOI:10.1016/j.ecolecon.2023.107978,"""Yi"" ""environmental"" ""social"" ",Web of Science
-From growth obsession to ecological promotion: The discursive construction of party image in Chinese political discourse on ecological civilization,DOI:10.1177/17504813231181080,"""Yi"" ""environmental"" ""social"" ",Web of Science
-Varieties Matter When Planning for Poverty Alleviation and Ecological Restoration in Karst Fruit Cultivation Areas,DOI:10.3390/su132112211,"""Yi"" ""environmental"" ""social"" ",Web of Science
-"Assessment of the Resilience of a Tartary Buckwheat (<i>Fagopyrum tataricum</i>) Cultivation System in Meigu, Southwest China",DOI:10.3390/su12145683,"""Yi"" ""environmental"" ""social"" ",Web of Science
-"Yi Ethnomycology: Wild Mushroom Knowledge and Use in Yunnan, China",DOI:10.2993/0278-0771-39.1.131,"""Yi"" ""environmental"" ""social"" ",Web of Science
-Research on Tourism Development Based on the Religions Cultures of China's Ethnic Minorities -- A Case Study of the Flora Worship of the Yi Ethnic Groups in Northwest Guizhou,WOS:000416091500144,"""Yi"" ""environmental"" ""social"" ",Web of Science
-Key Technologies of Carbon Dioxide Flooding and Storage in China,WOS:000553241900002,"""Yi"" ""environmental"" ""social"" ",Web of Science
-"Social and environmental influences on tartary buckwheat (<i>Fagopyrum tataricum</i> Gaertn.) varietal diversity in Yunnan, China",DOI:10.1007/s10722-015-0337-0,"""Yi"" ""environmental"" ""social"" ",Web of Science
-Chinese tourists' views of nature and natural landscape interpretation: a generational perspective,DOI:10.1080/09669582.2017.1377722,"""Yi"" ""environmental"" ""ethical"" ",Web of Science
-Social Perceptions of Quack in Qing Dynasty and Its Transformation in the Late Qing Period,DOI:10.13081/kjmh.2019.28.191,"""Yi"" ""trustworthy"" ""social"" ",Web of Science
-"The Philosophical Thought of Confucius and Mencius, and the Concept of the Community of a Shared Future for Mankind",DOI:10.3390/su14169854,"""Yi"" ""responsible"" ""ethics"" ",Web of Science
-Mindful Learning: <i>Xiuji</i> (Self-cultivation) and Spiritual Formation,DOI:10.1007/978-981-16-1405-7_10,"""Yi"" ""responsible"" ""social"" ",Web of Science
-"The Urban Agriculture and the transformation of life and landscape at Tatuquara, Curitiba-PR",WOS:000723106800010,"""Yi"" ""responsible"" ""social"" ",Web of Science
-This is our voice: revitalizing <i>ren</i> as a homiletical concept for resistance to anti-Asian hate crimes,DOI:10.1080/1756073X.2021.2023079,"""Yi"" ""responsible"" ""ethical"" ",Web of Science

@@ -161,7 +161,6 @@ The ChatGPT Storm and What Faculty Can Do,DOI:10.1097/NNE.0000000000001390,"""la
 May Artificial Intelligence Influence Future Pediatric Research?-The Case of ChatGPT,DOI:10.3390/children10040757,"""language model"" ""responsible"" ""education"" ",Web of Science
 "ChatGPT Utility in Healthcare Education, Research, and Practice: Systematic Review on the Promising Perspectives and Valid Concerns",DOI:10.3390/healthcare11060887,"""language model"" ""responsible"" ""education"" ",Web of Science
 Development of Integrated 3-Dimensional Computer Graphics Human Head Model,DOI:10.1093/ons/opab012,"""foundation model"" ""accessibility"" ""education"" ",Web of Science
-Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" ""trustworthy"" ""education"" ",Web of Science
 An Enhanced Methodology for Creating Digital Twins within a Paleontological Museum Using Photogrammetry and Laser Scanning Techniques,DOI:10.3390/heritage6090314,"""PaLM"" ""accessibility"" ""education"" ",Web of Science
 Bridging the gap between models and users: A lightweight mobile interface for optimized farming decisions in interactive modeling sessions,DOI:10.1016/j.agsy.2021.103315,"""PaLM"" ""accessibility"" ""education"" ",Web of Science
 Anti-aliasing convolution neural network of finger vein recognition for virtual reality (VR) human-robot equipment of metaverse,DOI:10.1007/s11227-022-04680-4,"""PaLM"" ""privacy"" ""education"" ",Web of Science
@@ -191,7 +190,48 @@ Sub-population differences in the relationship between the neighborhood environm
 "Ocular injuries in a paediatric population at a child eye health tertiary facility, Ibadan, Nigeria",DOI:10.1016/j.injury.2023.01.014,"""PaLM"" ""responsible"" ""education"" ",Web of Science
 Palm-Oil-Based Biodiesel in Indonesia: A Case Study on a Socioscientific Issue That Engages Students to Learn Chemistry and Its Impact on Society,DOI:10.1021/acs.jchemed.1c00244,"""PaLM"" ""responsible"" ""education"" ",Web of Science
 The Covid-19 pandemic: An opportunity for reflection on the place of humanity in relation to nature?,DOI:10.17159/2224-7912/2020/v60n4-2a1,"""PaLM"" ""responsible"" ""education"" ",Web of Science
+Identifying the local factors of resilience during cyclone Hudhud and Phailin on the east coast of India,DOI:10.1007/s13280-019-01241-7,"""Palmyra"" ""environmental"" ""education"" ",Web of Science
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5-Turbo"" ""trustworthy"" ""education"" ",Web of Science
+Studying the effect of AI Code Generators on Supporting Novice Learners in Introductory Programming,DOI:10.1145/3544548.3580919,"""GPT-3"" ""over-reliance"" ""education"" ",Web of Science
+Holy or Unholy? Interview with Open AI?s ChatGPT,DOI:10.54055/ejtr.v34i.3169,"""GPT-3"" ""over-reliance"" ""education"" ",Web of Science
+Stratified Evaluation of GPT's Question Answering in Surgery Reveals Artificial Intelligence (AI) Knowledge Gaps,DOI:10.7759/cureus.48788,"""GPT-3"" ""misinformation"" ""education"" ",Web of Science
+Bringing legal knowledge to the public by constructing a legal question bank using large-scale pre-trained language model,DOI:10.1007/s10506-023-09367-6,"""GPT-3"" ""accessibility"" ""education"" ",Web of Science
+"ChatGPT for Education and Research: Opportunities, Threats, and Strategies",DOI:10.3390/app13095783,"""GPT-3"" ""accessibility"" ""education"" ",Web of Science
+Practical and ethical challenges of large language models in education: A systematic scoping review,DOI:10.1111/bjet.13370,"""GPT-3"" ""privacy"" ""education"" ",Web of Science
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3"" ""trustworthy"" ""education"" ",Web of Science
 "Methodology paper for the General Medicine Inpatient Initiative Medical Education Database (GEMINI MedED ): a retrospective cohort study of internal medicine resident case-mix, clinical care and patient outcomes",DOI:10.1136/bmjopen-2022-062264,"""Gemini"" ""responsible"" ""education"" ",Web of Science
+Environmental Education as a Means for Valuing and Conserving Camelids and Pastoralism in the Argentinean Altiplano of Jujuy,DOI:10.1659/MRD-JOURNAL-D-20-00009.1,"""Llama"" ""environmental"" ""education"" ",Web of Science
+"Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions",DOI:10.2196/48291,"""GPT"" ""overreliance"" ""education"" ",Web of Science
+Studying the effect of AI Code Generators on Supporting Novice Learners in Introductory Programming,DOI:10.1145/3544548.3580919,"""GPT"" ""over-reliance"" ""education"" ",Web of Science
+Holy or Unholy? Interview with Open AI?s ChatGPT,DOI:10.54055/ejtr.v34i.3169,"""GPT"" ""over-reliance"" ""education"" ",Web of Science
+Stratified Evaluation of GPT's Question Answering in Surgery Reveals Artificial Intelligence (AI) Knowledge Gaps,DOI:10.7759/cureus.48788,"""GPT"" ""misinformation"" ""education"" ",Web of Science
+We asked Chat GPT to describe brain fog in chronic pain: What did we learn?,DOI:10.1177/20552076231218120,"""GPT"" ""misinformation"" ""education"" ",Web of Science
+Can we use ChatGPT for Mental Health and Substance Use Education? Examining Its Quality and Potential Harms,DOI:10.2196/51243,"""GPT"" ""misinformation"" ""education"" ",Web of Science
+AI Chatbots in Clinical Laboratory Medicine: Foundations and Trends,DOI:10.1093/clinchem/hvad106,"""GPT"" ""misinformation"" ""education"" ",Web of Science
+Artificial Hallucinations by Google Bard: Think Before You Leap,DOI:10.7759/cureus.43313,"""GPT"" ""misinformation"" ""education"" ",Web of Science
+"Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions",DOI:10.2196/48291,"""GPT"" ""misinformation"" ""education"" ",Web of Science
+"Translating radiology reports into plain language using ChatGPT and GPT-4 with prompt learning: results, limitations, and potential",DOI:10.1186/s42492-023-00136-5,"""GPT"" ""misinformation"" ""education"" ",Web of Science
+Can we use ChatGPT for Mental Health and Substance Use Education? Examining Its Quality and Potential Harms,DOI:10.2196/51243,"""GPT"" ""accessibility"" ""education"" ",Web of Science
+ChatGPT-4: Transforming Medical Education and Addressing Clinical Exposure Challenges in the Post-pandemic Era,DOI:10.1007/s43465-023-00967-7,"""GPT"" ""accessibility"" ""education"" ",Web of Science
+"Generative AI in Education and Research: Opportunities, Concerns, and Solutions",DOI:10.1021/acs.jchemed.3c00323,"""GPT"" ""accessibility"" ""education"" ",Web of Science
+Bringing legal knowledge to the public by constructing a legal question bank using large-scale pre-trained language model,DOI:10.1007/s10506-023-09367-6,"""GPT"" ""accessibility"" ""education"" ",Web of Science
+"ChatGPT for Education and Research: Opportunities, Threats, and Strategies",DOI:10.3390/app13095783,"""GPT"" ""accessibility"" ""education"" ",Web of Science
+Exploring the role of ChatGPT in patient care (diagnosis and treatment) and medical research: A systematic review,DOI:10.34172/hpp.2023.22,"""GPT"" ""privacy"" ""education"" ",Web of Science
+How ChatGPT works: a mini review,DOI:10.1007/s00405-023-08337-7,"""GPT"" ""privacy"" ""education"" ",Web of Science
+Artificial intelligence takes center stage: exploring the capabilities and implications of ChatGPT and other AI-assisted technologies in scientific research and education,DOI:10.1111/imcb.12689,"""GPT"" ""privacy"" ""education"" ",Web of Science
+Analyzing US Federal Action on Artificial Intelligence Education Using a Process Governance Framework,DOI:10.1145/3598469.3598546,"""GPT"" ""privacy"" ""education"" ",Web of Science
+Practical and ethical challenges of large language models in education: A systematic scoping review,DOI:10.1111/bjet.13370,"""GPT"" ""privacy"" ""education"" ",Web of Science
+"The use of artificial intelligence (AI) to enhance academic communication, education and research: a balanced approach",DOI:10.1177/17531934231185746,"""GPT"" ""privacy"" ""education"" ",Web of Science
+"Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions",DOI:10.2196/48291,"""GPT"" ""privacy"" ""education"" ",Web of Science
+"Generative artificial intelligence empowers educational reform: current status, issues, and prospects",DOI:10.3389/feduc.2023.1183162,"""GPT"" ""privacy"" ""education"" ",Web of Science
+A perspective on the synergistic potential of artificial intelligence and product-based learning strategies in biobased materials education,DOI:10.1016/j.ece.2023.05.005,"""GPT"" ""environmental"" ""education"" ",Web of Science
+Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT"" ""trustworthy"" ""education"" ",Web of Science
+Discussing ChatGPT's implications for industry and higher education: The case for transdisciplinarity and digital humanities,DOI:10.1177/09504222231199989,"""GPT"" ""responsible"" ""education"" ",Web of Science
+Transforming Education: A Comprehensive Review of Generative Artificial Intelligence in Educational Settings through Bibliometric and Content Analysis,DOI:10.3390/su151712983,"""GPT"" ""responsible"" ""education"" ",Web of Science
+"Generative AI in Education and Research: Opportunities, Concerns, and Solutions",DOI:10.1021/acs.jchemed.3c00323,"""GPT"" ""responsible"" ""education"" ",Web of Science
+"Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions",DOI:10.2196/48291,"""GPT"" ""responsible"" ""education"" ",Web of Science
+AN ANALYSIS OF THE MUSICAL PHILOSOPHY OF MODERNITY IN DEBUSSY'S PASTORAL AFTERNOON,DOI:10.24204/EJPR.2021.3844,"""Claude"" ""environmental"" ""education"" ",Web of Science
+The Importance of Including Human Rights Education in Primary and Secondary Schools: A Focus on Empathy and Respect,DOI:10.1007/978-94-024-0871-3_9,"""Claude"" ""responsible"" ""education"" ",Web of Science
 "Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions",DOI:10.2196/48291,"""GPT-4"" ""overreliance"" ""education"" ",Web of Science
 Stratified Evaluation of GPT's Question Answering in Surgery Reveals Artificial Intelligence (AI) Knowledge Gaps,DOI:10.7759/cureus.48788,"""GPT-4"" ""misinformation"" ""education"" ",Web of Science
 Can we use ChatGPT for Mental Health and Substance Use Education? Examining Its Quality and Potential Harms,DOI:10.2196/51243,"""GPT-4"" ""misinformation"" ""education"" ",Web of Science
@@ -209,13 +249,3 @@ Transforming Education: A Comprehensive Review of Generative Artificial Intellig
 "Large Language Models in Medical Education: Opportunities, Challenges, and Future Directions",DOI:10.2196/48291,"""GPT-4"" ""responsible"" ""education"" ",Web of Science
 Stratified Evaluation of GPT's Question Answering in Surgery Reveals Artificial Intelligence (AI) Knowledge Gaps,DOI:10.7759/cureus.48788,"""GPT-3.5"" ""misinformation"" ""education"" ",Web of Science
 Automated classification of lay health articles using natural language processing: a case study on pregnancy health and postpartum depression,DOI:10.3389/fpsyt.2023.1258887,"""GPT-3.5"" ""trustworthy"" ""education"" ",Web of Science
-AN ANALYSIS OF THE MUSICAL PHILOSOPHY OF MODERNITY IN DEBUSSY'S PASTORAL AFTERNOON,DOI:10.24204/EJPR.2021.3844,"""Claude"" ""environmental"" ""education"" ",Web of Science
-The Importance of Including Human Rights Education in Primary and Secondary Schools: A Focus on Empathy and Respect,DOI:10.1007/978-94-024-0871-3_9,"""Claude"" ""responsible"" ""education"" ",Web of Science
-Environmental Education as a Means for Valuing and Conserving Camelids and Pastoralism in the Argentinean Altiplano of Jujuy,DOI:10.1659/MRD-JOURNAL-D-20-00009.1,"""Llama"" ""environmental"" ""education"" ",Web of Science
-"YI-FU TUAN'S LEGACY: IMPACTS ON THE <i>GEOGRAPHICAL REVIEW</i>, DISCIPLINES, SCHOLARSHIP, AND TEACHING",DOI:10.1080/00167428.2023.2191267,"""Yi"" ""environmental"" ""education"" ",Web of Science
-"Assessment of the Resilience of a Tartary Buckwheat (<i>Fagopyrum tataricum</i>) Cultivation System in Meigu, Southwest China",DOI:10.3390/su12145683,"""Yi"" ""environmental"" ""education"" ",Web of Science
-"Anthropocosmic vision, time, and nature: Reconnecting humanity and nature",DOI:10.1080/00131857.2018.1564660,"""Yi"" ""environmental"" ""education"" ",Web of Science
-"Acculturation of rural households participating in a clean development mechanism forest carbon sequestration program: A survey of Yi ethnic areas in Liangshan, China",DOI:10.1016/j.jfe.2018.04.006,"""Yi"" ""environmental"" ""education"" ",Web of Science
-Behaviors Related to Mosquito-Borne Diseases among Different Ethnic Minority Groups along the China-Laos Border Areas,DOI:10.3390/ijerph14101227,"""Yi"" ""environmental"" ""education"" ",Web of Science
-TECHNOLOGY-ENHANCED LEARNING BY UAV AND CLOUD COMPUTING FOR SUSTAINABLE ENVIRONMENT EDUCATION,WOS:000493048105095,"""Yi"" ""environmental"" ""education"" ",Web of Science
-Identifying the local factors of resilience during cyclone Hudhud and Phailin on the east coast of India,DOI:10.1007/s13280-019-01241-7,"""Palmyra"" ""environmental"" ""education"" ",Web of Science
