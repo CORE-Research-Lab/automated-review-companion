@@ -91,6 +91,7 @@ def search(query: str):
             except (MaxRetryError, ConnectionError, Timeout, TooManyRedirects, HTTPError, RequestException) as e:
                 attempts += 1
                 print(f"Error occurred: {e}, Attempt {attempts} failed. Retrying...")
+                time.sleep(1)
         print("Max retries exceeded. Could not establish a connection.")
         return None
 
@@ -102,10 +103,14 @@ def search(query: str):
     }
 
     response = make_request(options)
-    try:
-        response = response.json()
-    except json.decoder.JSONDecodeError:
-        print(f'Error when searching for: {query}. Got response: {response.text}')
+    if response is not None:
+        try:
+            response = response.json()
+        except json.decoder.JSONDecodeError:
+            print(f'Error when searching for: {query}. Got response: {response.text}')
+            return None
+    else:
+        print("No response received.")
         return None
 
 
