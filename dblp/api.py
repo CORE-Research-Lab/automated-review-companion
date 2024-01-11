@@ -91,6 +91,7 @@ def search(query: str):
             except (MaxRetryError, ConnectionError, Timeout, TooManyRedirects, HTTPError, RequestException) as e:
                 attempts += 1
                 print(f"Error occurred: {e}, Attempt {attempts} failed. Retrying...")
+                time.sleep(1)
         print("Max retries exceeded. Could not establish a connection.")
         return None
 
