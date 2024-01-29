@@ -1,199 +1,179 @@
 Combination,Total_Search_Result_Count,Result_Group
-"('PaLM', 'environmental', 'education')",83,high
-"('language model', 'accessibility', 'education')",54,high
-"('language model', 'privacy', 'education')",51,high
+"('PaLM', 'environmental', 'education')",106,high
+"('language model', 'accessibility', 'education')",66,high
+"('language model', 'privacy', 'education')",62,high
+"('language model', 'responsible', 'education')",61,high
 "('language model', 'explainability', 'education')",48,high
-"('language model', 'responsible', 'education')",48,high
 "('PaLM', 'explainability', 'education')",47,high
-"('large language model', 'privacy', 'education')",36,high
-"('large language model', 'accessibility', 'education')",35,high
-"('large language model', 'responsible', 'education')",33,high
+"('Generative AI', 'responsible', 'education')",46,high
+"('large language model', 'privacy', 'education')",41,high
+"('large language model', 'responsible', 'education')",41,high
+"('large language model', 'accessibility', 'education')",38,high
+"('GPT', 'privacy', 'education')",35,high
+"('language model', 'misinformation', 'education')",34,high
 "('large language model', 'explainability', 'education')",31,high
+"('PaLM', 'accessibility', 'education')",31,high
 "('GPT', 'explainability', 'education')",30,high
-"('PaLM', 'accessibility', 'education')",29,high
-"('Generative AI', 'responsible', 'education')",28,high
-"('GPT', 'privacy', 'education')",27,high
-"('language model', 'misinformation', 'education')",27,high
-"('LLM', 'accessibility', 'education')",25,high
-"('LLM', 'privacy', 'education')",25,high
+"('Generative AI', 'privacy', 'education')",29,high
+"('LLM', 'privacy', 'education')",28,high
+"('LLM', 'responsible', 'education')",27,high
+"('GPT', 'accessibility', 'education')",27,high
+"('large language model', 'misinformation', 'education')",27,high
+"('LLM', 'accessibility', 'education')",26,high
 "('LLM', 'explainability', 'education')",25,high
-"('LLM', 'responsible', 'education')",23,high
-"('large language model', 'misinformation', 'education')",22,high
-"('GPT', 'accessibility', 'education')",22,high
+"('Generative Artificial Intelligence', 'responsible', 'education')",22,high
 "('LM', 'explainability', 'education')",20,high
-"('Generative AI', 'privacy', 'education')",18,high
-"('Generative AI', 'accessibility', 'education')",18,high
-"('PaLM', 'responsible', 'education')",17,high
+"('PaLM', 'responsible', 'education')",20,high
+"('Generative AI', 'accessibility', 'education')",20,high
+"('GPT', 'responsible', 'education')",19,high
+"('LLM', 'misinformation', 'education')",19,high
+"('GPT', 'misinformation', 'education')",18,high
+"('LM', 'environmental', 'education')",17,high
 "('Claude', 'explainability', 'education')",17,high
 "('Generative AI', 'explainability', 'education')",15,medium
-"('GPT', 'responsible', 'education')",15,medium
-"('LLM', 'misinformation', 'education')",14,medium
-"('Generative Artificial Intelligence', 'responsible', 'education')",14,medium
-"('GPT', 'misinformation', 'education')",11,medium
-"('Claude', 'environmental', 'education')",10,medium
-"('LM', 'environmental', 'education')",10,medium
-"('Generative Artificial Intelligence', 'accessibility', 'education')",10,medium
-"('GPT-4', 'accessibility', 'education')",10,medium
-"('GPT-4', 'explainability', 'education')",9,medium
+"('GPT-4', 'accessibility', 'education')",13,medium
+"('Generative Artificial Intelligence', 'accessibility', 'education')",13,medium
+"('GPT-4', 'privacy', 'education')",11,medium
+"('GPT-4', 'responsible', 'education')",11,medium
+"('GPT-4', 'misinformation', 'education')",11,medium
+"('Generative Artificial Intelligence', 'privacy', 'education')",11,medium
+"('Claude', 'environmental', 'education')",11,medium
 "('language model', 'trustworthy', 'education')",9,medium
-"('language model', 'environmental', 'education')",8,medium
-"('GPT-4', 'responsible', 'education')",8,medium
-"('GPT-4', 'privacy', 'education')",8,medium
-"('language model', 'overreliance', 'education')",7,medium
-"('large language model', 'environmental', 'education')",6,medium
-"('Claude', 'responsible', 'education')",6,medium
-"('Generative AI', 'misinformation', 'education')",6,medium
-"('Generative Artificial Intelligence', 'privacy', 'education')",6,medium
-"('GPT-4', 'misinformation', 'education')",6,medium
-"('LM', 'responsible', 'education')",5,medium
-"('large language model', 'trustworthy', 'education')",5,medium
-"('Generative AI', 'environmental', 'education')",5,medium
-"('PaLM', 'privacy', 'education')",5,medium
+"('GPT-4', 'explainability', 'education')",9,medium
+"('Generative AI', 'misinformation', 'education')",9,medium
+"('language model', 'environmental', 'education')",9,medium
+"('LM', 'responsible', 'education')",8,medium
+"('GenAI', 'responsible', 'education')",8,medium
+"('Generative AI', 'environmental', 'education')",8,medium
+"('language model', 'overreliance', 'education')",8,medium
+"('large language model', 'environmental', 'education')",7,medium
+"('Claude', 'responsible', 'education')",7,medium
+"('LM', 'accessibility', 'education')",7,medium
+"('Generative Artificial Intelligence', 'environmental', 'education')",7,medium
+"('GPT-3', 'accessibility', 'education')",6,medium
+"('Generative Artificial Intelligence', 'misinformation', 'education')",6,medium
+"('PaLM', 'privacy', 'education')",6,medium
+"('Generative AI', 'overreliance', 'education')",6,medium
+"('GPT-3', 'privacy', 'education')",5,medium
+"('GPT-3.5', 'accessibility', 'education')",5,medium
+"('Llama', 'explainability', 'education')",5,medium
 "('large language model', 'overreliance', 'education')",5,medium
 "('Claude', 'accessibility', 'education')",5,medium
-"('GenAI', 'responsible', 'education')",5,medium
-"('GPT-3.5', 'accessibility', 'education')",5,medium
+"('large language model', 'trustworthy', 'education')",5,medium
 "('Generative Artificial Intelligence', 'explainability', 'education')",5,medium
-"('LM', 'accessibility', 'education')",5,medium
-"('Llama', 'explainability', 'education')",5,medium
-"('Generative AI', 'overreliance', 'education')",4,medium
-"('GPT-3.5', 'explainability', 'education')",4,medium
-"('GPT-3', 'privacy', 'education')",4,medium
-"('language model', 'over-reliance', 'education')",4,medium
-"('Generative Artificial Intelligence', 'environmental', 'education')",4,medium
+"('Gemini', 'responsible', 'education')",4,medium
+"('GPT', 'overreliance', 'education')",4,medium
+"('GPT', 'over-reliance', 'education')",4,medium
 "('LLM', 'trustworthy', 'education')",4,medium
-"('GPT-3', 'accessibility', 'education')",4,medium
+"('language model', 'over-reliance', 'education')",4,medium
 "('LLM', 'overreliance', 'education')",4,medium
+"('Generative AI', 'trustworthy', 'education')",4,medium
+"('GPT-3.5', 'explainability', 'education')",4,medium
+"('GPT', 'environmental', 'education')",4,medium
+"('LLM', 'environmental', 'education')",3,medium
+"('Generative Artificial Intelligence', 'trustworthy', 'education')",3,medium
 "('GPT-3', 'explainability', 'education')",3,medium
-"('Generative Artificial Intelligence', 'misinformation', 'education')",3,medium
-"('GPT', 'environmental', 'education')",3,medium
+"('GenAI', 'overreliance', 'education')",3,medium
+"('GenAI', 'privacy', 'education')",3,medium
 "('foundation model', 'environmental', 'education')",3,medium
-"('Generative AI', 'trustworthy', 'education')",3,medium
 "('foundation model', 'explainability', 'education')",3,medium
-"('GPT', 'overreliance', 'education')",3,medium
-"('Gemini', 'responsible', 'education')",3,medium
 "('large language model', 'over-reliance', 'education')",3,medium
 "('Llama', 'responsible', 'education')",3,medium
-"('LLM', 'environmental', 'education')",3,medium
-"('Generative Artificial Intelligence', 'trustworthy', 'education')",2,medium
-"('LLM', 'over-reliance', 'education')",2,medium
+"('GPT-3', 'over-reliance', 'education')",3,medium
+"('GPT-3.5', 'trustworthy', 'education')",2,medium
+"('foundation model', 'accessibility', 'education')",2,medium
 "('GPT-4', 'environmental', 'education')",2,medium
-"('GenAI', 'overreliance', 'education')",2,medium
+"('Llama', 'environmental', 'education')",2,medium
+"('Palmyra', 'environmental', 'education')",2,medium
+"('GPT-3.5', 'misinformation', 'education')",2,medium
+"('GPT-3.5-Turbo', 'trustworthy', 'education')",2,medium
+"('GPT', 'trustworthy', 'education')",2,medium
 "('GenAI', 'accessibility', 'education')",2,medium
-"('GenAI', 'privacy', 'education')",2,medium
-"('GPT', 'over-reliance', 'education')",2,medium
-"('GPT-3', 'over-reliance', 'education')",1,medium
-"('GPT-3', 'environmental', 'education')",1,medium
-"('Gemini', 'environmental', 'education')",1,medium
+"('Gen AI', 'responsible', 'education')",2,medium
+"('LLM', 'over-reliance', 'education')",2,medium
+"('GPT-3', 'trustworthy', 'education')",1,medium
+"('GPT-3.5-Turbo', 'responsible', 'education')",1,medium
+"('GPT-3.5-Turbo', 'explainability', 'education')",1,medium
+"('GPT-3.5-Turbo', 'accessibility', 'education')",1,medium
 "('GPT-3', 'responsible', 'education')",1,medium
+"('GPT-3', 'environmental', 'education')",1,medium
+"('LM', 'misinformation', 'education')",1,medium
+"('PaLM 2', 'explainability', 'education')",1,medium
+"('LM', 'privacy', 'education')",1,medium
+"('LM', 'trustworthy', 'education')",1,medium
+"('GPT-3', 'misinformation', 'education')",1,medium
 "('Gemini', 'accessibility', 'education')",1,medium
 "('PaLM 2', 'responsible', 'education')",1,medium
-"('GPT-3.5-Turbo', 'accessibility', 'education')",1,medium
+"('GPT-4', 'over-reliance', 'education')",1,medium
+"('GPT-4', 'overreliance', 'education')",1,medium
 "('Gemini', 'explainability', 'education')",1,medium
-"('Llama', 'environmental', 'education')",1,medium
-"('Llama', 'accessibility', 'education')",1,medium
-"('Claude 2.1', 'responsible', 'education')",1,medium
-"('GPT-3.5-Turbo', 'explainability', 'education')",1,medium
-"('GPT-3.5-Turbo', 'responsible', 'education')",1,medium
+"('Generative AI', 'over-reliance', 'education')",1,medium
+"('Claude', 'privacy', 'education')",1,medium
+"('text-davinci', 'misinformation', 'education')",1,medium
+"('text-davinci', 'accessibility', 'education')",1,medium
+"('text-davinci-003', 'accessibility', 'education')",1,medium
 "('text-davinci-003', 'misinformation', 'education')",1,medium
+"('Palmyra', 'responsible', 'education')",1,medium
 "('GPT-4-Turbo', 'responsible', 'education')",1,medium
 "('GPT-4-Turbo', 'explainability', 'education')",1,medium
 "('PaLM', 'misinformation', 'education')",1,medium
-"('text-davinci-003', 'accessibility', 'education')",1,medium
-"('text-davinci', 'accessibility', 'education')",1,medium
-"('text-davinci', 'misinformation', 'education')",1,medium
-"('GPT-4', 'over-reliance', 'education')",1,medium
-"('Claude 2.1', 'explainability', 'education')",1,medium
 "('GPT-3.5', 'responsible', 'education')",1,medium
-"('GPT-3.5', 'trustworthy', 'education')",1,medium
-"('GPT-3.5', 'misinformation', 'education')",1,medium
-"('Palmyra', 'responsible', 'education')",1,medium
-"('Palmyra', 'environmental', 'education')",1,medium
-"('PaLM 2', 'explainability', 'education')",1,medium
-"('Llama', 'misinformation', 'education')",1,medium
-"('GPT-3.5-Turbo', 'trustworthy', 'education')",1,medium
-"('LM', 'misinformation', 'education')",1,medium
-"('Gen AI', 'responsible', 'education')",1,medium
+"('Gemini', 'environmental', 'education')",1,medium
 "('Gen AI', 'accessibility', 'education')",1,medium
-"('foundation model', 'privacy', 'education')",1,medium
-"('foundation model', 'accessibility', 'education')",1,medium
-"('GPT', 'trustworthy', 'education')",1,medium
-"('Claude', 'privacy', 'education')",1,medium
-"('Generative AI', 'over-reliance', 'education')",1,medium
 "('small language model', 'explainability', 'education')",1,medium
-"('foundation model', 'trustworthy', 'education')",1,medium
+"('Llama', 'accessibility', 'education')",1,medium
+"('Claude 2.1', 'explainability', 'education')",1,medium
+"('Llama', 'misinformation', 'education')",1,medium
 "('Llama 2', 'accessibility', 'education')",1,medium
-"('LM', 'privacy', 'education')",1,medium
-"('LM', 'trustworthy', 'education')",1,medium
-"('Mixtral-8x7b', 'misinformation', 'education')",0,low
-"('Claude', 'overreliance', 'education')",0,low
-"('Claude', 'over-reliance', 'education')",0,low
-"('Tulū-2-DPO-70B', 'trustworthy', 'education')",0,low
-"('Claude', 'misinformation', 'education')",0,low
-"('Tulū-2-DPO-70B', 'responsible', 'education')",0,low
-"('GPT-4', 'overreliance', 'education')",0,low
-"('Mixtral-8x7b', 'over-reliance', 'education')",0,low
-"('Mixtral-8x7b', 'responsible', 'education')",0,low
-"('Mixtral-8x7b', 'trustworthy', 'education')",0,low
-"('Mixtral-8x7b', 'overreliance', 'education')",0,low
-"('Mixtral-8x7b', 'explainability', 'education')",0,low
-"('WizardLM', 'responsible', 'education')",0,low
-"('Mixtral-8x7b', 'privacy', 'education')",0,low
-"('Mixtral-8x7b', 'accessibility', 'education')",0,low
-"('Mixtral-8x7b', 'environmental', 'education')",0,low
-"('text-davinci', 'overreliance', 'education')",0,low
-"('GPT-4', 'trustworthy', 'education')",0,low
-"('WizardLM', 'trustworthy', 'education')",0,low
-"('Yi-34B-Chat', 'trustworthy', 'education')",0,low
-"('WizardLM', 'accessibility', 'education')",0,low
-"('Yi-34B-Chat', 'explainability', 'education')",0,low
-"('Yi-34B-Chat', 'environmental', 'education')",0,low
-"('WizardLM', 'privacy', 'education')",0,low
-"('Yi-34B-Chat', 'privacy', 'education')",0,low
-"('Yi-34B-Chat', 'accessibility', 'education')",0,low
-"('Yi-34B-Chat', 'misinformation', 'education')",0,low
-"('Yi-34B-Chat', 'over-reliance', 'education')",0,low
-"('Yi-34B-Chat', 'overreliance', 'education')",0,low
-"('text-davinci', 'responsible', 'education')",0,low
-"('text-davinci', 'trustworthy', 'education')",0,low
+"('Claude 2.1', 'responsible', 'education')",1,medium
+"('foundation model', 'privacy', 'education')",1,medium
+"('foundation model', 'trustworthy', 'education')",1,medium
+"('text-davinci', 'over-reliance', 'education')",0,low
 "('text-davinci', 'explainability', 'education')",0,low
 "('text-davinci', 'environmental', 'education')",0,low
 "('text-davinci', 'privacy', 'education')",0,low
-"('WizardLM', 'environmental', 'education')",0,low
-"('WizardLM', 'explainability', 'education')",0,low
-"('text-davinci', 'over-reliance', 'education')",0,low
-"('Tulū-2-DPO-70B', 'environmental', 'education')",0,low
-"('Tulū-2-DPO-70B', 'explainability', 'education')",0,low
-"('Claude-Instant-1', 'privacy', 'education')",0,low
-"('Tulū-2-DPO-70B', 'privacy', 'education')",0,low
-"('Vicuna-33BVicuna', 'responsible', 'education')",0,low
-"('Vicuna-33BVicuna', 'explainability', 'education')",0,low
-"('Vicuna-33BVicuna', 'environmental', 'education')",0,low
-"('Vicuna-33BVicuna', 'privacy', 'education')",0,low
-"('Vicuna-33BVicuna', 'accessibility', 'education')",0,low
-"('Claude', 'trustworthy', 'education')",0,low
-"('Vicuna-33BVicuna', 'misinformation', 'education')",0,low
-"('Vicuna-33BVicuna', 'over-reliance', 'education')",0,low
-"('Vicuna-33BVicuna', 'overreliance', 'education')",0,low
-"('Mixtral', 'responsible', 'education')",0,low
-"('Mixtral', 'trustworthy', 'education')",0,low
-"('Mixtral', 'explainability', 'education')",0,low
 "('Mixtral', 'environmental', 'education')",0,low
-"('Mixtral', 'privacy', 'education')",0,low
+"('Mixtral', 'explainability', 'education')",0,low
+"('Claude 2.0', 'privacy', 'education')",0,low
+"('text-davinci', 'overreliance', 'education')",0,low
+"('text-davinci', 'responsible', 'education')",0,low
+"('Claude', 'over-reliance', 'education')",0,low
+"('GPT-4', 'trustworthy', 'education')",0,low
+"('Claude', 'misinformation', 'education')",0,low
+"('Mixtral', 'trustworthy', 'education')",0,low
+"('Mixtral', 'responsible', 'education')",0,low
+"('Claude', 'trustworthy', 'education')",0,low
+"('Vicuna-33BVicuna', 'overreliance', 'education')",0,low
+"('Vicuna-33BVicuna', 'over-reliance', 'education')",0,low
+"('text-davinci', 'trustworthy', 'education')",0,low
+"('Yi-34B-Chat', 'misinformation', 'education')",0,low
+"('Yi-34B-Chat', 'overreliance', 'education')",0,low
 "('Mixtral', 'accessibility', 'education')",0,low
-"('Mixtral', 'misinformation', 'education')",0,low
-"('Mixtral', 'over-reliance', 'education')",0,low
-"('Mixtral', 'overreliance', 'education')",0,low
 "('Palmyra-X-V3', 'responsible', 'education')",0,low
-"('Palmyra-X-V3', 'trustworthy', 'education')",0,low
-"('Vicuna-33BVicuna', 'trustworthy', 'education')",0,low
-"('Claude 2.0', 'overreliance', 'education')",0,low
-"('Tulū-2-DPO-70B', 'accessibility', 'education')",0,low
-"('Claude 2.0', 'over-reliance', 'education')",0,low
+"('Claude', 'overreliance', 'education')",0,low
+"('Mixtral', 'overreliance', 'education')",0,low
+"('PaLM', 'over-reliance', 'education')",0,low
+"('Mixtral', 'over-reliance', 'education')",0,low
+"('Mixtral', 'misinformation', 'education')",0,low
+"('PaLM', 'overreliance', 'education')",0,low
 "('Yi-34B-Chat', 'responsible', 'education')",0,low
-"('Tulū-2-DPO-70B', 'over-reliance', 'education')",0,low
-"('Tulū-2-DPO-70B', 'overreliance', 'education')",0,low
-"('Claude-Instant', 'responsible', 'education')",0,low
+"('Yi-34B-Chat', 'over-reliance', 'education')",0,low
+"('Yi-34B-Chat', 'trustworthy', 'education')",0,low
+"('Mixtral', 'privacy', 'education')",0,low
+"('Yi-34B-Chat', 'explainability', 'education')",0,low
+"('Yi-34B-Chat', 'environmental', 'education')",0,low
+"('Yi-34B-Chat', 'privacy', 'education')",0,low
+"('Yi-34B-Chat', 'accessibility', 'education')",0,low
+"('Mixtral-8x7b', 'responsible', 'education')",0,low
+"('Vicuna-33BVicuna', 'misinformation', 'education')",0,low
+"('Mixtral-8x7b', 'environmental', 'education')",0,low
+"('Mixtral-8x7b', 'trustworthy', 'education')",0,low
+"('Mixtral-8x7b', 'explainability', 'education')",0,low
+"('Vicuna-33BVicuna', 'trustworthy', 'education')",0,low
+"('Vicuna-33BVicuna', 'responsible', 'education')",0,low
+"('Claude 2.0', 'overreliance', 'education')",0,low
+"('Claude 2.0', 'over-reliance', 'education')",0,low
+"('Claude 2.0', 'misinformation', 'education')",0,low
 "('Claude-Instant', 'trustworthy', 'education')",0,low
 "('Claude-Instant', 'explainability', 'education')",0,low
 "('Claude-Instant', 'environmental', 'education')",0,low
@@ -202,86 +182,115 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Claude-Instant', 'misinformation', 'education')",0,low
 "('Claude-Instant', 'over-reliance', 'education')",0,low
 "('Claude-Instant', 'overreliance', 'education')",0,low
+"('Claude 2.0', 'accessibility', 'education')",0,low
 "('Claude 2.0', 'responsible', 'education')",0,low
 "('Claude 2.0', 'trustworthy', 'education')",0,low
 "('Claude 2.0', 'explainability', 'education')",0,low
+"('Vicuna-33BVicuna', 'explainability', 'education')",0,low
+"('Claude-Instant', 'responsible', 'education')",0,low
+"('Tulū-2-DPO-70B', 'overreliance', 'education')",0,low
+"('Tulū-2-DPO-70B', 'trustworthy', 'education')",0,low
 "('Claude 2.0', 'environmental', 'education')",0,low
-"('Claude 2.0', 'privacy', 'education')",0,low
-"('Claude 2.0', 'accessibility', 'education')",0,low
-"('Claude 2.0', 'misinformation', 'education')",0,low
+"('Mixtral-8x7b', 'privacy', 'education')",0,low
+"('Mixtral-8x7b', 'accessibility', 'education')",0,low
+"('Mixtral-8x7b', 'misinformation', 'education')",0,low
+"('Mixtral-8x7b', 'over-reliance', 'education')",0,low
+"('Mixtral-8x7b', 'overreliance', 'education')",0,low
+"('Tulū-2-DPO-70B', 'responsible', 'education')",0,low
+"('Tulū-2-DPO-70B', 'explainability', 'education')",0,low
+"('Tulū-2-DPO-70B', 'over-reliance', 'education')",0,low
+"('Vicuna-33BVicuna', 'accessibility', 'education')",0,low
+"('Tulū-2-DPO-70B', 'environmental', 'education')",0,low
+"('Vicuna-33BVicuna', 'privacy', 'education')",0,low
+"('Tulū-2-DPO-70B', 'privacy', 'education')",0,low
+"('Tulū-2-DPO-70B', 'accessibility', 'education')",0,low
+"('WizardLM', 'responsible', 'education')",0,low
+"('Vicuna-33BVicuna', 'environmental', 'education')",0,low
 "('Tulū-2-DPO-70B', 'misinformation', 'education')",0,low
+"('Claude Instant 1.2', 'accessibility', 'education')",0,low
+"('WizardLM', 'trustworthy', 'education')",0,low
+"('Claude 1', 'responsible', 'education')",0,low
+"('WizardLM-70B-v1.0', 'trustworthy', 'education')",0,low
+"('Gemini', 'trustworthy', 'education')",0,low
+"('WizardLM-70B-v1.0', 'responsible', 'education')",0,low
+"('WizardLM', 'overreliance', 'education')",0,low
+"('WizardLM', 'over-reliance', 'education')",0,low
+"('Gemini', 'privacy', 'education')",0,low
+"('Gemini', 'misinformation', 'education')",0,low
+"('Gemini', 'over-reliance', 'education')",0,low
+"('Gemini', 'overreliance', 'education')",0,low
+"('Claude 1', 'trustworthy', 'education')",0,low
+"('Claude-Instant-1', 'over-reliance', 'education')",0,low
+"('Claude 1', 'explainability', 'education')",0,low
+"('Claude 1', 'environmental', 'education')",0,low
 "('WizardLM', 'misinformation', 'education')",0,low
-"('PaLM', 'overreliance', 'education')",0,low
 "('Claude 1', 'privacy', 'education')",0,low
-"('text-davinci-002', 'explainability', 'education')",0,low
-"('text-davinci-002', 'trustworthy', 'education')",0,low
-"('text-davinci-002', 'responsible', 'education')",0,low
 "('Claude 1', 'accessibility', 'education')",0,low
 "('Claude 1', 'misinformation', 'education')",0,low
 "('Claude 1', 'over-reliance', 'education')",0,low
 "('Claude 1', 'overreliance', 'education')",0,low
-"('PaLM 2', 'trustworthy', 'education')",0,low
-"('Palmyra-X-V3', 'environmental', 'education')",0,low
-"('WizardLM-70B-v1.0', 'overreliance', 'education')",0,low
+"('Palmyra-X-V3', 'explainability', 'education')",0,low
+"('Claude-Instant-1', 'overreliance', 'education')",0,low
+"('Claude-Instant-1', 'misinformation', 'education')",0,low
+"('WizardLM', 'explainability', 'education')",0,low
+"('text-davinci-002', 'environmental', 'education')",0,low
 "('WizardLM-70B-v1.0', 'over-reliance', 'education')",0,low
+"('WizardLM-70B-v1.0', 'misinformation', 'education')",0,low
+"('WizardLM-70B-v1.0', 'accessibility', 'education')",0,low
+"('WizardLM-70B-v1.0', 'privacy', 'education')",0,low
+"('WizardLM-70B-v1.0', 'environmental', 'education')",0,low
+"('WizardLM-70B-v1.0', 'explainability', 'education')",0,low
+"('text-davinci-002', 'responsible', 'education')",0,low
+"('text-davinci-002', 'trustworthy', 'education')",0,low
+"('text-davinci-002', 'explainability', 'education')",0,low
+"('text-davinci-002', 'privacy', 'education')",0,low
+"('Claude-Instant-1', 'accessibility', 'education')",0,low
+"('text-davinci-002', 'accessibility', 'education')",0,low
+"('text-davinci-002', 'misinformation', 'education')",0,low
+"('text-davinci-002', 'over-reliance', 'education')",0,low
+"('text-davinci-002', 'overreliance', 'education')",0,low
+"('Claude-Instant-1', 'responsible', 'education')",0,low
+"('Claude-Instant-1', 'trustworthy', 'education')",0,low
+"('Claude-Instant-1', 'explainability', 'education')",0,low
+"('Claude-Instant-1', 'environmental', 'education')",0,low
+"('Claude-Instant-1', 'privacy', 'education')",0,low
+"('PaLM 2', 'trustworthy', 'education')",0,low
 "('PaLM 2', 'environmental', 'education')",0,low
 "('PaLM 2', 'privacy', 'education')",0,low
+"('Claude Instant 1.2', 'explainability', 'education')",0,low
+"('Palmyra-X-V2', 'explainability', 'education')",0,low
+"('Palmyra-X-V2', 'environmental', 'education')",0,low
+"('Palmyra-X-V2', 'privacy', 'education')",0,low
+"('Palmyra-X-V2', 'accessibility', 'education')",0,low
+"('Palmyra-X-V2', 'misinformation', 'education')",0,low
+"('Palmyra-X-V2', 'over-reliance', 'education')",0,low
+"('Palmyra-X-V2', 'overreliance', 'education')",0,low
+"('Claude Instant 1.2', 'responsible', 'education')",0,low
+"('Claude Instant 1.2', 'trustworthy', 'education')",0,low
+"('Claude Instant 1.2', 'environmental', 'education')",0,low
 "('PaLM 2', 'accessibility', 'education')",0,low
+"('Claude Instant 1.2', 'privacy', 'education')",0,low
+"('WizardLM', 'accessibility', 'education')",0,low
+"('WizardLM-70B-v1.0', 'overreliance', 'education')",0,low
+"('Claude Instant 1.2', 'misinformation', 'education')",0,low
+"('Claude Instant 1.2', 'over-reliance', 'education')",0,low
+"('Claude Instant 1.2', 'overreliance', 'education')",0,low
+"('WizardLM', 'privacy', 'education')",0,low
+"('PaLM', 'trustworthy', 'education')",0,low
+"('WizardLM', 'environmental', 'education')",0,low
+"('Palmyra-X-V2', 'trustworthy', 'education')",0,low
+"('Palmyra-X-V2', 'responsible', 'education')",0,low
+"('Tulū 2', 'overreliance', 'education')",0,low
+"('Tulū 2', 'over-reliance', 'education')",0,low
 "('PaLM 2', 'misinformation', 'education')",0,low
 "('PaLM 2', 'over-reliance', 'education')",0,low
 "('PaLM 2', 'overreliance', 'education')",0,low
 "('Claude v1.3', 'responsible', 'education')",0,low
 "('Claude v1.3', 'trustworthy', 'education')",0,low
-"('text-davinci-002', 'environmental', 'education')",0,low
-"('text-davinci-002', 'privacy', 'education')",0,low
-"('PaLM', 'over-reliance', 'education')",0,low
-"('Claude 1', 'environmental', 'education')",0,low
-"('Claude-Instant-1', 'misinformation', 'education')",0,low
-"('Claude-Instant-1', 'over-reliance', 'education')",0,low
-"('Claude-Instant-1', 'overreliance', 'education')",0,low
-"('Claude-Instant-1', 'environmental', 'education')",0,low
-"('Claude-Instant-1', 'explainability', 'education')",0,low
-"('Gemini', 'trustworthy', 'education')",0,low
-"('Claude-Instant-1', 'trustworthy', 'education')",0,low
-"('Claude-Instant-1', 'responsible', 'education')",0,low
-"('text-davinci-002', 'overreliance', 'education')",0,low
-"('text-davinci-002', 'over-reliance', 'education')",0,low
-"('text-davinci-002', 'misinformation', 'education')",0,low
-"('Gemini', 'privacy', 'education')",0,low
-"('text-davinci-002', 'accessibility', 'education')",0,low
-"('Gemini', 'misinformation', 'education')",0,low
-"('Gemini', 'over-reliance', 'education')",0,low
-"('Gemini', 'overreliance', 'education')",0,low
-"('Claude 1', 'responsible', 'education')",0,low
-"('Claude 1', 'trustworthy', 'education')",0,low
-"('Claude 1', 'explainability', 'education')",0,low
 "('Claude v1.3', 'explainability', 'education')",0,low
 "('Claude v1.3', 'environmental', 'education')",0,low
 "('Claude v1.3', 'privacy', 'education')",0,low
 "('Claude v1.3', 'accessibility', 'education')",0,low
-"('Claude Instant 1.2', 'trustworthy', 'education')",0,low
-"('Claude Instant 1.2', 'explainability', 'education')",0,low
-"('Claude Instant 1.2', 'environmental', 'education')",0,low
-"('Claude Instant 1.2', 'privacy', 'education')",0,low
-"('Claude Instant 1.2', 'accessibility', 'education')",0,low
-"('Claude Instant 1.2', 'misinformation', 'education')",0,low
-"('WizardLM-70B-v1.0', 'misinformation', 'education')",0,low
-"('Claude Instant 1.2', 'over-reliance', 'education')",0,low
-"('Claude Instant 1.2', 'overreliance', 'education')",0,low
-"('WizardLM-70B-v1.0', 'accessibility', 'education')",0,low
-"('WizardLM-70B-v1.0', 'privacy', 'education')",0,low
-"('PaLM', 'trustworthy', 'education')",0,low
-"('WizardLM-70B-v1.0', 'environmental', 'education')",0,low
-"('WizardLM-70B-v1.0', 'explainability', 'education')",0,low
-"('WizardLM-70B-v1.0', 'trustworthy', 'education')",0,low
-"('WizardLM-70B-v1.0', 'responsible', 'education')",0,low
-"('WizardLM', 'overreliance', 'education')",0,low
-"('WizardLM', 'over-reliance', 'education')",0,low
-"('Claude-Instant-1', 'accessibility', 'education')",0,low
-"('Claude Instant 1.2', 'responsible', 'education')",0,low
-"('Palmyra-X-V2', 'overreliance', 'education')",0,low
-"('Palmyra-X-V2', 'over-reliance', 'education')",0,low
-"('Tulū 2', 'accessibility', 'education')",0,low
 "('Claude v1.3', 'misinformation', 'education')",0,low
 "('Claude v1.3', 'over-reliance', 'education')",0,low
 "('Claude v1.3', 'overreliance', 'education')",0,low
@@ -290,20 +299,13 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Tulū 2', 'explainability', 'education')",0,low
 "('Tulū 2', 'environmental', 'education')",0,low
 "('Tulū 2', 'privacy', 'education')",0,low
+"('Tulū 2', 'accessibility', 'education')",0,low
 "('Tulū 2', 'misinformation', 'education')",0,low
-"('Palmyra-X-V2', 'misinformation', 'education')",0,low
-"('Tulū 2', 'over-reliance', 'education')",0,low
-"('Tulū 2', 'overreliance', 'education')",0,low
-"('Palmyra-X-V2', 'responsible', 'education')",0,low
-"('Palmyra-X-V2', 'trustworthy', 'education')",0,low
-"('Palmyra-X-V2', 'explainability', 'education')",0,low
-"('Palmyra-X-V2', 'environmental', 'education')",0,low
-"('Palmyra-X-V2', 'privacy', 'education')",0,low
-"('Palmyra-X-V2', 'accessibility', 'education')",0,low
-"('Palmyra-X-V3', 'explainability', 'education')",0,low
+"('Palmyra-X-V3', 'trustworthy', 'education')",0,low
 "('Generative Artificial Intelligence', 'overreliance', 'education')",0,low
-"('Palmyra-X-V3', 'privacy', 'education')",0,low
-"('Llama 2', 'responsible', 'education')",0,low
+"('Palmyra-X-V3', 'environmental', 'education')",0,low
+"('GPT-4-0314', 'privacy', 'education')",0,low
+"('Yi 34B', 'accessibility', 'education')",0,low
 "('Yi 34B', 'misinformation', 'education')",0,low
 "('Yi 34B', 'over-reliance', 'education')",0,low
 "('Yi 34B', 'overreliance', 'education')",0,low
@@ -312,8 +314,6 @@ Combination,Total_Search_Result_Count,Result_Group
 "('GPT-3.5-Turbo', 'misinformation', 'education')",0,low
 "('GPT-3.5-Turbo', 'over-reliance', 'education')",0,low
 "('GPT-3.5-Turbo', 'overreliance', 'education')",0,low
-"('GPT-3', 'trustworthy', 'education')",0,low
-"('GPT-3', 'misinformation', 'education')",0,low
 "('GPT-3', 'overreliance', 'education')",0,low
 "('GPT-3.5-Turbo-0613', 'responsible', 'education')",0,low
 "('GPT-3.5-Turbo-0613', 'trustworthy', 'education')",0,low
@@ -327,10 +327,12 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Llama', 'trustworthy', 'education')",0,low
 "('Llama', 'privacy', 'education')",0,low
 "('Llama', 'over-reliance', 'education')",0,low
-"('Yi 34B', 'accessibility', 'education')",0,low
+"('Llama', 'overreliance', 'education')",0,low
 "('Yi 34B', 'privacy', 'education')",0,low
 "('Yi 34B', 'environmental', 'education')",0,low
-"('PaLM-2 bison', 'overreliance', 'education')",0,low
+"('Yi 34B', 'explainability', 'education')",0,low
+"('PaLM-2 bison', 'over-reliance', 'education')",0,low
+"('GPT-4-0314', 'misinformation', 'education')",0,low
 "('GPT-4-0314', 'over-reliance', 'education')",0,low
 "('GPT-4-0314', 'overreliance', 'education')",0,low
 "('PaLM-2 bison', 'responsible', 'education')",0,low
@@ -340,9 +342,9 @@ Combination,Total_Search_Result_Count,Result_Group
 "('PaLM-2 bison', 'privacy', 'education')",0,low
 "('PaLM-2 bison', 'accessibility', 'education')",0,low
 "('PaLM-2 bison', 'misinformation', 'education')",0,low
-"('PaLM-2 bison', 'over-reliance', 'education')",0,low
+"('PaLM-2 bison', 'overreliance', 'education')",0,low
+"('Yi 34B', 'trustworthy', 'education')",0,low
 "('Mixtral-8x7b-Instruc', 'responsible', 'education')",0,low
-"('Yi 34B', 'explainability', 'education')",0,low
 "('Mixtral-8x7b-Instruc', 'trustworthy', 'education')",0,low
 "('Mixtral-8x7b-Instruc', 'explainability', 'education')",0,low
 "('Mixtral-8x7b-Instruc', 'environmental', 'education')",0,low
@@ -352,12 +354,10 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Mixtral-8x7b-Instruc', 'over-reliance', 'education')",0,low
 "('Mixtral-8x7b-Instruc', 'overreliance', 'education')",0,low
 "('Yi 34B', 'responsible', 'education')",0,low
-"('Yi 34B', 'trustworthy', 'education')",0,low
-"('Llama', 'overreliance', 'education')",0,low
+"('Llama 2', 'responsible', 'education')",0,low
 "('Llama 2', 'trustworthy', 'education')",0,low
-"('Palmyra-X-V3', 'accessibility', 'education')",0,low
 "('Llama 2', 'explainability', 'education')",0,low
-"('compact language model', 'overreliance', 'education')",0,low
+"('Gen AI', 'trustworthy', 'education')",0,low
 "('small language model', 'responsible', 'education')",0,low
 "('small language model', 'trustworthy', 'education')",0,low
 "('small language model', 'environmental', 'education')",0,low
@@ -368,8 +368,8 @@ Combination,Total_Search_Result_Count,Result_Group
 "('small language model', 'overreliance', 'education')",0,low
 "('LM', 'over-reliance', 'education')",0,low
 "('LM', 'overreliance', 'education')",0,low
-"('Gen AI', 'trustworthy', 'education')",0,low
 "('Gen AI', 'explainability', 'education')",0,low
+"('compact language model', 'over-reliance', 'education')",0,low
 "('Gen AI', 'environmental', 'education')",0,low
 "('Gen AI', 'privacy', 'education')",0,low
 "('Gen AI', 'misinformation', 'education')",0,low
@@ -380,11 +380,10 @@ Combination,Total_Search_Result_Count,Result_Group
 "('GenAI', 'environmental', 'education')",0,low
 "('GenAI', 'misinformation', 'education')",0,low
 "('GenAI', 'over-reliance', 'education')",0,low
-"('compact language model', 'over-reliance', 'education')",0,low
+"('compact language model', 'overreliance', 'education')",0,low
 "('compact language model', 'misinformation', 'education')",0,low
-"('compact language model', 'accessibility', 'education')",0,low
-"('GPT-4-0613', 'accessibility', 'education')",0,low
 "('Llama 2', 'environmental', 'education')",0,low
+"('GPT-4-0613', 'misinformation', 'education')",0,low
 "('Llama 2', 'privacy', 'education')",0,low
 "('Llama 2', 'misinformation', 'education')",0,low
 "('Llama 2', 'over-reliance', 'education')",0,low
@@ -394,9 +393,9 @@ Combination,Total_Search_Result_Count,Result_Group
 "('GPT-4-0613', 'explainability', 'education')",0,low
 "('GPT-4-0613', 'environmental', 'education')",0,low
 "('GPT-4-0613', 'privacy', 'education')",0,low
-"('GPT-4-0613', 'misinformation', 'education')",0,low
-"('compact language model', 'privacy', 'education')",0,low
+"('GPT-4-0613', 'accessibility', 'education')",0,low
 "('GPT-4-0613', 'over-reliance', 'education')",0,low
+"('compact language model', 'accessibility', 'education')",0,low
 "('GPT-4-0613', 'overreliance', 'education')",0,low
 "('foundation model', 'responsible', 'education')",0,low
 "('foundation model', 'misinformation', 'education')",0,low
@@ -406,10 +405,12 @@ Combination,Total_Search_Result_Count,Result_Group
 "('compact language model', 'trustworthy', 'education')",0,low
 "('compact language model', 'explainability', 'education')",0,low
 "('compact language model', 'environmental', 'education')",0,low
-"('GPT-4-0314', 'misinformation', 'education')",0,low
+"('compact language model', 'privacy', 'education')",0,low
 "('GPT-4-0314', 'accessibility', 'education')",0,low
-"('GPT-4-0314', 'privacy', 'education')",0,low
 "('GPT-4-0314', 'environmental', 'education')",0,low
+"('Palmyra-X-V3', 'privacy', 'education')",0,low
+"('GPT-4-0314', 'explainability', 'education')",0,low
+"('Palmyra-X', 'misinformation', 'education')",0,low
 "('Palmyra-X', 'over-reliance', 'education')",0,low
 "('Palmyra-X', 'overreliance', 'education')",0,low
 "('Palmyra X', 'responsible', 'education')",0,low
@@ -432,11 +433,11 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Mixtral 8x7B', 'overreliance', 'education')",0,low
 "('Yi 6B', 'responsible', 'education')",0,low
 "('Yi 6B', 'trustworthy', 'education')",0,low
-"('Yi 6B', 'explainability', 'education')",0,low
-"('Palmyra-X', 'misinformation', 'education')",0,low
 "('Palmyra-X', 'accessibility', 'education')",0,low
 "('Palmyra-X', 'privacy', 'education')",0,low
-"('Gemini Pro', 'over-reliance', 'education')",0,low
+"('Palmyra-X', 'environmental', 'education')",0,low
+"('Gemini Pro', 'misinformation', 'education')",0,low
+"('Palmyra-X-V3', 'accessibility', 'education')",0,low
 "('Palmyra-X-V3', 'misinformation', 'education')",0,low
 "('Palmyra-X-V3', 'over-reliance', 'education')",0,low
 "('Palmyra-X-V3', 'overreliance', 'education')",0,low
@@ -446,9 +447,9 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Gemini Pro', 'environmental', 'education')",0,low
 "('Gemini Pro', 'privacy', 'education')",0,low
 "('Gemini Pro', 'accessibility', 'education')",0,low
-"('Gemini Pro', 'misinformation', 'education')",0,low
+"('Gemini Pro', 'over-reliance', 'education')",0,low
+"('Palmyra-X', 'explainability', 'education')",0,low
 "('Gemini Pro', 'overreliance', 'education')",0,low
-"('Palmyra-X', 'environmental', 'education')",0,low
 "('Claude 2.1', 'trustworthy', 'education')",0,low
 "('Claude 2.1', 'environmental', 'education')",0,low
 "('Claude 2.1', 'privacy', 'education')",0,low
@@ -458,11 +459,11 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Claude 2.1', 'overreliance', 'education')",0,low
 "('Palmyra-X', 'responsible', 'education')",0,low
 "('Palmyra-X', 'trustworthy', 'education')",0,low
-"('Palmyra-X', 'explainability', 'education')",0,low
+"('Yi 6B', 'explainability', 'education')",0,low
 "('Yi 6B', 'environmental', 'education')",0,low
 "('Yi 6B', 'privacy', 'education')",0,low
-"('Yi 6B', 'accessibility', 'education')",0,low
-"('GPT-3.5', 'over-reliance', 'education')",0,low
+"('GPT-3.5', 'privacy', 'education')",0,low
+"('text-davinci-003', 'over-reliance', 'education')",0,low
 "('text-davinci-003', 'overreliance', 'education')",0,low
 "('GPT-4-Turbo', 'trustworthy', 'education')",0,low
 "('GPT-4-Turbo', 'environmental', 'education')",0,low
@@ -472,9 +473,9 @@ Combination,Total_Search_Result_Count,Result_Group
 "('GPT-4-Turbo', 'over-reliance', 'education')",0,low
 "('GPT-4-Turbo', 'overreliance', 'education')",0,low
 "('GPT-3.5', 'environmental', 'education')",0,low
-"('GPT-3.5', 'privacy', 'education')",0,low
+"('GPT-3.5', 'over-reliance', 'education')",0,low
+"('text-davinci-003', 'environmental', 'education')",0,low
 "('GPT-3.5', 'overreliance', 'education')",0,low
-"('text-davinci-003', 'privacy', 'education')",0,low
 "('Palmyra', 'trustworthy', 'education')",0,low
 "('Palmyra', 'explainability', 'education')",0,low
 "('Palmyra', 'privacy', 'education')",0,low
@@ -484,11 +485,11 @@ Combination,Total_Search_Result_Count,Result_Group
 "('Palmyra', 'overreliance', 'education')",0,low
 "('GPT-4-0314', 'responsible', 'education')",0,low
 "('GPT-4-0314', 'trustworthy', 'education')",0,low
-"('GPT-4-0314', 'explainability', 'education')",0,low
-"('text-davinci-003', 'over-reliance', 'education')",0,low
-"('text-davinci-003', 'environmental', 'education')",0,low
+"('text-davinci-003', 'privacy', 'education')",0,low
+"('text-davinci-003', 'explainability', 'education')",0,low
+"('Yi 6B', 'accessibility', 'education')",0,low
+"('GPT-3.5-Turbo-0314', 'over-reliance', 'education')",0,low
 "('Yi 6B', 'misinformation', 'education')",0,low
-"('GPT-3.5-Turbo-0314', 'overreliance', 'education')",0,low
 "('Yi 6B', 'over-reliance', 'education')",0,low
 "('Yi 6B', 'overreliance', 'education')",0,low
 "('GPT-3.5-Turbo-0314', 'responsible', 'education')",0,low
@@ -498,9 +499,9 @@ Combination,Total_Search_Result_Count,Result_Group
 "('GPT-3.5-Turbo-0314', 'privacy', 'education')",0,low
 "('GPT-3.5-Turbo-0314', 'accessibility', 'education')",0,low
 "('GPT-3.5-Turbo-0314', 'misinformation', 'education')",0,low
-"('GPT-3.5-Turbo-0314', 'over-reliance', 'education')",0,low
+"('GPT-3.5-Turbo-0314', 'overreliance', 'education')",0,low
+"('text-davinci-003', 'trustworthy', 'education')",0,low
 "('PaLM-2 unicorn', 'responsible', 'education')",0,low
-"('text-davinci-003', 'explainability', 'education')",0,low
 "('PaLM-2 unicorn', 'trustworthy', 'education')",0,low
 "('PaLM-2 unicorn', 'explainability', 'education')",0,low
 "('PaLM-2 unicorn', 'environmental', 'education')",0,low
@@ -510,5 +511,4 @@ Combination,Total_Search_Result_Count,Result_Group
 "('PaLM-2 unicorn', 'over-reliance', 'education')",0,low
 "('PaLM-2 unicorn', 'overreliance', 'education')",0,low
 "('text-davinci-003', 'responsible', 'education')",0,low
-"('text-davinci-003', 'trustworthy', 'education')",0,low
 "('Mixtral 8x7B', 'privacy', 'education')",0,low
