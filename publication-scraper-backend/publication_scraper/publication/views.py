@@ -6,7 +6,7 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from .interfaces.forward_search import ForwardSearch
 from .interfaces.backward_search import BackwardSearch
 from .interfaces.validation import PublicationValidator
-from .serializer import PublicationSnowballingSerializer, PublicationValidationSerializer
+from .serializers import PublicationSnowballingSerializer, PublicationValidationSerializer
 
 # Create your views here.
 class PublicationSnowballingView(APIView):

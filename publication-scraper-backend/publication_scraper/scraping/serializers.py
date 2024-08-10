@@ -1,17 +1,17 @@
 from rest_framework.serializers import *
-from .domain.search_engine import SearchEngineType
-from ..publication.models import Publication
+from scraping.models import SearchEngineType
+from publication.models import Publication
 
 class QuerySerializer(Serializer):
-    primary = CharField(required=True)
-    secondary = CharField(required=True)
-    tertiary = CharField(required=True)
+    primary = ListField(child=CharField(), default=[])
+    secondary = ListField(child=CharField(), default=[])
+    tertiary = ListField(child=CharField(), default=[])
 
 class SearchAndCleanSerializer(Serializer):
     search_terms = QuerySerializer(required=True)
-    year_start = IntegerField(required=False, default=2017)
-    year_end = IntegerField(required=False, default=2023)
-    sources = ChoiceField(choices=SearchEngineType.get_choices(), required=True)
+    year_start = IntegerField(default=2017)
+    year_end = IntegerField(default=2023)
+    sources = MultipleChoiceField(choices=SearchEngineType.get_choices(), default=[[type for type in SearchEngineType]])
 
 class PublicationSerializer(ModelSerializer):
     class Meta:

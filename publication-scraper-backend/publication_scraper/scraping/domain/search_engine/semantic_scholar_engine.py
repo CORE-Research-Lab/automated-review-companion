@@ -1,99 +1,191 @@
+import time
+import logging
 import requests
-import pandas as pd
+from utils import Profiler, env
 from .search_engine import SearchEngine
-from semanticscholar import SemanticScholar
-from requests.adapters import HTTPAdapter, Retry
-from typing import List
-from ....publication.models import PublicationType
+from typing import List, Dict, Any
+from scraping.models import SearchEngineType
+from publication.models import Publication, PublicationStatus
 
+logger = logging.getLogger(__name__)
 class SemanticScholarEngine(SearchEngine):
+    """ Search engine for Semantic Scholar. """
     
-    SCH_FIELDS = [
-        "title",
-        "externalIds",
-        "paperIds",
-        "urls",
-        "authors"
-    ]
-    
-    def __init__(self):
+    def __init__(self, queries: List[str], year: str):
         super().__init__()
-        self.MAX_RETRY_COUNT = 5
-        self.url = "https://api.semanticscholar.org/graph/v1/paper/search"
-        self.bulkUrl = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
         self.headers = {
-            "Content-Type": "application/json",
-            "x-api-key": "X48LIBLqr86ouHlnMYd3z052sgEm3Nd2wMORPzu5"
+            "Content-Type": "application/json", 
+            "x-api-key": "X48LIBLqr86ouHlnMYd3z052sgEm3Nd2wMORPzu5"  #env('SEMANTIC_SCHOLAR_API_KEY')
         }
-        self.sch_fields = []
+        self.sch_fields: List[str] = [
+            "title",
+            "externalIds",
+            "paperId",
+            "url",
+            "authors",
+        ]
+        self.url: str                   = "https://api.semanticscholar.org/graph/v1/paper/search"
+        self.bulkUrl: str               = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
+        self.arxiv_doi: str             = "DOI:10.48550/arXiv."
         
-    def search(self, queries: List[str], year: str) -> pd.DataFrame:
-        search_results_df = pd.DataFrame(columns=SemanticScholarEngine.SCH_FIELDS)
-        try:
-            for search_string in queries:
-                print(f"--- Searching for {search_string} ({queries.index(search_string)}/{len(queries)}) ---")
-                sch_search_string = self.parse_search_string(search_string)
-                
-                search_results = self._search(sch_search_string, bulk=True, year=year)
-                search_results = search_results["data"]
-                
-                count = 0
-                if count != 0:
-                    for result in search_results:
-                        count += 1
-                        paper_id = self.get_paper_id(result)
-                        new_paper = {
-                            "PaperTitle": result["title"],
-                            "ID": paper_id,
-                            "SearchString": sch_search_string,
-                            "SearchedFrom": PublicationType.SEMANTIC_SCHOLAR.value
-                        }
-                        print(f"{count}. sch process paper: ", new_paper)
-                        search_results_df = pd.concat([search_results_df, pd.DataFrame(new_paper, index=[0])])
-                search_results_df.to_csv('data/raw/search-results-sch.csv', index=False)
-                print("XXXXXXXXXXXXXXXXXXXXXXXXXXXX search ends XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-        except Exception as e:  
-            search_results_df.to_csv('data/raw/search-results-sch.csv', index=False)
-            print(f"An error occurred: {e.with_traceback()}")
-            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXX search ends XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")      
-        return search_results_df
+        self.queries                    = queries
+        self.year                       = f"{year}-"
+        self.results: List[Publication] = []
         
+             
+    @Profiler("Semantic Scholar Search")
+    def search(self) -> List[Publication]:
+        """ Search for papers on Semantic Scholar. """
         
-    def _search(self, query: str, fields: List[str], year: str = None, bulk: bool = False):
-        api_url = self.url if not bulk else self.bulkUrl
-        self.sch_fields = fields if fields else SemanticScholarEngine.SCH_FIELDS
-        search_params = self.parse_search_params(query, self.sch_fields)
-        response = self.fetch_search_results(api_url, headers=self.headers, params=search_params)
-        return response
-    
-    def get_paper_id(sch_result):
-        if sch_result['externalIds'].get('DOI') is None:
-            if sch_result['externalIds'].get('ArXiv') is None:
-                sch_paper_id = "paperid:" + sch_result.get("paperId")
-            else:
-                sch_paper_id = "DOI:10.48550/arXiv." + sch_result['externalIds'].get('ArXiv')
-        else:
-            sch_paper_id = f"DOI:{sch_result['externalIds'].get('DOI')}"
+        for idx, search_string in enumerate(self.queries):
+            print(f"--- Searching for {search_string} ({idx + 1}/{len(self.queries)}) ---")
+            sch_search_string = self._parse_search_string(search_string)
+            search_results    = self.search_semantic_scholar(
+                                    search_string=sch_search_string, 
+                                    bulk=True, 
+                                    year=self.year
+                                )
+            search_results    = search_results.get("data")
             
-        return sch_paper_id
-        
-    def parse_search_params(self, query: str, fields: str, year: str):
-        if fields == "all": return { "query": query, "year": year }
-        return {
-            "query": query,
-            "year": year,
-            "fields": ",".join(fields)
+            if search_results is None:
+                print(f">>> Semantic Scholar total: 0")
+                continue
+            
+            self.process_search_results(search_results, search_string, sch_search_string)
+
+        self.save_results()
+        return self.results
+
+    def search_semantic_scholar(
+        self, 
+        search_string: str=None, 
+        bulk: bool=False, 
+        year: str=None
+    ) -> Dict[str, Any]:
+        """
+        Search for papers on Semantic Scholar.
+        Data output schema:
+        {
+            paperId: str,
+            externalIds: {
+                DOI: string,
+                CorpusId: string
+            },
+            url: str,
+            title: str,
+            authors: {
+                authorId: string,
+                name: string, 
+            }[]
         }
         
-    def fetch_search_results(self, url: str, headers: dict, params: dict):
-        session = requests.Session()
-        retires = Retry(total=self.MAX_RETRY_COUNT, backoff_factor=0.1)
-        session.mount(url, HTTPAdapter(max_retries=retires))
-        response = session.get(url, headers=headers, params=params)
+        -----------------------------------------------------------------
+        
+        Example:
+        >>> print(search_semantic_scholar("'AI' 'Ethics'", bulk=True, year="2017-"))
+        {
+            'paperId': 'fd00f4e4c2ebdbb091a8f0a53b041bd207501da0', 
+            'externalIds': {
+                'CorpusId': 197639929
+            }, 
+            'url': 'https://www.semanticscholar.org/paper/fd00f4e4c2ebdbb091a8f0a53b041bd207501da0', 
+            'title': 'care HCI Security and forensics Education User authentication Deception detection Smart tutoring Teaching assistant Posture recognition Gesture detection', 
+            'authors': [
+                {'authorId': '10109253', 'name': 'Arsalan Mosenia'}, 
+                {'authorId': '1398781979', 'name': 'S. Sur-Kolay'}, 
+                {'authorId': '145291370', 'name': 'A. Raghunathan'}, 
+                {'authorId': '144874163', 'name': 'N. Jha'}
+            ]
+        }
+        """
+        api_url       = self.url if not bulk else self.bulkUrl
+        search_params = self._parse_search_params(search_string, year) 
+        response      = self.fetch_search_results(api_url, params=search_params)
         return response.json()
     
-    def parse_search_string(self, search_string: List[str]):
+    def process_search_results(
+        self, 
+        search_results: List[Dict[str, Any]], 
+        search_string: str,
+        formatted_search_string: str
+    ) -> None:
+        """ Process the search results from Semantic Scholar. """
+        
+        for count, result in enumerate(search_results, start=1):
+            paper_id    = self._get_paper_id(result)
+            publication   = Publication(
+                                paper_title             = result.get("title"),
+                                paper_id                = paper_id,
+                                search_string           = search_string,
+                                searched_from           = SearchEngineType.SEMANTIC_SCHOLAR.value,
+                                formatted_search_string = formatted_search_string,
+                                status                  = PublicationStatus.NEW.value
+                            )
+            print(f"{search_string}: Paper {count} - {publication.paper_title}")
+            self.results.append(publication)
+     
+    def _get_paper_id(self, sch_result: Dict[str, str]) -> str:
+        """
+        Get the paper ID from the scholar search result.
+        Checks for DOI, ArXiv, and paper ID in the given results and returns
+        the appropriate formatted string.
+        
+        :param sch_result (Dict[str, str]): The search result from Semantic Scholar.
+        :rettype str: The formatted paper ID.
+        """
+        external_ids = sch_result.get('externalIds', {})
+        doi = external_ids.get('DOI')
+        arxiv = external_ids.get('ArXiv')
+        paperId = sch_result.get("paperId")
+        
+        if doi: 
+            return f"DOI:{doi}"
+        
+        if arxiv: 
+            return f"{self.arxiv_doi}{arxiv}"
+        
+        return f"paperid:{paperId}"
+        
+    def _parse_search_params(self, query: str, year: str) -> Dict[str, str]:
+        """Parse the search parameters for the Semantic Scholar API."""
+        
+        if self.sch_fields == "all":
+            return {
+                "query": query, 
+                "year": year
+            }
+        else:
+            return {
+                "query": query, 
+                "year": year, 
+                "fields": ",".join(self.sch_fields)
+            }     
+        
+    def fetch_search_results(
+        self, 
+        url: str, 
+        params: Dict[str, str], 
+        max_retries: int = 3, 
+        delay: int = 30
+    ) -> Dict[str, Any]:
+        """Fetch search results from the Semantic Scholar API."""
+        
+        for attempt in range(max_retries):
+            response = requests.get(url, headers=self.headers, params=params)
+            if response.status_code == 200:
+                return response
+            
+            print(f"Request failed with status code {response.status_code}. Attempt {attempt + 1} of {max_retries}.")
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                
+        raise Exception(f"Failed to fetch data after {max_retries} retries.")
+
+    def _parse_search_string(self, search_string: List[str]) -> str:
+        """ Parse the search string for Semantic Scholar. """
+        
         # TODO: implement other variations here
         return " + ".join(f"'{term}'" for term in search_string)
-        
     
+    def save_results(self):
+        return super().save_results()

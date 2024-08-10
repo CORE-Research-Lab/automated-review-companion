@@ -1,1 +1,1 @@
-from extract_metadata import *
+from .extract_metadata import *

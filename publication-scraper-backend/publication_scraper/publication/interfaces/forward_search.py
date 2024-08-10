@@ -1,7 +1,7 @@
 import pandas as pd
 from typing import List
 from ..models import Publication
-from .semantic_scholar import SemanticScholar
+from semanticscholar import SemanticScholar
 
 class ForwardSearch():
   def __init__(self, publications: List[Publication]):

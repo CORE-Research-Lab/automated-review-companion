@@ -1,13 +1,14 @@
 import pandas as pd
 from typing import List, Dict, Hashable, Any
-from ..models import Publication, PublicationType, PublicationStatus
+from ..models import Publication, PublicationStatus
+from scraping.models import SearchEngineType
 import itertools
 
 class PublicationValidator:
     def __init__(self):
-      self.dblp_results = Publication.objects.filter(source=PublicationType.DBLP.value, status=PublicationStatus.NEW.value)
-      self.sch_results = Publication.objects.filter(source=PublicationType.SEMANTIC_SCHOLAR.value, status=PublicationStatus.NEW.value)
-      self.wos_results = Publication.objects.filter(source=PublicationType.WEB_OF_SCIENCE.value, status=PublicationStatus.NEW.value)
+      self.dblp_results = Publication.objects.filter(source=SearchEngineType.DBLP.value, status=PublicationStatus.NEW.value)
+      self.sch_results = Publication.objects.filter(source=SearchEngineType.SEMANTIC_SCHOLAR.value, status=PublicationStatus.NEW.value)
+      self.wos_results = Publication.objects.filter(source=SearchEngineType.WEB_OF_SCIENCE.value, status=PublicationStatus.NEW.value)
 
     def validate(self, all_queries: List[str]) -> List[Dict[Hashable, Any]]:
       for dblp_result in self.dblp_results:
@@ -31,7 +32,7 @@ class PublicationValidator:
       
       report_df = pd.DataFrame(combination_counts.items(), columns=['Combination', 'Count'])
       report_df.sort_values(by='Count', ascending=False, inplace=True)
-      report_df['Result_Group'] = report_df['Total_Search_Result_Count'].apply(self.categorize)
+      report_df['Result_Group'] = report_df['Total_Search_Result_Count'].apply(self._categorize)
       report_df.reset_index(drop=True, inplace=True)
       
       result_group_counts = report_df['Result_Group'].value_counts(normalize=True) * 100
@@ -49,7 +50,7 @@ class PublicationValidator:
       ret = report_df.to_dict(orient='records')
       return ret
 
-    def categorize(self, count: int) -> str:
+    def _categorize(self, count: int) -> str:
       if count > 15:
         return 'high'
       elif count > 0:
