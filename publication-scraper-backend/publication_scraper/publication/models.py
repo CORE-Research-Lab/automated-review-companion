@@ -33,7 +33,7 @@ class Publication(models.Model, Exportable):
         
         if "id" in dictionary: 
             del dictionary["id"]
-            
+        
         return dictionary
     
     def to_json(self):
