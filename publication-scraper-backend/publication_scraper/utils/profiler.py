@@ -13,7 +13,7 @@ def Profiler(process_name: str):
     
     @wraps(func)
     def wrapper(*args, **kwargs):
-      print(f"XXXXXXXXXXXXXXXXXXXXXXX {process_name} [START] XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+      print(f"──────────────────────── {process_name} [START] ────────────────────────")
       
       start_time = time.time()
       try: 
@@ -24,7 +24,7 @@ def Profiler(process_name: str):
       finally:
         end_time = time.time()
         elapsed_time = end_time - start_time
-        print(f"XXXXXXXXXXXXXXXXXXXXXXX {process_name} [END] XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print(f"──────────────────────── {process_name} [END] ────────────────────────")
         print(f"Elapsed time: {elapsed_time:.2f} seconds")
         
       return result

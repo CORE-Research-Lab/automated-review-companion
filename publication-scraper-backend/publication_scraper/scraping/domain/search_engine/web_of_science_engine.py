@@ -46,7 +46,7 @@ class WebOfScienceEngine(SearchEngine):
             print(f">>> Web of Science total: {len(wos_search_results)}")
             
             self._process_search_results(wos_search_results, search_string, wos_search_string)
-        self.save_results()
+
         return self.results
     
     def _process_search_results(self, search_results: List[Dict[str, Any]], search_string: str, formatted_search_string: str) -> None:
@@ -71,6 +71,7 @@ class WebOfScienceEngine(SearchEngine):
     def _search(self, search_string):
         """ Search for papers on Web of Science. """
         
+        loop_count      = 0
         start_record    = 1
         total_records   = None
         paper_count     = 0
@@ -98,9 +99,12 @@ class WebOfScienceEngine(SearchEngine):
             search_results.extend(records)
             paper_count += len(records)
             start_record += len(records)
+            loop_count += 1
 
             if paper_count >= total_records:
                 break
+            
+            print(f"[{loop_count}] {search_params}: {paper_count}/{total_records} found.")
 
         return search_results
 
@@ -132,7 +136,7 @@ class WebOfScienceEngine(SearchEngine):
         self, 
         params: Dict[str, Any],
         max_retries: int = 3,
-        delay: int = 30
+        delay: int = 5
     ) -> Dict[str, Any]:
         """ Fetch search results from the Web of Science API. """
         
@@ -142,7 +146,7 @@ class WebOfScienceEngine(SearchEngine):
                 return response.json()
             
             if response.status_code == 429:
-                logger.warning(f"Rate limit exceeded. Waiting for {delay} seconds.")
+                print(f"Rate limit exceeded. Waiting for {delay} seconds.")
                 time.sleep(delay)
                 continue
             

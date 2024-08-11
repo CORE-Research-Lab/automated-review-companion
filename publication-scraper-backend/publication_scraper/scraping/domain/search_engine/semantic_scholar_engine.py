@@ -53,7 +53,6 @@ class SemanticScholarEngine(SearchEngine):
             
             self.process_search_results(search_results, search_string, sch_search_string)
 
-        self.save_results()
         return self.results
 
     def search_semantic_scholar(

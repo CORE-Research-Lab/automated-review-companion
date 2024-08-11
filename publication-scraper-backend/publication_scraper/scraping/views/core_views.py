@@ -4,10 +4,9 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
-from .serializers import SearchAndCleanSerializer, PublicationMetadataSerializer
+from scraping.serializers.core_serializers import SearchAndCleanSerializer, PublicationMetadataSerializer
 from scraping.models import SearchEngineType
-from scraping.domain.search_engine import SearchEngine
-from .interfaces.extract_metadata import PublicationMetadataExtractor
+from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
 from scraping.domain.search_engine.dblp_engine import DBLPEngine
 from scraping.domain.search_engine.semantic_scholar_engine import SemanticScholarEngine
 from scraping.domain.search_engine.web_of_science_engine import WebOfScienceEngine
@@ -41,6 +40,9 @@ class SearchAndCleanView(APIView):
         wos_search_engine = WebOfScienceEngine(all_search_terms, year_start, year_end)
         wos_results = wos_search_engine.search()
         results.extend(wos_results)
+      
+      results = Publication.remove_duplicates(results)
+      Publication.bulk_upsert(results)
       
       response = [result.to_dict() for result in results]
       return JsonResponse({ "results": response })

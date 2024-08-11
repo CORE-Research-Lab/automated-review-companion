@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from scraping.serializers import QuerySerializer
+from scraping.serializers.core_serializers import QuerySerializer
 
 class PublicationSnowballingSerializer(serializers.Serializer):
   SEARCH_CHOICES = (

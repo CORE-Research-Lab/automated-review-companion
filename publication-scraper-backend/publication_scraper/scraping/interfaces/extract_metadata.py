@@ -10,6 +10,7 @@ from publication.models import Publication, PublicationMetadata
 class PublicationMetadataExtractor:
     
     def __init__(self, papers: List[Publication]):
+        # For reference as PublicationMetadata fields -- Can be deleted afterwards
         self.metadata_fields = [
             "PaperTitle",
             "DOI",

@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Remove trailing slash from URLs
+APPEND_SLASH = False
 
 # Application definition
 
