@@ -32,8 +32,8 @@ class DataExporter(ABC):
         # Exportable
         else:
             exportable.load_data()    
-            self.headers    = exportable.fields
-            self.data       = exportable.data
+            self.headers    = list(exportable.data.keys())
+            self.data       = list(exportable.data.values())
         
         assert all(len(row) == len(self.headers) for row in self.data)
         

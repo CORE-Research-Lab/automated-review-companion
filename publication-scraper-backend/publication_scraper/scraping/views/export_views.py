@@ -4,9 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from utils import Controller
 from publication.models import Publication
-from scraping.infrastructure.data_export import ExportType, DataExporter, CsvExporter, BibtexExporter
-
-# from ..infrastructure. import export_to_csv, export_to_bibtex, export_to_ris
+from scraping.infrastructure.data_export import ExportType, DataExporter, CsvExporter, BibtexExporter, RisExporter
 
 class ExportView(APIView):
     
@@ -14,7 +12,7 @@ class ExportView(APIView):
     def get(self, request):
         """ Export the publications based on the given filters. """
         
-        export_format = request.query_params.get('format', ExportType.BIBTEX.value)
+        export_format = request.query_params.get('format', ExportType.RIS.value)
         
         # Apply filters
         filter_backend = DjangoFilterBackend()
@@ -42,7 +40,7 @@ class ExportView(APIView):
             return CsvExporter()
         elif format == ExportType.BIBTEX.value:
             return BibtexExporter()
-        # elif format == ExportType.RIS.value:
-        #     return RisExporter()
+        elif format == ExportType.RIS.value:
+            return RisExporter()
           
         raise ValueError(f"Unsupported format: {format}")        
