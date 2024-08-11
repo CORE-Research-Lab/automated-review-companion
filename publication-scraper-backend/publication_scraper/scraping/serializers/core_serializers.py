@@ -24,3 +24,5 @@ class PublicationMetadataSerializer(Serializer):
 
 class SearchStringDifferenceSerializer(Serializer):
     search_terms = QuerySerializer(required=True)
+    show_publication = BooleanField(default=False)
+    show_metadata = BooleanField(default=False)

@@ -1,5 +1,5 @@
 from itertools import product
-from typing import List
+from typing import List, Dict, Tuple
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_400_BAD_REQUEST
@@ -10,7 +10,7 @@ from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
 from scraping.domain.search_engine.dblp_engine import DBLPEngine
 from scraping.domain.search_engine.semantic_scholar_engine import SemanticScholarEngine
 from scraping.domain.search_engine.web_of_science_engine import WebOfScienceEngine
-from publication.models import Publication
+from publication.models import Publication, PublicationMetadata
 
 class SearchAndCleanView(APIView):
   def post(self, request):
@@ -73,19 +73,21 @@ class SearchStringDifferenceView(APIView):
             return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
         
         query_data = serializer.validated_data['search_terms']
+        show_publication = serializer.validated_data['show_publication']
+        show_metadata = serializer.validated_data['show_metadata']
         all_queries = self._generate_all_queries(query_data)
 
         search_results_dict = self._retrieve_search_results(all_queries)
         queries_to_paper_ids = self._aggregate_results(search_results_dict)
         
-        result = self._format_response(queries_to_paper_ids)
+        result = self._format_response(queries_to_paper_ids, show_publication, show_metadata)
         return JsonResponse({"results": result})
 
-    def _generate_all_queries(self, query_data):
+    def _generate_all_queries(self, query_data: Dict[str, List[str]]) -> List[Tuple]:
         """ Generate all combinations of queries. """
         return list(product(query_data['primary'], query_data['secondary'], query_data['tertiary']))
 
-    def _retrieve_search_results(self, all_queries):
+    def _retrieve_search_results(self, all_queries: List[Tuple]) -> Dict[Tuple, List[str]]:
         """
         Retrieve search results for each query and map them to paper IDs.
         """
@@ -96,7 +98,7 @@ class SearchStringDifferenceView(APIView):
                 search_results_dict[query] = list(paper_ids)
         return search_results_dict
 
-    def _aggregate_results(self, search_results_dict):
+    def _aggregate_results(self, search_results_dict: Dict[Tuple, List[str]]) -> Dict[List[Tuple], List[str]]:
         """
         Aggregate paper IDs and map them to the search strings that produced them.
         """
@@ -116,7 +118,7 @@ class SearchStringDifferenceView(APIView):
             
         return queries_to_paper_ids
 
-    def _format_response(self, queries_to_paper_ids):
+    def _format_response(self, queries_to_paper_ids: Dict[List[Tuple], List[str]], show_publication: bool, show_metadata: bool):
         """
         Format the response to include search strings and their corresponding paper IDs.
         """
@@ -124,8 +126,32 @@ class SearchStringDifferenceView(APIView):
             {
                 'search_strings': search_strings,
                 'num_results': len(paper_ids),
-                'search_results': paper_ids
+                'search_results': self._get_search_results(paper_ids, show_publication, show_metadata)
             }
             for search_strings, paper_ids in queries_to_paper_ids.items()
         ]
         return result
+      
+    def _get_search_results(self, paper_ids: List[str], show_publication: bool, show_metadata: bool):
+        """
+        Get the search results for a list of paper IDs.
+        """
+        publications  = Publication.objects.filter(paper_id__in=paper_ids)
+        metadata      = PublicationMetadata.objects.filter(publication__in=publications)
+        
+        if show_metadata and show_publication:
+            metadata_by_id   = {pub_metadata.publication.paper_id: pub_metadata for pub_metadata in metadata}
+            publication_data = []
+            for pub in publications:
+                data = pub.to_dict()
+                if pub_metadata := metadata_by_id.get(pub.paper_id):
+                    data = {
+                      **data,
+                      **pub_metadata.to_dict(show_publication=False)
+                    }
+                publication_data.append(data)
+            return publication_data
+
+        if show_publication:
+            return [pub.to_dict() for pub in publications]
+        return paper_ids
