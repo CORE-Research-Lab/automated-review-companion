@@ -18,6 +18,7 @@ core_urls = [
 web_urls = [
     path('', include(router.urls)),
     path('publication/export', ExportView.as_view(), name='publication-export'),
+    path('publication/export/*', ExportView.as_view(), name='publication-export'),
 ]
  
 urlpatterns = [

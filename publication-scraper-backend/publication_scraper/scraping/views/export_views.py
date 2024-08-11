@@ -1,20 +1,20 @@
-from rest_framework.views import APIView
 from django.http import HttpResponse
-from publication.models import Publication
+from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from scraping.infrastructure.data_export.exporter import ExportType, DataExporter
-from scraping.infrastructure.data_export.csv_exporter import CsvExporter
+
 from utils import Controller
+from publication.models import Publication
+from scraping.infrastructure.data_export import ExportType, DataExporter, CsvExporter, BibtexExporter
 
 # from ..infrastructure. import export_to_csv, export_to_bibtex, export_to_ris
 
 class ExportView(APIView):
     
-    @Controller
-    def get(self, request, *args, **kwargs):
+    # @Controller
+    def get(self, request):
         """ Export the publications based on the given filters. """
         
-        export_format = request.query_params.get('format', ExportType.CSV.value)
+        export_format = request.query_params.get('format', ExportType.BIBTEX.value)
         
         # Apply filters
         filter_backend = DjangoFilterBackend()
@@ -40,8 +40,8 @@ class ExportView(APIView):
         
         if format == ExportType.CSV.value:
             return CsvExporter()
-        # elif format == ExportType.BIBTEX.value:
-        #     return BibtexExporter()
+        elif format == ExportType.BIBTEX.value:
+            return BibtexExporter()
         # elif format == ExportType.RIS.value:
         #     return RisExporter()
           
