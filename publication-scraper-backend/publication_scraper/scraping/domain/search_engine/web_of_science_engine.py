@@ -47,6 +47,7 @@ class WebOfScienceEngine(SearchEngine):
             
             self._process_search_results(wos_search_results, search_string, wos_search_string)
 
+        self.save_search_results()
         return self.results
     
     def _process_search_results(self, search_results: List[Dict[str, Any]], search_string: str, formatted_search_string: str) -> None:

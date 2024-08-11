@@ -36,4 +36,3 @@ class PublicationValidationView(APIView):
             validated_results = validator.validate(all_queries)
             return JsonResponse(validated_results)
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
-        

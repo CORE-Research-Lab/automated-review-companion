@@ -5,6 +5,7 @@ from django.db import IntegrityError, transaction
 
 from utils import Profiler
 from publication.models import Publication
+from scraping.models import SearchResult
 
 class SearchEngine:
   
@@ -36,3 +37,15 @@ class SearchEngine:
                 saved_publications = []
 
         return saved_publications
+
+    @Profiler("Save Search Results")
+    def save_search_results(self) -> List[Publication]:
+        """ Save search results in the database. """
+        SearchResult.objects.bulk_create([
+            SearchResult(
+                query         = result.search_string,
+                search_engine = result.searched_from,
+                paper_id      = result.paper_id
+            ) for idx, result in enumerate(self.results)
+        ])
+        return self.save_results()
