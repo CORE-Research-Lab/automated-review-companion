@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views.core_views import SearchAndCleanView, PublicationMetadataView
+from .views.core_views import SearchAndCleanView, PublicationMetadataView, SearchStringDifferenceView
 from .views.crud_views import PublicationViewSet
 from .views.export_views import ExportView
 
@@ -12,6 +12,7 @@ from .views.export_views import ExportView
 core_urls = [
     path('search-and-clean', SearchAndCleanView.as_view(), name='search-and-clean'),
     path('publication-metadata', PublicationMetadataView.as_view(), name='publication-metadata'),
+    path('search-string-difference', SearchStringDifferenceView.as_view(), name='search-string-difference'),
 ]
 
 # Web controller views

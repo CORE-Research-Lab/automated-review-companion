@@ -39,7 +39,8 @@ class DBLPEngine(SearchEngine):
             
             print(f">>> DBLP total: {len(dblp_search_results)}")
             self._process_search_results(dblp_search_results, search_string, dblp_search_string)
-            
+        
+        self.save_search_results()    
         return self.results
     
     def search_dblp(self, query: str) -> List[Dict[str, Any]]:

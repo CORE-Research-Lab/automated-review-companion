@@ -21,3 +21,6 @@ class PublicationSerializer(ModelSerializer):
 class PublicationMetadataSerializer(Serializer):
     # publications = ListField(child=PublicationSerializer(), required=True)
     paper_ids = ListField(child=CharField(), required=True)
+
+class SearchStringDifferenceSerializer(Serializer):
+    search_terms = QuerySerializer(required=True)
