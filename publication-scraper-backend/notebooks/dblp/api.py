@@ -1,6 +1,6 @@
 import json
 import time
-from typing import Dict, Any
+from typing import Dict, Any, Union, Optional
 
 import requests
 import pandas as pd
@@ -31,7 +31,6 @@ def add_ccf_class(results: list[dict]) -> list[dict]:
 
 def process_search_result(search_results, existing_results=None, start=0):
     """
-
     :param search_results: provide the resulting list of papers from query DBLP
     :param existing_results: if this is a paginated result, provide existing results to be appended to
     :param start: the start count for resulting dict
@@ -54,7 +53,7 @@ def process_search_result(search_results, existing_results=None, start=0):
     return results
 
 
-def search_by_doi(doi: str) -> dict[Any, dict[str, str | Any]] | None | Any:
+def search_by_doi(doi: str) -> Optional[Dict[Any, Union[Dict[str, Union[str, Any]], Any]]]:
     options = {
         'format': 'json',
         'h': 1000,
