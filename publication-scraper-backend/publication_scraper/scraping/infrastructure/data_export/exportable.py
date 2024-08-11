@@ -1,5 +1,5 @@
 from abc import abstractmethod
-
+from django.db.models import Model as DjangoModel
 class Exportable:
     """
     Exportable is a class that represents a data structure 
@@ -35,11 +35,19 @@ class Exportable:
             exporter.content_type
             exporter.file_extension
         """
+        
         for name in self.exportable_fields():
             if self._is_attribute(name):
-                self.data[name] = getattr(self, name)
-      
-        
+                if isinstance(getattr(self, name), DjangoModel):
+                    innner_attribute = getattr(self, name).to_dict()
+                    self.data = {
+                        **self.data,
+                        **innner_attribute
+                    }
+                    print(self.data)
+                else:
+                    self.data[name] = getattr(self, name)
+
     def _is_attribute(self, name: str) -> bool:
         """
         Check if the given name is an attribute of the object.

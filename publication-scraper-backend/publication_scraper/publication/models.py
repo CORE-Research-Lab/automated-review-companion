@@ -1,5 +1,5 @@
 import json
-from django.db import models
+from django.db import models, transaction
 from enum import Enum
 from typing import List
 from scraping.infrastructure.data_export.exportable import Exportable
@@ -23,7 +23,9 @@ class Publication(models.Model, Exportable):
         
     def exportable_fields(self) -> List[str]:
         """ Return the field names that can be exported. """
-        return [field.name for field in self._meta.fields]
+        fields = [field.name for field in self._meta.fields]
+        fields.append('metadata')
+        return fields
         
     def to_dict(self):
         fields      = [field.name for field in self._meta.fields]
@@ -80,15 +82,16 @@ class Publication(models.Model, Exportable):
             else:
                 to_create.append(result)
 
-        if to_update:
-            Publication.objects.bulk_update(
-                to_update, 
-                [field.name for field in Publication._meta.fields if field.name != 'paper_id']
-            )
-        if to_create:
-            Publication.objects.bulk_create(to_create)
+        with transaction.atomic():
+            if to_update:
+                Publication.objects.bulk_update(
+                    to_update, 
+                    [field.name for field in Publication._meta.fields if field.name != 'paper_id']
+                )
+            if to_create:
+                Publication.objects.bulk_create(to_create)
         
-        print(f"--- Bulk upserted {len(to_update)}, created {len(to_create)} publications ---")
+        print(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")
 
 class PublicationMetadata(models.Model):
     publication             = models.OneToOneField(Publication, on_delete=models.CASCADE, related_name='metadata')
@@ -107,9 +110,54 @@ class PublicationMetadata(models.Model):
     citation_count          = models.IntegerField()
     searched_from           = models.CharField(max_length=200, default="")
     
-    def to_dict(self):
-        fields = [field.name for field in self._meta.fields]
-        return {field: getattr(self, field) for field in fields}
+    def to_dict(self, show_publication: bool = False):
+        fields  = [field.name for field in self._meta.fields]
+        md_dict = {
+            field: getattr(self, field) 
+            for field in fields
+            if field not in ['id', 'publication']
+        }
+        if not(show_publication):
+            return md_dict
+        return { **md_dict, **self.publication.to_dict() }   
     
     def to_json(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+    
+    
+    
+    @staticmethod
+    def bulk_upsert(metadata: List['PublicationMetadata']) -> None:
+        """ Bulk upsert the publication metadata. """
+        
+        key_fields = ['id', 'publication']
+
+        incoming_ids = [md.publication_id for md in metadata]
+        existing_metadata = PublicationMetadata.objects.filter(publication_id__in=incoming_ids)
+        existing_ids = set(existing_metadata.values_list('publication_id', flat=True))
+    
+        to_update = []
+        to_create = []
+
+        for md in metadata:
+            if md.publication_id in existing_ids:
+                existing_md         = PublicationMetadata.objects.get(publication_id=md.publication_id)
+                existing_md_data    = md.__dict__
+                
+                # Update non-empty, non-None fields
+                for field, value in existing_md_data.items():
+                    if value and field in existing_md_data:
+                        setattr(existing_md, field, value)
+                        
+                to_update.append(existing_md)
+            else:
+                to_create.append(PublicationMetadata(**md))
+
+        with transaction.atomic():
+            if to_update:
+                fields = [field.name for field in PublicationMetadata._meta.fields if field.name not in key_fields]
+                PublicationMetadata.objects.bulk_update(to_update, fields)
+            if to_create:
+                PublicationMetadata.objects.bulk_create(to_create)
+        
+        print(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")

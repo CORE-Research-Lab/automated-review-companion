@@ -5,8 +5,8 @@ from .views.crud_views import PublicationViewSet
 from .views.export_views import ExportView
 
 # Router for CRUD operations
-router = DefaultRouter()
-router.register(r'publication', PublicationViewSet)
+# router = DefaultRouter()
+# router.register(r'publication', PublicationViewSet)
 
 # Core backend functions
 core_urls = [
@@ -16,9 +16,9 @@ core_urls = [
 
 # Web controller views
 web_urls = [
-    path('', include(router.urls)),
-    path('publication/export', ExportView.as_view(), name='publication-export'),
-    path('publication/export/*', ExportView.as_view(), name='publication-export'),
+    # path('', include(router.urls)),
+    path('export', ExportView.as_view(), name='publication-export'),
+    path('export/*', ExportView.as_view(), name='publication-export'),
 ]
  
 urlpatterns = [

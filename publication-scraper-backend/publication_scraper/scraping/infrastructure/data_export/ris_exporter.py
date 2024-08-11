@@ -1,11 +1,10 @@
-import io 
-import csv
+import io
 from .exporter import DataExporter
 from .exportable import Exportable
 
 class RisExporter(DataExporter):
     """
-    Data Exporter into CSV files.
+    Data Exporter into RIS files.
     Github Issue: (#10) Different Export Format
     """
     def __init__(self) -> None:
@@ -18,15 +17,23 @@ class RisExporter(DataExporter):
         self.field_mapping = {
             "paper_id":                 "ID",
             'paper_title':              'TI',
-            'search_string':            'AB',
             'searched_from':            'JO',  # Journal name
-            'formatted_search_string':  'N2',  # Note
-            'status':                   'N1',  # Status 
+            'doi':                      'DO',  # DOI
+            'authors':                  'AU',  # Authors
+            'abstract':                 'AB',  # Abstract
+            'publisher':                'PB',  # Publisher
+            'semantic_scholar_url':     'UR',  # URL
+            'doi_url':                  'UR',  # DOI URL
+            'publication_date':         'DA',  # Date
+            'field_of_study':           'C1',  # Field of Study
+            'conference_journal':       'JO',  # Conference/Journal
+            'publication_type':         'TY',  # Type of Publication
         }
         
     def export(self, exportable: Exportable) -> None:
         """
         Export the given data to a RIS format.
+        Reference: https://refdb.sourceforge.net/manual-0.9.6/sect1-ris-format.html#:~:text=If%20a%20reference%20has%20multiple,appear%20in%20the%20RIS%20dataset.
         
         :param exportable (Exportable): iterable data to be exported.
         """
@@ -34,12 +41,22 @@ class RisExporter(DataExporter):
         output = io.StringIO()
         
         for item in self.data:
-            # TODO - types other than JOUR (Journal) based on metadata
+            # Assuming 'TY' is a default type
             output.write("TY  - JOUR\n")
             data = zip(self.headers, item)
             
             for (field_name, field_value) in data:
-                if ris_tag := self.map_to_ris_tag(field_name):
+
+                if field_name == "authors":
+                    try:
+                        authors = eval(field_value)
+                        for author in authors:
+                            if name := author.get("name"):
+                                output.write(f"AU  - {name}\n")
+                    except:
+                        output.write(f"AU  - {field_value}\n")
+
+                elif ris_tag := self.map_to_ris_tag(field_name):
                     output.write(f"{ris_tag}  - {field_value}\n")
                     
             output.write("ER  - \n\n")
@@ -54,5 +71,4 @@ class RisExporter(DataExporter):
         :param field_name (str): The field name to be mapped.
         :rettype str: The RIS tag.
         """
-        return self.field_mapping.get(field_name)
-        
+        return self.field_mapping.get(field_name, '')

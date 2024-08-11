@@ -19,4 +19,5 @@ class PublicationSerializer(ModelSerializer):
         fields = '__all__'
 
 class PublicationMetadataSerializer(Serializer):
-    publications = ListField(child=PublicationSerializer(), required=True)
+    # publications = ListField(child=PublicationSerializer(), required=True)
+    paper_ids = ListField(child=CharField(), required=True)

@@ -9,7 +9,7 @@ from publication.models import Publication, PublicationMetadata
 
 class PublicationMetadataExtractor:
     
-    def __init__(self, papers: List[Publication]):
+    def __init__(self, paper_ids: List[str]):
         # For reference as PublicationMetadata fields -- Can be deleted afterwards
         self.metadata_fields = [
             "PaperTitle",
@@ -44,9 +44,13 @@ class PublicationMetadataExtractor:
         self.headers        = { "Content-Type": "application/json" }
         self.base_url       = "https://api.semanticscholar.org/graph/v1/paper"
         
-        self.papers = [Publication(**paper) for paper in papers]
+        self.papers = self.get_papers(paper_ids)
         self.extracted_metadata: List[PublicationMetadata] = []
         self.initialize_process()
+        
+    def get_papers(self, paper_ids: List[str]) -> List[Publication]:
+        """ Get the papers based on the given paper IDs. """
+        return list(Publication.objects.filter(paper_id__in=paper_ids))
     
     def initialize_process(self):
         self.extract_data()
@@ -119,8 +123,7 @@ class PublicationMetadataExtractor:
         """
         Save extracted metadata to the database.
         """
-        PublicationMetadata.objects.bulk_create(self.extracted_metadata)
-        self.extracted_metadata = [metadata.to_dict() for metadata in self.extracted_metadata]
+        PublicationMetadata.bulk_upsert(self.extracted_metadata)
         
     # Helpers
     def _extract_data(self, paper: Publication) -> PublicationMetadata:

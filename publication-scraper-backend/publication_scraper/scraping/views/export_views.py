@@ -5,15 +5,19 @@ from django_filters.rest_framework import DjangoFilterBackend
 from utils import Controller
 from publication.models import Publication
 from scraping.infrastructure.data_export import ExportType, DataExporter, CsvExporter, BibtexExporter, RisExporter
+from scraping.filters import PublicationFilter
 
 class ExportView(APIView):
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PublicationFilter
     
     # @Controller
-    def get(self, request):
+    def post(self, request):
         """ Export the publications based on the given filters. """
         
-        export_format = request.query_params.get('format', ExportType.RIS.value)
-        
+        export_format = request.data.get('format', ExportType.CSV.value)
+
         # Apply filters
         filter_backend = DjangoFilterBackend()
         filter_backend.request = request

@@ -52,11 +52,12 @@ class PublicationMetadataView(APIView):
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
         if serializer.is_valid():
-            publications = serializer.validated_data['publications']
+            paper_ids = serializer.validated_data['paper_ids']
             
-            extractor = PublicationMetadataExtractor(publications)
+            # publications = Publication.objects.all()
+            extractor = PublicationMetadataExtractor(paper_ids)
             extractor.extract_data()
-            metadata = [pub_metadata.to_dict() for pub_metadata in extractor.extracted_metadata]
+            metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
             
             return JsonResponse({ "metadata": metadata })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
