@@ -17,6 +17,7 @@ def HandleExceptions(func):
             return ErrorResponse(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return wrapper
 
+
 def Controller(func):
     return HandleExceptions(func)
 

@@ -1,6 +1,8 @@
 import io
-from .exporter import DataExporter
+
 from .exportable import Exportable
+from .exporter import DataExporter
+
 
 class RisExporter(DataExporter):
     """
@@ -53,7 +55,8 @@ class RisExporter(DataExporter):
                         for author in authors:
                             if name := author.get("name"):
                                 output.write(f"AU  - {name}\n")
-                    except:
+                    except Exception as e:
+                        print(f"Error: {e}")
                         output.write(f"AU  - {field_value}\n")
 
                 elif ris_tag := self.map_to_ris_tag(field_name):

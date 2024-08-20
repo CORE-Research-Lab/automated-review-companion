@@ -1,7 +1,9 @@
 from abc import ABC
 from enum import Enum
 from typing import Any, List, Union
+
 from scraping.infrastructure.data_export.exportable import Exportable
+
 
 class DataExporter(ABC):
     def __init__(self):

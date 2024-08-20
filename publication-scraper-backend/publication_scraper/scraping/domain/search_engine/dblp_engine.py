@@ -1,14 +1,13 @@
 import time
-import requests
-from utils import Profiler
-from .search_engine import SearchEngine
-from typing import List
-
-from typing import Dict, Any
+from typing import Any, Dict, List
 from urllib.parse import urlencode
-from scraping.models import SearchEngineType
+
+import requests
 from publication.models import Publication, PublicationStatus
-from utils import get_logger
+from scraping.models import SearchEngineType
+from utils import Profiler, get_logger
+
+from .search_engine import SearchEngine
 
 logger = get_logger(__name__)
 

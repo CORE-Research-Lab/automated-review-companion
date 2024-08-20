@@ -1,13 +1,13 @@
-import time
 import logging
+import time
+from typing import Any, Dict, List
+
 import requests
-from typing import List, Dict, Any
-
-from utils import Profiler, env
-from .search_engine import SearchEngine
-from scraping.models import SearchEngineType
 from publication.models import Publication, PublicationStatus
+from scraping.models import SearchEngineType
+from utils import Profiler, env
 
+from .search_engine import SearchEngine
 
 logger = logging.getLogger(__name__)
 

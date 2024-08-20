@@ -1,11 +1,11 @@
-from enum import Enum
 from abc import abstractmethod
 from typing import List
-from django.db import IntegrityError, transaction
 
-from utils import Profiler
+from django.db import IntegrityError, transaction
 from publication.models import Publication
 from scraping.models import SearchResult
+from utils import Profiler
+
 
 class SearchEngine:
   
@@ -14,7 +14,7 @@ class SearchEngine:
       pass
     
     @abstractmethod
-    def search(self):
+    def search(self) -> List[Publication]:
       pass
     
     @abstractmethod

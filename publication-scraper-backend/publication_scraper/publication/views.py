@@ -1,12 +1,17 @@
 from itertools import product
-from django.http import JsonResponse
-from rest_framework.views import APIView
-from rest_framework.status import HTTP_400_BAD_REQUEST
 
-from .interfaces.forward_search import ForwardSearch
+from django.http import JsonResponse
+from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
+
 from .interfaces.backward_search import BackwardSearch
+from .interfaces.forward_search import ForwardSearch
 from .interfaces.validation import PublicationValidator
-from .serializers import PublicationSnowballingSerializer, PublicationValidationSerializer
+from .serializers import (
+    PublicationSnowballingSerializer,
+    PublicationValidationSerializer,
+)
+
 
 # Create your views here.
 class PublicationSnowballingView(APIView):

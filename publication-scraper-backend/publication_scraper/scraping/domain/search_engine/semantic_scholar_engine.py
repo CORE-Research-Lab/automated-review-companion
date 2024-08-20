@@ -1,11 +1,13 @@
-import time
 import logging
+import time
+from typing import Any, Dict, List
+
 import requests
-from utils import Profiler, env
-from .search_engine import SearchEngine
-from typing import List, Dict, Any
-from scraping.models import SearchEngineType
 from publication.models import Publication, PublicationStatus
+from scraping.models import SearchEngineType
+from utils import Profiler, env
+
+from .search_engine import SearchEngine
 
 logger = logging.getLogger(__name__)
 class SemanticScholarEngine(SearchEngine):
