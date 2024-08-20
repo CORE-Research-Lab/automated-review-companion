@@ -95,3 +95,4 @@ fabric.properties
 /.ipynb_checkpoints/
 /.env
 */__pycache__/
+publication-scraper-backend/publication_scraper/env

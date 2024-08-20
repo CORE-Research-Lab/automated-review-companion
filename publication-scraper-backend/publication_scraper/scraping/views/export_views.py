@@ -1,18 +1,24 @@
 from django.http import HttpResponse
-from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-
-from utils import Controller
 from publication.models import Publication
-from scraping.infrastructure.data_export import ExportType, DataExporter, CsvExporter, BibtexExporter, RisExporter
+from rest_framework.views import APIView
 from scraping.filters import PublicationFilter
+from scraping.infrastructure.data_export import (
+    BibtexExporter,
+    CsvExporter,
+    DataExporter,
+    ExportType,
+    RisExporter,
+)
+from utils import Controller
+
 
 class ExportView(APIView):
 
     filter_backends = [DjangoFilterBackend]
     filterset_class = PublicationFilter
     
-    # @Controller
+    @Controller
     def post(self, request):
         """ Export the publications based on the given filters. """
         

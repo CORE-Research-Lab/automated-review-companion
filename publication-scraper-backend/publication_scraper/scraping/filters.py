@@ -1,5 +1,7 @@
+
 import django_filters as dfilter
 from publication.models import Publication, PublicationStatus
+
 
 class PublicationFilter(dfilter.FilterSet):
     """ Filter for the Publication model. """

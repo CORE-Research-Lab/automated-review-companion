@@ -1,5 +1,8 @@
 from abc import abstractmethod
+
 from django.db.models import Model as DjangoModel
+
+
 class Exportable:
     """
     Exportable is a class that represents a data structure 

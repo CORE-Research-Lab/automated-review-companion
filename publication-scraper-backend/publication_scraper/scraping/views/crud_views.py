@@ -1,9 +1,11 @@
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 from publication.models import Publication
+from publication_scraper.permissions import IsReadOnly, IsReadWrite
+from rest_framework import viewsets
+
 from ..filters import PublicationFilter
 from ..serializers.core_serializers import PublicationSerializer
-from django_filters.rest_framework import DjangoFilterBackend
-from publication_scraper.permissions import IsReadOnly, IsReadWrite
+
 
 class PublicationViewSet(viewsets.ModelViewSet):
     """ 

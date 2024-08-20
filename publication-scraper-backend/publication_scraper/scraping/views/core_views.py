@@ -1,20 +1,30 @@
 from itertools import product
-from typing import List, Dict, Tuple
-from django.http import JsonResponse
-from rest_framework.views import APIView
-from rest_framework.status import HTTP_400_BAD_REQUEST
+from typing import Dict, List, Tuple
 
-from scraping.serializers.core_serializers import SearchAndCleanSerializer, PublicationMetadataSerializer, SearchStringDifferenceSerializer
-from scraping.models import SearchEngineType, SearchResult
-from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
+from django.http import JsonResponse
+from publication.models import Publication, PublicationMetadata
+from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
 from scraping.domain.search_engine.dblp_engine import DBLPEngine
+from scraping.domain.search_engine.search_engine import SearchEngine
 from scraping.domain.search_engine.semantic_scholar_engine import SemanticScholarEngine
 from scraping.domain.search_engine.web_of_science_engine import WebOfScienceEngine
-from publication.models import Publication, PublicationMetadata
+from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
+from scraping.models import SearchEngineType, SearchResult
+from scraping.serializers.core_serializers import (
+  PublicationMetadataSerializer,
+  SearchAndCleanSerializer,
+  SearchStringDifferenceSerializer,
+)
+
 
 class SearchAndCleanView(APIView):
   def post(self, request):
     serializer = SearchAndCleanSerializer(data=request.data)
+
+    if request.data.get("sources") is None:
+        request.data["sources"] = [SearchEngineType.DBLP.value]
+    
     if serializer.is_valid():
       search_terms  = serializer.validated_data['search_terms']
       year_start    = serializer.validated_data['year_start']
@@ -24,23 +34,18 @@ class SearchAndCleanView(APIView):
       all_search_terms            = [search_terms['primary'], search_terms['secondary'], search_terms['tertiary']]
       all_search_terms            = list(product(*all_search_terms))
       results: List[Publication]  = []
+      engines: List[SearchEngine] = []
       
-      # TODO: pipeline this to a separate interface
       if SearchEngineType.DBLP.value in sources:
-        dblp_search_engine = DBLPEngine(all_search_terms, year_start, year_end)
-        dblp_results = dblp_search_engine.search()
-        results.extend(dblp_results)
+        engines.append(DBLPEngine(all_search_terms, year_start, year_end))
         
       if SearchEngineType.SEMANTIC_SCHOLAR.value in sources:
-        sch_search_engine = SemanticScholarEngine(all_search_terms, year_start)
-        sch_results = sch_search_engine.search()
-        results.extend(sch_results)
+        engines.append(SemanticScholarEngine(all_search_terms, year_start))
 
       if SearchEngineType.WEB_OF_SCIENCE.value in sources:
-        wos_search_engine = WebOfScienceEngine(all_search_terms, year_start, year_end)
-        wos_results = wos_search_engine.search()
-        results.extend(wos_results)
-      
+        engines.append(WebOfScienceEngine(all_search_terms, year_start, year_end))
+                
+      results = [result for result in (engine.search() for engine in engines)]
       results = Publication.remove_duplicates(results)
       Publication.bulk_upsert(results)
       
@@ -52,7 +57,10 @@ class PublicationMetadataView(APIView):
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
         if serializer.is_valid():
-            paper_ids = serializer.validated_data['paper_ids']
+            # paper_ids = serializer.validated_data['paper_ids']
+
+            paper_ids = Publication.objects.values_list('paper_id', flat=True)
+            paper_ids = [paper_id for paper_id in paper_ids if paper_id.startswith('DOI')]
             
             # publications = Publication.objects.all()
             extractor = PublicationMetadataExtractor(paper_ids)
@@ -72,13 +80,13 @@ class SearchStringDifferenceView(APIView):
         if not serializer.is_valid():
             return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
         
-        query_data = serializer.validated_data['search_terms']
-        show_publication = serializer.validated_data['show_publication']
-        show_metadata = serializer.validated_data['show_metadata']
-        all_queries = self._generate_all_queries(query_data)
+        query_data        = serializer.validated_data['search_terms']
+        show_publication  = serializer.validated_data['show_publication']
+        show_metadata     = serializer.validated_data['show_metadata']
+        all_queries       = self._generate_all_queries(query_data)
 
-        search_results_dict = self._retrieve_search_results(all_queries)
-        queries_to_paper_ids = self._aggregate_results(search_results_dict)
+        search_results_dict   = self._retrieve_search_results(all_queries)
+        queries_to_paper_ids  = self._aggregate_results(search_results_dict)
         
         result = self._format_response(queries_to_paper_ids, show_publication, show_metadata)
         return JsonResponse({"results": result})

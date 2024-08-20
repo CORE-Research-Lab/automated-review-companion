@@ -1,6 +1,8 @@
-import io 
-from .exporter import DataExporter
+import io
+
 from .exportable import Exportable
+from .exporter import DataExporter
+
 
 class BibtexExporter(DataExporter):
     """

@@ -1,6 +1,15 @@
-from rest_framework.serializers import *
-from scraping.models import SearchEngineType
 from publication.models import Publication
+from rest_framework.serializers import (
+    BooleanField,
+    CharField,
+    IntegerField,
+    ListField,
+    ModelSerializer,
+    MultipleChoiceField,
+    Serializer,
+)
+from scraping.models import SearchEngineType
+
 
 class QuerySerializer(Serializer):
     primary = ListField(child=CharField(), default=[])

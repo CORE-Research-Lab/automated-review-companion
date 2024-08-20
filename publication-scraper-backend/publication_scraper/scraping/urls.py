@@ -1,12 +1,17 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views.core_views import SearchAndCleanView, PublicationMetadataView, SearchStringDifferenceView
+
+from .views.core_views import (
+    PublicationMetadataView,
+    SearchAndCleanView,
+    SearchStringDifferenceView,
+)
 from .views.crud_views import PublicationViewSet
 from .views.export_views import ExportView
 
 # Router for CRUD operations
-# router = DefaultRouter()
-# router.register(r'publication', PublicationViewSet)
+router = DefaultRouter()
+router.register(r'publication', PublicationViewSet)
 
 # Core backend functions
 core_urls = [

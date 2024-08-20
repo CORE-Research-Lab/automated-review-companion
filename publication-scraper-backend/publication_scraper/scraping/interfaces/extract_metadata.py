@@ -1,11 +1,13 @@
 import os
-import requests
-from serpapi import GoogleSearch
-from crossref.restful import Works
-from typing import List, Dict, Any, Union
+from typing import Any, Dict, List, Union
 
-from utils import Profiler
+import requests
+
+# from serpapi import GoogleSearch
+from crossref.restful import Works
 from publication.models import Publication, PublicationMetadata
+from utils import Profiler
+
 
 class PublicationMetadataExtractor:
     
@@ -65,7 +67,7 @@ class PublicationMetadataExtractor:
         """
         results = []
         for index, paper in enumerate(self.papers):
-            print(f"Extracting metadata for paper {index + 1}/{len(self.papers)}")
+            print(f"Extracting metadata for paper {index + 1}/{len(self.papers)} - {paper.paper_title}")
             extracted_metadata = self._extract_data(paper)
             results.append(extracted_metadata)
             self.extracted_metadata = results
@@ -329,14 +331,14 @@ class PublicationMetadataExtractor:
     def _get_doi_url(self, doi_url: str) -> str:
         """ Get the DOI URL. """
         
-        if doi_url and type(doi_url) == str:
+        if doi_url and isinstance(doi_url, str):
             return doi_url
         return None
   
     def _get_publication_type(self, publication_type: Union[str, List[str]]) -> List[str]:
         """ Get the publication type. """
         
-        if publication_type and type(publication_type) == str:
+        if publication_type and isinstance(publication_type, str):
             return [ "".join(t.split("-")).lower() for t in publication_type ]  
         return publication_type
     
