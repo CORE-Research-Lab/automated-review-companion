@@ -64,7 +64,6 @@ class PublicationMetadataView(APIView):
             
             # publications = Publication.objects.all()
             extractor = PublicationMetadataExtractor(paper_ids)
-            extractor.extract_data()
             metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
             
             return JsonResponse({ "metadata": metadata })
