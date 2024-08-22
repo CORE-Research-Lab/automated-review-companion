@@ -1,8 +1,11 @@
 import json
-from django.db import models, transaction
 from enum import Enum
 from typing import List
+
+from django.db import models, transaction
 from scraping.infrastructure.data_export.exportable import Exportable
+
+
 # Create your models here.
 class PublicationStatus(Enum):
     NEW = 'NEW'

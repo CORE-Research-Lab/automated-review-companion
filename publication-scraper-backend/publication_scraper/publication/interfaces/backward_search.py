@@ -1,7 +1,8 @@
-import pandas as pd
 from typing import List
-from ..models import Publication
+
+from publication.models import Publication
 from semanticscholar import SemanticScholar
+
 
 class BackwardSearch():
     def __init__(self, publications: List[Publication]):
@@ -23,10 +24,10 @@ class BackwardSearch():
         Load publications into the dataframe.
         """
         for publication in self.publications:
-            self.results = self.results.append({
-                "title":        publication.title,
-                "doi":          publication.doi,
-                "references":   []
+            self.results.append({
+                "title":        publication.paper_title,
+                "doi":          publication.metadata.doi,
+                "citations":   []
             })
 
     def search(self):
@@ -42,25 +43,26 @@ class BackwardSearch():
             continue
           
           sch_paper = self.sch.get_paper(paper_doi)
-          if sch_paper.get("citations") is None or sch_paper['citationCount'] == 0:
-            print(f"Paper with title {paper['title']} has no citations. Skipping.")
+          if sch_paper.citations is None or sch_paper.citationCount == 0:
+            print(f"Skipped Paper | No citations: {paper['title']}")
             continue
           
-          references = sch_paper.get("citations")
+          references = sch_paper.citations
           for referenced_paper in references:
-            if referenced_paper['externalIds'] is None: 
+            if referenced_paper.externalIds is None: 
                 continue
-            if referenced_paper_doi := referenced_paper['externalIds'].get("DOI") == "":
+            if referenced_paper_doi := referenced_paper.externalIds.get("DOI") == "":
                 print("\tNo DOI")
             else:
                 print(f"\t{referenced_paper_doi}")
               
-            self.results[i]["references"].append({
-              "paper_cited_title":  referenced_paper.get("title"),
-              "paper_cited_doi":    referenced_paper.get("externalIds").get("DOI"),
-              "paper_cited_url":    referenced_paper.get("url"),
+            self.results[i]["citations"].append({
+              "paper_cited_title":  referenced_paper.title,
+              "paper_cited_doi":    referenced_paper.externalIds.get("DOI"),
+              "paper_cited_url":    referenced_paper.url,
               "from_doi":           paper_doi
             })
+            self.post_process_results()
             
         return self.results
         
