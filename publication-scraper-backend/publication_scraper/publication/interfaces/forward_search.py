@@ -1,13 +1,20 @@
 from typing import List
 
-from ..models import Publication
+from ..models import Publication, PublicationReference, PublicationReferenceType
 from .snowballing_search import SnowballingSearch
 
 
 class ForwardSearch(SnowballingSearch):
-  def __init__(self, publications: List[Publication]):
+  
+  def __init__(
+      self, 
+      publications: List[Publication], 
+      show_metadata: bool = False
+  ):
+    """ Initialize the forward search. """
     super().__init__()
     self.publications: List[Publication] = publications
+    self.show_metadata: bool = show_metadata
     self.load_publications()
     
   def load_publications(self):
@@ -17,7 +24,8 @@ class ForwardSearch(SnowballingSearch):
       self.results.append({
         "title": publication.paper_title,
         "doi": publication.metadata.doi,
-        "references": []
+        "references": [],
+        **self._get_publication_data(publication)
       })
 
   def search(self):
@@ -36,23 +44,23 @@ class ForwardSearch(SnowballingSearch):
 
       references = sch_paper.references
       if references is None:
+        print(f"Skipped Paper | No references: {publication['title']}")
         continue
 
       for referenced_paper in references:
-        print(f"    {referenced_paper.title:}", end=":")
         if referenced_paper.externalIds is None: 
-          print("     No external IDs")
           continue
-        if referenced_paper_doi := referenced_paper.externalIds.get("DOI") == "":
-          print("     No DOI")
-        else:
-          print(f"    {referenced_paper_doi}")
-
-        self.results[i]["references"].append({
-          "referenced_paper_title": referenced_paper.title,
-          "referenced_doi": referenced_paper.externalIds["DOI"],
-          "referenced_url": referenced_paper.url,
-          "from_doi": paper_doi
-        })
-        self.post_process_results()
+        
+        reference = PublicationReference(
+            src = self.publications[i],
+            src_doi = paper_doi,
+            ref_paper_title = referenced_paper.title,
+            ref_doi = referenced_paper.externalIds.get("DOI"),
+            ref_url = referenced_paper.url,
+            type = PublicationReferenceType.REFERENCE
+        )
+      
+        reference_publication = self.post_process_results(reference)
+        reference_publication = self._get_publication_data(reference_publication)
+        self.results[i]["references"].append(reference_publication)
     return self.results

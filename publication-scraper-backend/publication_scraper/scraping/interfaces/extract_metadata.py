@@ -6,13 +6,14 @@ import requests
 
 # from serpapi import GoogleSearch
 from crossref.restful import Works
+
 from publication.models import Publication, PublicationMetadata
 from utils import Profiler
 
 
 class PublicationMetadataExtractor:
     
-    def __init__(self, paper_ids: List[str]):
+    def __init__(self, paper_ids: Union[str, List[str]]):
         # For reference as PublicationMetadata fields -- Can be deleted afterwards
         self.metadata_fields = [
             "PaperTitle",
@@ -54,6 +55,9 @@ class PublicationMetadataExtractor:
         self.headers        = { "Content-Type": "application/json" }
         self.base_url       = "https://api.semanticscholar.org/graph/v1/paper"
         
+        if isinstance(paper_ids, str):
+            paper_ids = [paper_ids]
+
         self.papers = self.get_papers(paper_ids)
         self.extracted_metadata: List[PublicationMetadata] = []
         self.initialize_process()
@@ -103,8 +107,8 @@ class PublicationMetadataExtractor:
         
         # If there is an error, try searching for the paper by its title
         if sch_paper.get("error"):
+            
             print(f"Error extracting metadata for {paper.paper_title}. Searching by title.")
-            print(sch_paper.get("error"))
             api_url = f"{self.base_url}/search?query={paper.paper_title}"
             sch_paper = self._extract_sch(api_url, self.sch_fields)
             doi = self._get_doi(paper=sch_paper, paper_id=paper.paper_id)
@@ -122,11 +126,8 @@ class PublicationMetadataExtractor:
             sch_paper = sch_paper["data"][0]
         
         # Extract other metadata fields
-        print(sch_paper)
-        print(sch_paper.get("url"))
         doi             = self._get_doi(paper=sch_paper, paper_id=paper.paper_id)
         crossref_paper  = self._get_crossref_paper(doi)
-        # print(crossref_paper)
         authors         = self._extract_authors(sch_paper, crossref_paper)
         abstract        = self._extract_abstract(sch_paper, crossref_paper)
         publisher       = self._extract_publisher(crossref_paper, doi)

@@ -59,10 +59,11 @@ class PublicationMetadataView(APIView):
         if serializer.is_valid():
             # paper_ids = serializer.validated_data['paper_ids']
 
+            # NOTE: This is a temporary solution to get all paper IDs.
             paper_ids = Publication.objects.values_list('paper_id', flat=True)
             paper_ids = [paper_id for paper_id in paper_ids if paper_id.startswith('DOI')]
-            
             # publications = Publication.objects.all()
+            
             extractor = PublicationMetadataExtractor(paper_ids)
             metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
             

@@ -3,11 +3,12 @@ from enum import Enum
 from typing import List
 
 from django.db import models, transaction
+
 from scraping.infrastructure.data_export.exportable import Exportable
 
 
 # Create your models here.
-class PublicationStatus(Enum):
+class PublicationStatus(str, Enum):
     NEW = 'NEW'
     VALIDATED = 'VALIDATED'
 
@@ -164,3 +165,40 @@ class PublicationMetadata(models.Model):
                 PublicationMetadata.objects.bulk_create(to_create)
         
         print(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")
+
+
+class PublicationReferenceType(str, Enum):
+    CITATION = 'CITATION'
+    REFERENCE = 'REFERENCE'
+
+
+class PublicationReference:
+
+    def __init__(
+        self,
+        src: Publication,
+        src_doi: str,
+        ref_paper_title: str,
+        ref_doi: str,
+        ref_url: str,
+        type: PublicationReferenceType
+    ):
+        self.src = src
+        self.src_doi = src_doi
+        self.ref_paper_title = ref_paper_title
+        self.ref_doi = ref_doi
+        self.ref_url = ref_url
+        self.type = type
+    
+    def to_dict(self):
+        return {
+            "src_doi": self.src_doi,
+            "ref_paper_title": self.ref_paper_title,
+            "ref_doi": self.ref_doi,
+            "ref_url": self.ref_url
+        }
+    
+    def __str__(self) -> str:
+        return f"{self.referenced_paper_title} - {self.referenced_doi} - {self.referenced_url} - {self.from_doi}"
+    
+    
