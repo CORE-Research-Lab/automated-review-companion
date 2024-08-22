@@ -1,66 +1,70 @@
-import pandas as pd
 from typing import List
-from ..models import Publication
-from semanticscholar import SemanticScholar
 
-class BackwardSearch():
-    def __init__(self, publications: List[Publication]):
-        self.columns = [
-            'paper_cited_title',
-            'paper_cited_doi',
-            'paper_cited_url',
-            'from_doi',
-        ]
+from ..models import Publication, PublicationReference, PublicationReferenceType
+from .snowballing_search import SnowballingSearch
+
+
+class BackwardSearch(SnowballingSearch):
+    def __init__(
+        self, 
+        publications: List[Publication], 
+        show_metadata: bool = False
+    ):
+        """ Initialize the backward search. """
+        super().__init__()
         self.publications = publications
-        self.results = []
-        self.sch = SemanticScholar()
-        
-        # Load publications into the dataframe
+        self.show_metadata = show_metadata
         self.load_publications()
     
+
     def load_publications(self):
         """
         Load publications into the dataframe.
         """
         for publication in self.publications:
-            self.results = self.results.append({
-                "title":        publication.title,
-                "doi":          publication.doi,
-                "references":   []
+            
+
+            self.results.append({
+                "title":        publication.paper_title,
+                "doi":          publication.metadata.doi,
+                "citations":   [],
+                **self._get_publication_data(publication)
             })
+
 
     def search(self):
         """
         Performs a backward search, acquiring all papers citing the given paper(s).
         """
         for i in range(len(self.results)):
-          paper = self.results[i]
-          paper_doi = paper["doi"]
+          publication = self.results[i]
+          paper_doi = publication["doi"]
           
           if paper_doi == '' or paper_doi is None:
-            print(f"WARNING: Paper with title {paper['title']} does not have a DOI. Skipping.")
+            print(f"WARNING: Paper with title {publication['title']} does not have a DOI. Skipping.")
             continue
           
           sch_paper = self.sch.get_paper(paper_doi)
-          if sch_paper.get("citations") is None or sch_paper['citationCount'] == 0:
-            print(f"Paper with title {paper['title']} has no citations. Skipping.")
+          if sch_paper.citations is None or sch_paper.citationCount == 0:
+            print(f"Skipped Paper | No citations: {publication['title']}")
             continue
           
-          references = sch_paper.get("citations")
+          references = sch_paper.citations
           for referenced_paper in references:
-            if referenced_paper['externalIds'] is None: 
+            if referenced_paper.externalIds is None: 
                 continue
-            if referenced_paper_doi := referenced_paper['externalIds'].get("DOI") == "":
-                print("\tNo DOI")
-            else:
-                print(f"\t{referenced_paper_doi}")
+
+            citation = PublicationReference(
+                src = self.publications[i],
+                src_doi = paper_doi,
+                ref_paper_title = referenced_paper.title,
+                ref_doi = referenced_paper.externalIds.get("DOI"),
+                ref_url = referenced_paper.url,
+                type = PublicationReferenceType.CITATION
+            )
               
-            self.results[i]["references"].append({
-              "paper_cited_title":  referenced_paper.get("title"),
-              "paper_cited_doi":    referenced_paper.get("externalIds").get("DOI"),
-              "paper_cited_url":    referenced_paper.get("url"),
-              "from_doi":           paper_doi
-            })
+            citation_publication = self.post_process_results(citation)
+            citation_publication = self._get_publication_data(citation_publication)
+            self.results[i]["citations"].append(citation_publication)
             
         return self.results
-        

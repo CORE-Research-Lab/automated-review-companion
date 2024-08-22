@@ -1,17 +1,19 @@
 import os
+from datetime import datetime
 from typing import Any, Dict, List, Union
 
 import requests
 
 # from serpapi import GoogleSearch
 from crossref.restful import Works
+
 from publication.models import Publication, PublicationMetadata
 from utils import Profiler
 
 
 class PublicationMetadataExtractor:
     
-    def __init__(self, paper_ids: List[str]):
+    def __init__(self, paper_ids: Union[str, List[str]]):
         # For reference as PublicationMetadata fields -- Can be deleted afterwards
         self.metadata_fields = [
             "PaperTitle",
@@ -42,10 +44,20 @@ class PublicationMetadataExtractor:
             "citationCount",
             "externalIds",
         ]
+        self.crossref_fields = [
+            "indexed",
+            "publisher-location",
+            "reference-count",
+            "publisher",
+            "isbn-type",
+        ]
         self.crossref_works = Works()
         self.headers        = { "Content-Type": "application/json" }
         self.base_url       = "https://api.semanticscholar.org/graph/v1/paper"
         
+        if isinstance(paper_ids, str):
+            paper_ids = [paper_ids]
+
         self.papers = self.get_papers(paper_ids)
         self.extracted_metadata: List[PublicationMetadata] = []
         self.initialize_process()
@@ -54,80 +66,37 @@ class PublicationMetadataExtractor:
         """ Get the papers based on the given paper IDs. """
         return list(Publication.objects.filter(paper_id__in=paper_ids))
     
-    def initialize_process(self):
-        self.extract_data()
-        self.post_processing()
-        self.save_data()
-
     @Profiler("Extracting Metadata")
-    def extract_data(self): 
-        """
-        Extract metadata from the provided papers.
-        Saves the results to self.extracted_metadata.
-        """
-        results = []
+    def initialize_process(self, cache: bool = True):
+        """ atomically extract metadata for all papers. """
+        failed_papers: List[Publication] = []
         for index, paper in enumerate(self.papers):
             print(f"Extracting metadata for paper {index + 1}/{len(self.papers)} - {paper.paper_title}")
-            extracted_metadata = self._extract_data(paper)
-            results.append(extracted_metadata)
-            self.extracted_metadata = results
-        
-    @Profiler("Post-Processing Metadata")
-    def post_processing(self):
-        """
-        Post-process extracted metadata.
-        Apply cast_affliation to authors field.
-        """
-        # TODO: Fix this
-        crossref_authors = {}
-        FIRST_NAME_IDX = 0
-        LAST_NAME_IDX  = -1
-        
-        for metadata in self.extracted_metadata:
             
-            metadata.authors          = self._cast_affliation(metadata.authors)
-            metadata.doi_url          = self._get_doi_url(metadata.doi)
-            metadata.publication_type = self._get_publication_type(metadata.publication_type)
-            crossref_paper            = self._get_crossref_paper(metadata.doi) 
-            
-            if not metadata.authors:
-                continue
-            
-            # TODO: turn authors into a FK object with (author_name, family, and affiliation)
-        
-            if crossref_paper:
-                crossref_paper_authors = crossref_paper.get("author", [])
-                for author in crossref_paper_authors:
-                    
-                    if author["affiliation"] == []:
-                        continue
-                    
-                    first_name  = author.get("given", "")
-                    last_name   = author.get("family", "")
-                    author_name = f"{first_name} {last_name}"
-                    
-                    if author.get("affiliation"):
-                        crossref_authors[author_name] = [affil.get("name") for affil in author.get("affiliation")]
+            if cache:
+                extracted_metadata = PublicationMetadata.objects.filter(publication=paper)
+                if extracted_metadata.exists():
+                    print(f"Metadata already extracted for {paper.paper_title} in cache.")
+                    self.extracted_metadata.append(extracted_metadata.first())
+                    continue
+            else:
+                extracted_metadata = PublicationMetadata.objects.filter(publication=paper)
+                if extracted_metadata.exists():
+                    extracted_metadata.delete()
 
-            for author in metadata.authors:
-                if author["affiliation"] == ["No Affiliation"]:
-                    author_name             = author["name"]
-                    author_name_components  = author_name.split(" ")
-                    author_name             = author_name_components[FIRST_NAME_IDX] + " " + author_name_components[LAST_NAME_IDX]
-                    
-                    if author_name in crossref_authors:
-                        author["affiliation"] = crossref_authors[author_name]
-                    # else:
-                    #     author["affiliation"] = self._get_affiliations_google_scholar(author_name)
-    
-    @Profiler("Saving Metadata")
-    def save_data(self):
-        """
-        Save extracted metadata to the database.
-        """
-        PublicationMetadata.bulk_upsert(self.extracted_metadata)
+            try:
+                extracted_metadata = self._extract_data(paper)
+                processed_metadata = self.post_processing(extracted_metadata)
+                processed_metadata.save()
+                self.extracted_metadata.append(processed_metadata)
+            except Exception as e:
+                print(f"Error extracting metadata for {paper.paper_title}. - {e}")
+                failed_papers.append((index, paper))
         
-    # Helpers
+        print(f"Failed to extract metadata for {len(failed_papers)} papers:")
+        for index, paper in failed_papers:
+            print(f"{index} - {paper.paper_title}")
+
     def _extract_data(self, paper: Publication) -> PublicationMetadata:
         """
         Extract metadata from a single paper.
@@ -138,9 +107,12 @@ class PublicationMetadataExtractor:
         
         # If there is an error, try searching for the paper by its title
         if sch_paper.get("error"):
-        
+            
+            print(f"Error extracting metadata for {paper.paper_title}. Searching by title.")
             api_url = f"{self.base_url}/search?query={paper.paper_title}"
             sch_paper = self._extract_sch(api_url, self.sch_fields)
+            doi = self._get_doi(paper=sch_paper, paper_id=paper.paper_id)
+            crossref_paper = self._get_crossref_paper(doi)
             
             if len(sch_paper.get("data", [])) == 0:
                 return PublicationMetadata(
@@ -150,18 +122,19 @@ class PublicationMetadataExtractor:
                     search_string = paper.search_string,
                     searched_from = paper.searched_from
                 )
-        # ! UNECESSARY ATTRIBUTION TO SEARCH RESULT FROM SCHOLAR
-        # else:
-        #     sch_paper = sch_paper["data"][0]
+            
+            sch_paper = sch_paper["data"][0]
         
         # Extract other metadata fields
         doi             = self._get_doi(paper=sch_paper, paper_id=paper.paper_id)
         crossref_paper  = self._get_crossref_paper(doi)
         authors         = self._extract_authors(sch_paper, crossref_paper)
+        abstract        = self._extract_abstract(sch_paper, crossref_paper)
         publisher       = self._extract_publisher(crossref_paper, doi)
         paper_type      = self._extract_paper_type(crossref_paper, sch_paper)
         fields_of_study = self._get_fields_of_study(sch_paper)
         doi_url         = f"https://doi.org/{doi}" if doi else None
+        pub_date        = self._get_publication_date(sch_paper, crossref_paper)
 
         # TODO: paper keywords missing
         # TODO: paper type is conference/journal for arxiv papers
@@ -172,11 +145,11 @@ class PublicationMetadataExtractor:
             paper_title           = paper.paper_title,
             doi                   = doi,
             authors               = authors,
-            abstract              = sch_paper.get("abstract"),
+            abstract              = abstract,
             publisher             = publisher,
             semantic_scholar_url  = sch_paper.get("url"),
             doi_url               = doi_url,
-            publication_date      = sch_paper.get("publicationDate"),
+            publication_date      = pub_date,
             field_of_study        = fields_of_study,
             conference_journal    = sch_paper.get("venue"),
             publication_type      = paper_type,
@@ -186,6 +159,53 @@ class PublicationMetadataExtractor:
         )
         return metadata
     
+    def post_processing(self, paper: PublicationMetadata) -> PublicationMetadata:
+        """
+        Post-process extracted metadata.
+        Apply cast_affliation to authors field.
+        """
+        # TODO: Fix this
+        crossref_authors = {}
+        FIRST_NAME_IDX = 0
+        LAST_NAME_IDX  = -1
+        
+        paper.authors          = self._cast_affliation(paper.authors)
+        paper.doi_url          = self._get_doi_url(paper.doi)
+        paper.publication_type = self._get_publication_type(paper.publication_type)
+        crossref_paper         = self._get_crossref_paper(paper.doi) 
+        
+        if not paper.authors:
+            return paper
+        
+        # TODO: turn authors into a FK object with (author_name, family, and affiliation)
+    
+        if crossref_paper:
+            crossref_paper_authors = crossref_paper.get("author", [])
+            for author in crossref_paper_authors:
+                
+                if author["affiliation"] == []:
+                    continue
+                
+                first_name  = author.get("given", "")
+                last_name   = author.get("family", "")
+                author_name = f"{first_name} {last_name}"
+                
+                if author.get("affiliation"):
+                    crossref_authors[author_name] = [affil.get("name") for affil in author.get("affiliation")]
+
+        for author in paper.authors:
+            if author["affiliation"] == ["No Affiliation"]:
+                author_name             = author["name"]
+                author_name_components  = author_name.split(" ")
+                author_name             = author_name_components[FIRST_NAME_IDX] + " " + author_name_components[LAST_NAME_IDX]
+                
+                if author_name in crossref_authors:
+                    author["affiliation"] = crossref_authors[author_name]
+                # else:
+                #     author["affiliation"] = self._get_affiliations_google_scholar(author_name)
+        return paper
+    
+    # Helpers
     def _extract_sch(self, api_url: str, sch_fields: List[str]) -> Dict[str, Any]:
         """ Extract metadata from Semantic Scholar. """
         
@@ -245,8 +265,12 @@ class PublicationMetadataExtractor:
         
         try:
             crossref_paper = self.crossref_works.doi(doi)
+            if not crossref_paper:
+                print(f"Paper with DOI {doi} not found")
         except Exception as e:
+            print(f"Paper with DOI {doi} not found", e)
             crossref_paper = None
+        
         return crossref_paper
   
     def _extract_authors(self, sch_paper, crossref_paper):
@@ -275,6 +299,9 @@ class PublicationMetadataExtractor:
             return authors
             
         authors = sch_paper.get("authors")
+        if not(authors):
+            return []
+
         for i in range(len(authors)):
             author        = authors[i]
             affiliations  = author.get("affiliations")
@@ -289,28 +316,44 @@ class PublicationMetadataExtractor:
             }
 
         return authors
+    
+    def _extract_abstract(self, sch_paper: Dict[str, Any], crossref_paper: Union[None, Dict[str, Any]]):
+        """ Extract the abstract from the paper. """
+        
+        if abstract := sch_paper.get("abstract"):
+            return abstract
+        
+        if crossref_paper and (abstract := crossref_paper.get("abstract")):
+            return abstract
+            
+
+        # TODO: Can try scraping via sch_paper["url"]
+
+        print("No abstract available.")
+        return "No abstract available."
+    
 
     def _extract_publisher(self, crossref_paper: Union[None, Dict[str, Any]], doi: str):
         """ Extract the publisher from the paper. """
-        
+
         if crossref_paper:
-            publisher = crossref_paper.get("publisher")
+            return crossref_paper.get("publisher")
             
-        elif doi and "arxiv" in doi.lower():
-            publisher = "arXiv"
+        if doi and "arxiv" in doi.lower():
+            return "arXiv"
             
-        else:
-            publisher = None
-        
-        return publisher
+        return "n/a"
   
-    def _extract_paper_type(self, crossref_paper: Union[None, Dict[str, Any]], sch_paper: Dict[str, Any]):
+    def _extract_paper_type(self, crossref_paper: Union[None, Dict[str, Any]], sch_paper: Dict[str, Any]) -> List[str]:
         """ Extract the paper type from the paper. """
         
         if crossref_paper and crossref_paper.get("type"):
             return [crossref_paper.get("type")]
         
         paper_type = sch_paper.get("publicationTypes", [])
+        if not(paper_type): 
+            return []
+        
         paper_type = ["".join(t.split("-")).lower() for t in paper_type]
         return paper_type
   
@@ -349,3 +392,16 @@ class PublicationMetadataExtractor:
         if not(fields_of_study):
             return ""
         return fields_of_study  
+    
+    def _get_publication_date(self, sch_paper: Dict[str, Any], crossref_paper: Union[None, Dict[str, Any]]) -> str:
+        """ Get the publication date. """
+        
+        if sch_paper and (pub_date := sch_paper.get("publicationDate")):
+            return pub_date
+        
+        if crossref_paper and (pub_date := crossref_paper.get("created")):
+            pub_date = pub_date.get("date-time").split("T")[0]
+            return pub_date
+
+        # TODO: Can try scraping via sch_paper["url"]
+        return datetime.now().strftime("%Y-%m-%d")

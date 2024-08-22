@@ -3,7 +3,7 @@ from enum import Enum
 from django.db import models
 
 
-class SearchEngineType(Enum):
+class SearchEngineType(str, Enum):
     DBLP = "DBLP"
     SEMANTIC_SCHOLAR = "SEMANTIC_SCHOLAR"
     WEB_OF_SCIENCE = "WEB_OF_SCIENCE"

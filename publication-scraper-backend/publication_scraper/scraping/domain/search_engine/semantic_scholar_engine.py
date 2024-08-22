@@ -5,7 +5,7 @@ from typing import Any, Dict, List
 import requests
 from publication.models import Publication, PublicationStatus
 from scraping.models import SearchEngineType
-from utils import Profiler, env
+from utils import Profiler
 
 from .search_engine import SearchEngine
 
@@ -50,7 +50,7 @@ class SemanticScholarEngine(SearchEngine):
             search_results    = search_results.get("data")
             
             if search_results is None:
-                print(f">>> Semantic Scholar total: 0")
+                print(">>> Semantic Scholar total: 0")
                 continue
             
             self.process_search_results(search_results, search_string, sch_search_string)
