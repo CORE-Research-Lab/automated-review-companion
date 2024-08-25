@@ -12,6 +12,10 @@ from publication.models import Publication
 from scraping.models import SearchEngineType
 
 
+class RootPaperSerializer(Serializer):
+    doi = CharField(required=False, default="")
+    title = CharField(required=False, default="")
+
 class QuerySerializer(Serializer):
     advanced = CharField(required=False)
     primary = ListField(child=CharField(), default=[])
@@ -19,6 +23,7 @@ class QuerySerializer(Serializer):
     tertiary = ListField(child=CharField(), default=[])
 
 class SearchAndCleanSerializer(Serializer):
+    root_papers = ListField(child=RootPaperSerializer(), default=[])
     search_terms = QuerySerializer(required=True)
     year_start = IntegerField(default=2017)
     year_end = IntegerField(default=2023)
