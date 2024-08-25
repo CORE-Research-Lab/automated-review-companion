@@ -6,11 +6,15 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 
 from publication.models import Publication, PublicationMetadata
-from scraping.domain import SearchTerm, SearchTermProcessor
-from scraping.domain.search_engine.dblp_engine import DBLPEngine
-from scraping.domain.search_engine.search_engine import SearchEngine
-from scraping.domain.search_engine.semantic_scholar_engine import SemanticScholarEngine
-from scraping.domain.search_engine.web_of_science_engine import WebOfScienceEngine
+from scraping.domain import (
+    DBLPEngine,
+    SearchEngine,
+    SearchQuery,
+    SearchTerm,
+    SearchTermProcessor,
+    SemanticScholarEngine,
+    WebOfScienceEngine,
+)
 from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
 from scraping.models import SearchEngineType, SearchResult
 from scraping.serializers.core_serializers import (
@@ -35,10 +39,20 @@ class SearchAndCleanView(APIView):
             self.year_end      = serializer.validated_data['year_end']
             self.sources       = serializer.validated_data['sources']
             
-            self.all_search_terms            = [self.search_terms['primary'], self.search_terms['secondary'], self.search_terms['tertiary']]
-            self.all_search_terms            = list(product(*self.all_search_terms))
-            self.results: List[Publication]  = []
-            
+            # Simple three-level search & advanced search
+            self.all_search_terms   = [self.search_terms['primary'], self.search_terms['secondary'], self.search_terms['tertiary']]
+            self.all_search_terms = list(product(*self.all_search_terms))
+            self.all_search_terms = [terms for terms in self.all_search_terms if all(terms)]
+            self.advanced_search    = self.search_terms.get('advanced')
+
+            self.query = SearchQuery(
+                search_strings  = self.all_search_terms,
+                advanced_search = self.advanced_search,
+                start_year      = self.year_start,
+                end_year        = self.year_end,
+            )
+
+            self.results: List[Publication] = []
             self.results = self.search()
             self.all_search_words = self.generate_variants()
 
@@ -52,13 +66,13 @@ class SearchAndCleanView(APIView):
         engines: List[SearchEngine] = []
 
         if SearchEngineType.DBLP in self.sources:
-            engines.append(DBLPEngine(self.all_search_terms, self.year_start, self.year_end))
+            engines.append(DBLPEngine(self.query))
             
         if SearchEngineType.SEMANTIC_SCHOLAR in self.sources:
-            engines.append(SemanticScholarEngine(self.all_search_terms, self.year_start))
+            engines.append(SemanticScholarEngine(self.query))
 
         if SearchEngineType.WEB_OF_SCIENCE in self.sources:
-            engines.append(WebOfScienceEngine(self.all_search_terms, self.year_start, self.year_end))
+            engines.append(WebOfScienceEngine(self.query))
 
         log.info("Searching for publications...")
         results = []
@@ -74,6 +88,7 @@ class SearchAndCleanView(APIView):
         word_processor.generate_variants()
         return [search_term.to_dict() for search_term in word_processor.all_search_words]
     
+
 class PublicationMetadataView(APIView):
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
