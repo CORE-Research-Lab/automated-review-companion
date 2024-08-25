@@ -3,17 +3,19 @@ import time
 from typing import Any, Dict, List
 
 import requests
+
 from publication.models import Publication, PublicationStatus
+from scraping.domain import SearchQuery, SearchQueryParser, SearchQueryType
 from scraping.models import SearchEngineType
-from utils import Profiler
+from utils import Logger, Profiler
 
 from .search_engine import SearchEngine
 
-logger = logging.getLogger(__name__)
+log = Logger(__name__)
 class SemanticScholarEngine(SearchEngine):
     """ Search engine for Semantic Scholar. """
     
-    def __init__(self, queries: List[str], year: str):
+    def __init__(self, search_query: SearchQuery): # queries: List[str], year: str):
         super().__init__()
         self.headers = {
             "Content-Type": "application/json", 
@@ -30,18 +32,45 @@ class SemanticScholarEngine(SearchEngine):
         self.bulkUrl: str               = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
         self.arxiv_doi: str             = "DOI:10.48550/arXiv."
         
-        self.queries                    = queries
-        self.year                       = f"{year}-"
+        self.search_type                = search_query.search_type
+        self.queries                    = search_query.search_strings
+        self.advanced_query: str        = search_query.advanced_search
+        self.year                       = f"{search_query.start_year}-"
         self.results: List[Publication] = []
         
              
     @Profiler("Semantic Scholar Search")
     def search(self) -> List[Publication]:
         """ Search for papers on Semantic Scholar. """
+
+        if self.search_type == SearchQueryType.ADVANCED:
+            return self._advanced_search()
+        return self._simple_search()
+    
+    
+    def _advanced_search(self) -> List[Publication]:
+        """ Perform an advanced search on Semantic Scholar. """
+
+        sch_search_string = self._parse_search_string()
+        search_results    = self.search_semantic_scholar(
+                                search_string=sch_search_string, 
+                                bulk=True, 
+                                year=self.year
+                            )
+        search_results    = search_results.get("data")
         
+        if search_results is None:
+            log.info(">>> Semantic Scholar total: 0")
+            return []
+        
+        self.process_search_results(search_results, self.advanced_query, sch_search_string)
+        self.save_search_results()
+        return self.results
+        
+    def _simple_search(self) -> List[Publication]:
         for idx, search_string in enumerate(self.queries):
-            print(f"--- Searching for {search_string} ({idx + 1}/{len(self.queries)}) ---")
-            sch_search_string = self._parse_search_string(search_string)
+            sch_search_string = self._parse_search_string()
+            log.info(f"--- Searching for {sch_search_string} ({idx + 1}/{len(self.queries)}) ---")
             search_results    = self.search_semantic_scholar(
                                     search_string=sch_search_string, 
                                     bulk=True, 
@@ -50,7 +79,7 @@ class SemanticScholarEngine(SearchEngine):
             search_results    = search_results.get("data")
             
             if search_results is None:
-                print(">>> Semantic Scholar total: 0")
+                log.info(">>> Semantic Scholar total: 0")
                 continue
             
             self.process_search_results(search_results, search_string, sch_search_string)
@@ -123,7 +152,7 @@ class SemanticScholarEngine(SearchEngine):
                                 formatted_search_string = formatted_search_string,
                                 status                  = PublicationStatus.NEW.value
                             )
-            print(f"{search_string}: Paper {count} - {publication.paper_title}")
+            log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)
      
     def _get_paper_id(self, sch_result: Dict[str, str]) -> str:
@@ -177,16 +206,23 @@ class SemanticScholarEngine(SearchEngine):
             if response.status_code == 200:
                 return response
             
-            print(f"Request failed with status code {response.status_code}. Attempt {attempt + 1} of {max_retries}.")
+            log.error(f"Request failed with status code {response.status_code}. Attempt {attempt + 1} of {max_retries}.")
             if attempt < max_retries - 1:
                 time.sleep(delay)
                 
         raise Exception(f"Failed to fetch data after {max_retries} retries.")
 
-    def _parse_search_string(self, search_string: List[str]) -> str:
-        """ Parse the search string for Semantic Scholar. """
+    def _parse_search_string(self, search_string: List[str] = []) -> str:
+        """ 
+        Parse the search string for Semantic Scholar. 
+
+        NOTE: match search string with boolean operators, and other terms
+        are only matched with the exact phrase.
+        """
+        if self.search_type == SearchQueryType.ADVANCED:
+            parser = SearchQueryParser(self.advanced_query)
+            return parser.parse(SearchEngineType.SEMANTIC_SCHOLAR)
         
-        # TODO: implement other variations here
         return " + ".join(f"'{term}'" for term in search_string)
     
     def save_results(self):

@@ -5,7 +5,9 @@ from typing import List
 from django.db import models, transaction
 
 from scraping.infrastructure.data_export.exportable import Exportable
+from utils import Logger
 
+log = Logger(__name__)
 
 # Create your models here.
 class PublicationStatus(str, Enum):
@@ -48,6 +50,7 @@ class Publication(models.Model, Exportable):
     
     @staticmethod
     def remove_duplicates(publications: List['Publication']) -> List['Publication']:
+        log.info("Removing duplicate publications...")
         unique_papers = []
         paper_ids = []
         paper_titles = []
@@ -95,7 +98,7 @@ class Publication(models.Model, Exportable):
             if to_create:
                 Publication.objects.bulk_create(to_create)
         
-        print(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")
+        log.info(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")
 
 class PublicationMetadata(models.Model):
     publication             = models.OneToOneField(Publication, on_delete=models.CASCADE, related_name='metadata')
@@ -121,6 +124,17 @@ class PublicationMetadata(models.Model):
             for field in fields
             if field not in ['id', 'publication']
         }
+
+        # Eval-able fields
+        evaluable_fields = ['authors', 'publication_type']
+        for field in evaluable_fields:
+            if isinstance(md_dict[field], str):
+                try:
+                    md_dict[field] = eval(md_dict[field])
+                except Exception as e:
+                    print(f"Error evaluating field {field}: {e}")
+                    pass
+
         if not(show_publication):
             return md_dict
         return { **md_dict, **self.publication.to_dict() }   
@@ -164,7 +178,7 @@ class PublicationMetadata(models.Model):
             if to_create:
                 PublicationMetadata.objects.bulk_create(to_create)
         
-        print(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")
+        log.info(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")
 
 
 class PublicationReferenceType(str, Enum):
@@ -199,6 +213,7 @@ class PublicationReference:
         }
     
     def __str__(self) -> str:
-        return f"{self.referenced_paper_title} - {self.referenced_doi} - {self.referenced_url} - {self.from_doi}"
+        __all_fields__ = [field for field in self.__dict__]
+        return f"PublicationReference({', '.join([f'{field}={getattr(self, field)}' for field in __all_fields__])})"
     
     

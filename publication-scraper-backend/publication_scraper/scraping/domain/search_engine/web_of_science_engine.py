@@ -1,20 +1,21 @@
-import logging
 import time
 from typing import Any, Dict, List
 
 import requests
+
 from publication.models import Publication, PublicationStatus
+from scraping.domain import SearchQuery, SearchQueryParser, SearchQueryType
 from scraping.models import SearchEngineType
-from utils import Profiler, env
+from utils import Logger, Profiler
 
 from .search_engine import SearchEngine
 
-logger = logging.getLogger(__name__)
+log = Logger(__name__)
 
 class WebOfScienceEngine(SearchEngine):
     """ Search engine for Web of Science. """
     
-    def __init__(self, queries: List[str], start_year: int, end_year: int) -> None:
+    def __init__(self, search_query: SearchQuery):  # queries: List[str], start_year: int, end_year: int) -> None:
         super().__init__()
         self.url     = 'https://api.clarivate.com/api/wos'
         self.headers = {
@@ -23,9 +24,11 @@ class WebOfScienceEngine(SearchEngine):
         }
         
         self.wos_fields                 = []
-        self.queries                    = queries
-        self.start_year                 = int(start_year)
-        self.end_year                   = int(end_year)
+        self.search_type                = search_query.search_type
+        self.advanced_query             = search_query.advanced_search
+        self.queries                    = search_query.search_strings
+        self.start_year                 = int(search_query.start_year)
+        self.end_year                   = int(search_query.end_year)
         self.results: List[Publication] = []
         
     @Profiler("Web of Science Search")
@@ -34,16 +37,38 @@ class WebOfScienceEngine(SearchEngine):
         Search for papers on Web of Science. 
         Refer to https://webofscience.help.clarivate.com/en-us/Content/search-operators.html
         """
+        if self.search_type == SearchQueryType.ADVANCED:
+            return self._advanced_search()
+        return self._simple_search()
+    
+    def _advanced_search(self) -> List[Publication]:
+        """ Perform an advanced search on Web of Science. """
+            
+        wos_search_string = self._parse_search_string()
+        wos_search_results = self._search(self.advanced_query)
+        
+        if wos_search_results is None:
+            log.info(">>> Web of Science total: 0")
+            return []
+        
+        log.info(f">>> Web of Science total: {len(wos_search_results)}")
+        
+        self._process_search_results(wos_search_results, self.advanced_query, wos_search_string)
+        self.save_search_results()
+        return self.results
+
+    def _simple_search(self) -> List[Publication]:
+        """ Perform a simple search on Web of Science. """
         for idx, search_string in enumerate(self.queries):
-            print(f"--- Searching Web of Science for: {search_string} ({idx + 1}/{len(self.queries)}) ---")
+            log.info(f"--- Searching Web of Science for: {search_string} ({idx + 1}/{len(self.queries)}) ---")
             wos_search_string = self._parse_search_string(search_string)
             wos_search_results = self._search(search_string)
             
             if wos_search_results is None:
-                print(f">>> Web of Science total: 0")
+                log.info(">>> Web of Science total: 0")
                 continue
             
-            print(f">>> Web of Science total: {len(wos_search_results)}")
+            log.info(f">>> Web of Science total: {len(wos_search_results)}")
             
             self._process_search_results(wos_search_results, search_string, wos_search_string)
 
@@ -66,7 +91,7 @@ class WebOfScienceEngine(SearchEngine):
                                     formatted_search_string = formatted_search_string,
                                     status                  = PublicationStatus.NEW.value,
                                 )
-            print(f"{search_string}: Paper {count} - {publication.paper_title}")
+            log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)
     
     def _search(self, search_string):
@@ -105,7 +130,7 @@ class WebOfScienceEngine(SearchEngine):
             if paper_count >= total_records:
                 break
             
-            print(f"[{loop_count}] {search_params}: {paper_count}/{total_records} found.")
+            log.info(f"[{loop_count}] {search_params}: {paper_count}/{total_records} found.")
 
         return search_results
 
@@ -124,9 +149,16 @@ class WebOfScienceEngine(SearchEngine):
     
     def _parse_search_params(self, search_string: str, start_record: int) -> Dict[str, Any]:
         """ Parse the search parameters for the Web of Science API. """
-        
+
+        if self.search_type == SearchQueryType.ADVANCED:
+            parser = SearchQueryParser(self.advanced_query)
+            search_string = parser.parse(SearchEngineType.WEB_OF_SCIENCE)
+            title_search = f"TS=({search_string})"
+        else:
+            title_search = f"TS=({search_string})"
+
         return {
-            'usrQuery': f'(TS=({search_string})) AND PY=({self.start_year}-{self.end_year})',
+            'usrQuery': f'({title_search}) AND PY=({self.start_year}-{self.end_year})',
             'count': 100,
             'firstRecord': start_record,
             'databaseId': 'WOS',
@@ -147,20 +179,23 @@ class WebOfScienceEngine(SearchEngine):
                 return response.json()
             
             if response.status_code == 429:
-                print(f"Rate limit exceeded. Waiting for {delay} seconds.")
+                log.error(f"Rate limit exceeded. Waiting for {delay} seconds.")
                 time.sleep(delay)
                 continue
             
-            print(f"Request failed with status code {response.status_code}. Attempt {attempt + 1} of {max_retries}.")
+            log.error(f"Request failed with status code {response.status_code}: {response.json()}. Attempt {attempt + 1} of {max_retries}.")
             if attempt < max_retries - 1:
                 time.sleep(delay)
         
         raise Exception(f"Failed to fetch data after {max_retries} retries.")
     
-    def _parse_search_string(self, search_string: List[str]):
+    def _parse_search_string(self, search_string: List[str] = []):
         """ Parse the search string for Web of Science. """
+
+        if self.search_type == SearchQueryType.ADVANCED:
+            parser = SearchQueryParser(self.advanced_query)
+            return parser.parse(SearchEngineType.WEB_OF_SCIENCE)
         
-        # TODO: implement other variations here
         return " ".join(f'"{term}"' for term in search_string)
     
     def save_results(self):
