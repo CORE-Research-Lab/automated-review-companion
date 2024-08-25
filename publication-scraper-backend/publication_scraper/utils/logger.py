@@ -1,18 +1,21 @@
 import logging
+
 import colorlog
 
-def get_logger(name: str) -> logging.Logger:
+
+def Logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
     
     formatter = colorlog.ColoredFormatter(
-        '%(asctime)s - %(log_color)s%(name)s - %(levelname)s - %(message)s',
+        fmt = '\033[97m[%(asctime)s] %(log_color)s%(levelname)s [%(name)s.%(funcName).30s()] - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S',
         log_colors={
-            'DEBUG': 'cyan',
-            'INFO': 'green',
-            'WARNING': 'yellow',
-            'ERROR': 'red',
+            'DEBUG':    'cyan',
+            'INFO':     'blue',
+            'WARNING':  'yellow',
+            'ERROR':    'red',
             'CRITICAL': 'red,bg_white',
         }
     )
@@ -20,5 +23,8 @@ def get_logger(name: str) -> logging.Logger:
     ch = logging.StreamHandler()
     ch.setFormatter(formatter)
     logger.addHandler(ch)
+
+    fh = logging.FileHandler('server.log')
+    fh.setLevel(logging.DEBUG)
     
     return logger

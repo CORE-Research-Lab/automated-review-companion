@@ -2,9 +2,11 @@ from itertools import product
 from typing import Dict, List, Tuple
 
 from django.http import JsonResponse
-from publication.models import Publication, PublicationMetadata
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
+
+from publication.models import Publication, PublicationMetadata
+from scraping.domain import SearchTerm, SearchTermProcessor
 from scraping.domain.search_engine.dblp_engine import DBLPEngine
 from scraping.domain.search_engine.search_engine import SearchEngine
 from scraping.domain.search_engine.semantic_scholar_engine import SemanticScholarEngine
@@ -12,47 +14,66 @@ from scraping.domain.search_engine.web_of_science_engine import WebOfScienceEngi
 from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
 from scraping.models import SearchEngineType, SearchResult
 from scraping.serializers.core_serializers import (
-  PublicationMetadataSerializer,
-  SearchAndCleanSerializer,
-  SearchStringDifferenceSerializer,
+    PublicationMetadataSerializer,
+    SearchAndCleanSerializer,
+    SearchStringDifferenceSerializer,
 )
+from utils import Logger
 
+log = Logger(__name__)
 
 class SearchAndCleanView(APIView):
-  def post(self, request):
-    serializer = SearchAndCleanSerializer(data=request.data)
+    def post(self, request):
+        serializer = SearchAndCleanSerializer(data=request.data)
 
-    if request.data.get("sources") is None:
-        request.data["sources"] = [SearchEngineType.DBLP.value]
-    
-    if serializer.is_valid():
-      search_terms  = serializer.validated_data['search_terms']
-      year_start    = serializer.validated_data['year_start']
-      year_end      = serializer.validated_data['year_end']
-      sources       = serializer.validated_data['sources']
-      
-      all_search_terms            = [search_terms['primary'], search_terms['secondary'], search_terms['tertiary']]
-      all_search_terms            = list(product(*all_search_terms))
-      results: List[Publication]  = []
-      engines: List[SearchEngine] = []
-      
-      if SearchEngineType.DBLP.value in sources:
-        engines.append(DBLPEngine(all_search_terms, year_start, year_end))
+        if request.data.get("sources") is None:
+            request.data["sources"] = [SearchEngineType.DBLP]
         
-      if SearchEngineType.SEMANTIC_SCHOLAR.value in sources:
-        engines.append(SemanticScholarEngine(all_search_terms, year_start))
+        if serializer.is_valid():
+            self.search_terms  = serializer.validated_data['search_terms']
+            self.year_start    = serializer.validated_data['year_start']
+            self.year_end      = serializer.validated_data['year_end']
+            self.sources       = serializer.validated_data['sources']
+            
+            self.all_search_terms            = [self.search_terms['primary'], self.search_terms['secondary'], self.search_terms['tertiary']]
+            self.all_search_terms            = list(product(*self.all_search_terms))
+            self.results: List[Publication]  = []
+            
+            self.results = self.search()
+            self.all_search_words = self.generate_variants()
 
-      if SearchEngineType.WEB_OF_SCIENCE.value in sources:
-        engines.append(WebOfScienceEngine(all_search_terms, year_start, year_end))
-                
-      results = [result for result in (engine.search() for engine in engines)]
-      results = Publication.remove_duplicates(results)
-      Publication.bulk_upsert(results)
-      
-      response = [result.to_dict() for result in results]
-      return JsonResponse({ "results": response })
-    return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
+            response = [result.to_dict() for result in self.results]
+            return JsonResponse({ "variations": self.all_search_words, "results": response })
+        return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
 
+    def search(self) -> List[Publication]:
+        """ Search for publications using the search terms. """
+        
+        engines: List[SearchEngine] = []
+
+        if SearchEngineType.DBLP in self.sources:
+            engines.append(DBLPEngine(self.all_search_terms, self.year_start, self.year_end))
+            
+        if SearchEngineType.SEMANTIC_SCHOLAR in self.sources:
+            engines.append(SemanticScholarEngine(self.all_search_terms, self.year_start))
+
+        if SearchEngineType.WEB_OF_SCIENCE in self.sources:
+            engines.append(WebOfScienceEngine(self.all_search_terms, self.year_start, self.year_end))
+
+        log.info("Searching for publications...")
+        results = []
+        results.extend([result for engine in engines for result in engine.search()])
+        results = Publication.remove_duplicates(results)
+        Publication.bulk_upsert(results)
+        return results
+
+    def generate_variants(self) -> List[SearchTerm]:
+        """ Generate American and British variants of the search terms. """
+        log.info("Generating search term variants...")
+        word_processor = SearchTermProcessor(self.all_search_terms)
+        word_processor.generate_variants()
+        return [search_term.to_dict() for search_term in word_processor.all_search_words]
+    
 class PublicationMetadataView(APIView):
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)

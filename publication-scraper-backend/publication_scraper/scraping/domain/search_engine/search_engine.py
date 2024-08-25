@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import List
 
 from django.db import IntegrityError, transaction
+
 from publication.models import Publication
 from scraping.models import SearchResult
 from utils import Profiler

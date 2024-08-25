@@ -1,3 +1,4 @@
+import logging
 from itertools import product
 
 from django.http import JsonResponse
@@ -13,10 +14,13 @@ from .serializers import (
     PublicationValidationSerializer,
 )
 
+logger = logging.getLogger("test")
+logger.info("test")
 
 class PublicationSnowballingView(APIView):
     
     def post(self, request):
+        logger.info("test")
         serializer = PublicationSnowballingSerializer(data=request.data)
         if serializer.is_valid():
             
@@ -28,6 +32,7 @@ class PublicationSnowballingView(APIView):
             if search_type == 'forward':
                 fs = ForwardSearch(publications, show_metadata=show_metadata)
                 results = fs.search()
+
             elif search_type == 'backward':
                 bs = BackwardSearch(publications, show_metadata=show_metadata)
                 results = bs.search()
@@ -37,6 +42,7 @@ class PublicationSnowballingView(APIView):
 
 
 class PublicationValidationView(APIView):
+
     def post(self, request):
         serializer = PublicationValidationSerializer(data=request.data)
         if serializer.is_valid():

@@ -10,7 +10,7 @@ class PublicationSnowballingSerializer(serializers.Serializer):
   )
   publication_ids = serializers.ListField(child=serializers.CharField())
   search_type = serializers.ChoiceField(choices=SEARCH_CHOICES, default='forward')
-  show_detailed_data = serializers.BooleanField(default=False)
+  show_metadata = serializers.BooleanField(default=False)
   
 class PublicationValidationSerializer(serializers.Serializer):
 

@@ -3,13 +3,15 @@ from typing import Any, Dict, List
 from urllib.parse import urlencode
 
 import requests
+
 from publication.models import Publication, PublicationStatus
 from scraping.models import SearchEngineType
-from utils import Profiler, get_logger
+from utils import Profiler
+from utils.logger import Logger as Logger
 
 from .search_engine import SearchEngine
 
-logger = get_logger(__name__)
+log = Logger(__name__)
 
 class DBLPEngine(SearchEngine):
     """ Search engine for DBLP. """
@@ -28,15 +30,15 @@ class DBLPEngine(SearchEngine):
         """ Search for papers on DBLP. """
         
         for idx, search_string in enumerate(self.queries):
-            print(f"--- Searching for {search_string} ({idx + 1}/{len(self.queries)}) ---")
+            log.info(f"--- Searching for {search_string} ({idx + 1}/{len(self.queries)}) ---")
             dblp_search_string  = self._parse_search_string(search_string)
             dblp_search_results = self.search_dblp(dblp_search_string + self.years)
             
             if dblp_search_results is None:
-                print(f">>> DBLP total: 0")
+                log.info(">>> DBLP total: 0")
                 continue
             
-            print(f">>> DBLP total: {len(dblp_search_results)}")
+            log.info(f">>> DBLP total: {len(dblp_search_results)}")
             self._process_search_results(dblp_search_results, search_string, dblp_search_string)
         
         self.save_search_results()    
@@ -79,7 +81,7 @@ class DBLPEngine(SearchEngine):
                 formatted_search_string = formatted_search_string,
                 status = PublicationStatus.NEW.value
             )
-            print(f"{search_string}: Paper {count} - {new_paper.paper_title}")
+            log.info(f"{search_string}: Paper {count} - {new_paper.paper_title}")
             self.results.append(new_paper)
     
     def _get_paper_id(self, dblp_result: Dict[str, str]) -> str:
@@ -128,11 +130,11 @@ class DBLPEngine(SearchEngine):
             if response.status_code == 200:
                 return response.json()
             
-            print(f"Request failed with status code {response.status_code}. Attempt {attempt + 1} of {max_retries}.")
+            log.error(f"Request failed with status code {response.status_code}. Attempt {attempt + 1} of {max_retries}.")
             if attempt < max_retries - 1:
                 time.sleep(delay)
                 
-        raise Exception("Max retries exceeded. Could not establish a connection.")
+        raise log.error("Max retries exceeded. Could not establish a connection.")
 
     def _parse_search_string(self, query: List[str]) -> str:
         return ' '.join(f'"{keyword}"$ ' for keyword in query)

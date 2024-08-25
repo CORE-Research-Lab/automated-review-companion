@@ -28,7 +28,7 @@ class BackwardSearch(SnowballingSearch):
                 "title":        publication.paper_title,
                 "doi":          publication.metadata.doi,
                 "citations":   [],
-                **self._get_publication_data(publication)
+                **self._get_publication_data(publication, self.show_metadata)
             })
 
 
@@ -64,7 +64,7 @@ class BackwardSearch(SnowballingSearch):
             )
               
             citation_publication = self.post_process_results(citation)
-            citation_publication = self._get_publication_data(citation_publication)
+            citation_publication = self._get_publication_data(citation_publication, self.show_metadata)
             self.results[i]["citations"].append(citation_publication)
             
         return self.results

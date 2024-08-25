@@ -1,4 +1,4 @@
-import os
+import logging
 from datetime import datetime
 from typing import Any, Dict, List, Union
 
@@ -9,12 +9,15 @@ from crossref.restful import Works
 
 from publication.models import Publication, PublicationMetadata
 from utils import Profiler
+from utils.logger import Logger as Logger
 
-
+log = Logger(__name__)
 class PublicationMetadataExtractor:
     
     def __init__(self, paper_ids: Union[str, List[str]]):
         # For reference as PublicationMetadata fields -- Can be deleted afterwards
+        log.info("Initializing PublicationMetadataExtractor")
+
         self.metadata_fields = [
             "PaperTitle",
             "DOI",
@@ -71,12 +74,12 @@ class PublicationMetadataExtractor:
         """ atomically extract metadata for all papers. """
         failed_papers: List[Publication] = []
         for index, paper in enumerate(self.papers):
-            print(f"Extracting metadata for paper {index + 1}/{len(self.papers)} - {paper.paper_title}")
+            log.info(f"Extracting metadata for paper {index + 1}/{len(self.papers)} - {paper.paper_title}")
             
             if cache:
                 extracted_metadata = PublicationMetadata.objects.filter(publication=paper)
                 if extracted_metadata.exists():
-                    print(f"Metadata already extracted for {paper.paper_title} in cache.")
+                    log.warn(f"Metadata already extracted for {paper.paper_title} in cache.")
                     self.extracted_metadata.append(extracted_metadata.first())
                     continue
             else:
@@ -90,12 +93,13 @@ class PublicationMetadataExtractor:
                 processed_metadata.save()
                 self.extracted_metadata.append(processed_metadata)
             except Exception as e:
-                print(f"Error extracting metadata for {paper.paper_title}. - {e}")
+                log.error(f"Error extracting metadata for {paper.paper_title}. - {e}")
                 failed_papers.append((index, paper))
         
-        print(f"Failed to extract metadata for {len(failed_papers)} papers:")
-        for index, paper in failed_papers:
-            print(f"{index} - {paper.paper_title}")
+        if len(failed_papers) > 0:
+            log.error(f"Failed to extract metadata for {len(failed_papers)} papers:")
+            for index, paper in failed_papers:
+                log.error(f"{index} - {paper.paper_title}")
 
     def _extract_data(self, paper: Publication) -> PublicationMetadata:
         """
@@ -108,7 +112,7 @@ class PublicationMetadataExtractor:
         # If there is an error, try searching for the paper by its title
         if sch_paper.get("error"):
             
-            print(f"Error extracting metadata for {paper.paper_title}. Searching by title.")
+            log.warn(f"Error extracting metadata for {paper.paper_title}. Searching by title.")
             api_url = f"{self.base_url}/search?query={paper.paper_title}"
             sch_paper = self._extract_sch(api_url, self.sch_fields)
             doi = self._get_doi(paper=sch_paper, paper_id=paper.paper_id)
@@ -215,7 +219,7 @@ class PublicationMetadataExtractor:
             result = response.json()
             return result
         except Exception as e:
-            print(e)
+            log.error(e)
             return {"error": e}
 
     def _get_paper_id(self, paper_id: str) -> str:
@@ -234,6 +238,8 @@ class PublicationMetadataExtractor:
         
         if doi is None and str(paper_id).startswith("DOI"):
             doi = paper_id.split(":")[1]
+
+        # TODO handle arXiv papers
         
         return doi
     
@@ -266,9 +272,9 @@ class PublicationMetadataExtractor:
         try:
             crossref_paper = self.crossref_works.doi(doi)
             if not crossref_paper:
-                print(f"Paper with DOI {doi} not found")
+                log.error(f"Paper with DOI {doi} not found")
         except Exception as e:
-            print(f"Paper with DOI {doi} not found", e)
+            log.error(f"Paper with DOI {doi} not found", e)
             crossref_paper = None
         
         return crossref_paper
@@ -329,7 +335,7 @@ class PublicationMetadataExtractor:
 
         # TODO: Can try scraping via sch_paper["url"]
 
-        print("No abstract available.")
+        log.warn("No abstract available.")
         return "No abstract available."
     
 
