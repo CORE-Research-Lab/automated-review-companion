@@ -96,4 +96,5 @@ fabric.properties
 /.env
 */__pycache__/
 publication-scraper-backend/publication_scraper/env
+publication-scraper-backend/publication_scraper/.env
 publication-scraper-web/node_modules

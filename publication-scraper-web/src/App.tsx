@@ -46,6 +46,9 @@ export type Publication = {
   publication_type?: string[],
   publisher?: string,
   semantic_scholar_url?: string,
+
+  // LLM Questions
+  llm_responses?: LLMQuestion[]
 }
 
 export type SnowballingSearch = Publication & {
@@ -73,6 +76,17 @@ export type SearchForm = {
 
 export type SearchEngineType = "DBLP" | "SEMANTIC_SCHOLAR" | "WEB_OF_SCIENCE";
 
+export type LLMQuestion = {
+  id: number,
+  question: string,
+  answer: string
+}
+
+export type LLMPaperFilterResponse = {
+  paper_id: string,
+  response: LLMQuestion[]
+}
+
 
 function App() {
 
@@ -98,7 +112,13 @@ function App() {
     variations: []
   });
   const [selectedPapers, setSelectedPapers] = useState<string[]>([]);
+  const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>([{
+    id: 1,
+    question: '',
+    answer: ''
+  }]);
   const [expandedSearchBar, setExpandedSearchBar] = useState(true);
+  const [showMetadata, setShowMetadata] = useState(true);
   const [isPopulatingMetadata, setIsPopulatingMetadata] = useState(false);
 
   let isDBLPActive = searchForm.sources.includes("DBLP");
@@ -236,6 +256,48 @@ function App() {
     });
   }
 
+  const handleLLMFiltering = async () => {
+    await axios.post('http://localhost:8000/api/publication/llm-filter', {
+      questions: llmQuestions,
+      paper_ids: selectedPapers
+    })
+    .then((res) => {
+      let data = res.data.results
+      const updatedResults = searchResults.results.map((result: Publication) => {
+        const llm_responses = data.find((response: LLMPaperFilterResponse) => response.paper_id === result.paper_id)?.response;
+        return {
+          ...result,
+          llm_responses
+        }
+      });
+      setSearchResults({...searchResults, results: updatedResults})
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error('Error:', error)
+    });
+  }
+  
+  const handleAddLLMQuestion = () => {
+    setLLMQuestions([...llmQuestions, {
+      id: llmQuestions.length + 1,
+      question: '',
+      answer: ''
+    }])
+  }
+
+  const handleShowMetadata = () => {
+    setShowMetadata(!showMetadata)
+  }
+
+  const handleRemoveLLMQuestion = () => {
+    if (llmQuestions.length === 1) {
+      toast.info('At least one question is required');
+      return;
+    }
+    setLLMQuestions(llmQuestions.slice(0, llmQuestions.length - 1))
+  }
+
 
   const toggleSearchBar = () => {
     setExpandedSearchBar(!expandedSearchBar)
@@ -245,6 +307,8 @@ function App() {
   return (
     <div className="container mt-3">
       <h1>Publication Scraper</h1>
+      
+      {/* Search Bar */}
       <div className="container p-3 mt-3 border rounded" id="search-bar">
 
         <div className="d-flex flex-row justify-content-between">
@@ -478,6 +542,53 @@ function App() {
           </div>)
         }
       </div>
+
+      {/* LLM Questions */}
+      {
+        searchResults.results && searchResults.results.length > 0 &&
+        <div className="container p-3 mt-3 border rounded" id="llm-questions">
+
+          <div className="d-flex flex-row justify-content-between align-items-center">
+            <h3>LLM Questions</h3>
+            <div className='d-flex flex-row gap-2'>
+              <button className="btn btn-primary" onClick={handleAddLLMQuestion}>Add Question</button>
+              <button className="btn btn-secondary" onClick={handleRemoveLLMQuestion}>Remove a Question</button>
+            </div>
+          </div>
+          <div className="max-height-30vh overflow-y-scroll">
+            {
+              llmQuestions && llmQuestions.length > 0 && llmQuestions.map((question, index) => (
+                <div className="d-flex flex-row gap-2 mt-3">
+                  <div className="d-flex align-items-center justify-content-center w-5">{index + 1}</div>
+                  <input className="form-control" placeholder="Question" value={question.question} onChange={
+                    (e) => {
+                      const updatedQuestions = llmQuestions.map((q) => {
+                        if (q.id === question.id) return {...q, question: e.target.value}
+                        return q;
+                      })
+                      setLLMQuestions(updatedQuestions);
+                    }
+                  } />
+                  <input className="form-control" placeholder="Answer" value={question.answer} onChange={
+                    (e) => {
+                      const updatedQuestions = llmQuestions.map((q) => {
+                        if (q.id === question.id) return {...q, answer: e.target.value}
+                        return q;
+                      })
+                      setLLMQuestions(updatedQuestions);
+                    }
+                  } />
+                </div>  
+              ))
+            }
+          </div>
+          <div className="d-flex justify-content-end mt-3">
+            <button className="btn btn-success" onClick={handleLLMFiltering}>Submit Questions</button>
+          </div>
+        </div>
+      }
+
+      {/* Publications Data */}
       <div className="container p-3 mt-3 border rounded" id="publication-data">
         {/* Actions */}
         <div className="d-flex flex-row justify-content-between">
@@ -488,6 +599,13 @@ function App() {
             {/* Select All */}
             <button type="button" className="btn btn-primary" onClick={handleSelectAll}>Select All</button>
             <button type="button" className="btn btn-secondary" onClick={handleDeselectAll}>Deselect All</button>
+            {/* Hide Metadata */}
+            {
+              showMetadata 
+              ? <button type="button" className="btn btn-warning" onClick={handleShowMetadata}>Hide Metadata</button>
+              : <button type="button" className="btn btn-primary" onClick={handleShowMetadata}>Show Metadata</button>
+            }
+            
             {/* Popualte metadata */}
             <button 
               type="button" 
@@ -533,26 +651,38 @@ function App() {
               <td style={{ minWidth: "250px" }}>Formatted Search String</td>
               <td>Status</td>
               {/* Metadata */}
-              <td style={{ minWidth: "350px",
-// ellipsis
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis"
-
-              }}>Abstract</td>
-              <td>Authors</td>
-              <td>Citations Count</td>
-              <td>Conference/Journal</td>
-              <td>DOI</td>
-              <td>DOI URL</td>
-              <td>Keywords</td>
-              <td>Publication Date</td>
-              <td>Publication Type</td>
-              <td>Publisher</td>
-              <td>Semantic Scholar URL</td>
+              {
+                showMetadata && 
+                <>
+                  <td style={{ 
+                    minWidth: "350px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"
+                  }}>Abstract</td>
+                  <td>Authors</td>
+                  <td>Citations Count</td>
+                  <td>Conference/Journal</td>
+                  <td>DOI</td>
+                  <td>DOI URL</td>
+                  <td>Keywords</td>
+                  <td>Publication Date</td>
+                  <td>Publication Type</td>
+                  <td>Publisher</td>
+                  <td>Semantic Scholar URL</td>
+                </>
+              }
+              {/* Questions */}
+              {
+                searchResults.results && searchResults.results.length > 0 && 
+                searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
+                llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
+                  <td style={{ minWidth: "220px" }}>Q{index + 1} {response.question}</td>
+                ))
+              }
             </thead>
             <tbody>
-              {searchResults && searchResults.results && searchResults.results.length && searchResults.results.map((result: any) => (
+              {searchResults && searchResults.results && searchResults.results.length > 0 && searchResults.results.map((result: any) => (
                 <tr>
                   <td>
                     <input
@@ -576,21 +706,34 @@ function App() {
                   </td>
                   <td>{result.status}</td>
                   {/* Metadata */}
-                  <td>{result.abstract ?? "-"}</td>
-                  <td>{result.authors?.name ?? "-"}</td>
-                  <td>{result.citation_count ?? "-"}</td>
-                  <td>{result.conference_journal ?? "-"}</td>
-                  <td>{result.doi ?? "-"}</td>
-                  <td>{result.doi_url ?? "-"}</td>
-                  <td>{result.keywords?.join(', ') ?? "-"}</td>
-                  <td>{result.publication_date ?? "-"}</td>
-                  <td>{result.publication_type?.join(', ')  ?? "-"}</td>
-                  <td>{result.publisher  ?? "-"}</td>
-                  <td>
-                    <a href={result.semantic_scholar_url} target="_blank" rel="noreferrer">
-                      {result.semantic_scholar_url ?? "-"}
-                    </a>
-                  </td>
+                  {
+                    showMetadata && 
+                    <>
+                      <td>{result.abstract ?? "-"}</td>
+                      <td>{result.authors?.name ?? "-"}</td>
+                      <td>{result.citation_count ?? "-"}</td>
+                      <td>{result.conference_journal ?? "-"}</td>
+                      <td>{result.doi ?? "-"}</td>
+                      <td>{result.doi_url ?? "-"}</td>
+                      <td>{result.keywords?.join(', ') ?? "-"}</td>
+                      <td>{result.publication_date ?? "-"}</td>
+                      <td>{result.publication_type?.join(', ')  ?? "-"}</td>
+                      <td>{result.publisher  ?? "-"}</td>
+                      <td>
+                        <a href={result.semantic_scholar_url} target="_blank" rel="noreferrer">
+                          {result.semantic_scholar_url ?? "-"}
+                        </a>
+                      </td>
+                    </>
+                  }
+                  {
+                    result.llm_responses && result.llm_responses.length > 0 && 
+                    result.llm_responses.map((response: LLMQuestion) => (
+                      <td>
+                        <p>{response.answer}</p>
+                      </td>
+                    ))
+                  }
                 </tr>
               ))}
             </tbody>

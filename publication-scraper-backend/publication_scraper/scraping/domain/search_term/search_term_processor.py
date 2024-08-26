@@ -77,13 +77,11 @@ class SearchTermProcessor:
         
         if american_spelling_exists(word):
             americanized_word = get_american_spelling(search_term.word)
-            word.variants.setdefault(americanized_word, [])
-            word.variants["american"].append(americanized_word)
+            search_term.variants.append(americanized_word)
 
         if british_spelling_exists(word):
             british_word = get_british_spelling(search_term.word)
-            word.variants.setdefault(british_word, [])
-            word.variants["british"].append(british_word)
+            search_term.variants.append(british_word)
 
     def _get_synonyms(self, search_term: SearchTerm):
         """ Generates synonyms of the search term with breame. """
