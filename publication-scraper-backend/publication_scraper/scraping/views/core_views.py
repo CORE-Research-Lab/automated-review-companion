@@ -3,10 +3,9 @@ from itertools import product
 from typing import Dict, List, Tuple
 
 from django.http import JsonResponse
+from publication.models import Publication, PublicationMetadata
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-
-from publication.models import Publication, PublicationMetadata
 from scraping.domain import (
     DBLPEngine,
     SearchEngine,
@@ -44,6 +43,7 @@ class SearchAndCleanView(APIView):
             # Simple three-level search & advanced search
             self.all_search_terms   = [self.search_terms['primary'], self.search_terms['secondary'], self.search_terms['tertiary']]
             self.all_search_terms = list(product(*self.all_search_terms))
+            print(self.all_search_terms)
             self.all_search_terms = [terms for terms in self.all_search_terms if all(terms)]
             self.advanced_search    = self.search_terms.get('advanced')
 
@@ -77,7 +77,7 @@ class SearchAndCleanView(APIView):
         if SearchEngineType.WEB_OF_SCIENCE in self.sources:
             engines.append(WebOfScienceEngine(self.query))
 
-        log.info("Searching for publications...")
+        log.info("Searching for publications: %s", self.query.search_strings)
         results = []
         results.extend([result for engine in engines for result in engine.search()])
         results = Publication.remove_duplicates(results)
@@ -117,8 +117,9 @@ class PublicationMetadataView(APIView):
             paper_ids = [paper_id for paper_id in paper_ids if paper_id.startswith('DOI')]
             extractor = PublicationMetadataExtractor(paper_ids)
             metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
+            failed = [publication.paper_id for _, publication in extractor.failed_papers]
             
-            return JsonResponse({ "metadata": metadata })
+            return JsonResponse({ "metadata": metadata, "failed": failed })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 class SearchStringDifferenceView(APIView):

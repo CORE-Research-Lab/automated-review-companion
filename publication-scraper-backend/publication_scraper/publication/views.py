@@ -4,6 +4,7 @@ from itertools import product
 from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
+from utils import Logger
 
 from .interfaces.backward_search import BackwardSearch
 from .interfaces.forward_search import ForwardSearch
@@ -14,13 +15,11 @@ from .serializers import (
     PublicationValidationSerializer,
 )
 
-logger = logging.getLogger("test")
-logger.info("test")
+log = Logger(__name__)
 
 class PublicationSnowballingView(APIView):
     
     def post(self, request):
-        logger.info("test")
         serializer = PublicationSnowballingSerializer(data=request.data)
         if serializer.is_valid():
             
@@ -28,6 +27,8 @@ class PublicationSnowballingView(APIView):
             search_type = serializer.validated_data.get('search_type')
             show_metadata = serializer.validated_data.get('show_metadata')
             publications = Publication.objects.filter(paper_id__in=publication_ids)
+
+            log.info(f"Snowballing {search_type} search for {len(publications)} publications.")
             
             if search_type == 'forward':
                 fs = ForwardSearch(publications, show_metadata=show_metadata)

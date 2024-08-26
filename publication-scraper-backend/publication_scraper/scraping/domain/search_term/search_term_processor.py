@@ -12,7 +12,6 @@ from breame.spelling import (
     get_british_spelling,
 )
 from nltk.corpus import wordnet as wn
-
 from utils import Logger
 
 log = Logger(__name__)
@@ -60,10 +59,13 @@ class SearchTermProcessor:
     def _get_all_search_words(self, search_terms: List[Tuple[str, str, str]]) -> List[SearchTerm]:
         """ Returns all search words from the search terms. """
 
+        _raw_words = []
         all_search_words = []
         for search_term in search_terms:
             for word in search_term:
-                all_search_words.append(SearchTerm(word))
+                if word not in _raw_words:
+                    _raw_words.append(word)
+                    all_search_words.append(SearchTerm(word))
         return all_search_words
 
 

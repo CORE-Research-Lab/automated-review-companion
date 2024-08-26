@@ -1,3 +1,4 @@
+from publication.models import Publication
 from rest_framework.serializers import (
     BooleanField,
     CharField,
@@ -7,17 +8,15 @@ from rest_framework.serializers import (
     MultipleChoiceField,
     Serializer,
 )
-
-from publication.models import Publication
 from scraping.models import SearchEngineType
 
 
 class RootPaperSerializer(Serializer):
-    doi = CharField(required=False, default="")
-    title = CharField(required=False, default="")
+    doi = CharField(required=False, default="", allow_blank=True)
+    title = CharField(required=False, default="", allow_blank=True)
 
 class QuerySerializer(Serializer):
-    advanced = CharField(required=False)
+    advanced = CharField(required=False, allow_blank=True)
     primary = ListField(child=CharField(), default=[])
     secondary = ListField(child=CharField(), default=[])
     tertiary = ListField(child=CharField(), default=[])

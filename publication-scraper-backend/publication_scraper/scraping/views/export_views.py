@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
-from publication.models import Publication
 from rest_framework.views import APIView
+
+from publication.models import Publication
 from scraping.filters import PublicationFilter
 from scraping.infrastructure.data_export import (
     BibtexExporter,
@@ -23,11 +24,16 @@ class ExportView(APIView):
         """ Export the publications based on the given filters. """
         
         export_format = request.data.get('format', ExportType.CSV.value)
+        paper_ids = request.data.get('paper_ids', [])
+        if isinstance(paper_ids, str):
+            paper_ids = paper_ids.split(',')
 
         # Apply filters
-        filter_backend = DjangoFilterBackend()
-        filter_backend.request = request
-        publications = filter_backend.filter_queryset(request, Publication.objects.all(), self)
+        # filter_backend = DjangoFilterBackend()
+        # filter_backend.request = request
+        # publications = filter_backend.filter_queryset(request, Publication.objects.all(), self)
+        # publications = list(publications)
+        publications = Publication.objects.filter(paper_id__in=paper_ids)
         publications = list(publications)
         
         exporter = self.get_exporter(export_format)

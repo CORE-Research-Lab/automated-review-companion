@@ -6,3 +6,13 @@
   margin-top: 20px;
   background-color: #efefef;
 }
+
+input::placeholder {
+  color: #c6c6c6;
+}
+
+.card-body {
+  min-height: 200px;
+  min-width: 200px;
+  margin-right: 5px;
+}

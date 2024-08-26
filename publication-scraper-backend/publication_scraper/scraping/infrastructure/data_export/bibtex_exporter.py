@@ -18,6 +18,19 @@ class BibtexExporter(DataExporter):
         self.file_extension     = 'bibtex'
         self.exported_data      = ""
         self.CITATION_KEY_IDX   = 0
+        self.field_mapping = {
+            'paper_title':              'title',
+            'doi':                      'doi',  # DOI
+            'authors':                  'author',  # Authors
+            'publisher':                'PB',  # Publisher
+            'semantic_scholar_url':     'UR',  # URL
+            'doi_url':                  'UR',  # DOI URL
+            'publication_date':         'year',  # Date
+            'field_of_study':           'C1',  # Field of Study
+            'conference_journal':       'JO',  # Conference/Journal
+            'publication_type':         'TY',  # Type of Publication
+
+        }
         
         
         
@@ -41,9 +54,12 @@ class BibtexExporter(DataExporter):
                 item[self.CITATION_KEY_IDX + 1:]
             )
             for field_name, field_value in data:
+                self._get_field_outputs(field_name, field_value, output)
                 output.write(f"\t{field_name} = {{{field_value}}},\n")
                 
             output.write("}\n\n")
             
         self.exported_data = output.getvalue()
         
+    def _get_field_outputs(self, field_name: str, field_value: str):
+        pass
