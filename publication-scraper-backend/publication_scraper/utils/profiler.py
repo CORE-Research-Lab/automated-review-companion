@@ -38,7 +38,7 @@ def Profiler(process_name: str):
       finally:
         end_time = time.time()
         elapsed_time = end_time - start_time
-        print(f"{Color.HEADER}──────────────────────── {process_name} [END] ────────────────────────{Color.ENDC}")
+        print(f"{Color.HEADER}──────────────────────── {process_name} [END] ──────────────────────────{Color.ENDC}")
         print(f"{Color.HEADER}Elapsed time: {elapsed_time:.2f} seconds{Color.ENDC}")
         
       return result

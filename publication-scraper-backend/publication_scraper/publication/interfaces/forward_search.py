@@ -38,6 +38,7 @@ class ForwardSearch(SnowballingSearch):
     Performs a forward search, acquiring all references of the paper(s).
     """
     for i in range(len(self.results)):
+      log.info(f"Searching for references of {self.results[i]['title']}")
       publication = self.results[i]
       paper_doi = publication["doi"]
       
@@ -46,8 +47,8 @@ class ForwardSearch(SnowballingSearch):
         continue
       
       sch_paper = self.sch.get_paper(paper_doi)
-
       references = sch_paper.references
+      
       if references is None:
         log.warn(f"Skipped Paper | No references: {publication['title']}")
         continue

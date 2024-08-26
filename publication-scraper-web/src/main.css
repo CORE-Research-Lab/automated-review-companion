@@ -1,0 +1,32 @@
+#search-bar {
+ background-color: #efefef; 
+}
+
+#publication-data {
+  margin-top: 20px;
+  background-color: #efefef;
+}
+
+#llm-questions {
+  background-color: #efefef;
+}
+
+input::placeholder {
+  color: #c6c6c6;
+}
+
+.card-body {
+  min-height: 200px;
+  min-width: 200px;
+  margin-right: 5px;
+}
+
+.w-5 { width: 5%; }
+.w-10 { width: 10%; }
+.max-height-30vh {
+  max-height: 30vh;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}

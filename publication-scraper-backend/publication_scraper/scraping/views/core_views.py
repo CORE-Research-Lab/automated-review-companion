@@ -1,11 +1,11 @@
+import string
 from itertools import product
 from typing import Dict, List, Tuple
 
 from django.http import JsonResponse
+from publication.models import Publication, PublicationMetadata
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-
-from publication.models import Publication, PublicationMetadata
 from scraping.domain import (
     DBLPEngine,
     SearchEngine,
@@ -34,6 +34,7 @@ class SearchAndCleanView(APIView):
             request.data["sources"] = [SearchEngineType.DBLP]
         
         if serializer.is_valid():
+            self.root_papers   = serializer.validated_data['root_papers']
             self.search_terms  = serializer.validated_data['search_terms']
             self.year_start    = serializer.validated_data['year_start']
             self.year_end      = serializer.validated_data['year_end']
@@ -42,6 +43,7 @@ class SearchAndCleanView(APIView):
             # Simple three-level search & advanced search
             self.all_search_terms   = [self.search_terms['primary'], self.search_terms['secondary'], self.search_terms['tertiary']]
             self.all_search_terms = list(product(*self.all_search_terms))
+            print(self.all_search_terms)
             self.all_search_terms = [terms for terms in self.all_search_terms if all(terms)]
             self.advanced_search    = self.search_terms.get('advanced')
 
@@ -56,8 +58,9 @@ class SearchAndCleanView(APIView):
             self.results = self.search()
             self.all_search_words = self.generate_variants()
 
+            matches = self.get_matches()
             response = [result.to_dict() for result in self.results]
-            return JsonResponse({ "variations": self.all_search_words, "results": response })
+            return JsonResponse({ "variations": self.all_search_words, "results": response, "matches": matches })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
 
     def search(self) -> List[Publication]:
@@ -74,7 +77,7 @@ class SearchAndCleanView(APIView):
         if SearchEngineType.WEB_OF_SCIENCE in self.sources:
             engines.append(WebOfScienceEngine(self.query))
 
-        log.info("Searching for publications...")
+        log.info("Searching for publications: %s", self.query.search_strings)
         results = []
         results.extend([result for engine in engines for result in engine.search()])
         results = Publication.remove_duplicates(results)
@@ -88,22 +91,35 @@ class SearchAndCleanView(APIView):
         word_processor.generate_variants()
         return [search_term.to_dict() for search_term in word_processor.all_search_words]
     
+    def get_matches(self) -> List[Publication]:
+        """ Get publications that match the root papers. """
+        matches = []
+
+        for paper in self.root_papers:
+            for result in self.results:
+                same_doi = paper.get('doi') and result.paper_id and paper['doi'].lower() in result.paper_id.lower()
+                same_title = paper.get('title') and result.paper_title and paper['title'].lower() in result.paper_title.lower()
+                if same_doi or same_title:
+                    matches.append(paper)
+
+        percentage_match = (len(matches) / len(self.root_papers)) * 100 if self.root_papers else 0
+        return { "papers": matches, "num_matches": len(matches), "percentage_match": percentage_match }
 
 class PublicationMetadataView(APIView):
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
         if serializer.is_valid():
-            # paper_ids = serializer.validated_data['paper_ids']
-
-            # NOTE: This is a temporary solution to get all paper IDs.
-            paper_ids = Publication.objects.values_list('paper_id', flat=True)
-            paper_ids = [paper_id for paper_id in paper_ids if paper_id.startswith('DOI')]
-            # publications = Publication.objects.all()
             
+            # NOTE: This is a temporary solution to get all paper IDs.
+            # paper_ids = Publication.objects.values_list('paper_id', flat=True)
+            
+            paper_ids = serializer.validated_data['paper_ids']
+            paper_ids = [paper_id for paper_id in paper_ids if paper_id.startswith('DOI')]
             extractor = PublicationMetadataExtractor(paper_ids)
             metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
+            failed = [publication.paper_id for _, publication in extractor.failed_papers]
             
-            return JsonResponse({ "metadata": metadata })
+            return JsonResponse({ "metadata": metadata, "failed": failed })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 class SearchStringDifferenceView(APIView):
@@ -199,3 +215,4 @@ class SearchStringDifferenceView(APIView):
         if show_publication:
             return [pub.to_dict() for pub in publications]
         return paper_ids
+

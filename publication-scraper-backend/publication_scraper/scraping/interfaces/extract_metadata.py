@@ -6,7 +6,6 @@ import requests
 
 # from serpapi import GoogleSearch
 from crossref.restful import Works
-
 from publication.models import Publication, PublicationMetadata
 from utils import Profiler
 from utils.logger import Logger as Logger
@@ -63,6 +62,7 @@ class PublicationMetadataExtractor:
 
         self.papers = self.get_papers(paper_ids)
         self.extracted_metadata: List[PublicationMetadata] = []
+        self.failed_papers: List[Publication] = []
         self.initialize_process()
         
     def get_papers(self, paper_ids: List[str]) -> List[Publication]:
@@ -72,7 +72,6 @@ class PublicationMetadataExtractor:
     @Profiler("Extracting Metadata")
     def initialize_process(self, cache: bool = True):
         """ atomically extract metadata for all papers. """
-        failed_papers: List[Publication] = []
         for index, paper in enumerate(self.papers):
             log.info(f"Extracting metadata for paper {index + 1}/{len(self.papers)} - {paper.paper_title}")
             
@@ -94,11 +93,11 @@ class PublicationMetadataExtractor:
                 self.extracted_metadata.append(processed_metadata)
             except Exception as e:
                 log.error(f"Error extracting metadata for {paper.paper_title}. - {e}")
-                failed_papers.append((index, paper))
+                self.failed_papers.append((index, paper))
         
-        if len(failed_papers) > 0:
-            log.error(f"Failed to extract metadata for {len(failed_papers)} papers:")
-            for index, paper in failed_papers:
+        if len(self.failed_papers) > 0:
+            log.error(f"Failed to extract metadata for {len(self.failed_papers)} papers:")
+            for index, paper in self.failed_papers:
                 log.error(f"{index} - {paper.paper_title}")
 
     def _extract_data(self, paper: Publication) -> PublicationMetadata:

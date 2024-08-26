@@ -112,7 +112,7 @@ class SearchQueryParser:
             return f"-{operand}"
         
         elif format_type == SearchEngineType.DBLP:
-            return f"-{operand}$"  # Assuming no specific NOT syntax, fallback to minus
+            return f"-{operand}"  # Assuming no specific NOT syntax, fallback to minus
         
         elif format_type == SearchEngineType.WEB_OF_SCIENCE:
             return f"NOT {operand}"
