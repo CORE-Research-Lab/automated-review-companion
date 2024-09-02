@@ -106,7 +106,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   return (
     <tr key={publication.paper_id}
       className={getColorByRowType()}
-      style={{ height: "20px"}}
+      style={{ height: "20px" }}
     >
       <td>
         <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
@@ -589,7 +589,6 @@ function App() {
       
       if (searchType === "forward") {
         let updatedResults = [...searchResults.results];
-        debugger;
         res.data.results.forEach((result: SnowballingSearch) => {
           const index = updatedResults.findIndex((r) => matchDOIs(r.paper_id, result.paper_id));
           if (index !== -1) {
@@ -1274,6 +1273,7 @@ function App() {
                 <>
                   <td style={{ 
                     minWidth: "350px",
+                    maxHeight: "50px",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis"
