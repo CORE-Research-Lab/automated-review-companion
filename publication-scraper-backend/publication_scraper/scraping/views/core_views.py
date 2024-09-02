@@ -28,11 +28,11 @@ log = Logger(__name__)
 
 class SearchAndCleanView(APIView):
     def post(self, request):
-        serializer = SearchAndCleanSerializer(data=request.data)
 
         if request.data.get("sources") is None:
             request.data["sources"] = [SearchEngineType.DBLP]
         
+        serializer = SearchAndCleanSerializer(data=request.data)
         if serializer.is_valid():
             self.root_papers   = serializer.validated_data['root_papers']
             self.search_terms  = serializer.validated_data['search_terms']
@@ -41,8 +41,8 @@ class SearchAndCleanView(APIView):
             self.sources       = serializer.validated_data['sources']
             
             # Simple three-level search & advanced search
-            self.all_search_terms   = [self.search_terms['primary'], self.search_terms['secondary'], self.search_terms['tertiary']]
-            self.all_search_terms = list(product(*self.all_search_terms))
+            self.all_search_terms   = [*self.search_terms['primary'], *self.search_terms['secondary'], *self.search_terms['tertiary']]
+            self.all_search_terms = list(product(self.all_search_terms))
             print(self.all_search_terms)
             self.all_search_terms = [terms for terms in self.all_search_terms if all(terms)]
             self.advanced_search    = self.search_terms.get('advanced')

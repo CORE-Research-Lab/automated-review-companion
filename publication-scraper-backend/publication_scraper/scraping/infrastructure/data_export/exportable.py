@@ -66,5 +66,4 @@ class Exportable:
             
             return is_attribute
         except Exception as e:
-            print(f"Attribute: {name} Error: {e}")
-            return False
+            raise Exception(f"Attribute: {name} Error: {e}")

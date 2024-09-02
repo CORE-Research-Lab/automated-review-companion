@@ -64,6 +64,8 @@ class BackwardSearch(SnowballingSearch):
             )
               
             citation_publication = self.post_process_results(citation)
+            if citation_publication is None:
+                continue
             citation_publication = self._get_publication_data(citation_publication, self.show_metadata)
             self.results[i]["citations"].append(citation_publication)
             

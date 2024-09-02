@@ -22,13 +22,9 @@ class BibtexExporter(DataExporter):
             'paper_title':              'title',
             'doi':                      'doi',  # DOI
             'authors':                  'author',  # Authors
-            'publisher':                'PB',  # Publisher
-            'semantic_scholar_url':     'UR',  # URL
-            'doi_url':                  'UR',  # DOI URL
+            'publisher':                'publisher',  # Publisher
             'publication_date':         'year',  # Date
-            'field_of_study':           'C1',  # Field of Study
-            'conference_journal':       'JO',  # Conference/Journal
-            'publication_type':         'TY',  # Type of Publication
+            'conference_journal':       'journal',  # Conference/Journal
 
         }
         
@@ -54,12 +50,33 @@ class BibtexExporter(DataExporter):
                 item[self.CITATION_KEY_IDX + 1:]
             )
             for field_name, field_value in data:
-                self._get_field_outputs(field_name, field_value, output)
-                output.write(f"\t{field_name} = {{{field_value}}},\n")
+                name, value = self._get_field_outputs(field_name, field_value)
+                if name is not None:
+                    output.write(f"\t{name} = {{{value}}},\n")
                 
             output.write("}\n\n")
             
         self.exported_data = output.getvalue()
         
     def _get_field_outputs(self, field_name: str, field_value: str):
-        pass
+        """
+        Get the field outputs based on the given field name.
+        
+        :param field_name (str): The name of the field.
+        :param field_value (str): The value of the field.
+        """
+        if field_name in self.field_mapping:
+            field_name = self.field_mapping[field_name]
+
+            if field_name == 'author':
+                authors = [author.get("name") for author in field_value]
+                field_value = ' AND '.join(authors)
+
+            if field_name == 'year':
+                try: 
+                    field_value = field_value.split('-')[0]
+                except Exception as e:
+                    pass
+
+            return field_name, field_value
+        return None, None

@@ -1,6 +1,8 @@
+import requests
 from dataclasses import dataclass, field
 from typing import List, Tuple
 
+from bs4 import BeautifulSoup
 import nltk
 
 nltk.download('wordnet')
@@ -18,9 +20,7 @@ log = Logger(__name__)
 
 @dataclass
 class SearchTerm:
-    """ 
-    Data class for storing search term variants. 
-    """
+    """ Data class for storing search term variants. """
     word: str
     variants: List[str] = field(default_factory=list)
     synonyms: List[str] = field(default_factory=list)
@@ -83,9 +83,23 @@ class SearchTermProcessor:
             british_word = get_british_spelling(search_term.word)
             search_term.variants.append(british_word)
 
+
     def _get_synonyms(self, search_term: SearchTerm):
+        """ Generates synonyms of the search term with nltk and thesaurus.com. """
+        
+        sym_thesaurus = self._get_thesaurus_synonym(search_term)
+        sym_nltk = self._get_nltk_synonyms(search_term)
+        
+        if sym_thesaurus:
+            search_term.synonyms = sym_thesaurus
+        else:
+            search_term.synonyms = sym_nltk
+
+
+    def _get_nltk_synonyms(self, search_term: SearchTerm) -> List[str]:
         """ Generates synonyms of the search term with breame. """
 
+        log.info(f"Getting synonyms for {search_term.word} from nltk...")
         word = search_term.word
         all_synonyms = set()
         synonyms = wn.synsets(word)
@@ -95,4 +109,15 @@ class SearchTermProcessor:
                 all_synonyms.add(lemma.name())
         
         all_synonyms.discard(word)
-        search_term.synonyms = list(all_synonyms)
+        return list(all_synonyms)
+
+
+    def _get_thesaurus_synonym(self, search_term: SearchTerm) -> List[str]:
+        """ Acquires synonyms of the search term from thesaurus.com. """
+        
+        log.info(f"Getting synonyms for {search_term.word} from thesaurus.com...")
+        data = requests.get(f"https://www.thesaurus.com/browse/{search_term.word}")
+        soup = BeautifulSoup(data.text, "html.parser")
+        focus = soup.find("div", {"data-type": "synonym-and-antonym-card"})
+        synonyms = focus.find_all("a")
+        return [synonym.text for synonym in synonyms]

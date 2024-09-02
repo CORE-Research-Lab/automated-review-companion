@@ -70,6 +70,8 @@ class ForwardSearch(SnowballingSearch):
 
         log.debug(f"Reference: {referenced_paper}")
         reference_publication = self.post_process_results(reference)
+        if reference_publication is None:
+          continue
         reference_publication = self._get_publication_data(reference_publication, self.show_metadata)
         self.results[i]["references"].append(reference_publication)
     return self.results

@@ -51,10 +51,18 @@ class SnowballingSearch:
         if publication.exists():
             log.info(f"Publication with DOI {paper_doi} already exists.")
             publication = publication.first()
-            metadata = publication.metadata
+            try: 
+                metadata = publication.metadata
+            except PublicationMetadata.DoesNotExist:
+                metadata = None
             
             if metadata is None:
-                metadata = self._get_metadata(paper_doi)
+                try:
+                    metadata = self._get_metadata(paper_doi)
+                except IndexError:
+                    log.error(f"Metadata not found for {paper_doi}")
+                    return None
+
                 publication.metadata = metadata
                 publication.save()
         else:

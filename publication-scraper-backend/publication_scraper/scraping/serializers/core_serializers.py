@@ -18,8 +18,8 @@ class RootPaperSerializer(Serializer):
 class QuerySerializer(Serializer):
     advanced = CharField(required=False, allow_blank=True)
     primary = ListField(child=CharField(), default=[])
-    secondary = ListField(child=CharField(), default=[])
-    tertiary = ListField(child=CharField(), default=[])
+    secondary = ListField(child=CharField(), default=[], required=False, allow_empty=True)
+    tertiary = ListField(child=CharField(), default=[], required=False, allow_empty=True)
 
 class SearchAndCleanSerializer(Serializer):
     root_papers = ListField(child=RootPaperSerializer(), default=[])
@@ -34,7 +34,6 @@ class PublicationSerializer(ModelSerializer):
         fields = '__all__'
 
 class PublicationMetadataSerializer(Serializer):
-    # publications = ListField(child=PublicationSerializer(), required=True)
     paper_ids = ListField(child=CharField(), required=True)
 
 class SearchStringDifferenceSerializer(Serializer):

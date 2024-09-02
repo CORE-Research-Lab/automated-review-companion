@@ -1,3 +1,38 @@
+/*  Inter as default font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* {
+  font-family: 'Inter' !important
+}
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bd-violet-bg);
+  --bs-tooltip-color: var(--bs-white);
+}
+/* General */
+
+.w-5 { 
+  width: 5%; 
+}
+
+.w-10 { 
+  width: 10%; 
+}
+
+.max-height-30vh {
+  max-height: 30vh;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
+.text-red {
+  color: red;
+}
+
+
+
+/* Classes */
+
 #search-bar {
  background-color: #efefef; 
 }
@@ -21,12 +56,23 @@ input::placeholder {
   margin-right: 5px;
 }
 
-.w-5 { width: 5%; }
-.w-10 { width: 10%; }
-.max-height-30vh {
-  max-height: 30vh;
+.divider {
+  color: #c6c6c6;
+  border: 1px solid #c6c6c6;
 }
 
-.overflow-y-scroll {
-  overflow-y: scroll;
+.search-nav-item {
+  background-color: #efefef;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked + label.search-nav-item {
+  background-color: #c6c6c6;
+  color: black;
+}
+
+.search-nav-item:hover {
+  background-color: #9a9a9a !important;
 }
