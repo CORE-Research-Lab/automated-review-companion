@@ -11,7 +11,7 @@ from rest_framework.serializers import (
 from scraping.models import SearchEngineType
 
 
-class RootPaperSerializer(Serializer):
+class ValidationPaperSerializer(Serializer):
     doi = CharField(required=False, default="", allow_blank=True)
     title = CharField(required=False, default="", allow_blank=True)
 
@@ -22,7 +22,7 @@ class QuerySerializer(Serializer):
     tertiary = ListField(child=CharField(), default=[], required=False, allow_empty=True)
 
 class SearchAndCleanSerializer(Serializer):
-    root_papers = ListField(child=RootPaperSerializer(), default=[])
+    validation_papers = ListField(child=ValidationPaperSerializer(), default=[])
     search_terms = QuerySerializer(required=True)
     year_start = IntegerField(default=2017)
     year_end = IntegerField(default=2023)
