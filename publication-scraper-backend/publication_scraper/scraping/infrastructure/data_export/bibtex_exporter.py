@@ -15,7 +15,7 @@ class BibtexExporter(DataExporter):
         self.headers            = []
         self.data               = []
         self.content_type       = 'text/plain'
-        self.file_extension     = 'bibtex'
+        self.file_extension     = 'bib'
         self.exported_data      = ""
         self.CITATION_KEY_IDX   = 0
         self.field_mapping = {

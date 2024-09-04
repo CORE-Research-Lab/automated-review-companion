@@ -34,7 +34,7 @@ class SearchAndCleanView(APIView):
         
         serializer = SearchAndCleanSerializer(data=request.data)
         if serializer.is_valid():
-            self.root_papers   = serializer.validated_data['root_papers']
+            self.validation_papers   = serializer.validated_data['validation_papers']
             self.search_terms  = serializer.validated_data['search_terms']
             self.year_start    = serializer.validated_data['year_start']
             self.year_end      = serializer.validated_data['year_end']
@@ -92,17 +92,17 @@ class SearchAndCleanView(APIView):
         return [search_term.to_dict() for search_term in word_processor.all_search_words]
     
     def get_matches(self) -> List[Publication]:
-        """ Get publications that match the root papers. """
+        """ Get publications that match the validation papers. """
         matches = []
 
-        for paper in self.root_papers:
+        for paper in self.validation_papers:
             for result in self.results:
                 same_doi = paper.get('doi') and result.paper_id and paper['doi'].lower() in result.paper_id.lower()
                 same_title = paper.get('title') and result.paper_title and paper['title'].lower() in result.paper_title.lower()
                 if same_doi or same_title:
                     matches.append(paper)
 
-        percentage_match = (len(matches) / len(self.root_papers)) * 100 if self.root_papers else 0
+        percentage_match = (len(matches) / len(self.validation_papers)) * 100 if self.validation_papers else 0
         return { "papers": matches, "num_matches": len(matches), "percentage_match": percentage_match }
 
 class PublicationMetadataView(APIView):

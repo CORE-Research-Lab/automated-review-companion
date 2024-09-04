@@ -64,7 +64,7 @@ export type Author = {
 }
 
 export type SearchForm = {
-  root_papers: string[],
+  validation_papers: string[],
   search_terms: {
     advanced: string,
     primary: string,
@@ -76,7 +76,7 @@ export type SearchForm = {
   sources: SearchEngineType[]
 }
 
-export type SearchEngineType = "DBLP" | "SEMANTIC_SCHOLAR" | "WEB_OF_SCIENCE" | "IEEE" | "XPLORE"
+export type SearchEngineType = "DBLP" | "SEMANTIC_SCHOLAR" | "WEB_OF_SCIENCE" | "IEEE_XPLORE" | "SCOPUS"
 
 export type LLMQuestion = {
   id: number,
