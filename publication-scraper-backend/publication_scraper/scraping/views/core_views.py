@@ -3,7 +3,7 @@ from itertools import product
 from typing import Dict, List, Tuple
 
 from django.http import JsonResponse
-from publication.models import Publication, PublicationMetadata
+from publication.models import Publication, PublicationMetadata, PublicationStatus
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from scraping.domain import (
@@ -21,6 +21,7 @@ from scraping.serializers.core_serializers import (
     PublicationMetadataSerializer,
     SearchAndCleanSerializer,
     SearchStringDifferenceSerializer,
+    ManualAddPublicationSerializer
 )
 from utils import Logger
 
@@ -43,7 +44,7 @@ class SearchAndCleanView(APIView):
             # Simple three-level search & advanced search
             self.all_search_terms   = [*self.search_terms['primary'], *self.search_terms['secondary'], *self.search_terms['tertiary']]
             self.all_search_terms = list(product(self.all_search_terms))
-            print(self.all_search_terms)
+
             self.all_search_terms = [terms for terms in self.all_search_terms if all(terms)]
             self.advanced_search    = self.search_terms.get('advanced')
 
@@ -91,7 +92,7 @@ class SearchAndCleanView(APIView):
         word_processor.generate_variants()
         return [search_term.to_dict() for search_term in word_processor.all_search_words]
     
-    def get_matches(self) -> List[Publication]:
+    def get_matches(self) -> Dict:
         """ Get publications that match the validation papers. """
         matches = []
 
@@ -121,6 +122,34 @@ class PublicationMetadataView(APIView):
             
             return JsonResponse({ "metadata": metadata, "failed": failed })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+class ManualAddPublicationView(APIView):
+
+    def post(self, request):
+        """
+        Manually search for the paper and metadata of a list of DOIs
+        Searches from Semantic Scholar.
+        """
+        serializer = ManualAddPublicationSerializer(data=request.data)
+        if serializer.is_valid():
+            dois = serializer.validated_data['dois']
+            sch_engine = SemanticScholarEngine()
+            publication_results = []
+            for doi in dois:
+                paper_doi = f"DOI:{doi}" if not doi.startswith("DOI:") else doi
+                publication = Publication.objects.filter(paper_id=paper_doi)
+                if publication.exists():
+                    log.info(f"Publication with DOI {paper_doi} already exists.")
+                    publication = publication.first()
+                else:
+                    log.info(f"Searching for publication with DOI {paper_doi}")
+                    publication = sch_engine.find_by_doi(doi)
+                    publication.save()
+
+                publication_results.append(publication)
+            return JsonResponse({ "publications": [pub.to_dict() for pub in publication_results] })
+        return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        
 
 class SearchStringDifferenceView(APIView):
 

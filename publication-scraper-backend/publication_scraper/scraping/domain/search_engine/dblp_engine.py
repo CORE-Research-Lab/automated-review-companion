@@ -20,13 +20,14 @@ class DBLPEngine(SearchEngine):
     def __init__(self, search_query: SearchQuery): #List[str], year_start: str, year_end: str):
         super().__init__()
         self.url                            = "https://dblp.org/search/publ/api"
-        self.search_type: SearchQueryType   = search_query.search_type
-        self.queries: List[str]             = search_query.search_strings
-        self.advanced_query: str            = search_query.advanced_search
-        self.year_start: str                = search_query.start_year
-        self.year_end: str                  = search_query.end_year
-        self.years: str                     = self._format_years(self.year_start, self.year_end)
         self.results: List[Publication]     = []
+        if search_query:
+            self.search_type: SearchQueryType   = search_query.search_type
+            self.queries: List[str]             = search_query.search_strings
+            self.advanced_query: str            = search_query.advanced_search
+            self.year_start: str                = search_query.start_year
+            self.year_end: str                  = search_query.end_year
+            self.years: str                     = self._format_years(self.year_start, self.year_end)
 
     @Profiler("DBLP Search")
     def search(self) -> List[Publication]:

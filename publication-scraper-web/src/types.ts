@@ -32,8 +32,8 @@ export type Publication = {
 
   // Metadata fields
   abstract?: string,
-  authors?: Author,
-  citations_count?: number,
+  authors?: Author[],
+  citation_count?: number,
   conference_journal?: string,
   doi?: string,
   doi_url?: string,

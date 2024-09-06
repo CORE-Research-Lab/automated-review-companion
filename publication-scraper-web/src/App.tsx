@@ -1,11 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoIcon from '@mui/icons-material/Info';
 import { IconButton, Modal, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import PublicationRow from './components/PublicationRow';
 import './main.css';
 import {
   LLMPaperFilterResponse,
@@ -17,236 +16,9 @@ import {
   SnowballingSearch
 } from './types';
 
-export interface PublicationRowProps {
-  rowType?: string
-  publication: Publication
-  handlePaperSelect: (paper_id: string) => void
-  selectedPapers: string[]
-  showMetadata: boolean
-  searchResults: SearchResult
-  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult>>
-  llmQuestions: LLMQuestion[]
-}
-
 export interface UsabilityGuideProps {
   handleClose: () => void
 } 
-
-const PublicationRow: React.FC<PublicationRowProps> = (props) => {
-  const { 
-    rowType,
-    publication,
-    handlePaperSelect,
-    selectedPapers,
-    showMetadata,
-    searchResults,
-    llmQuestions,
-    setSearchResults
-  } = props;
-
-  const getColorByRowType = () => {
-    switch (rowType) {
-      case 'reference':
-        return 'table-info';
-      case 'citation':
-        return 'table-warning';
-      default:
-        return '';
-    }
-  }
-
-  const handleReferencesVisibility = () => {
-    const updatedResults = searchResults.results.map((result: Publication) => {
-      if (result.paper_id === publication.paper_id) {
-        return {
-          ...result,
-          showReferences: !result.showReferences
-        }
-      }
-      return result;
-    });
-    setSearchResults({...searchResults, results: updatedResults})
-  }
-
-  const handleCitationsVisibility = () => {
-    const updatedResults = searchResults.results.map((result: Publication) => {
-      if (result.paper_id === publication.paper_id) {
-        return {
-          ...result,
-          showCitations: !result.showCitations
-        }
-      }
-      return result;
-    });
-    setSearchResults({...searchResults, results: updatedResults})
-  }
-
-  // Only applicable to references/citations
-  const addToMainSearchResult = (paper: Publication) => {
-    // remove from references/citations from all results' citations/references
-    const updatedResults = searchResults.results.map((result: Publication) => {
-      var references: Publication[] = [];
-      var citations: Publication[] = [];
-      if (result.references && result.references.length > 0) {
-        references = result.references.filter((reference) => reference.paper_id !== paper.paper_id)
-      }
-      if (result.citations && result.citations.length > 0) {
-          citations = result.citations.filter((citation) => citation.paper_id !== paper.paper_id)
-      }
-      return {
-        ...result,
-        references,
-        citations
-      }
-    });
-
-    setSearchResults({...searchResults, results: [...updatedResults, paper]})
-  }
-
-  return (
-    <tr key={publication.paper_id}
-      className={getColorByRowType()}
-      style={{ height: "20px" }}
-    >
-      <td>
-        <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
-          {
-            rowType === 'reference' &&
-            <Tooltip title="Append to the bottom of the main search results" placement="top">
-              <button 
-                className="btn btn-primary btn-sm"
-                onClick={() => addToMainSearchResult(publication)}
-              >+</button>
-            </Tooltip>
-          }
-          {
-            rowType === 'citation' && 
-            <Tooltip title="Append to the bottom of the main search results" placement="top">
-              <button 
-                className="btn btn-primary btn-sm"
-                onClick={() => addToMainSearchResult(publication)}
-              >+</button>
-            </Tooltip>
-          }
-          {
-            rowType === 'main' &&
-            <>
-              <input
-                type="checkbox"
-                checked={selectedPapers.includes(publication.paper_id)}
-                onClick={() => handlePaperSelect(publication.paper_id)}
-              />
-              {/* Expand/contract references/citations */}
-              {
-                publication.references && publication.references.length > 0 &&
-                <Tooltip title="Expand/Collapse references" placement="top">
-                  {publication.showReferences ? 
-                    <ExpandMoreIcon 
-                      onClick={handleReferencesVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "blue"
-                      }}
-                  /> :
-                  <ExpandLessIcon 
-                    onClick={handleReferencesVisibility}
-                    style={{ 
-                      cursor: "pointer",
-                      color: "blue"
-                    }}
-                  />}
-                </Tooltip>
-              }
-              {
-                publication.citations && publication.citations.length > 0 &&
-                <Tooltip title="Expand/Collapse citations" placement="top">
-                  {publication.showCitations ?
-                    <ExpandMoreIcon 
-                      onClick={handleCitationsVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "#E6A23B"
-                      }}
-                    /> :
-                    <ExpandLessIcon 
-                      onClick={handleCitationsVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "#E6A23B"
-                      }}
-                    />
-                  }
-                </Tooltip>
-              }
-            </>
-          }
-        </div>
-      </td>
-      <td>{publication.paper_id}</td>
-      <td><p dangerouslySetInnerHTML={{ __html: publication.paper_title}}></p></td>
-      <td>{publication.searched_from}</td>
-      <td>
-        <code>
-          {publication.search_string}
-        </code>
-      </td>
-      <td>
-        <code>
-          {publication.formatted_search_string}
-        </code>
-      </td>
-      <td>{publication.status}</td>
-      {/* Metadata */}
-      {
-        showMetadata &&
-          <>
-            <td>{publication.abstract ?? "-"}</td>
-            <td>{publication.authors?.name ?? "-"}</td>
-            <td>{publication.citations_count ?? "-"}</td>
-            <td>{publication.conference_journal ?? "-"}</td>
-            <td>{publication.doi ?? "-"}</td>
-            {/*todo: doi_url isnt working properly, changed to workaround*/}
-            <td>
-              {publication.doi ? (
-                  <a href={`https://doi.org/${publication.doi}`}
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    {publication.doi}
-                  </a>
-              ) : (
-                  'Not Available'
-              )}
-            </td>
-            <td>{publication.keywords?.join(', ') ?? "-"}</td>
-            <td>{publication.publication_date ?? "-"}</td>
-            <td>{publication.publication_type ?? "-"}</td>
-            <td>{publication.publisher ?? "-"}</td>
-            <td>
-              {publication.semantic_scholar_url ? (
-                  <a href={publication.semantic_scholar_url}
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    View on Semantic Scholar
-                  </a>
-              ) : (
-                  '-'
-              )}
-            </td>
-          </>
-      }
-
-      {/* Questions */}
-      {
-          searchResults.results && searchResults.results.length > 0 &&
-          searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
-          <td key={response.id} style={{ minWidth: "220px" }}>Q{index + 1} {response.question}</td>
-        ))
-      }
-    </tr>
-  )
-
-}
 
 const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
   const { handleClose } = props;
@@ -383,7 +155,7 @@ function App() {
   const [searchForm, setSearchForm] = useState<SearchForm>({
     validation_papers: [],
     search_terms: {
-      advanced: '',
+      advanced: 'AI and "Machine Learning" and not Education',
       primary: '',
       secondary: '',
       tertiary: '',
@@ -411,9 +183,13 @@ function App() {
   const [expandedSearchBar, setExpandedSearchBar] = useState(true);
   const [showMetadata, setShowMetadata] = useState(true);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+
+  const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
+  const [isManuallyAddingPaper, setIsManuallyAddingPaper] = useState(false);
   const [isPopulatingMetadata, setIsPopulatingMetadata] = useState(false);
   const [snowballingType, setSnowballingType] = useState<string>('');
   const [useSimpleMode, setUseSimpleMode] = useState(true);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   const [buttonState, setButtonState] = useState({
     showSelectAll: false,
@@ -424,6 +200,7 @@ function App() {
     showBackwardSearch: false,
     showExport: false,
     showLLMQuestions: false,
+    showDeleteMode: false,
   })
     
 
@@ -450,6 +227,7 @@ function App() {
       llmQuestions: "Enter the questions to filter the papers. At least one question is required. Answers should be comma-separated categorical answers.",
     },
     results: {
+      manualAdd: "Manually add a paper to the search results",
       selectAll: "Select all papers in the search results",
       deselectAll: "Deselect all papers in the search results",
       hideMetadata: "Hide metadata for the selected papers",
@@ -522,10 +300,28 @@ function App() {
           showSelectAll: true,
           showDeselectAll: true,
           showPopulateMetadata: true,
+          showDeleteMode: true,
         }))
       })
       .catch((error) => toast.error('Error:', error.response.data))
       .finally(() => setIsSearching(false));
+  }
+
+  const handleAddPaper = async () => {
+    // if (isManuallyAddingPaper) return;
+    setIsManuallyAddingPaper(true);
+    toast.info('Adding papers...');
+    await axios.post(`${BASE_URL}/scraper/manual-add-publication`, {
+      dois: manualAddPapers
+    })
+    .then((res) => {
+      // Do not add if paper is already in 
+      const updatedResults = searchResults.results.filter((result: Publication) => !res.data.publications.find((paper: Publication) => paper.paper_id === result.paper_id));
+      setSearchResults({...searchResults, results: [...updatedResults, ...res.data.publications]})
+      toast.success('Papers added successfully');
+    })
+    .catch((error) => toast.error('Error:', error))
+    .finally(() => setIsManuallyAddingPaper(false));
   }
 
   const populateMetadata = async () => {
@@ -576,7 +372,9 @@ function App() {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `export.${format.toLowerCase()}`);
+        const contentDisposition = res.headers['content-disposition'];
+        const filename = contentDisposition.split('filename=')[1].replace(/"/g, '');
+        link.setAttribute('download', filename);
         document.body.appendChild(link);
         link.click();
       })
@@ -606,7 +404,6 @@ function App() {
     .then((res) => {
       let _searchType = searchType.charAt(0).toUpperCase() + searchType.slice(1);
       toast.info(`${_searchType} snowballing search completed`);
-      // toast.info('Results:' + JSON.stringify(res.data))
       
       if (searchType === "forward") {
         let updatedResults = [...searchResults.results];
@@ -723,6 +520,7 @@ function App() {
       showBackwardSearch: false,
       showExport: false,
       showLLMQuestions: false,
+      showDeleteMode: false,
     })
   }
 
@@ -1195,12 +993,41 @@ function App() {
         }
 
         {/* Publications Data */}
-        <div className="container p-3 mt-3 border rounded" id="publication-data">
+        <section className="container p-3 mt-3 border rounded" id="publication-data">
           {/* Actions */}
-          <h3 className="p-0 m-0">Search Results</h3>
-          <div className="d-flex flex-row justify-content-between">
-            <div className="d-flex justify-content-center flex-row">
-              Total Publications: {searchResults.results.length}
+          <div className="d-flex align-items-end gap-2">
+            <h3 className="p-0 m-0">Search Results</h3>
+          </div>
+              
+          <div className="d-flex flex-row justify-content-between mb-2">
+            <div className="d-flex justify-content-center flex-column w-50">
+              <div>Total Publications: {searchResults.results.length}</div>
+              {/* add input and button to manually add papers  */}
+              <div className="d-flex flex-row">
+                  <Tooltip title={tooltipText.results.manualAdd} placement='right'>
+                    <div className="input-group-prepend">
+                      <span className="input-group-text rounded-0" id="basic-addon1">
+                        Manual Add
+                      </span>
+                    </div>
+                  </Tooltip>
+                  <input
+                      type="text"
+                      className="form-control"
+                      placeholder="10.18653/v1/N18-3011"
+                      value={manualAddPapers.join(',')}
+                      onChange={(e) => setManualAddPapers(e.target.value.split(','))}
+                  />
+                  <button className="btn btn-primary" onClick={handleAddPaper}>
+                    { 
+                      isManuallyAddingPaper ? 
+                      <div className="spinner-border text-light">
+                        <span className="sr-only"></span>
+                      </div> :
+                      <span>Add</span>
+                    } 
+                  </button>
+                </div>
             </div>
             <div className='d-flex mb-3 gap-2'>
               {/* Select All */}
@@ -1244,6 +1071,13 @@ function App() {
                       }
                     </button>
                   </Tooltip>
+              }
+              {/* Toggle delete mode */}
+              {
+                (buttonState.showDeleteMode || searchResults.results.length > 0) &&
+                <button type="button" className="btn btn-danger" onClick={() => setDeleteMode(!deleteMode)}>
+                  {deleteMode ? 'Cancel' : 'Edit/Delete Mode'}
+                </button>
               }
               {/* Forward/BackwardSearch */}
               {
@@ -1306,109 +1140,118 @@ function App() {
           </div>
 
           {/* Table data */}
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <thead className='bg-primary text-white'>
-              <td></td>
-              <td>Paper ID</td>
-              <td style={{minWidth: "250px"}}>Title</td>
-              <td>Source</td>
-              <td style={{minWidth: "250px"}}>Search String</td>
-              <td style={{minWidth: "250px"}}>Formatted Search String</td>
-              <td>Status</td>
+          <div id="publication-data-table">
+            <div className="table-responsive">
+              <table className="table">
+                <thead className='bg-primary text-white'>
+                <td></td>
+                <td>Paper ID</td>
+                <td style={{minWidth: "250px"}}>Title</td>
+                <td>Source</td>
+                <td style={{minWidth: "250px"}}>Search String</td>
+                <td style={{minWidth: "250px"}}>Formatted Search String</td>
+                <td>Status</td>
 
-              {/* Metadata */}
-              {
-                  showMetadata &&
-                  <>
-                    <td style={{
-                      minWidth: "350px",
-                      maxHeight: "50px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis"
-                    }}>Abstract
-                    </td>
-                    <td>Authors</td>
-                    <td>Citations Count</td>
-                    <td>Conference/Journal</td>
-                    <td>DOI</td>
-                    <td>DOI URL</td>
-                    <td>Keywords</td>
-                    <td>Publication Date</td>
-                    <td>Publication Type</td>
-                    <td>Publisher</td>
-                    <td>Semantic Scholar URL</td>
-                  </>
-              }
-
-              {/* Questions */}
-              {
-                  searchResults.results && searchResults.results.length > 0 &&
-                  searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-                  llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
-                      <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1} {response.question}</td>
-                  ))
-              }
-              </thead>
-              <tbody>
-              {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result) => {
-
-                let publicationRows = [];
-
-                publicationRows.push(
-                    <PublicationRow
-                        rowType='main'
-                        publication={result}
-                        handlePaperSelect={handlePaperSelect}
-                        selectedPapers={selectedPapers}
-                        showMetadata={showMetadata}
-                        searchResults={searchResults}
-                        llmQuestions={llmQuestions}
-                        setSearchResults={setSearchResults}
-                    />
-                )
-
-                if (result.showReferences && result.references !== undefined && result.references?.length > 0) {
-                  result.references.forEach((reference) => {
-                    publicationRows.push(
-                        <PublicationRow
-                            rowType="reference"
-                            publication={reference}
-                            handlePaperSelect={handlePaperSelect}
-                            selectedPapers={selectedPapers}
-                            showMetadata={showMetadata}
-                            searchResults={searchResults}
-                            llmQuestions={llmQuestions}
-                            setSearchResults={setSearchResults}
-                        />
-                    )
-                  })
+                {/* Metadata */}
+                {
+                    showMetadata &&
+                    <>
+                      <td style={{
+                        minWidth: "350px",
+                        maxHeight: "50px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis"
+                      }}>Abstract
+                      </td>
+                      <td
+                        style={{
+                          minWidth: "220px",
+                        }}
+                      >Authors</td>
+                      <td>Citations Count</td>
+                      <td>Conference/Journal</td>
+                      <td>DOI</td>
+                      <td>DOI URL</td>
+                      <td>Keywords</td>
+                      <td>Publication Date</td>
+                      <td>Publication Type</td>
+                      <td>Publisher</td>
+                      <td>Semantic Scholar URL</td>
+                    </>
                 }
 
-
-                if (result.showCitations && result.citations !== undefined && result.citations?.length > 0) {
-                  result.citations.forEach((citation) => {
-                    publicationRows.push(
-                        <PublicationRow
-                            rowType="citation"
-                            publication={citation}
-                            handlePaperSelect={handlePaperSelect}
-                            selectedPapers={selectedPapers}
-                            showMetadata={showMetadata}
-                            searchResults={searchResults}
-                            llmQuestions={llmQuestions}
-                            setSearchResults={setSearchResults}
-                        />
-                    )
-                  })
+                {/* Questions */}
+                {
+                    searchResults.results && searchResults.results.length > 0 &&
+                    searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
+                    llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
+                        <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1} {response.question}</td>
+                    ))
                 }
-                return publicationRows;
-              })}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result) => {
+
+                  let publicationRows = [];
+
+                  publicationRows.push(
+                      <PublicationRow
+                          rowType='main'
+                          deleteMode={deleteMode}
+                          publication={result}
+                          handlePaperSelect={handlePaperSelect}
+                          selectedPapers={selectedPapers}
+                          showMetadata={showMetadata}
+                          searchResults={searchResults}
+                          llmQuestions={llmQuestions}
+                          setSearchResults={setSearchResults}
+                      />
+                  )
+
+                  if (result.showReferences && result.references !== undefined && result.references?.length > 0) {
+                    result.references.forEach((reference) => {
+                      publicationRows.push(
+                          <PublicationRow
+                              rowType="reference"
+                              deleteMode={deleteMode}
+                              publication={reference}
+                              handlePaperSelect={handlePaperSelect}
+                              selectedPapers={selectedPapers}
+                              showMetadata={showMetadata}
+                              searchResults={searchResults}
+                              llmQuestions={llmQuestions}
+                              setSearchResults={setSearchResults}
+                          />
+                      )
+                    })
+                  }
+
+
+                  if (result.showCitations && result.citations !== undefined && result.citations?.length > 0) {
+                    result.citations.forEach((citation) => {
+                      publicationRows.push(
+                          <PublicationRow
+                              rowType="citation"
+                              deleteMode={deleteMode}
+                              publication={citation}
+                              handlePaperSelect={handlePaperSelect}
+                              selectedPapers={selectedPapers}
+                              showMetadata={showMetadata}
+                              searchResults={searchResults}
+                              llmQuestions={llmQuestions}
+                              setSearchResults={setSearchResults}
+                          />
+                      )
+                    })
+                  }
+                  return publicationRows;
+                })}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
   )
 }

@@ -33,6 +33,8 @@ class PublicationSerializer(ModelSerializer):
         model = Publication
         fields = '__all__'
 
+class ManualAddPublicationSerializer(Serializer):
+    dois = ListField(child=CharField(), required=True)
 class PublicationMetadataSerializer(Serializer):
     paper_ids = ListField(child=CharField(), required=True)
 
