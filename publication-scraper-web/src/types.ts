@@ -26,7 +26,7 @@ export type Publication = {
   paper_id: string,
   paper_title: string,
   searched_from: string,
-  search_string: string,
+  search_string: string[] | string,
   formatted_search_string: string,
   status: string
 
@@ -67,9 +67,9 @@ export type SearchForm = {
   validation_papers: string[],
   search_terms: {
     advanced: string,
-    primary: string,
-    secondary: string,
-    tertiary: string
+    primary: string[],
+    secondary: string[],
+    tertiary: string[]
   },
   year_start: number,
   year_end: number,

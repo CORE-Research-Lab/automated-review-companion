@@ -10,6 +10,7 @@ import {
 
 export interface PublicationRowProps {
   rowType?: string
+  rowIdx?: number | string
   deleteMode?: boolean
   publication: Publication
   handlePaperSelect: (paper_id: string) => void
@@ -23,6 +24,7 @@ export interface PublicationRowProps {
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   const { 
     rowType,
+    rowIdx,
     deleteMode,
     publication,
     handlePaperSelect,
@@ -97,9 +99,16 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     setSearchResults({...searchResults, results: updatedResults})
   }
 
+  const parseSearchString = (searchString: string[] | string) => {
+    if (Array.isArray(searchString)) {
+      return `(${searchString.join(', ')})`;
+    }
+    return searchString
+  }
+
   return (
     <tr key={publication.paper_id}
-      className={getColorByRowType()}
+      className={`${getColorByRowType()} publication-row`}
       style={{ height: "20px" }}
     >
       <td>
@@ -183,12 +192,17 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
           }
         </div>
       </td>
+      <td style={{ textAlign: "center" }}>{rowIdx}</td>
       <td>{publication.paper_id}</td>
-      <td><p dangerouslySetInnerHTML={{ __html: publication.paper_title}}></p></td>
+      <td>
+        <div className="publication-data-table-cell" style={{ width: "300px" }}>
+          <span dangerouslySetInnerHTML={{__html: publication.paper_title }}></span>
+        </div>
+      </td>
       <td>{publication.searched_from}</td>
       <td>
-        <code>
-          {publication.search_string}
+        <code>          
+          {parseSearchString(publication.search_string)}
         </code>
       </td>
       <td>
@@ -201,8 +215,16 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       {
         showMetadata &&
           <>
-            <td>{publication.abstract ?? "-"}</td>
-            <td>{publication.authors?.map((author) => author.name).join(', ') ?? "-"}</td>
+            <td>
+              <div style={{ maxHeight: "100px", overflow: "scroll"}}>
+                {publication.abstract ?? "-"}
+              </div>
+            </td>
+            <td>
+              <div className="publication-data-table-cell" style={{ width: "200px"}}>
+                {publication.authors?.map((author) => author.name).join(', ') ?? "-"}
+              </div>
+            </td>
             <td>{publication.citation_count ?? "-"}
 
             </td>
@@ -220,16 +242,14 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
                   'Not Available'
               )}
             </td>
-            <td>{publication.keywords?.join(', ') ?? "-"}
-
-
-            {JSON.stringify(publication)} ssdad
-
-
-            </td>
+            <td>{publication.keywords?.join(', ') ?? "-"}</td>
             <td>{publication.publication_date ?? "-"}</td>
             <td>{publication.publication_type ?? "-"}</td>
-            <td>{publication.publisher ?? "-"}</td>
+            <td>
+              <div className="publication-data-table-cell" style={{ width: "200px"}}>
+                {publication.publisher ?? "-"}
+              </div>
+            </td>
             <td>
               {publication.semantic_scholar_url ? (
                   <a href={publication.semantic_scholar_url}

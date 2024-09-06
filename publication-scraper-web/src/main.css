@@ -75,6 +75,37 @@ input::placeholder {
   cursor: pointer;
 }
 
+/* word-variant */
+.word-variant-chip {
+  background-color: #e1e1e1;
+  color: black;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  height: auto;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.word-variant-chip:hover {
+  background-color: #c6c6c6;
+} 
+
+.word-variant-box {
+  width: 200px !important; 
+  max-width: 100% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.MuiInputBase-root {
+  /* padding: 0 !important; */
+}
+
 input[type="radio"]:checked + label.search-nav-item {
   background-color: #c6c6c6;
   color: black;
@@ -83,3 +114,34 @@ input[type="radio"]:checked + label.search-nav-item {
 .search-nav-item:hover {
   background-color: #9a9a9a !important;
 }
+
+.publication-data-table-cell {
+  max-height: 100px !important;
+  overflow: scroll !important;
+}
+
+.publication-row {
+  /* cursor: pointer; */
+}
+
+.publication-row:hover > td {
+  background-color: #dddddd !important;
+}
+
+table > tbody > tr > td {
+  border: 1px solid #c6c6c65f;
+}
+
+table > thead > tr > th {
+  border: 1px solid #c6c6c65f;
+}
+
+table > thead > td {
+  border: 1px solid #c6c6c65f;
+/* center */
+  text-align: center;
+  /* vertical center */
+  vertical-align: middle;
+  min-width: 100px;
+}
+

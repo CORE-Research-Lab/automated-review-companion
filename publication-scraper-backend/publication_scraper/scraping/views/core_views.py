@@ -42,10 +42,13 @@ class SearchAndCleanView(APIView):
             self.sources       = serializer.validated_data['sources']
             
             # Simple three-level search & advanced search
-            self.all_search_terms   = [*self.search_terms['primary'], *self.search_terms['secondary'], *self.search_terms['tertiary']]
-            self.all_search_terms = list(product(self.all_search_terms))
+            self.all_search_terms = []
+            if self.search_terms.get('primary'): self.all_search_terms.append(list(self.search_terms['primary']))
+            if self.search_terms.get('secondary'): self.all_search_terms.append(list(self.search_terms['secondary']))
+            if self.search_terms.get('tertiary'): self.all_search_terms.append(list(self.search_terms['tertiary']))
+            self.all_search_terms = list(product(*self.all_search_terms))
+            log.info("All search terms: %s", self.all_search_terms)
 
-            self.all_search_terms = [terms for terms in self.all_search_terms if all(terms)]
             self.advanced_search    = self.search_terms.get('advanced')
 
             self.query = SearchQuery(

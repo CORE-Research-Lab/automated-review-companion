@@ -1,10 +1,12 @@
-import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
-import { IconButton, Modal, Tooltip } from '@mui/material';
+import { Modal, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import PublicationRow from './components/PublicationRow';
+import SearchAppBar from './components/SearchAppBar';
+import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
+import UsabilityGuide from './components/UsabilityGuide';
 import './main.css';
 import {
   LLMPaperFilterResponse,
@@ -16,149 +18,16 @@ import {
   SnowballingSearch
 } from './types';
 
-export interface UsabilityGuideProps {
-  handleClose: () => void
-} 
-
-const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
-  const { handleClose } = props;
-  return (
-    <div className="container p-5 bg-white" style={{
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: '80%',
-      height: '80%',
-      overflow: 'scroll',
-      borderRadius: '5px'
-    }}>
-      <div className="d-flex justify-content-between">
-        <h3>Usability Guide</h3>
-        <Tooltip title="Close">
-          <IconButton onClick={handleClose} color="error" className="pb-3">
-            <CloseIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-
-      <h4>Search Bar</h4>
-      <div className="divider border-bottom my-3"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The search bar allows you to search for publications based on the search terms, year range, and databases selected.</span>
-        <span>There are two search modes:</span>
-        <ol>
-          <li>Simple mode, you can enter primary, secondary, and tertiary search terms.</li>
-          <li>Advanced mode, you can enter a case-insensitive boolean search string.
-            <ul>
-              <li>Use 'AND', 'OR', 'NOT' operators to combine search terms. (Case insensitive) </li>
-              <li>Use quotations to search for exact phrases.</li>
-            </ul>
-          </li>
-        </ol>
-        <div className="ps-3">
-          <li>Year range allows you to filter publications based on the publication year.</li>
-          <li>Databases: at least one source must be selected to proceed in searching.</li>
-          <li>Validation papers allow you to enter the DOI of the known existing papers to validate if the search configurations result in the validation papers.</li>
-          <li>Clear button resets and clears all search parameters and results.</li>
-        </div>
-        <span>To start searching, simply press the Search button.</span>
-      </div>
-      
-      
-      <h4>Search Results</h4>
-      <div className="divider border-bottom mb-3"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The search results display the matched papers based on the search configurations.</span>
-        <span>Each row represents a publication with the following columns:</span>
-        <ol>
-          <li>Checkbox: allows you to select the paper</li>
-          <li>Paper ID: the unique identifier of the paper</li>
-          <li>Paper Title: the title of the paper</li>
-          <li>Searched From: the source where the paper was searched from</li>
-          <li>Search String: the search string used to find the paper</li>
-          <li>Formatted Search String: the formatted search string</li>
-          <li>Status: the status of the paper</li>
-        </ol>
-        <div className="ps-3">
-          <li>Metadata columns are hidden by default. To show the metadata, click on the Metadata button.</li>
-          <li>LLM Questions columns are hidden by default. To show the LLM Questions, click on the LLM Questions button.</li>
-          <li>Click on the checkbox to select the paper. You can select all papers by clicking on the Select All button.</li>
-          <li>Click on the Export button to export the selected papers in CSV/BibTex/RIS format.</li>
-        </div>
-      </div>
-
-      <h4>Metadata</h4>
-      <div className="divider border-bottom"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The metadata columns display the metadata of the selected papers.</span>
-        <span>The metadata columns include:</span>
-        <ol>
-          <li>Abstract</li>
-          <li>Authors</li>
-          <li>Citations Count</li>
-          <li>Conference/Journal</li>
-          <li>DOI</li>
-          <li>DOI URL</li>
-          <li>Keywords</li>
-          <li>Publication Date</li>
-          <li>Publication Type</li>
-          <li>Publisher</li>
-          <li>Semantic Scholar URL</li>
-        </ol>
-      </div>
-
-      <h4 className="d-flex justify-content-between">
-        <span>Paper Filtering (LLM-Powered)</span>
-        <span className="badge bg-primary d-flex justify-content">⭐ Advanced Functionality</span>
-      </h4>
-      <div className="divider border-bottom"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The Paper Filtering functionality can further filter the papers provided with more insight by the user.</span>
-        <span>The LLM engine (GPT-4) further filters the papers based on the user's preferences.</span>
-        <span className="pb-3">In order to provide a more accurate classification result, it is recommended to ensure metadata for the selected papers are populated.</span>
-    
-        <ol>
-          <li>Question: Each question would be shown as a distinct column for each resulting paper.</li>
-          <li>Response: This denotes the possible classifications the LLM can categorize the paper as, based on the metadata</li>
-        </ol>
-        <span>Click on the LLM Filter button to filter the papers based on the LLM Questions.</span>
-    
-      </div>
-
-      <h4 className='d-flex justify-content-between'>
-        <span>Forward and Backward Search (Snowballing)</span>
-        <span className="badge bg-primary d-flex justify-content">⭐ Advanced Functionality</span>
-      </h4>
-      <div className="divider border-bottom"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The Snowballing Search allows you to search for papers that the selected papers cite or that cite the selected papers.</span>
-        <span className="pb-3">To perform Snowballing Search, follow the following steps:</span>
-        <ol>
-          <li>Click on the Forward Search or Backward Search button to start the snowballing search.</li>
-          <li>Click on the Expand/Collapse button on the original paper that has undergone snowballing search to view the references and citations of the paper.</li>
-        </ol>
-        
-        <li>References: the papers that the selected paper cites.</li>
-        <li>Citations: the papers that cite the selected paper.</li>
-      </div>
-
-      
-    </div>
-  )
-};
-
 function App() {
-  // components
   const BASE_URL = 'http://localhost:8000/api';
   const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
   const [searchForm, setSearchForm] = useState<SearchForm>({
     validation_papers: [],
     search_terms: {
       advanced: 'AI and "Machine Learning" and not Education',
-      primary: '',
-      secondary: '',
-      tertiary: '',
+      primary: [],
+      secondary: [],
+      tertiary: [],
     },
     year_start: 2023,
     year_end: 2024,
@@ -216,9 +85,18 @@ function App() {
   const tooltipText = {
     usabilityGuide: "Click to view the usability guide",
     search: {
-      primary: "Primary search term is required", 
-      secondary: "Secondary search term",
-      tertiary: "Tertiary search term",
+      primary: {
+        hint: "Primary search term is required", 
+        example: "i.e., AI, Deep Learning, etc.",
+      },
+      secondary: {
+        hint: "Secondary search term",
+        example: "i.e., Machine Learning, Generative AI, etc.",
+      },
+      tertiary: {
+        hint: "Tertiary search term",
+        example: "i.e., Deep Reinforcement Learning, Neural Networks, etc.",
+      },
       advanced: "Required field: advanced case-insensitive boolean search string. Use 'AND', 'OR', 'NOT' operators to combine search terms, and quotations to search for exact phrases.",
       yearRange: "Year range including the start and end years (i.e., 2023 - 2024)",
       database: "Select the databases to search from: Click on the database name to toggle the selection; a filled checkbox indicates the database is selected. At least one must be selected.",
@@ -246,11 +124,6 @@ function App() {
     return keyword;
   }
 
-  const parseSearchTerms = (terms: string) => {
-    if (!terms) return [];
-    return terms.split(',')
-  }
-
   // Return as a object with doi and title fields,
   // if the doi exists in the paper id, attribute it as doi, else attribute it as title
   const parseRootPapers = (papers: string[]) => {
@@ -260,6 +133,16 @@ function App() {
       return {
         doi: doi ?? '',
         title: doi ? '' : paper
+      }
+    })
+  }
+
+  const handleSearchFormChange = (e: React.SyntheticEvent, value: string[], field: MultiLayerSearch) => {
+    setSearchForm({
+      ...searchForm,
+      search_terms: {
+        ...searchForm.search_terms,
+        [field]: value
       }
     })
   }
@@ -285,9 +168,9 @@ function App() {
       ...searchForm,
       search_terms: {
         advanced: searchMode === SearchMode.ADVANCED ? searchForm.search_terms.advanced : "",
-        primary: searchMode === SearchMode.SIMPLE ? parseSearchTerms(searchForm.search_terms.primary) : [],
-        secondary: searchMode === SearchMode.SIMPLE ? parseSearchTerms(searchForm.search_terms.secondary) : [],
-        tertiary: searchMode === SearchMode.SIMPLE ? parseSearchTerms(searchForm.search_terms.tertiary) : []
+        primary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.primary : [],
+        secondary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.secondary : [],
+        tertiary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.tertiary : []
       },
       validation_papers: parseRootPapers(searchForm.validation_papers)
     }
@@ -488,9 +371,9 @@ function App() {
       validation_papers: [],
       search_terms: {
         advanced: '',
-        primary: '',
-        secondary: '',
-        tertiary: '',
+        primary: [],
+        secondary: [],
+        tertiary: [],
       },
       year_start: 2023,
       year_end: 2024,
@@ -530,6 +413,20 @@ function App() {
     setUseSimpleMode(!useSimpleMode);
   }
 
+  const handleChipClick = (keyword: string, field: MultiLayerSearch) => {
+    setSearchForm({
+      ...searchForm,
+      search_terms: {
+        ...searchForm.search_terms,
+        [field]: [
+          ...searchForm.search_terms[field],
+          keyword
+        ]
+      }
+    })
+  }
+
+  const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
 
   return (
       <div className="container mt-3">
@@ -551,141 +448,31 @@ function App() {
                 </button>
               </Tooltip>
               {/* MUI Modal for usability guide */}
-              <Modal open={showUsabilityGuide} onClose={() => {
-                setShowUsabilityGuide(false)
-              }}>
+              <Modal open={showUsabilityGuide} onClose={() => setShowUsabilityGuide(false)}>
                 <UsabilityGuide handleClose={() => setShowUsabilityGuide(false)}/>
               </Modal>
-
-
             </div>
-
           </div>
 
-          {/* Search Mode */}
-          <nav className="d-flex">
-            <input
-                type="radio"
-                className="btn-check search-nav-item"
-                name="options"
-                id="option1"
-                autoComplete='off'
-                checked={searchMode === SearchMode.SIMPLE}
-                onClick={() => handleSelectSearchMode(SearchMode.SIMPLE)}
-            />
-            <label className="search-nav-item" htmlFor="option1">Multi-layer Keyword Search</label>
-
-            <input
-                type="radio"
-                className="btn-check"
-                id="advanced-search"
-                autoComplete='off'
-                checked={searchMode === SearchMode.ADVANCED}
-                onClick={() => handleSelectSearchMode(SearchMode.ADVANCED)}
-            />
-            <label className="search-nav-item" htmlFor="advanced-search">Advanced Keyword Search</label>
-          </nav>
-
-          {/* <button
-          type="button" 
-          className="btn btn-secondary" 
-          data-bs-toggle="tooltip" 
-          data-bs-placement="top" 
-          data-bs-title="Tooltip on top"
-        >
-          Tooltip on top
-        </button> */}
+          <SearchAppBar searchMode={searchMode} handleSelectSearchMode={handleSelectSearchMode} />
 
           <div className="divider border-bottom"></div>
-          {/* Three-layered Searchbar */}
+          {/* Multi-layer Keyword Search */}
           {expandedSearchBar && (
               <div className="mt-3">
 
                 {searchMode === SearchMode.SIMPLE && (
                     <div className="input-group mb-3 d-flex flex-column">
-                      <div className="d-flex flex-row">
-                        <div className="input-group-prepend w-25 rounded-0">
-                          <Tooltip title={tooltipText.search.primary} placement="right">
-                            <div className="input-group-text rounded-0">
-                              <span>Primary</span>
-                              <span className='text-red'>*</span>
-                            </div>
-                          </Tooltip>
-                        </div>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="AI, Deep Learning, etc."
-                            value={searchForm.search_terms.primary}
-                            onChange={(e) => setSearchForm({
-                              ...searchForm,
-                              search_terms: {...searchForm.search_terms, primary: e.target.value}
-                            })}
-                        />
-                        {/* <Autocomplete
-                    className="w-100"
-                    multiple
-                    freeSolo
-                    value={searchForm.search_terms.primary}
-                    onChange={(e, value) => setSearchForm({...searchForm, search_terms: {...searchForm.search_terms, primary: value}})}
-                    options={searchResults.variations.map((variation) => variation.word)}
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => (
-                        <Tooltip title={searchResults.variations.find((variation) => variation.word === option)?.synonyms.join(', ')} key={index}>
-                          <Chip
-                            label={option}
-                            {...getTagProps({ index })}
-                          />
-                        </Tooltip>
-                      ))
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        className="p-0 m-0 bg-white w-100"
-                        size="small"
-                        variant="outlined"
-                        placeholder={searchForm.search_terms.primary.length === 0 ? "i.e., AI, Deep Learning, etc." : ""}
-                      />
-                    )}
-                  /> */}
-                      </div>
-                      <div className="d-flex flex-row">
-                        <div className="input-group-prepend w-25">
-                          <Tooltip title={tooltipText.search.secondary} placement="right">
-                            <div className="input-group-text d-flex gap-2 rounded-0">
-                              Secondary
-                            </div>
-                          </Tooltip>
-                        </div>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Ethics, Human-Computer Interaction, etc."
-                            value={searchForm.search_terms.secondary}
-                            onChange={(e) => setSearchForm({
-                              ...searchForm,
-                              search_terms: {...searchForm.search_terms, secondary: e.target.value}
-                            })}
-                        />
-                      </div>
-                      <div className="d-flex flex-row">
-                        <div className="input-group-prepend w-25 rounded-0">
-                          <Tooltip title={tooltipText.search.tertiary} placement="right">
-                            <div className="input-group-text d-flex gap-2">Tertiary</div>
-                          </Tooltip>
-                        </div>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Education, etc."
-                            value={searchForm.search_terms.tertiary}
-                            onChange={(e) => setSearchForm({
-                              ...searchForm,
-                              search_terms: {...searchForm.search_terms, tertiary: e.target.value}
-                            })}
-                        />
-                      </div>
+                      {multiLayerSearchFields.map((field) => (
+                        <SearchTermAutocomplete
+                          field={field}
+                          searchForm={searchForm}
+                          searchResults={searchResults}
+                          setSearchResults={setSearchResults}
+                          tooltipText={tooltipText}
+                          handleSearchFormChange={handleSearchFormChange}
+                          handleChipClick={handleChipClick}
+                      />))}
                     </div>
                 )}
 
@@ -710,40 +497,6 @@ function App() {
                       />
                     </div>
                 )}
-
-                {/* Keyword suggestion */}
-                {searchResults.variations && searchResults.variations.length > 0 &&
-                    <div className="container-fluid py-2">
-                      <span>Keywords:</span>
-                      <div className="d-flex flex-row flex-nowrap overflow-scroll">
-                        {searchResults.variations.map((variation) => (
-                            <div className="card card-body" key={variation.word}>
-                              <h5>{variation.word}</h5>
-                              <div className="d-flex flex-row">
-                                <div>
-                                  <span>Synonyms:</span>
-                                  <ul>
-                                    {variation.synonyms.map((synonym) => (
-                                        <li key={synonym}>{parseKeywordSuggestion(synonym)}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                                {variation.variants.length > 0 &&
-                                    <div>
-                                      <span>Variants:</span>
-                                      <ul>
-                                        {variation.variants.map((variant) => (
-                                            <li key={variant}>{parseKeywordSuggestion(variant)}</li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                }
-                              </div>
-                            </div>
-                        ))}
-                      </div>
-                    </div>
-                }
 
                 {/* Year Range */}
                 <div className="input-group mb-3">
@@ -999,7 +752,7 @@ function App() {
             <h3 className="p-0 m-0">Search Results</h3>
           </div>
               
-          <div className="d-flex flex-row justify-content-between mb-2">
+          <div className="d-flex justify-content-between items-align-end mb-3">
             <div className="d-flex justify-content-center flex-column w-50">
               <div>Total Publications: {searchResults.results.length}</div>
               {/* add input and button to manually add papers  */}
@@ -1029,7 +782,7 @@ function App() {
                   </button>
                 </div>
             </div>
-            <div className='d-flex mb-3 gap-2'>
+            <div className='d-flex gap-2'>
               {/* Select All */}
               {
                   buttonState.showSelectAll &&
@@ -1114,42 +867,43 @@ function App() {
               }
 
               {/* Export */}
-              <div className="dropdown">
-                {
-                    buttonState.showExport &&
-                    <Tooltip title={tooltipText.results.export} placement="top">
-                      <button className="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                              aria-expanded="false">
-                        Export
-                      </button>
-                    </Tooltip>
-                }
-                <ul className="dropdown-menu">
-                  <li>
-                    <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={handleExport("BIBTEX")}>Bibtex</button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={handleExport("RIS")}>RIS</button>
-                  </li>
-                </ul>
-              </div>
+              {
+                buttonState.showExport &&
+                <div className="dropdown">
+                      <Tooltip title={tooltipText.results.export} placement="top">
+                        <button className="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                          Export
+                        </button>
+                      </Tooltip>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
+                    </li>
+                    <li>
+                      <button className="dropdown-item" onClick={handleExport("BIBTEX")}>Bibtex</button>
+                    </li>
+                    <li>
+                      <button className="dropdown-item" onClick={handleExport("RIS")}>RIS</button>
+                    </li>
+                  </ul>
+                </div>
+              }
             </div>
           </div>
 
           {/* Table data */}
           <div id="publication-data-table">
             <div className="table-responsive">
-              <table className="table">
-                <thead className='bg-primary text-white'>
-                <td></td>
-                <td>Paper ID</td>
-                <td style={{minWidth: "250px"}}>Title</td>
+              <table className="table table-striped">
+                <thead className='bg-primary text-white ' style={{ height: "20px"}}>
+                <td style={{ minWidth: "10px" }}></td>
+                <td style={{ minWidth: "50px" }}>#</td>
+                <td style={{ minWidth: "250px" }}>Paper ID</td>
+                <td style={{ minWidth: "250px" }}>Title</td>
                 <td>Source</td>
-                <td style={{minWidth: "250px"}}>Search String</td>
-                <td style={{minWidth: "250px"}}>Formatted Search String</td>
+                <td style={{ minWidth: "250px" }}>Search String</td>
+                <td style={{ minWidth: "250px" }}>Formatted Search String</td>
                 <td>Status</td>
 
                 {/* Metadata */}
@@ -1164,17 +918,13 @@ function App() {
                         textOverflow: "ellipsis"
                       }}>Abstract
                       </td>
-                      <td
-                        style={{
-                          minWidth: "220px",
-                        }}
-                      >Authors</td>
+                      <td style={{ minWidth: "220px" }}>Authors</td>
                       <td>Citations Count</td>
-                      <td>Conference/Journal</td>
+                      <td style={{ minWidth: "200px"}}>Conference/Journal</td>
                       <td>DOI</td>
                       <td>DOI URL</td>
                       <td>Keywords</td>
-                      <td>Publication Date</td>
+                      <td style={{ minWidth: "115px" }}>Publication Date</td>
                       <td>Publication Type</td>
                       <td>Publisher</td>
                       <td>Semantic Scholar URL</td>
@@ -1191,13 +941,14 @@ function App() {
                 }
                 </thead>
                 <tbody>
-                {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result) => {
+                {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result, rowIdx) => {
 
                   let publicationRows = [];
 
                   publicationRows.push(
                       <PublicationRow
                           rowType='main'
+                          rowIdx={rowIdx}
                           deleteMode={deleteMode}
                           publication={result}
                           handlePaperSelect={handlePaperSelect}
@@ -1210,10 +961,11 @@ function App() {
                   )
 
                   if (result.showReferences && result.references !== undefined && result.references?.length > 0) {
-                    result.references.forEach((reference) => {
+                    result.references.forEach((reference, referenceIdx) => {
                       publicationRows.push(
                           <PublicationRow
                               rowType="reference"
+                              rowIdx={rowIdx + "-R" + referenceIdx}
                               deleteMode={deleteMode}
                               publication={reference}
                               handlePaperSelect={handlePaperSelect}
@@ -1233,6 +985,7 @@ function App() {
                       publicationRows.push(
                           <PublicationRow
                               rowType="citation"
+                              rowIdx={rowIdx + "-C" + citation.paper_id}
                               deleteMode={deleteMode}
                               publication={citation}
                               handlePaperSelect={handlePaperSelect}
