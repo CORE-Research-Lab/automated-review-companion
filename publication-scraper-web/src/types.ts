@@ -51,7 +51,7 @@ export type Publication = {
   citations?: Publication[],
   showReferences?: boolean,
   showCitations?: boolean
-}
+} 
 
 export type SnowballingSearch = Publication & {
   references?: Publication[]
@@ -64,6 +64,7 @@ export type Author = {
 }
 
 export type SearchForm = {
+  id?: string,
   validation_papers: string[],
   search_terms: {
     advanced: string,
@@ -76,7 +77,13 @@ export type SearchForm = {
   sources: SearchEngineType[]
 }
 
-export type SearchEngineType = "DBLP" | "SEMANTIC_SCHOLAR" | "WEB_OF_SCIENCE" | "IEEE_XPLORE" | "SCOPUS"
+export enum SearchEngineType {
+  DBLP = "DBLP",
+  SEMANTIC_SCHOLAR = "SEMANTIC_SCHOLAR",
+  WEB_OF_SCIENCE = "WEB_OF_SCIENCE",
+  IEEE_XPLORE = "IEEE_XPLORE",
+  SCOPUS = "SCOPUS"
+}
 
 export type LLMQuestion = {
   id: number,

@@ -13,12 +13,12 @@ export interface PublicationRowProps {
   rowIdx?: number | string
   deleteMode?: boolean
   publication: Publication
-  handlePaperSelect: (paper_id: string) => void
-  selectedPapers: string[]
-  showMetadata: boolean
+  handlePaperSelect?: (paper_id: string) => void
+  selectedPapers?: string[]
+  showMetadata?: boolean
   searchResults: SearchResult
-  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult>>
-  llmQuestions: LLMQuestion[]
+  setSearchResults?: React.Dispatch<React.SetStateAction<SearchResult>>
+  llmQuestions?: LLMQuestion[]
 }
 
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
@@ -47,6 +47,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   }
 
   const handleReferencesVisibility = () => {
+    if (!setSearchResults) return;
     const updatedResults = searchResults.results.map((result: Publication) => {
       if (result.paper_id === publication.paper_id) {
         return {
@@ -60,6 +61,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   }
 
   const handleCitationsVisibility = () => {
+    if (!setSearchResults) return;
     const updatedResults = searchResults.results.map((result: Publication) => {
       if (result.paper_id === publication.paper_id) {
         return {
@@ -74,6 +76,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
 
   // Only applicable to references/citations
   const addToMainSearchResult = (paper: Publication) => {
+    if (!setSearchResults) return;
     // remove from references/citations from all results' citations/references
     const updatedResults = searchResults.results.map((result: Publication) => {
       var references: Publication[] = [];
@@ -95,6 +98,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   }
 
   const handlePaperDelete = (paper_id: string) => {
+    if (!setSearchResults) return;
     const updatedResults = searchResults.results.filter((result: Publication) => result.paper_id !== paper_id);
     setSearchResults({...searchResults, results: updatedResults})
   }
@@ -139,12 +143,12 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             </Tooltip>
           }
           {
-            rowType === 'main' &&
+            rowType === 'main' && selectedPapers && selectedPapers.length > 0 && handlePaperSelect &&
             <>
               <input
                 type="checkbox"
                 checked={selectedPapers.includes(publication.paper_id)}
-                onClick={() => handlePaperSelect(publication.paper_id)}
+                onClick={() => handlePaperSelect (publication.paper_id)}
               />
               {/* Expand/contract references/citations */}
               {
@@ -210,7 +214,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
           {publication.formatted_search_string}
         </code>
       </td>
-      <td>{publication.status}</td>
+      {/* <td>{publication.status}</td> */}
       {/* Metadata */}
       {
         showMetadata &&
@@ -233,11 +237,12 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             {/*todo: doi_url isnt working properly, changed to workaround*/}
             <td>
               {publication.doi ? (
-                  <a href={`https://doi.org/${publication.doi}`}
-                     target="_blank"
-                     rel="noopener noreferrer">
+                <a href={`https://doi.org/${publication.doi}`}
+                  className='text-blue-500 underline'    
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {publication.doi}
-                  </a>
+                </a>
               ) : (
                   'Not Available'
               )}
@@ -253,6 +258,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             <td>
               {publication.semantic_scholar_url ? (
                   <a href={publication.semantic_scholar_url}
+                     className='text-blue-500 underline' 
                      target="_blank"
                      rel="noopener noreferrer">
                     View on Semantic Scholar

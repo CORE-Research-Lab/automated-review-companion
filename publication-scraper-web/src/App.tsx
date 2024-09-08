@@ -1,17 +1,28 @@
+import AddIcon from '@mui/icons-material/Add';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import InfoIcon from '@mui/icons-material/Info';
-import { Modal, Tooltip } from '@mui/material';
+import MinusIcon from '@mui/icons-material/Remove';
+import { Box, Chip, CircularProgress, IconButton, Modal, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import PublicationRow from './components/PublicationRow';
+import CsvImportField from './components/CsvImportField';
+import DatabaseSelector from './components/DatabaseSelector';
+import InputLabel from './components/InputLabel';
+import PublicationTable from './components/PublicationTable';
 import SearchAppBar from './components/SearchAppBar';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
+import { Button } from './components/ui/button';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
 import UsabilityGuide from './components/UsabilityGuide';
+import { cn } from './lib/utils';
 import './main.css';
 import {
   LLMPaperFilterResponse,
   LLMQuestion,
   Publication,
+  SearchEngineType,
   SearchForm,
   SearchMode,
   SearchResult,
@@ -31,7 +42,7 @@ function App() {
     },
     year_start: 2023,
     year_end: 2024,
-    sources: ["DBLP"],
+    sources: [SearchEngineType.DBLP],
   });
   const [searchResults, setSearchResults] = useState<SearchResult>({
     matches: {
@@ -50,7 +61,7 @@ function App() {
   }]);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [expandedSearchBar, setExpandedSearchBar] = useState(true);
-  const [showMetadata, setShowMetadata] = useState(true);
+  const [showMetadata, setShowMetadata] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
@@ -71,16 +82,53 @@ function App() {
     showLLMQuestions: false,
     showDeleteMode: false,
   })
+
+  const [fullscreenState, setFullscreenState] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<SearchForm[]>([
+    // {
+    //   validation_papers: [],
+    //   search_terms: {
+    //     advanced: 'AI and "Machine Learning" and not Education',
+    //     primary: [],
+    //     secondary: [],
+    //     tertiary: [],
+    //   },
+    //   year_start: 2023,
+    //   year_end: 2024,
+    //   sources: [SearchEngineType.DBLP],
+    // },
+    // {
+    //   validation_papers: [],
+    //   search_terms: {
+    //     advanced: 'AI and "Machine Learning"',
+    //     primary: [],
+    //     secondary: [],
+    //     tertiary: [],
+    //   },
+    //   year_start: 2023,
+    //   year_end: 2024,
+    //   sources: [SearchEngineType.DBLP],
+    // },
+  ]);
+  const [currentSearchHistoryIndex, setCurrentSearchHistoryIndex] = useState(0);
+  const [diffMode, setDiffMode] = useState(false);
+  const [diffSearchHistoryIndex, setDiffSearchHistoryIndex] = useState<null | number>(null);
+  const [diffSearchResults, setDiffSearchResults] = useState<SearchResult>({
+    matches: {
+      num_matches: 0,
+      papers: [],
+      percentage_match: 0
+    },
+    results: [],
+    variations: []
+  });
+  // TODO: store a search reference id of the results it provides;
+  // query endpoint when triggered to get the results of the search
     
-
-  let isDBLPActive = searchForm.sources.includes("DBLP");
-  let isSemanticScholarActive = searchForm.sources.includes("SEMANTIC_SCHOLAR");
-  let isWebOfScienceActive = searchForm.sources.includes("WEB_OF_SCIENCE");
-  let isIEEEActive = searchForm.sources.includes("IEEE_XPLORE");
-  let isScopusActive = searchForm.sources.includes("SCOPUS");
-
   let numMatched = searchResults?.matches?.num_matches;
   let percentageMatched = searchResults?.matches?.percentage_match;
+  
+  const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
 
   const tooltipText = {
     usabilityGuide: "Click to view the usability guide",
@@ -103,9 +151,19 @@ function App() {
       validationPapers: "Enter the DOI of the validation papers to validate if the search configurations result in the validation papers.",
       clearButton: "Resets and clears all search parameters and results",
       llmQuestions: "Enter the questions to filter the papers. At least one question is required. Answers should be comma-separated categorical answers.",
+      llmQuestion: {
+        add: "Add a question",
+        remove: "Remove a question"
+      },
+      history: "Enable diff mode to compare two search histories. Click on the search history to choose the search history to compare.",
     },
     results: {
+      toggleFullScreen: {
+        enter: "Click to enter fullscreen",
+        exit: "Click to exit fullscreen"
+      },
       manualAdd: "Manually add a paper to the search results",
+      manualAddCsv: "Drag a CSV file here with DOIs to manually add papers",
       selectAll: "Select all papers in the search results",
       deselectAll: "Deselect all papers in the search results",
       hideMetadata: "Hide metadata for the selected papers",
@@ -114,14 +172,6 @@ function App() {
       backwardSearch: "Search for papers that cite the selected papers",
       export: "Export selected papers in CSV/BibTex/RIS format",
     }
-  }
-
-  const parseKeywordSuggestion = (keyword: string) => {
-    // replace _ with space
-    keyword = keyword.replace(/_/g, ' ');
-    // capitalize first letter
-    keyword = keyword.charAt(0).toUpperCase() + keyword.slice(1);
-    return keyword;
   }
 
   // Return as a object with doi and title fields,
@@ -152,7 +202,6 @@ function App() {
       toast.error('Primary search term is required');
       return false;
     }
-    // error if no database
     if (searchForm.sources.length === 0) {
       toast.error('At least one database must be selected');
       return false;
@@ -182,16 +231,20 @@ function App() {
           ...prevState,
           showSelectAll: true,
           showDeselectAll: true,
-          showPopulateMetadata: true,
+          showForwardSearch: true,
+          showBackwardSearch: true,
           showDeleteMode: true,
+          showPopulateMetadata: true,
+          showHideMetadata: true,
         }))
+        setSearchHistory([...searchHistory, { id: res.data.id, ...searchForm}]);
+        setCurrentSearchHistoryIndex(searchHistory.length);
       })
       .catch((error) => toast.error('Error:', error.response.data))
       .finally(() => setIsSearching(false));
   }
 
   const handleAddPaper = async () => {
-    // if (isManuallyAddingPaper) return;
     setIsManuallyAddingPaper(true);
     toast.info('Adding papers...');
     await axios.post(`${BASE_URL}/scraper/manual-add-publication`, {
@@ -225,8 +278,6 @@ function App() {
         setButtonState((prevState) => ({
           ...prevState,
           showLLMQuestions: true,
-          showForwardSearch: true,
-          showBackwardSearch: true,
           showExport: true,
         }))
         toast.success('Metadata populated successfully');
@@ -360,8 +411,6 @@ function App() {
     setLLMQuestions(llmQuestions.slice(0, llmQuestions.length - 1))
   }
 
-
-
   const handleSelectSearchMode = (mode: SearchMode) => {
     setSearchMode(mode);
   }
@@ -377,7 +426,7 @@ function App() {
       },
       year_start: 2023,
       year_end: 2024,
-      sources: ["DBLP"],
+      sources: [SearchEngineType.DBLP],
     });
     setSearchResults({
       matches: {
@@ -426,66 +475,165 @@ function App() {
     })
   }
 
-  const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
+  const handleFullScreen = () => {
+    setFullscreenState(!fullscreenState);
+    // get id = publication-data, add container class to it
+    const publicationData = document.getElementById('publication-data');
+    const publicationDataInner = document.getElementById('publication-data-inner');
+    if (publicationData) {
+      publicationData.classList.toggle('container');
+      publicationDataInner?.classList.toggle('container');
+    }
+  }
+  
+  const handleSearchHistory = (offset: number) => {
+    setCurrentSearchHistoryIndex((prevIndex) => {
+      let newIndex = prevIndex + offset;
+      if (newIndex < 0) newIndex = 0;
+      if (newIndex >= searchHistory.length) newIndex = searchHistory.length - 1;
+      return newIndex;
+    });
+    // setSearchForm(searchHistory[index]);
+  }
+
+  const handleDiffMode = () => {
+    if (diffMode) {
+      setDiffSearchHistoryIndex(null);
+      // find main-data-table and remove col-6 class from it
+    } else {
+      // TODO: Implement diff mode functionality
+      // ========================================================================
+      // 1. Query all search results for the diff search history (given index)
+      // 2. Compare the two search results:
+      //    - Common papers: no change in background color
+      //    - Papers only in the first search: green background
+      //    - Papers only in the second search: red background
+    }
+    const publicationData = document.getElementsByClassName('main-data-table')[0];
+      if (publicationData) {
+        publicationData.classList.toggle('col-6');
+      }
+    setDiffMode(!diffMode);
+  }
+
+  const handleChooseSearchHistory = async (index: number) => {
+    if (!diffMode) {
+      setCurrentSearchHistoryIndex(index);
+      await axios.get(`${BASE_URL}/scraper/historical-search`, {
+        params: { id: searchHistory[index].id }
+      })
+      .then((res) => {
+        setSearchResults(res.data);
+        setButtonState((prevState) => ({
+          ...prevState,
+          showSelectAll: true,
+          showDeselectAll: true,
+          showForwardSearch: false,
+          showBackwardSearch: false,
+          showDeleteMode: true,
+          showPopulateMetadata: true,
+          showHideMetadata: true,
+          showExport: true,
+        }))
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Error:', error)
+      })
+
+    } else {
+      if (currentSearchHistoryIndex === index) {
+        toast.info('Cannot choose the same search history to compare');
+        return;
+      }
+      await axios.get(`${BASE_URL}/scraper/historical-search`, {
+        params: { id: searchHistory[index].id }
+      })
+      .then((res) => { 
+        setDiffSearchResults(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Error:', error)
+      })
+      .finally(() => setDiffSearchHistoryIndex(index));
+    }
+  }
+
+  const handleAdvancedChipClick = (keyword: string, synonym: string) => {
+    
+    // Check if keyword is a phrase, 
+    // if it is, surround with " "
+    toast.info(`Replacing ${keyword} with ${synonym}`);
+    if (keyword.split(' ').length > 1) {
+      keyword = `"${keyword}"`;
+    }
+    // do the same for syonnym
+    if (synonym.split(' ').length > 1) {
+      synonym = `"${synonym}"`;
+    }
+
+
+    let replacement = `(${keyword} or ${synonym})`;
+    setSearchForm({
+      ...searchForm,
+      search_terms: {
+        ...searchForm.search_terms,
+        advanced: searchForm.search_terms.advanced.replace(keyword, replacement),
+      }
+    })
+  }
 
   return (
-      <div className="container mt-3">
-        <h1>ARC: Automated Review Companion</h1>
-
-        {/* Search Bar */}
-        <div className="container p-3 mt-3 border rounded" id="search-bar">
-
-          <div className="d-flex flex-row justify-content-between">
-            <h3>Search Bar</h3>
-            {/* Button to open up a modal for a usability guide */}
-            <div className="d-flex gap-2">
-              <button className="btn btn-secondary" onClick={handleSimpleMode}>
-                {!useSimpleMode ? 'Enable Simple Mode' : 'Enable Advanced Mode'}
-              </button>
-              <Tooltip title={tooltipText.usabilityGuide}>
-                <button type="button" className="btn btn-secondary" onClick={() => setShowUsabilityGuide(true)}>
-                  <InfoIcon/>
-                </button>
-              </Tooltip>
-              {/* MUI Modal for usability guide */}
-              <Modal open={showUsabilityGuide} onClose={() => setShowUsabilityGuide(false)}>
-                <UsabilityGuide handleClose={() => setShowUsabilityGuide(false)}/>
-              </Modal>
+      <div className="mt-3">
+        <div className="container">
+          <h1 className="text-4xl font-medium">ARC: Automated Review Companion</h1>
+        
+          {/* Search Bar */}
+          <div className="p-3 mt-3 border rounded" id="search-bar">
+            <div className="d-flex flex-row justify-content-between">
+              <h3 className="text-3xl font-medium">Search Bar</h3>
+              {/* Button to open up a modal for a usability guide */}
+              <div className="d-flex gap-2">
+                <Tooltip title={tooltipText.usabilityGuide}>
+                  <Button className="bg-blue-500/80" onClick={() => setShowUsabilityGuide(true)}>
+                    <InfoIcon/>
+                  </Button>
+                </Tooltip>
+                {/* MUI Modal for usability guide */}
+                <Modal open={showUsabilityGuide} onClose={() => setShowUsabilityGuide(false)}>
+                  <UsabilityGuide handleClose={() => setShowUsabilityGuide(false)}/>
+                </Modal>
+              </div>
             </div>
-          </div>
 
-          <SearchAppBar searchMode={searchMode} handleSelectSearchMode={handleSelectSearchMode} />
+            <SearchAppBar searchMode={searchMode} handleSelectSearchMode={handleSelectSearchMode} />
 
-          <div className="divider border-bottom"></div>
-          {/* Multi-layer Keyword Search */}
-          {expandedSearchBar && (
-              <div className="mt-3">
+            <div className="divider border-bottom"></div>
+            {/* Multi-layer Keyword Search */}
+            {expandedSearchBar && (
+                <div className="mt-3">
+                  {searchMode === SearchMode.SIMPLE && (
+                      <div className="input-group mb-3 d-flex flex-column">
+                        {multiLayerSearchFields.map((field) => (
+                          <SearchTermAutocomplete
+                            key={field}
+                            field={field}
+                            searchForm={searchForm}
+                            searchResults={searchResults}
+                            setSearchResults={setSearchResults}
+                            tooltipText={tooltipText}
+                            handleSearchFormChange={handleSearchFormChange}
+                            handleChipClick={handleChipClick}
+                        />))}
+                      </div>
+                  )}
 
-                {searchMode === SearchMode.SIMPLE && (
-                    <div className="input-group mb-3 d-flex flex-column">
-                      {multiLayerSearchFields.map((field) => (
-                        <SearchTermAutocomplete
-                          field={field}
-                          searchForm={searchForm}
-                          searchResults={searchResults}
-                          setSearchResults={setSearchResults}
-                          tooltipText={tooltipText}
-                          handleSearchFormChange={handleSearchFormChange}
-                          handleChipClick={handleChipClick}
-                      />))}
-                    </div>
-                )}
-
-                {searchMode === SearchMode.ADVANCED && (
-                    <div className="input-group mb-3">
-                      <Tooltip title={tooltipText.search.advanced} placement="right">
-                        <div className="input-group-prepend">
-                    <span className="input-group-text rounded-0">
-                      Advanced Search <span className='text-red'>*</span>
-                    </span>
-                        </div>
-                      </Tooltip>
-                      <input
+                  {searchMode === SearchMode.ADVANCED && (
+                    <>
+                      <div className="input-group mb-3">
+                        <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
+                        <input
                           type="text"
                           className="form-control"
                           placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
@@ -494,154 +642,87 @@ function App() {
                             ...searchForm,
                             search_terms: {...searchForm.search_terms, advanced: e.target.value}
                           })}
-                      />
-                    </div>
-                )}
-
-                {/* Year Range */}
-                <div className="input-group mb-3">
-                  <Tooltip title={tooltipText.search.yearRange} placement="right">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text rounded-0" id="basic-addon1">
-                        <span>Year Range</span>
-                        <span className="text-red">*</span>
+                        />
                       </div>
-                    </div>
-                  </Tooltip>
-                  <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Start Year"
-                      value={searchForm.year_start}
-                      onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
-                  />
-                  <input
-                      type="number"
-                      className="form-control"
-                      placeholder="End Year"
-                      value={searchForm.year_end}
-                      onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
-                  />
-                </div>
-
-
-                {/*  Database Types */}
-                <div className="d-flex flex-row w-100 mb-3">
-                  <Tooltip title={tooltipText.search.database}>
-                    <div className="input-group-prepend">
-                      <div className="input-group-text rounded-0" id="basic-addon1">
-                        <span>Database</span>
-                        <span className="text-red">*</span>
+                      <div className="container">
+                        {searchResults.variations.length > 0 && (
+                          <div className="flex flex-row gap-2 flex-wrap my-3">
+                            <span className="text-center">Variations:</span>
+                              {searchResults.variations.map((variation) => (
+                                <Tooltip title={
+                                  <div className="d-flex flex-column gap-2">
+                                    <span>Synonyms:</span>
+                                    <Box className="word-variant-box mb-2">
+                                      {variation.synonyms.map((synonym) => (
+                                          <div
+                                            key={synonym}
+                                            onClick={() => handleAdvancedChipClick(variation.word, synonym)}
+                                            className='word-variant-chip'
+                                            style={{ color: "black", cursor: "pointer" }}
+                                          >
+                                            {synonym}
+                                          </div>
+                                      ))}
+                                    </Box>
+                                  </div>
+                                }>
+                                  <Chip
+                                    key={variation.word}
+                                    label={variation.word}
+                                    className='p-0 m-0'
+                                  />
+                              </Tooltip>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  </Tooltip>
-                  <div className="btn-group">
-                    <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck1"
-                        autoComplete="off"
-                        checked={isDBLPActive}
-                        onChange={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "DBLP")
-                                ? searchForm.sources.filter((source) => source !== "DBLP")
-                                : [...searchForm.sources, "DBLP"]
-                          })
-                        }}
-                    />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck1">DBLP</label>
+                    </>
+                  )}
 
+                  {/* Year Range */}
+                  <div className="input-group mb-3">
+                    <InputLabel tooltip={tooltipText.search.yearRange} label="Year Range" required/>
                     <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck2"
-                        autoComplete="off"
-                        checked={isSemanticScholarActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "SEMANTIC_SCHOLAR")
-                                ? searchForm.sources.filter((source) => source !== "SEMANTIC_SCHOLAR")
-                                : [...searchForm.sources, "SEMANTIC_SCHOLAR"]
-                          })
-                        }}
+                        type="number"
+                        className="form-control"
+                        placeholder="Start Year"
+                        value={searchForm.year_start}
+                        onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
                     />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck2">Semantic Scholar</label>
-
                     <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck3"
-                        autoComplete="off"
-                        checked={isWebOfScienceActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "WEB_OF_SCIENCE")
-                                ? searchForm.sources.filter((source) => source !== "WEB_OF_SCIENCE")
-                                : [...searchForm.sources, "WEB_OF_SCIENCE"]
-                          })
-                        }}
+                        type="number"
+                        className="form-control"
+                        placeholder="End Year"
+                        value={searchForm.year_end}
+                        onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
                     />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck3">Web of Science</label>
-
-                    <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck4"
-                        autoComplete="off"
-                        checked={isIEEEActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "IEEE_XPLORE")
-                                ? searchForm.sources.filter((source) => source !== "IEEE_XPLORE")
-                                : [...searchForm.sources, "IEEE_XPLORE"]
-                          })
-                        }}
-                    />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck4">IEEE Xplore</label>
-
-                    <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck5"
-                        autoComplete="off"
-                        checked={isScopusActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "SCOPUS")
-                                ? searchForm.sources.filter((source) => source !== "SCOPUS")
-                                : [...searchForm.sources, "SCOPUS"]
-                          })
-                        }}
-                    />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck5">Scopus</label>
-
                   </div>
-                </div>
 
-                {/* Validation Papers */}
-                <div className="d-flex flex-row w-100">
-                  <Tooltip title={tooltipText.search.validationPapers} placement='right'>
-                    <div className="input-group-prepend">
-                      <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
-                    </div>
-                  </Tooltip>
-                  <input
-                      type="text"
-                      className="form-control"
-                      placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
-                      value={searchForm.validation_papers.join(',')}
-                      onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
-                  />
-                </div>
 
-                {/* Root Paper matches */}
-                {
+                  {/*  Database Types */}
+                  <div className="d-flex flex-row w-100 mb-3">
+                    <InputLabel tooltip={tooltipText.search.database} label="Database Types" required/>
+                    <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>                   
+                  </div>
+
+                  {/* Validation Papers */}
+                  <div className="d-flex flex-row w-100">
+                    <Tooltip title={tooltipText.search.validationPapers} placement='right'>
+                      <div className="input-group-prepend">
+                        <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
+                      </div>
+                    </Tooltip>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
+                        value={searchForm.validation_papers.join(',')}
+                        onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
+                    />
+                  </div>
+
+                  {/* Root Paper matches */}
+                  {
                     searchForm.validation_papers.length > 0 &&
                     <div className="d-flex flex-column w-100 mt-3">
                       <div className="d-flex flex-row align-items-center gap-2 w-100">
@@ -660,60 +741,68 @@ function App() {
                           <tbody>
                           {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
                           {
-                              searchResults?.matches?.papers?.length > 0 && searchResults.matches.papers.map((match, index) => (
-                                  <tr key={match.doi}>
-                                    <td>{index + 1}</td>
-                                    <p>{match.doi || match.title}</p>
-                                  </tr>
-                              ))}
+                            searchResults?.matches?.papers?.length > 0 && 
+                            searchResults.matches.papers.map((match, index) => (
+                                <tr key={match.doi}>
+                                  <td>{index + 1}</td>
+                                  <p>{match.doi || match.title}</p>
+                                </tr>
+                          ))}
                           </tbody>
                         </table>
                       </div>
                     </div>
-                }
+                  }
 
 
-                {/* Buttons */}
-                <div className="d-flex flex-row justify-content-end mt-3 gap-2">
-                  <button type="button" className="btn btn-primary" onClick={handleSearch}>
-                    {
-                      isSearching
-                          ? <div className="spinner-border text-light">
+                  {/* Buttons */}
+                  <div className="d-flex flex-row justify-content-end mt-3 gap-2">
+                    <Button onClick={handleSearch}>
+                      {
+                        isSearching
+                        ? <div className="spinner-border text-light">
                             <span className="sr-only"></span>
                           </div>
-                          : <span>Search</span>
-                    }
-                  </button>
-                  <Tooltip title={tooltipText.search.clearButton} placement="top">
-                    <button type="button" className="btn btn-secondary ml-2" onClick={resetSearchParameters}>Clear
-                    </button>
-                  </Tooltip>
-                </div>
-              </div>)
-          }
-        </div>
+                        : <span>Search</span>
+                      }
+                    </Button>
+                    <Tooltip title={tooltipText.search.clearButton} placement="top">
+                      <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={resetSearchParameters}>Clear</Button>
+                    </Tooltip>
+                  </div>
+                </div>)
+            }
+          </div>
 
-        {/* LLM Questions */}
-        {
-            !useSimpleMode && buttonState.showLLMQuestions && searchResults.results?.length > 0 &&
-            <div className="container p-3 mt-3 border rounded" id="llm-questions">
+          {/* LLM Questions */}
+          {
+              buttonState.showLLMQuestions && searchResults.results?.length > 0 &&
+              <div className="container p-3 mt-3 border rounded" id="llm-questions">
 
-              <div className="d-flex flex-row justify-content-between align-items-center">
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h3 className="p-0 m-0">Paper Filter Questions (LLM-Powered)</h3>
-                  <div>
-                    <Tooltip title={tooltipText.search.llmQuestions} placement="top">
-                      <InfoIcon color="info"/>
+                <div className="d-flex flex-row justify-content-between align-items-center">
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h3 className="text-3xl font-medium p-0 m-0">Paper Filter Questions (LLM-Powered)</h3>
+                    <div>
+                      <Tooltip title={tooltipText.search.llmQuestions} placement="top">
+                        <InfoIcon color="info"/>
+                      </Tooltip>
+                    </div>
+                  </div>
+                  <div className='flex flex-row gap-2'>
+                    <Tooltip title={tooltipText.search.llmQuestion.add} placement="top">
+                      <IconButton onClick={handleAddLLMQuestion}>
+                        <AddIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title={tooltipText.search.llmQuestion.remove} placement="top">
+                      <IconButton onClick={handleRemoveLLMQuestion}>
+                        <MinusIcon />
+                      </IconButton>
                     </Tooltip>
                   </div>
                 </div>
-                <div className='d-flex flex-row gap-2'>
-                  <button className="btn btn-primary" onClick={handleAddLLMQuestion}>Add Question</button>
-                  <button className="btn btn-secondary" onClick={handleRemoveLLMQuestion}>Remove a Question</button>
-                </div>
-              </div>
-              <div className="max-height-30vh overflow-y-scroll">
-                {
+                <div className="max-height-30vh overflow-y-scroll">
+                  {
                     llmQuestions && llmQuestions.length > 0 && llmQuestions.map((question, index) => (
                         <div key={question.id} className="d-flex flex-row gap-2 mt-3">
                           <div className="d-flex align-items-center justify-content-center w-5">{index + 1}</div>
@@ -737,33 +826,116 @@ function App() {
                           }/>
                         </div>
                     ))
-                }
+                  }
+                </div>
+                <div className="d-flex justify-content-end mt-3">
+                  <button className="btn btn-success" onClick={handleLLMFiltering}>Submit Questions</button>
+                </div>
               </div>
-              <div className="d-flex justify-content-end mt-3">
-                <button className="btn btn-success" onClick={handleLLMFiltering}>Submit Questions</button>
-              </div>
-            </div>
-        }
+          }
+        </div>
 
-        {/* Publications Data */}
-        <section className="container p-3 mt-3 border rounded" id="publication-data">
-          {/* Actions */}
-          <div className="d-flex align-items-end gap-2">
-            <h3 className="p-0 m-0">Search Results</h3>
+        {/* Search History */}
+        {
+          searchHistory.length > 0 &&
+          <div className="container mt-3">
+            <div className="container rounded border p-3" id="search-history">
+              <div className="d-flex justify-content-between mb-3">
+                <h3 className="text-3xl font-medium">Search History</h3>
+                <Tooltip title={tooltipText.search.history} placement="top">
+                  <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>Diff mode</Button>
+                </Tooltip>
+              </div>
+
+              <div className="w-100 relative">
+                {/* <button className="btn w-5" onClick={() => handleSearchHistory(-1)}>{"<"}</button> */}
+                <div className="px-12 py-3">
+                  <Carousel className="">
+                    <CarouselContent>
+                      {
+                        searchHistory.map((search, index) => (
+                          <CarouselItem 
+                            key={search.year_start}
+                            className="basis-1/3"
+                            onClick={() => handleChooseSearchHistory(index)}
+                          >
+                            <Button 
+                              className={
+                                cn(
+                                  "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1",
+                                  (index === currentSearchHistoryIndex ? "bg-blue-500/80 text-white hover:bg-blue-600/80" : "") + 
+                                  (diffMode && diffSearchHistoryIndex === index ? "bg-green-700/80 text-white hover:bg-green-800/80" : "")
+                                )
+                              }
+                            >
+                              <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
+                              <span>Ref: {search.id ?? "-"}</span>
+                              {
+                                search.search_terms.advanced &&
+                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                  Advanced Search: {search.search_terms.advanced}
+                                </span>
+                              }
+                              {
+                                search.search_terms.primary.length > 0 &&
+                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                  Primary Search: {search.search_terms.primary.join(', ')}
+                                </span>
+                              }
+                              {
+                                search.search_terms.secondary.length > 0 &&
+                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                  Secondary Search: {search.search_terms.secondary.join(', ')}
+                                </span>
+                              }
+                              {
+                                search.search_terms.tertiary.length > 0 &&
+                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                  Tertiary Search: {search.search_terms.tertiary.join(', ')}
+                                </span>
+                              }
+                            </Button>
+                          </CarouselItem>
+                        ))
+                      }
+                      {
+                        searchHistory.length === 0 &&
+                        <div className="flex justify-content-center w-100">
+                          <div className="p-0 m-0 leading-[16px] text-muted">No search history</div>
+                        </div>
+                      }
+                    </CarouselContent>
+                    <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
+                    <CarouselNext onClick={() => handleSearchHistory(1)} />
+                  </Carousel>
+                </div>
+                {/* <button className="btn w-5" onClick={() => handleSearchHistory(1)}>{">"}</button> */}
+              </div>
+
+            </div>
           </div>
+        }
+        
+        {/* Publications Data */}
+        <section className="container" id="publication-data">
+          <div className="p-3 mt-3 border rounded container" id="publication-data-inner">
+            <div className="d-flex align-items-end gap-2 justify-content-between">
+              <h3 className="p-0 m-0 text-3xl font-medium">Search Results</h3>
+              {/* Button to make fullscreen */}
+              <Tooltip title={fullscreenState ? tooltipText.results.toggleFullScreen.enter : tooltipText.results.toggleFullScreen.exit} placement="top">
+                <IconButton onClick={handleFullScreen}>
+                  {fullscreenState ? <FullscreenExitIcon/> : <FullscreenIcon/>}
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>Total Publications: {searchResults.results.length}</div>
+                
+            <div className="d-flex flex-column justify-content-between items-align-end mb-3 gap-2">
               
-          <div className="d-flex justify-content-between items-align-end mb-3">
-            <div className="d-flex justify-content-center flex-column w-50">
-              <div>Total Publications: {searchResults.results.length}</div>
               {/* add input and button to manually add papers  */}
-              <div className="d-flex flex-row">
-                  <Tooltip title={tooltipText.results.manualAdd} placement='right'>
-                    <div className="input-group-prepend">
-                      <span className="input-group-text rounded-0" id="basic-addon1">
-                        Manual Add
-                      </span>
-                    </div>
-                  </Tooltip>
+              <div className="flex flex-row">
+                <div className="flex flex-row"></div>
+                  <InputLabel tooltip={tooltipText.results.manualAdd} label="Manual Add"/>
                   <input
                       type="text"
                       className="form-control"
@@ -771,73 +943,38 @@ function App() {
                       value={manualAddPapers.join(',')}
                       onChange={(e) => setManualAddPapers(e.target.value.split(','))}
                   />
-                  <button className="btn btn-primary" onClick={handleAddPaper}>
+                  <Button onClick={handleAddPaper}>
                     { 
                       isManuallyAddingPaper ? 
-                      <div className="spinner-border text-light">
-                        <span className="sr-only"></span>
-                      </div> :
+                      <CircularProgress size={18} color="inherit" /> :
                       <span>Add</span>
                     } 
-                  </button>
-                </div>
-            </div>
-            <div className='d-flex gap-2'>
-              {/* Select All */}
-              {
+                  </Button>
+                  <CsvImportField 
+                    // handleAddPaper={setManualAddPapers} 
+                    tooltip={tooltipText.results.manualAddCsv} 
+                  />
+              </div>
+
+              <div className='flex flex-wrap gap-2'>
+                {/* Select All */}
+                {
                   buttonState.showSelectAll &&
                   <Tooltip title={tooltipText.results.selectAll} placement="top">
-                    <button type="button" className="btn btn-primary" onClick={handleSelectAll}>Select All</button>
+                    <Button className='bg-blue-500' onClick={handleSelectAll}>Select All</Button>
                   </Tooltip>
-              }
-              {
+                }
+                {
                   buttonState.showDeselectAll &&
                   <Tooltip title={tooltipText.results.deselectAll} placement="top">
-                    <button type="button" className="btn btn-secondary" onClick={handleDeselectAll}>Deselect All
-                    </button>
+                    <Button className="bg-blue-500" onClick={handleDeselectAll}>Deselect All</Button>
                   </Tooltip>
-              }
-              {/* Hide Metadata */}
-              {
-                  buttonState.showHideMetadata && (showMetadata
-                      ?
-                      <button type="button" className="btn btn-warning" onClick={handleShowMetadata}>Hide Metadata</button>
-                      :
-                      <button type="button" className="btn btn-primary" onClick={handleShowMetadata}>Show Metadata</button>)
-              }
-
-              {/* Popualte metadata */}
-              {
-                  buttonState.showPopulateMetadata &&
-                  <Tooltip title={tooltipText.results.populateMetadata} placement="top">
-                    <button
-                        type="button"
-                        className="btn btn-success"
-                        onClick={populateMetadata}
-                    >
-                      {
-                        !isPopulatingMetadata
-                            ? <span>Populate Metadata</span>
-                            : <div className="spinner-border text-light">
-                              <span className="sr-only"></span>
-                            </div>
-                      }
-                    </button>
-                  </Tooltip>
-              }
-              {/* Toggle delete mode */}
-              {
-                (buttonState.showDeleteMode || searchResults.results.length > 0) &&
-                <button type="button" className="btn btn-danger" onClick={() => setDeleteMode(!deleteMode)}>
-                  {deleteMode ? 'Cancel' : 'Edit/Delete Mode'}
-                </button>
-              }
-              {/* Forward/BackwardSearch */}
-              {
-                  !useSimpleMode &&
+                }
+                {/* Forward/BackwardSearch */}
+                {
                   buttonState.showForwardSearch &&
                   <Tooltip title={tooltipText.results.forwardSearch} placement="top">
-                    <button type="button" className="btn btn-primary" disabled={snowballingType != ""}
+                    <Button className="" disabled={snowballingType != ""}
                             onClick={() => handleSnowballing("forward")}>
                       {
                         snowballingType === "forward"
@@ -846,14 +983,13 @@ function App() {
                             </div>
                             : <span>Forward Search</span>
                       }
-                    </button>
+                    </Button>
                   </Tooltip>
-              }
-              {
-                  !useSimpleMode &&
+                }
+                {
                   buttonState.showBackwardSearch &&
                   <Tooltip title={tooltipText.results.backwardSearch} placement="top">
-                    <button type="button" className="btn btn-primary" disabled={snowballingType != ""}
+                    <Button type="button" className="btn btn-primary" disabled={snowballingType != ""}
                             onClick={() => handleSnowballing("backward")}>
                       {
                         snowballingType === "backward"
@@ -862,146 +998,92 @@ function App() {
                             </div>
                             : <span>Backward Search</span>
                       }
-                    </button>
+                    </Button>
                   </Tooltip>
-              }
+                }
+                {/* Hide Metadata */}
+                {
+                  buttonState.showHideMetadata && (showMetadata
+                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Hide Metadata</Button>
+                    : <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Show Metadata</Button>)
+                }
 
-              {/* Export */}
+                {/* Popualte metadata */}
+                {
+                    buttonState.showPopulateMetadata &&
+                    <Tooltip title={tooltipText.results.populateMetadata} placement="top">
+                      <Button className="bg-green-600 hover:bg-green-700" onClick={populateMetadata}>
+                        {
+                          !isPopulatingMetadata
+                              ? <span>Populate Metadata</span>
+                              : <div className="spinner-border text-light">
+                                <span className="sr-only"></span>
+                              </div>
+                        }
+                      </Button>
+                    </Tooltip>
+                }
+                {/* Toggle delete mode */}
+                {
+                  (buttonState.showDeleteMode || searchResults.results.length > 0) &&
+                  <Button className="bg-red-600 hover:bg-red-700" onClick={() => setDeleteMode(!deleteMode)}>
+                    {deleteMode ? 'Cancel' : 'Edit/Delete Mode'}
+                  </Button>
+                }
+                {/* Export */}
+                {
+                  buttonState.showExport &&
+                  <div className="dropdown d-flex">
+                        <Tooltip title={tooltipText.results.export} placement="top">
+                          <Button className="bg-slate-500 hover:bg-slate-600 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Export
+                          </Button>
+                        </Tooltip>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" onClick={handleExport("BIBTEX")}>Bibtex</button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" onClick={handleExport("RIS")}>RIS</button>
+                      </li>
+                    </ul>
+                  </div>
+                }
+              </div>
+            </div>
+
+            {/* Table data */}
+            <div className="search-results row" style={{ height: "80%" }}>
+              {/* Main #1 */}
+              <div id="publication-data-table" className='main-data-table h-[100%]'>
+                  <PublicationTable
+                    searchResults={searchResults}
+                    setSearchResults={setSearchResults}
+                    selectedPapers={selectedPapers}
+                    handlePaperSelect={handlePaperSelect}
+                    showMetadata={showMetadata}
+                    llmQuestions={llmQuestions}
+                    deleteMode={deleteMode}
+                  />
+              </div>
+              {/* Diff #2 */}
               {
-                buttonState.showExport &&
-                <div className="dropdown">
-                      <Tooltip title={tooltipText.results.export} placement="top">
-                        <button className="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                          Export
-                        </button>
-                      </Tooltip>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
-                    </li>
-                    <li>
-                      <button className="dropdown-item" onClick={handleExport("BIBTEX")}>Bibtex</button>
-                    </li>
-                    <li>
-                      <button className="dropdown-item" onClick={handleExport("RIS")}>RIS</button>
-                    </li>
-                  </ul>
+                diffMode && diffSearchHistoryIndex !== null &&
+                <div id="publication-data-table" className="diff-data-table col-6 border h-100">
+                  <PublicationTable searchResults={diffSearchResults} /> 
+                </div> 
+              }
+              {
+                diffMode && diffSearchHistoryIndex === null &&
+                <div id="publication-data-table" className="diff-data-table col-6 border h-100">
+                  <div className="flex justify-content-center align-items-center h-100">
+                    <div className="text-muted">No chosen search to compare</div>
+                  </div>
                 </div>
               }
-            </div>
-          </div>
-
-          {/* Table data */}
-          <div id="publication-data-table">
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <thead className='bg-primary text-white ' style={{ height: "20px"}}>
-                <td style={{ minWidth: "10px" }}></td>
-                <td style={{ minWidth: "50px" }}>#</td>
-                <td style={{ minWidth: "250px" }}>Paper ID</td>
-                <td style={{ minWidth: "250px" }}>Title</td>
-                <td>Source</td>
-                <td style={{ minWidth: "250px" }}>Search String</td>
-                <td style={{ minWidth: "250px" }}>Formatted Search String</td>
-                <td>Status</td>
-
-                {/* Metadata */}
-                {
-                    showMetadata &&
-                    <>
-                      <td style={{
-                        minWidth: "350px",
-                        maxHeight: "50px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis"
-                      }}>Abstract
-                      </td>
-                      <td style={{ minWidth: "220px" }}>Authors</td>
-                      <td>Citations Count</td>
-                      <td style={{ minWidth: "200px"}}>Conference/Journal</td>
-                      <td>DOI</td>
-                      <td>DOI URL</td>
-                      <td>Keywords</td>
-                      <td style={{ minWidth: "115px" }}>Publication Date</td>
-                      <td>Publication Type</td>
-                      <td>Publisher</td>
-                      <td>Semantic Scholar URL</td>
-                    </>
-                }
-
-                {/* Questions */}
-                {
-                    searchResults.results && searchResults.results.length > 0 &&
-                    searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-                    llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
-                        <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1} {response.question}</td>
-                    ))
-                }
-                </thead>
-                <tbody>
-                {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result, rowIdx) => {
-
-                  let publicationRows = [];
-
-                  publicationRows.push(
-                      <PublicationRow
-                          rowType='main'
-                          rowIdx={rowIdx}
-                          deleteMode={deleteMode}
-                          publication={result}
-                          handlePaperSelect={handlePaperSelect}
-                          selectedPapers={selectedPapers}
-                          showMetadata={showMetadata}
-                          searchResults={searchResults}
-                          llmQuestions={llmQuestions}
-                          setSearchResults={setSearchResults}
-                      />
-                  )
-
-                  if (result.showReferences && result.references !== undefined && result.references?.length > 0) {
-                    result.references.forEach((reference, referenceIdx) => {
-                      publicationRows.push(
-                          <PublicationRow
-                              rowType="reference"
-                              rowIdx={rowIdx + "-R" + referenceIdx}
-                              deleteMode={deleteMode}
-                              publication={reference}
-                              handlePaperSelect={handlePaperSelect}
-                              selectedPapers={selectedPapers}
-                              showMetadata={showMetadata}
-                              searchResults={searchResults}
-                              llmQuestions={llmQuestions}
-                              setSearchResults={setSearchResults}
-                          />
-                      )
-                    })
-                  }
-
-
-                  if (result.showCitations && result.citations !== undefined && result.citations?.length > 0) {
-                    result.citations.forEach((citation) => {
-                      publicationRows.push(
-                          <PublicationRow
-                              rowType="citation"
-                              rowIdx={rowIdx + "-C" + citation.paper_id}
-                              deleteMode={deleteMode}
-                              publication={citation}
-                              handlePaperSelect={handlePaperSelect}
-                              selectedPapers={selectedPapers}
-                              showMetadata={showMetadata}
-                              searchResults={searchResults}
-                              llmQuestions={llmQuestions}
-                              setSearchResults={setSearchResults}
-                          />
-                      )
-                    })
-                  }
-                  return publicationRows;
-                })}
-                </tbody>
-              </table>
             </div>
           </div>
         </section>

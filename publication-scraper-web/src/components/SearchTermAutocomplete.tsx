@@ -1,6 +1,7 @@
-import { Autocomplete, TextField, Tooltip } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import { SearchForm, SearchResult } from "../types";
+import InputLabel from "./InputLabel";
 import SearchTermChip from "./SearchTermChip";
 
 export type MultiLayerSearch = "primary" | "secondary" | "tertiary"
@@ -26,17 +27,12 @@ const SearchTermAutocomplete: React.FC<SearchTermAutocompleteProps> = (props) =>
   } = props;
 
   const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
-  const isRequiredField = field === "primary" ? true : false;
+  const isRequiredField = field === "primary";
 
   return ( 
-    <div className="d-flex flex-row">
+    <div className="d-flex flex-row ">
       <div className="input-group-prepend rounded-0 w-25 d-flex">
-        <Tooltip title={tooltipText.search[field].hint} placement="right">
-          <div className="input-group-text rounded-0 w-100">
-            <span>{fieldName}</span>
-            {isRequiredField && <span className='text-red'>*</span>}
-          </div>
-        </Tooltip>
+        <InputLabel tooltip={tooltipText.search[field].hint} label={fieldName} required={isRequiredField} className="w-100" />
       </div>
       <Autocomplete
         className="w-100"
@@ -48,7 +44,7 @@ const SearchTermAutocomplete: React.FC<SearchTermAutocompleteProps> = (props) =>
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
             <SearchTermChip
-              key={index}
+              key={option}
               option={option}
               index={index}
               field={field}
