@@ -26,6 +26,7 @@ from scraping.serializers.core_serializers import (
 )
 from utils import Logger
 from django.shortcuts import get_object_or_404
+from utils.profiler import Controller
 
 
 log = Logger(__name__)
@@ -272,6 +273,7 @@ class SearchStringDifferenceView(APIView):
 
 class HistoricalSearchQueryResultsView(APIView):
 
+    @Controller
     def get(self, request):
         """
         Get historical search query results based on search id

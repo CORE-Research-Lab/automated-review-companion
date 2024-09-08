@@ -7,6 +7,7 @@ import { Box, Chip, CircularProgress, IconButton, Modal, Tooltip } from '@mui/ma
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { handleError } from './common/handler';
 import CsvImportField from './components/CsvImportField';
 import DatabaseSelector from './components/DatabaseSelector';
 import InputLabel from './components/InputLabel';
@@ -16,6 +17,7 @@ import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTer
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
 import UsabilityGuide from './components/UsabilityGuide';
+import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
 import './main.css';
 import {
@@ -130,50 +132,6 @@ function App() {
   
   const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
 
-  const tooltipText = {
-    usabilityGuide: "Click to view the usability guide",
-    search: {
-      primary: {
-        hint: "Primary search term is required", 
-        example: "i.e., AI, Deep Learning, etc.",
-      },
-      secondary: {
-        hint: "Secondary search term",
-        example: "i.e., Machine Learning, Generative AI, etc.",
-      },
-      tertiary: {
-        hint: "Tertiary search term",
-        example: "i.e., Deep Reinforcement Learning, Neural Networks, etc.",
-      },
-      advanced: "Required field: advanced case-insensitive boolean search string. Use 'AND', 'OR', 'NOT' operators to combine search terms, and quotations to search for exact phrases.",
-      yearRange: "Year range including the start and end years (i.e., 2023 - 2024)",
-      database: "Select the databases to search from: Click on the database name to toggle the selection; a filled checkbox indicates the database is selected. At least one must be selected.",
-      validationPapers: "Enter the DOI of the validation papers to validate if the search configurations result in the validation papers.",
-      clearButton: "Resets and clears all search parameters and results",
-      llmQuestions: "Enter the questions to filter the papers. At least one question is required. Answers should be comma-separated categorical answers.",
-      llmQuestion: {
-        add: "Add a question",
-        remove: "Remove a question"
-      },
-      history: "Enable diff mode to compare two search histories. Click on the search history to choose the search history to compare.",
-    },
-    results: {
-      toggleFullScreen: {
-        enter: "Click to enter fullscreen",
-        exit: "Click to exit fullscreen"
-      },
-      manualAdd: "Manually add a paper to the search results",
-      manualAddCsv: "Drag a CSV file here with DOIs to manually add papers",
-      selectAll: "Select all papers in the search results",
-      deselectAll: "Deselect all papers in the search results",
-      hideMetadata: "Hide metadata for the selected papers",
-      populateMetadata: "Populate metadata for the selected papers. Only applicable to papers with DOI",
-      forwardSearch: "Search for papers that the selected papers cite",
-      backwardSearch: "Search for papers that cite the selected papers",
-      export: "Export selected papers in CSV/BibTex/RIS format",
-    }
-  }
-
   // Return as a object with doi and title fields,
   // if the doi exists in the paper id, attribute it as doi, else attribute it as title
   const parseRootPapers = (papers: string[]) => {
@@ -240,7 +198,7 @@ function App() {
         setSearchHistory([...searchHistory, { id: res.data.id, ...searchForm}]);
         setCurrentSearchHistoryIndex(searchHistory.length);
       })
-      .catch((error) => toast.error('Error:', error.response.data))
+      .catch(handleError)
       .finally(() => setIsSearching(false));
   }
 
@@ -256,7 +214,7 @@ function App() {
       setSearchResults({...searchResults, results: [...updatedResults, ...res.data.publications]})
       toast.success('Papers added successfully');
     })
-    .catch((error) => toast.error('Error:', error))
+    .catch(handleError)
     .finally(() => setIsManuallyAddingPaper(false));
   }
 
@@ -282,10 +240,7 @@ function App() {
         }))
         toast.success('Metadata populated successfully');
       })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Error:', error)
-      })
+      .catch(handleError)
       .finally(() => setIsPopulatingMetadata(false));
   }
 
@@ -312,7 +267,7 @@ function App() {
         document.body.appendChild(link);
         link.click();
       })
-      .catch((error) => toast.error('Error:', error));
+      .catch(handleError);
   }
 
   const handlePaperSelect = (paper_id: string) => {
@@ -362,10 +317,7 @@ function App() {
         setSearchResults({...searchResults, results: updatedResults})
       }
     })
-    .catch((error) => {
-      console.log(error);
-      toast.error('Error:', error.response.data.error)
-    })
+    .catch(handleError)
     .finally(() => setSnowballingType(''));
   }
 
@@ -385,10 +337,7 @@ function App() {
       });
       setSearchResults({...searchResults, results: updatedResults})
     })
-    .catch((error) => {
-      console.log(error);
-      toast.error('Error:', error)
-    });
+    .catch(handleError);
   }
   
   const handleAddLLMQuestion = () => {
@@ -536,10 +485,7 @@ function App() {
           showExport: true,
         }))
       })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Error:', error)
-      })
+      .catch(handleError)
 
     } else {
       if (currentSearchHistoryIndex === index) {
@@ -549,26 +495,19 @@ function App() {
       await axios.get(`${BASE_URL}/scraper/historical-search`, {
         params: { id: searchHistory[index].id }
       })
-      .then((res) => { 
-        setDiffSearchResults(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Error:', error)
-      })
+      .then((res) => setDiffSearchResults(res.data))
+      .catch(handleError)
       .finally(() => setDiffSearchHistoryIndex(index));
     }
   }
 
   const handleAdvancedChipClick = (keyword: string, synonym: string) => {
     
-    // Check if keyword is a phrase, 
-    // if it is, surround with " "
+    // Surround keyword/synonym phrases with quotes
     toast.info(`Replacing ${keyword} with ${synonym}`);
     if (keyword.split(' ').length > 1) {
       keyword = `"${keyword}"`;
     }
-    // do the same for syonnym
     if (synonym.split(' ').length > 1) {
       synonym = `"${synonym}"`;
     }
@@ -600,7 +539,6 @@ function App() {
                     <InfoIcon/>
                   </Button>
                 </Tooltip>
-                {/* MUI Modal for usability guide */}
                 <Modal open={showUsabilityGuide} onClose={() => setShowUsabilityGuide(false)}>
                   <UsabilityGuide handleClose={() => setShowUsabilityGuide(false)}/>
                 </Modal>
@@ -859,42 +797,60 @@ function App() {
                             className="basis-1/3"
                             onClick={() => handleChooseSearchHistory(index)}
                           >
-                            <Button 
-                              className={
-                                cn(
-                                  "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1",
-                                  (index === currentSearchHistoryIndex ? "bg-blue-500/80 text-white hover:bg-blue-600/80" : "") + 
-                                  (diffMode && diffSearchHistoryIndex === index ? "bg-green-700/80 text-white hover:bg-green-800/80" : "")
-                                )
-                              }
-                            >
-                              <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
-                              <span>Ref: {search.id ?? "-"}</span>
-                              {
-                                search.search_terms.advanced &&
-                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                  Advanced Search: {search.search_terms.advanced}
-                                </span>
-                              }
-                              {
-                                search.search_terms.primary.length > 0 &&
-                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                  Primary Search: {search.search_terms.primary.join(', ')}
-                                </span>
-                              }
-                              {
-                                search.search_terms.secondary.length > 0 &&
-                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                  Secondary Search: {search.search_terms.secondary.join(', ')}
-                                </span>
-                              }
-                              {
-                                search.search_terms.tertiary.length > 0 &&
-                                <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                  Tertiary Search: {search.search_terms.tertiary.join(', ')}
-                                </span>
-                              }
-                            </Button>
+                            <Tooltip title={
+                              <Box>
+                                <div>Search {index + 1}</div>
+                                <div>Ref: {search.id ?? "-"}</div>
+                                <div>Year Range: {search.year_start} - {search.year_end}</div>
+                                {
+                                  search.search_terms.advanced 
+                                  ? <div>Advanced Search: {search.search_terms.advanced}</div>
+                                  : <>
+                                      <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
+                                      <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
+                                      <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
+                                    </>
+                                }
+                                <div>Sources: {search.sources.join(', ')}</div>
+                              </Box>
+                            } placement="top">
+                              <Button 
+                                className={
+                                  cn(
+                                    "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
+                                    (index === currentSearchHistoryIndex ? "bg-blue-500/80 text-white hover:bg-blue-600/80" : "") + 
+                                    (diffMode && diffSearchHistoryIndex === index ? "bg-green-700/80 text-white hover:bg-green-800/80" : "")
+                                  )
+                                }
+                              >
+                                <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
+                                <span className="text-wrap text-left text-ellipsis overflow-hidden h-[40px]">Ref: {search.id ?? "-"}</span>
+                                {
+                                  search.search_terms.advanced &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Advanced Search: {search.search_terms.advanced}
+                                  </span>
+                                }
+                                {
+                                  search.search_terms.primary.length > 0 &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Primary Search: {search.search_terms.primary.join(', ')}
+                                  </span>
+                                }
+                                {
+                                  search.search_terms.secondary.length > 0 &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Secondary Search: {search.search_terms.secondary.join(', ')}
+                                  </span>
+                                }
+                                {
+                                  search.search_terms.tertiary.length > 0 &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Tertiary Search: {search.search_terms.tertiary.join(', ')}
+                                  </span>
+                                }
+                              </Button>
+                            </Tooltip>
                           </CarouselItem>
                         ))
                       }
