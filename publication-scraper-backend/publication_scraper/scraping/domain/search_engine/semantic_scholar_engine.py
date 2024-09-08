@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import requests
 
@@ -15,7 +15,7 @@ log = Logger(__name__)
 class SemanticScholarEngine(SearchEngine):
     """ Search engine for Semantic Scholar. """
     
-    def __init__(self, search_query: SearchQuery): # queries: List[str], year: str):
+    def __init__(self, search_query: SearchQuery = None): # queries: List[str], year: str):
         super().__init__()
         self.headers = {
             "Content-Type": "application/json", 
@@ -31,14 +31,35 @@ class SemanticScholarEngine(SearchEngine):
         self.url: str                   = "https://api.semanticscholar.org/graph/v1/paper/search"
         self.bulkUrl: str               = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
         self.arxiv_doi: str             = "DOI:10.48550/arXiv."
-        
-        self.search_type                = search_query.search_type
-        self.queries                    = search_query.search_strings
-        self.advanced_query: str        = search_query.advanced_search
-        self.year                       = f"{search_query.start_year}-"
         self.results: List[Publication] = []
         
-             
+        if search_query:
+            self.search_type                = search_query.search_type
+            self.queries                    = search_query.search_strings
+            self.advanced_query: str        = search_query.advanced_search
+            self.year                       = f"{search_query.start_year}-"
+        
+    def find_by_doi(self, doi: str) -> Optional[Publication]:
+        """ Find a publication by its DOI. """
+        try: 
+            response = requests.get(f"https://api.semanticscholar.org/graph/v1/paper/{doi}")
+            if response.status_code == 200:
+                data = response.json()
+                publication = Publication(
+                    paper_title = data.get("title"),
+                    paper_id    = f"DOI:{doi}",
+                    status      = PublicationStatus.NEW.value
+                )
+                publication.save()
+                return publication
+            else :
+                log.error(f"Failed to fetch data for DOI {doi}.")
+                return None
+        except Exception as e:
+            log.error(f"Failed to fetch data for DOI {doi}.")
+            return None
+
+
     @Profiler("Semantic Scholar Search")
     def search(self) -> List[Publication]:
         """ Search for papers on Semantic Scholar. """

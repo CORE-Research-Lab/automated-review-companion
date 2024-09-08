@@ -118,6 +118,10 @@ class SearchTermProcessor:
         log.info(f"Getting synonyms for {search_term.word} from thesaurus.com...")
         data = requests.get(f"https://www.thesaurus.com/browse/{search_term.word}")
         soup = BeautifulSoup(data.text, "html.parser")
-        focus = soup.find("div", {"data-type": "synonym-and-antonym-card"})
-        synonyms = focus.find_all("a")
-        return [synonym.text for synonym in synonyms]
+        try:
+            focus = soup.find("div", {"data-type": "synonym-and-antonym-card"})
+            synonyms = focus.find_all("a")
+            return [synonym.text for synonym in synonyms]
+        except Exception as e:
+            log.error(f"Failed to get synonyms for {search_term.word}.")
+            return []

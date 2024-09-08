@@ -1,396 +1,51 @@
-import CloseIcon from '@mui/icons-material/Close';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddIcon from '@mui/icons-material/Add';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import InfoIcon from '@mui/icons-material/Info';
-import { IconButton, Modal, Tooltip } from '@mui/material';
+import MinusIcon from '@mui/icons-material/Remove';
+import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { handleError } from './common/handler';
+import CsvImportField from './components/CsvImportField';
+import DatabaseSelector from './components/DatabaseSelector';
+import InputLabel from './components/InputLabel';
+import PublicationTable from './components/PublicationTable';
+import SearchAppBar from './components/SearchAppBar';
+import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
+import { Button } from './components/ui/button';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
+import UsabilityGuide from './components/UsabilityGuide';
+import { tooltipText } from './data/tooltip';
+import { cn } from './lib/utils';
 import './main.css';
 import {
+  DiffType,
   LLMPaperFilterResponse,
   LLMQuestion,
   Publication,
+  SearchEngineType,
   SearchForm,
   SearchMode,
   SearchResult,
   SnowballingSearch
 } from './types';
 
-export interface PublicationRowProps {
-  rowType?: string
-  publication: Publication
-  handlePaperSelect: (paper_id: string) => void
-  selectedPapers: string[]
-  showMetadata: boolean
-  searchResults: SearchResult
-  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult>>
-  llmQuestions: LLMQuestion[]
-}
-
-export interface UsabilityGuideProps {
-  handleClose: () => void
-} 
-
-const PublicationRow: React.FC<PublicationRowProps> = (props) => {
-  const { 
-    rowType,
-    publication,
-    handlePaperSelect,
-    selectedPapers,
-    showMetadata,
-    searchResults,
-    llmQuestions,
-    setSearchResults
-  } = props;
-
-  const getColorByRowType = () => {
-    switch (rowType) {
-      case 'reference':
-        return 'table-info';
-      case 'citation':
-        return 'table-warning';
-      default:
-        return '';
-    }
-  }
-
-  const handleReferencesVisibility = () => {
-    const updatedResults = searchResults.results.map((result: Publication) => {
-      if (result.paper_id === publication.paper_id) {
-        return {
-          ...result,
-          showReferences: !result.showReferences
-        }
-      }
-      return result;
-    });
-    setSearchResults({...searchResults, results: updatedResults})
-  }
-
-  const handleCitationsVisibility = () => {
-    const updatedResults = searchResults.results.map((result: Publication) => {
-      if (result.paper_id === publication.paper_id) {
-        return {
-          ...result,
-          showCitations: !result.showCitations
-        }
-      }
-      return result;
-    });
-    setSearchResults({...searchResults, results: updatedResults})
-  }
-
-  // Only applicable to references/citations
-  const addToMainSearchResult = (paper: Publication) => {
-    // remove from references/citations from all results' citations/references
-    const updatedResults = searchResults.results.map((result: Publication) => {
-      var references: Publication[] = [];
-      var citations: Publication[] = [];
-      if (result.references && result.references.length > 0) {
-        references = result.references.filter((reference) => reference.paper_id !== paper.paper_id)
-      }
-      if (result.citations && result.citations.length > 0) {
-          citations = result.citations.filter((citation) => citation.paper_id !== paper.paper_id)
-      }
-      return {
-        ...result,
-        references,
-        citations
-      }
-    });
-
-    setSearchResults({...searchResults, results: [...updatedResults, paper]})
-  }
-
-  return (
-    <tr key={publication.paper_id}
-      className={getColorByRowType()}
-      style={{ height: "20px" }}
-    >
-      <td>
-        <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
-          {
-            rowType === 'reference' &&
-            <Tooltip title="Append to the bottom of the main search results" placement="top">
-              <button 
-                className="btn btn-primary btn-sm"
-                onClick={() => addToMainSearchResult(publication)}
-              >+</button>
-            </Tooltip>
-          }
-          {
-            rowType === 'citation' && 
-            <Tooltip title="Append to the bottom of the main search results" placement="top">
-              <button 
-                className="btn btn-primary btn-sm"
-                onClick={() => addToMainSearchResult(publication)}
-              >+</button>
-            </Tooltip>
-          }
-          {
-            rowType === 'main' &&
-            <>
-              <input
-                type="checkbox"
-                checked={selectedPapers.includes(publication.paper_id)}
-                onClick={() => handlePaperSelect(publication.paper_id)}
-              />
-              {/* Expand/contract references/citations */}
-              {
-                publication.references && publication.references.length > 0 &&
-                <Tooltip title="Expand/Collapse references" placement="top">
-                  {publication.showReferences ? 
-                    <ExpandMoreIcon 
-                      onClick={handleReferencesVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "blue"
-                      }}
-                  /> :
-                  <ExpandLessIcon 
-                    onClick={handleReferencesVisibility}
-                    style={{ 
-                      cursor: "pointer",
-                      color: "blue"
-                    }}
-                  />}
-                </Tooltip>
-              }
-              {
-                publication.citations && publication.citations.length > 0 &&
-                <Tooltip title="Expand/Collapse citations" placement="top">
-                  {publication.showCitations ?
-                    <ExpandMoreIcon 
-                      onClick={handleCitationsVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "#E6A23B"
-                      }}
-                    /> :
-                    <ExpandLessIcon 
-                      onClick={handleCitationsVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "#E6A23B"
-                      }}
-                    />
-                  }
-                </Tooltip>
-              }
-            </>
-          }
-        </div>
-      </td>
-      <td>{publication.paper_id}</td>
-      <td><p dangerouslySetInnerHTML={{ __html: publication.paper_title}}></p></td>
-      <td>{publication.searched_from}</td>
-      <td>
-        <code>
-          {publication.search_string}
-        </code>
-      </td>
-      <td>
-        <code>
-          {publication.formatted_search_string}
-        </code>
-      </td>
-      <td>{publication.status}</td>
-      {/* Metadata */}
-      {
-        showMetadata &&
-          <>
-            <td>{publication.abstract ?? "-"}</td>
-            <td>{publication.authors?.name ?? "-"}</td>
-            <td>{publication.citations_count ?? "-"}</td>
-            <td>{publication.conference_journal ?? "-"}</td>
-            <td>{publication.doi ?? "-"}</td>
-            {/*todo: doi_url isnt working properly, changed to workaround*/}
-            <td>
-              {publication.doi ? (
-                  <a href={`https://doi.org/${publication.doi}`}
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    {publication.doi}
-                  </a>
-              ) : (
-                  'Not Available'
-              )}
-            </td>
-            <td>{publication.keywords?.join(', ') ?? "-"}</td>
-            <td>{publication.publication_date ?? "-"}</td>
-            <td>{publication.publication_type ?? "-"}</td>
-            <td>{publication.publisher ?? "-"}</td>
-            <td>
-              {publication.semantic_scholar_url ? (
-                  <a href={publication.semantic_scholar_url}
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    View on Semantic Scholar
-                  </a>
-              ) : (
-                  '-'
-              )}
-            </td>
-          </>
-      }
-
-      {/* Questions */}
-      {
-          searchResults.results && searchResults.results.length > 0 &&
-          searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
-          <td key={response.id} style={{ minWidth: "220px" }}>Q{index + 1} {response.question}</td>
-        ))
-      }
-    </tr>
-  )
-
-}
-
-const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
-  const { handleClose } = props;
-  return (
-    <div className="container p-5 bg-white" style={{
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: '80%',
-      height: '80%',
-      overflow: 'scroll',
-      borderRadius: '5px'
-    }}>
-      <div className="d-flex justify-content-between">
-        <h3>Usability Guide</h3>
-        <Tooltip title="Close">
-          <IconButton onClick={handleClose} color="error" className="pb-3">
-            <CloseIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-
-      <h4>Search Bar</h4>
-      <div className="divider border-bottom my-3"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The search bar allows you to search for publications based on the search terms, year range, and databases selected.</span>
-        <span>There are two search modes:</span>
-        <ol>
-          <li>Simple mode, you can enter primary, secondary, and tertiary search terms.</li>
-          <li>Advanced mode, you can enter a case-insensitive boolean search string.
-            <ul>
-              <li>Use 'AND', 'OR', 'NOT' operators to combine search terms. (Case insensitive) </li>
-              <li>Use quotations to search for exact phrases.</li>
-            </ul>
-          </li>
-        </ol>
-        <div className="ps-3">
-          <li>Year range allows you to filter publications based on the publication year.</li>
-          <li>Databases: at least one source must be selected to proceed in searching.</li>
-          <li>Validation papers allow you to enter the DOI of the known existing papers to validate if the search configurations result in the validation papers.</li>
-          <li>Clear button resets and clears all search parameters and results.</li>
-        </div>
-        <span>To start searching, simply press the Search button.</span>
-      </div>
-      
-      
-      <h4>Search Results</h4>
-      <div className="divider border-bottom mb-3"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The search results display the matched papers based on the search configurations.</span>
-        <span>Each row represents a publication with the following columns:</span>
-        <ol>
-          <li>Checkbox: allows you to select the paper</li>
-          <li>Paper ID: the unique identifier of the paper</li>
-          <li>Paper Title: the title of the paper</li>
-          <li>Searched From: the source where the paper was searched from</li>
-          <li>Search String: the search string used to find the paper</li>
-          <li>Formatted Search String: the formatted search string</li>
-          <li>Status: the status of the paper</li>
-        </ol>
-        <div className="ps-3">
-          <li>Metadata columns are hidden by default. To show the metadata, click on the Metadata button.</li>
-          <li>LLM Questions columns are hidden by default. To show the LLM Questions, click on the LLM Questions button.</li>
-          <li>Click on the checkbox to select the paper. You can select all papers by clicking on the Select All button.</li>
-          <li>Click on the Export button to export the selected papers in CSV/BibTex/RIS format.</li>
-        </div>
-      </div>
-
-      <h4>Metadata</h4>
-      <div className="divider border-bottom"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The metadata columns display the metadata of the selected papers.</span>
-        <span>The metadata columns include:</span>
-        <ol>
-          <li>Abstract</li>
-          <li>Authors</li>
-          <li>Citations Count</li>
-          <li>Conference/Journal</li>
-          <li>DOI</li>
-          <li>DOI URL</li>
-          <li>Keywords</li>
-          <li>Publication Date</li>
-          <li>Publication Type</li>
-          <li>Publisher</li>
-          <li>Semantic Scholar URL</li>
-        </ol>
-      </div>
-
-      <h4 className="d-flex justify-content-between">
-        <span>Paper Filtering (LLM-Powered)</span>
-        <span className="badge bg-primary d-flex justify-content">⭐ Advanced Functionality</span>
-      </h4>
-      <div className="divider border-bottom"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The Paper Filtering functionality can further filter the papers provided with more insight by the user.</span>
-        <span>The LLM engine (GPT-4) further filters the papers based on the user's preferences.</span>
-        <span className="pb-3">In order to provide a more accurate classification result, it is recommended to ensure metadata for the selected papers are populated.</span>
-    
-        <ol>
-          <li>Question: Each question would be shown as a distinct column for each resulting paper.</li>
-          <li>Response: This denotes the possible classifications the LLM can categorize the paper as, based on the metadata</li>
-        </ol>
-        <span>Click on the LLM Filter button to filter the papers based on the LLM Questions.</span>
-    
-      </div>
-
-      <h4 className='d-flex justify-content-between'>
-        <span>Forward and Backward Search (Snowballing)</span>
-        <span className="badge bg-primary d-flex justify-content">⭐ Advanced Functionality</span>
-      </h4>
-      <div className="divider border-bottom"></div>
-      <div className="d-flex flex-column pb-3">
-        <span>The Snowballing Search allows you to search for papers that the selected papers cite or that cite the selected papers.</span>
-        <span className="pb-3">To perform Snowballing Search, follow the following steps:</span>
-        <ol>
-          <li>Click on the Forward Search or Backward Search button to start the snowballing search.</li>
-          <li>Click on the Expand/Collapse button on the original paper that has undergone snowballing search to view the references and citations of the paper.</li>
-        </ol>
-        
-        <li>References: the papers that the selected paper cites.</li>
-        <li>Citations: the papers that cite the selected paper.</li>
-      </div>
-
-      
-    </div>
-  )
-};
-
 function App() {
-  // components
   const BASE_URL = 'http://localhost:8000/api';
   const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
   const [searchForm, setSearchForm] = useState<SearchForm>({
     validation_papers: [],
     search_terms: {
-      advanced: '',
-      primary: '',
-      secondary: '',
-      tertiary: '',
+      advanced: 'AI and "Machine Learning" and not Education',
+      primary: [],
+      secondary: [],
+      tertiary: [],
     },
     year_start: 2023,
     year_end: 2024,
-    sources: ["DBLP"],
+    sources: [SearchEngineType.DBLP],
   });
   const [searchResults, setSearchResults] = useState<SearchResult>({
     matches: {
@@ -409,11 +64,15 @@ function App() {
   }]);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [expandedSearchBar, setExpandedSearchBar] = useState(true);
-  const [showMetadata, setShowMetadata] = useState(true);
+  const [showMetadata, setShowMetadata] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+
+  const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
+  const [isManuallyAddingPaper, setIsManuallyAddingPaper] = useState(false);
   const [isPopulatingMetadata, setIsPopulatingMetadata] = useState(false);
   const [snowballingType, setSnowballingType] = useState<string>('');
   const [useSimpleMode, setUseSimpleMode] = useState(true);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   const [buttonState, setButtonState] = useState({
     showSelectAll: false,
@@ -424,54 +83,55 @@ function App() {
     showBackwardSearch: false,
     showExport: false,
     showLLMQuestions: false,
+    showDeleteMode: false,
   })
+
+  const [fullscreenState, setFullscreenState] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<SearchForm[]>([
+    // {
+    //   validation_papers: [],
+    //   search_terms: {
+    //     advanced: 'AI and "Machine Learning" and not Education',
+    //     primary: [],
+    //     secondary: [],
+    //     tertiary: [],
+    //   },
+    //   year_start: 2023,
+    //   year_end: 2024,
+    //   sources: [SearchEngineType.DBLP],
+    // },
+    // {
+    //   validation_papers: [],
+    //   search_terms: {
+    //     advanced: 'AI and "Machine Learning"',
+    //     primary: [],
+    //     secondary: [],
+    //     tertiary: [],
+    //   },
+    //   year_start: 2023,
+    //   year_end: 2024,
+    //   sources: [SearchEngineType.DBLP],
+    // },
+  ]);
+  const [currentSearchHistoryIndex, setCurrentSearchHistoryIndex] = useState(0);
+  const [diffMode, setDiffMode] = useState(false);
+  const [diffSearchHistoryIndex, setDiffSearchHistoryIndex] = useState<null | number>(null);
+  const [diffSearchResults, setDiffSearchResults] = useState<SearchResult>({
+    matches: {
+      num_matches: 0,
+      papers: [],
+      percentage_match: 0
+    },
+    results: [],
+    variations: []
+  });
+  // TODO: store a search reference id of the results it provides;
+  // query endpoint when triggered to get the results of the search
     
-
-  let isDBLPActive = searchForm.sources.includes("DBLP");
-  let isSemanticScholarActive = searchForm.sources.includes("SEMANTIC_SCHOLAR");
-  let isWebOfScienceActive = searchForm.sources.includes("WEB_OF_SCIENCE");
-  let isIEEEActive = searchForm.sources.includes("IEEE_XPLORE");
-  let isScopusActive = searchForm.sources.includes("SCOPUS");
-
   let numMatched = searchResults?.matches?.num_matches;
   let percentageMatched = searchResults?.matches?.percentage_match;
-
-  const tooltipText = {
-    usabilityGuide: "Click to view the usability guide",
-    search: {
-      primary: "Primary search term is required", 
-      secondary: "Secondary search term",
-      tertiary: "Tertiary search term",
-      advanced: "Required field: advanced case-insensitive boolean search string. Use 'AND', 'OR', 'NOT' operators to combine search terms, and quotations to search for exact phrases.",
-      yearRange: "Year range including the start and end years (i.e., 2023 - 2024)",
-      database: "Select the databases to search from: Click on the database name to toggle the selection; a filled checkbox indicates the database is selected. At least one must be selected.",
-      validationPapers: "Enter the DOI of the validation papers to validate if the search configurations result in the validation papers.",
-      clearButton: "Resets and clears all search parameters and results",
-      llmQuestions: "Enter the questions to filter the papers. At least one question is required. Answers should be comma-separated categorical answers.",
-    },
-    results: {
-      selectAll: "Select all papers in the search results",
-      deselectAll: "Deselect all papers in the search results",
-      hideMetadata: "Hide metadata for the selected papers",
-      populateMetadata: "Populate metadata for the selected papers. Only applicable to papers with DOI",
-      forwardSearch: "Search for papers that the selected papers cite",
-      backwardSearch: "Search for papers that cite the selected papers",
-      export: "Export selected papers in CSV/BibTex/RIS format",
-    }
-  }
-
-  const parseKeywordSuggestion = (keyword: string) => {
-    // replace _ with space
-    keyword = keyword.replace(/_/g, ' ');
-    // capitalize first letter
-    keyword = keyword.charAt(0).toUpperCase() + keyword.slice(1);
-    return keyword;
-  }
-
-  const parseSearchTerms = (terms: string) => {
-    if (!terms) return [];
-    return terms.split(',')
-  }
+  
+  const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
 
   // Return as a object with doi and title fields,
   // if the doi exists in the paper id, attribute it as doi, else attribute it as title
@@ -486,12 +146,21 @@ function App() {
     })
   }
 
+  const handleSearchFormChange = (e: React.SyntheticEvent, value: string[], field: MultiLayerSearch) => {
+    setSearchForm({
+      ...searchForm,
+      search_terms: {
+        ...searchForm.search_terms,
+        [field]: value
+      }
+    })
+  }
+
   const validateSearchForm = () => {
     if (!searchForm.search_terms.primary && searchMode === SearchMode.SIMPLE) {
       toast.error('Primary search term is required');
       return false;
     }
-    // error if no database
     if (searchForm.sources.length === 0) {
       toast.error('At least one database must be selected');
       return false;
@@ -507,9 +176,9 @@ function App() {
       ...searchForm,
       search_terms: {
         advanced: searchMode === SearchMode.ADVANCED ? searchForm.search_terms.advanced : "",
-        primary: searchMode === SearchMode.SIMPLE ? parseSearchTerms(searchForm.search_terms.primary) : [],
-        secondary: searchMode === SearchMode.SIMPLE ? parseSearchTerms(searchForm.search_terms.secondary) : [],
-        tertiary: searchMode === SearchMode.SIMPLE ? parseSearchTerms(searchForm.search_terms.tertiary) : []
+        primary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.primary : [],
+        secondary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.secondary : [],
+        tertiary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.tertiary : []
       },
       validation_papers: parseRootPapers(searchForm.validation_papers)
     }
@@ -521,11 +190,33 @@ function App() {
           ...prevState,
           showSelectAll: true,
           showDeselectAll: true,
+          showForwardSearch: true,
+          showBackwardSearch: true,
+          showDeleteMode: true,
           showPopulateMetadata: true,
+          showHideMetadata: true,
         }))
+        setSearchHistory([...searchHistory, { id: res.data.id, ...searchForm}]);
+        setCurrentSearchHistoryIndex(searchHistory.length);
       })
-      .catch((error) => toast.error('Error:', error.response.data))
+      .catch(handleError)
       .finally(() => setIsSearching(false));
+  }
+
+  const handleAddPaper = async () => {
+    setIsManuallyAddingPaper(true);
+    toast.info('Adding papers...');
+    await axios.post(`${BASE_URL}/scraper/manual-add-publication`, {
+      dois: manualAddPapers
+    })
+    .then((res) => {
+      // Do not add if paper is already in 
+      const updatedResults = searchResults.results.filter((result: Publication) => !res.data.publications.find((paper: Publication) => paper.paper_id === result.paper_id));
+      setSearchResults({...searchResults, results: [...updatedResults, ...res.data.publications]})
+      toast.success('Papers added successfully');
+    })
+    .catch(handleError)
+    .finally(() => setIsManuallyAddingPaper(false));
   }
 
   const populateMetadata = async () => {
@@ -546,16 +237,11 @@ function App() {
         setButtonState((prevState) => ({
           ...prevState,
           showLLMQuestions: true,
-          showForwardSearch: true,
-          showBackwardSearch: true,
           showExport: true,
         }))
         toast.success('Metadata populated successfully');
       })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Error:', error)
-      })
+      .catch(handleError)
       .finally(() => setIsPopulatingMetadata(false));
   }
 
@@ -576,11 +262,13 @@ function App() {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `export.${format.toLowerCase()}`);
+        const contentDisposition = res.headers['content-disposition'];
+        const filename = contentDisposition.split('filename=')[1].replace(/"/g, '');
+        link.setAttribute('download', filename);
         document.body.appendChild(link);
         link.click();
       })
-      .catch((error) => toast.error('Error:', error));
+      .catch(handleError);
   }
 
   const handlePaperSelect = (paper_id: string) => {
@@ -606,7 +294,6 @@ function App() {
     .then((res) => {
       let _searchType = searchType.charAt(0).toUpperCase() + searchType.slice(1);
       toast.info(`${_searchType} snowballing search completed`);
-      // toast.info('Results:' + JSON.stringify(res.data))
       
       if (searchType === "forward") {
         let updatedResults = [...searchResults.results];
@@ -631,10 +318,7 @@ function App() {
         setSearchResults({...searchResults, results: updatedResults})
       }
     })
-    .catch((error) => {
-      console.log(error);
-      toast.error('Error:', error.response.data.error)
-    })
+    .catch(handleError)
     .finally(() => setSnowballingType(''));
   }
 
@@ -654,10 +338,7 @@ function App() {
       });
       setSearchResults({...searchResults, results: updatedResults})
     })
-    .catch((error) => {
-      console.log(error);
-      toast.error('Error:', error)
-    });
+    .catch(handleError);
   }
   
   const handleAddLLMQuestion = () => {
@@ -680,8 +361,6 @@ function App() {
     setLLMQuestions(llmQuestions.slice(0, llmQuestions.length - 1))
   }
 
-
-
   const handleSelectSearchMode = (mode: SearchMode) => {
     setSearchMode(mode);
   }
@@ -691,13 +370,13 @@ function App() {
       validation_papers: [],
       search_terms: {
         advanced: '',
-        primary: '',
-        secondary: '',
-        tertiary: '',
+        primary: [],
+        secondary: [],
+        tertiary: [],
       },
       year_start: 2023,
       year_end: 2024,
-      sources: ["DBLP"],
+      sources: [SearchEngineType.DBLP],
     });
     setSearchResults({
       matches: {
@@ -723,6 +402,7 @@ function App() {
       showBackwardSearch: false,
       showExport: false,
       showLLMQuestions: false,
+      showDeleteMode: false,
     })
   }
 
@@ -732,175 +412,191 @@ function App() {
     setUseSimpleMode(!useSimpleMode);
   }
 
+  const handleChipClick = (keyword: string, field: MultiLayerSearch) => {
+    setSearchForm({
+      ...searchForm,
+      search_terms: {
+        ...searchForm.search_terms,
+        [field]: [
+          ...searchForm.search_terms[field],
+          keyword
+        ]
+      }
+    })
+  }
+
+  const handleFullScreen = () => {
+    setFullscreenState(!fullscreenState);
+    // get id = publication-data, add container class to it
+    const publicationData = document.getElementById('publication-data');
+    const publicationDataInner = document.getElementById('publication-data-inner');
+    if (publicationData) {
+      publicationData.classList.toggle('container');
+      publicationDataInner?.classList.toggle('container');
+    }
+  }
+  
+  const handleSearchHistory = (offset: number) => {
+    setCurrentSearchHistoryIndex((prevIndex) => {
+      let newIndex = prevIndex + offset;
+      if (newIndex < 0) newIndex = 0;
+      if (newIndex >= searchHistory.length) newIndex = searchHistory.length - 1;
+      return newIndex;
+    });
+    // setSearchForm(searchHistory[index]);
+  }
+
+  const handleDiffMode = () => {
+    
+    if (diffMode) {
+      setDiffSearchHistoryIndex(null);
+      let prevSearchResults = [...searchResults.results];
+      let newPrevSearchResults = prevSearchResults.map((result: Publication) => {
+        return { ...result, diffType: undefined }
+      });
+      setSearchResults({...searchResults, results: newPrevSearchResults});
+    }
+    
+    const publicationData = document.getElementsByClassName('main-data-table')[0];
+      if (publicationData) {
+        publicationData.classList.toggle('col-6');
+      }
+    setDiffMode(!diffMode);
+  }
+
+  const handleChooseSearchHistory = async (index: number) => {
+    if (!diffMode) {
+      setCurrentSearchHistoryIndex(index);
+      await axios.get(`${BASE_URL}/scraper/historical-search`, {
+        params: { id: searchHistory[index].id }
+      })
+      .then((res) => {
+        setSearchResults(res.data);
+        setButtonState((prevState) => ({
+          ...prevState,
+          showSelectAll: true,
+          showDeselectAll: true,
+          showForwardSearch: false,
+          showBackwardSearch: false,
+          showDeleteMode: true,
+          showPopulateMetadata: true,
+          showHideMetadata: true,
+          showExport: true,
+        }))
+      })
+      .catch(handleError)
+
+    } else {
+      if (currentSearchHistoryIndex === index) {
+        toast.info('Cannot choose the same search history to compare');
+        return;
+      }
+      await axios.get(`${BASE_URL}/scraper/historical-search`, {
+        params: { id: searchHistory[index].id }
+      })
+      .then((res) => handleDiffModeClassification(res.data))
+      .catch(handleError)
+      .finally(() => setDiffSearchHistoryIndex(index));
+    }
+  }
+
+  const handleDiffModeClassification = (newSearchResults: SearchResult) => {
+    // setDiffSearchResults(newSearchResults); 
+
+    // Handle the diff mode classification here
+    // new search result = searchResults
+    // old search result = diffSearchResults
+    // 1. if paper is only in the new search results, set diffType to 'add'
+    // 2. if paper is only in the old search results, set diffType to 'remove'
+
+    let updatedResults = [...searchResults.results];
+    let newUpdatedResults = updatedResults.map((result: Publication) => {
+      if (!newSearchResults.results.find((r) => r.paper_id === result.paper_id)) {
+        return { ...result, diffType: ('add' as DiffType) }
+      }
+      return { ...result, diffType: ('common' as DiffType) }
+    });
+
+    let newDiffSearchResults = newSearchResults.results.map((result: Publication) => {
+      const index = searchResults.results.findIndex((r) => r.paper_id === result.paper_id);
+      if (index === -1) {
+        return { ...result, diffType: ('remove' as DiffType)  }
+      }
+      return result
+    });
+
+    setSearchResults({...searchResults, results: newUpdatedResults});
+    setDiffSearchResults({ ...newSearchResults, results: newDiffSearchResults });
+  }
+
+  const handleAdvancedChipClick = (keyword: string, synonym: string) => {
+    
+    // Surround keyword/synonym phrases with quotes
+    toast.info(`Replacing ${keyword} with ${synonym}`);
+    if (keyword.split(' ').length > 1) {
+      keyword = `"${keyword}"`;
+    }
+    if (synonym.split(' ').length > 1) {
+      synonym = `"${synonym}"`;
+    }
+
+
+    let replacement = `(${keyword} or ${synonym})`;
+    setSearchForm({
+      ...searchForm,
+      search_terms: {
+        ...searchForm.search_terms,
+        advanced: searchForm.search_terms.advanced.replace(keyword, replacement),
+      }
+    })
+  }
 
   return (
-      <div className="container mt-3">
-        <h1>ARC: Automated Review Companion</h1>
-
-        {/* Search Bar */}
-        <div className="container p-3 mt-3 border rounded" id="search-bar">
-
-          <div className="d-flex flex-row justify-content-between">
-            <h3>Search Bar</h3>
-            {/* Button to open up a modal for a usability guide */}
-            <div className="d-flex gap-2">
-              <button className="btn btn-secondary" onClick={handleSimpleMode}>
-                {!useSimpleMode ? 'Enable Simple Mode' : 'Enable Advanced Mode'}
-              </button>
-              <Tooltip title={tooltipText.usabilityGuide}>
-                <button type="button" className="btn btn-secondary" onClick={() => setShowUsabilityGuide(true)}>
-                  <InfoIcon/>
-                </button>
-              </Tooltip>
-              {/* MUI Modal for usability guide */}
-              <Modal open={showUsabilityGuide} onClose={() => {
-                setShowUsabilityGuide(false)
-              }}>
-                <UsabilityGuide handleClose={() => setShowUsabilityGuide(false)}/>
-              </Modal>
-
-
+      <div className="mt-3">
+        <div className="container">
+          <h1 className="text-4xl font-medium">ARC: Automated Review Companion</h1>
+        
+          {/* Search Bar */}
+          <div className="p-3 mt-3 border rounded" id="search-bar">
+            <div className="d-flex flex-row justify-content-between">
+              <h3 className="text-3xl font-medium">Search Bar</h3>
+              {/* Button to open up a modal for a usability guide */}
+              <div className="d-flex gap-2">
+                <UsabilityGuide 
+                  showUsabilityGuide={showUsabilityGuide} 
+                  setShowUsabilityGuide={setShowUsabilityGuide}
+                  handleClose={() => setShowUsabilityGuide(false)}
+                />
+              </div>
             </div>
 
-          </div>
+            <SearchAppBar searchMode={searchMode} handleSelectSearchMode={handleSelectSearchMode} />
 
-          {/* Search Mode */}
-          <nav className="d-flex">
-            <input
-                type="radio"
-                className="btn-check search-nav-item"
-                name="options"
-                id="option1"
-                autoComplete='off'
-                checked={searchMode === SearchMode.SIMPLE}
-                onClick={() => handleSelectSearchMode(SearchMode.SIMPLE)}
-            />
-            <label className="search-nav-item" htmlFor="option1">Multi-layer Keyword Search</label>
-
-            <input
-                type="radio"
-                className="btn-check"
-                id="advanced-search"
-                autoComplete='off'
-                checked={searchMode === SearchMode.ADVANCED}
-                onClick={() => handleSelectSearchMode(SearchMode.ADVANCED)}
-            />
-            <label className="search-nav-item" htmlFor="advanced-search">Advanced Keyword Search</label>
-          </nav>
-
-          {/* <button
-          type="button" 
-          className="btn btn-secondary" 
-          data-bs-toggle="tooltip" 
-          data-bs-placement="top" 
-          data-bs-title="Tooltip on top"
-        >
-          Tooltip on top
-        </button> */}
-
-          <div className="divider border-bottom"></div>
-          {/* Three-layered Searchbar */}
-          {expandedSearchBar && (
-              <div className="mt-3">
-
-                {searchMode === SearchMode.SIMPLE && (
-                    <div className="input-group mb-3 d-flex flex-column">
-                      <div className="d-flex flex-row">
-                        <div className="input-group-prepend w-25 rounded-0">
-                          <Tooltip title={tooltipText.search.primary} placement="right">
-                            <div className="input-group-text rounded-0">
-                              <span>Primary</span>
-                              <span className='text-red'>*</span>
-                            </div>
-                          </Tooltip>
-                        </div>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="AI, Deep Learning, etc."
-                            value={searchForm.search_terms.primary}
-                            onChange={(e) => setSearchForm({
-                              ...searchForm,
-                              search_terms: {...searchForm.search_terms, primary: e.target.value}
-                            })}
-                        />
-                        {/* <Autocomplete
-                    className="w-100"
-                    multiple
-                    freeSolo
-                    value={searchForm.search_terms.primary}
-                    onChange={(e, value) => setSearchForm({...searchForm, search_terms: {...searchForm.search_terms, primary: value}})}
-                    options={searchResults.variations.map((variation) => variation.word)}
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => (
-                        <Tooltip title={searchResults.variations.find((variation) => variation.word === option)?.synonyms.join(', ')} key={index}>
-                          <Chip
-                            label={option}
-                            {...getTagProps({ index })}
-                          />
-                        </Tooltip>
-                      ))
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        className="p-0 m-0 bg-white w-100"
-                        size="small"
-                        variant="outlined"
-                        placeholder={searchForm.search_terms.primary.length === 0 ? "i.e., AI, Deep Learning, etc." : ""}
-                      />
-                    )}
-                  /> */}
+            <div className="divider border-bottom"></div>
+            {/* Multi-layer Keyword Search */}
+            {expandedSearchBar && (
+                <div className="mt-3">
+                  {searchMode === SearchMode.SIMPLE && (
+                      <div className="input-group mb-3 d-flex flex-column">
+                        {multiLayerSearchFields.map((field) => (
+                          <SearchTermAutocomplete
+                            key={field}
+                            field={field}
+                            searchForm={searchForm}
+                            searchResults={searchResults}
+                            setSearchResults={setSearchResults}
+                            tooltipText={tooltipText}
+                            handleSearchFormChange={handleSearchFormChange}
+                            handleChipClick={handleChipClick}
+                        />))}
                       </div>
-                      <div className="d-flex flex-row">
-                        <div className="input-group-prepend w-25">
-                          <Tooltip title={tooltipText.search.secondary} placement="right">
-                            <div className="input-group-text d-flex gap-2 rounded-0">
-                              Secondary
-                            </div>
-                          </Tooltip>
-                        </div>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Ethics, Human-Computer Interaction, etc."
-                            value={searchForm.search_terms.secondary}
-                            onChange={(e) => setSearchForm({
-                              ...searchForm,
-                              search_terms: {...searchForm.search_terms, secondary: e.target.value}
-                            })}
-                        />
-                      </div>
-                      <div className="d-flex flex-row">
-                        <div className="input-group-prepend w-25 rounded-0">
-                          <Tooltip title={tooltipText.search.tertiary} placement="right">
-                            <div className="input-group-text d-flex gap-2">Tertiary</div>
-                          </Tooltip>
-                        </div>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Education, etc."
-                            value={searchForm.search_terms.tertiary}
-                            onChange={(e) => setSearchForm({
-                              ...searchForm,
-                              search_terms: {...searchForm.search_terms, tertiary: e.target.value}
-                            })}
-                        />
-                      </div>
-                    </div>
-                )}
+                  )}
 
-                {searchMode === SearchMode.ADVANCED && (
-                    <div className="input-group mb-3">
-                      <Tooltip title={tooltipText.search.advanced} placement="right">
-                        <div className="input-group-prepend">
-                    <span className="input-group-text rounded-0">
-                      Advanced Search <span className='text-red'>*</span>
-                    </span>
-                        </div>
-                      </Tooltip>
-                      <input
+                  {searchMode === SearchMode.ADVANCED && (
+                    <>
+                      <div className="input-group mb-3">
+                        <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
+                        <input
                           type="text"
                           className="form-control"
                           placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
@@ -909,188 +605,87 @@ function App() {
                             ...searchForm,
                             search_terms: {...searchForm.search_terms, advanced: e.target.value}
                           })}
-                      />
-                    </div>
-                )}
-
-                {/* Keyword suggestion */}
-                {searchResults.variations && searchResults.variations.length > 0 &&
-                    <div className="container-fluid py-2">
-                      <span>Keywords:</span>
-                      <div className="d-flex flex-row flex-nowrap overflow-scroll">
-                        {searchResults.variations.map((variation) => (
-                            <div className="card card-body" key={variation.word}>
-                              <h5>{variation.word}</h5>
-                              <div className="d-flex flex-row">
-                                <div>
-                                  <span>Synonyms:</span>
-                                  <ul>
-                                    {variation.synonyms.map((synonym) => (
-                                        <li key={synonym}>{parseKeywordSuggestion(synonym)}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                                {variation.variants.length > 0 &&
-                                    <div>
-                                      <span>Variants:</span>
-                                      <ul>
-                                        {variation.variants.map((variant) => (
-                                            <li key={variant}>{parseKeywordSuggestion(variant)}</li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                }
-                              </div>
-                            </div>
-                        ))}
+                        />
                       </div>
-                    </div>
-                }
-
-                {/* Year Range */}
-                <div className="input-group mb-3">
-                  <Tooltip title={tooltipText.search.yearRange} placement="right">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text rounded-0" id="basic-addon1">
-                        <span>Year Range</span>
-                        <span className="text-red">*</span>
+                      <div className="container">
+                        {searchResults.variations.length > 0 && (
+                          <div className="flex flex-row gap-2 flex-wrap my-3">
+                            <span className="text-center">Variations:</span>
+                              {searchResults.variations.map((variation) => (
+                                <Tooltip title={
+                                  <div className="d-flex flex-column gap-2">
+                                    <span>Synonyms:</span>
+                                    <Box className="word-variant-box mb-2">
+                                      {variation.synonyms.map((synonym) => (
+                                          <div
+                                            key={synonym}
+                                            onClick={() => handleAdvancedChipClick(variation.word, synonym)}
+                                            className='word-variant-chip'
+                                            style={{ color: "black", cursor: "pointer" }}
+                                          >
+                                            {synonym}
+                                          </div>
+                                      ))}
+                                    </Box>
+                                  </div>
+                                }>
+                                  <Chip
+                                    key={variation.word}
+                                    label={variation.word}
+                                    className='p-0 m-0'
+                                  />
+                              </Tooltip>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  </Tooltip>
-                  <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Start Year"
-                      value={searchForm.year_start}
-                      onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
-                  />
-                  <input
-                      type="number"
-                      className="form-control"
-                      placeholder="End Year"
-                      value={searchForm.year_end}
-                      onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
-                  />
-                </div>
+                    </>
+                  )}
 
-
-                {/*  Database Types */}
-                <div className="d-flex flex-row w-100 mb-3">
-                  <Tooltip title={tooltipText.search.database}>
-                    <div className="input-group-prepend">
-                      <div className="input-group-text rounded-0" id="basic-addon1">
-                        <span>Database</span>
-                        <span className="text-red">*</span>
-                      </div>
-                    </div>
-                  </Tooltip>
-                  <div className="btn-group">
+                  {/* Year Range */}
+                  <div className="input-group mb-3">
+                    <InputLabel tooltip={tooltipText.search.yearRange} label="Year Range" required/>
                     <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck1"
-                        autoComplete="off"
-                        checked={isDBLPActive}
-                        onChange={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "DBLP")
-                                ? searchForm.sources.filter((source) => source !== "DBLP")
-                                : [...searchForm.sources, "DBLP"]
-                          })
-                        }}
+                        type="number"
+                        className="form-control"
+                        placeholder="Start Year"
+                        value={searchForm.year_start}
+                        onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
                     />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck1">DBLP</label>
-
                     <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck2"
-                        autoComplete="off"
-                        checked={isSemanticScholarActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "SEMANTIC_SCHOLAR")
-                                ? searchForm.sources.filter((source) => source !== "SEMANTIC_SCHOLAR")
-                                : [...searchForm.sources, "SEMANTIC_SCHOLAR"]
-                          })
-                        }}
+                        type="number"
+                        className="form-control"
+                        placeholder="End Year"
+                        value={searchForm.year_end}
+                        onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
                     />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck2">Semantic Scholar</label>
-
-                    <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck3"
-                        autoComplete="off"
-                        checked={isWebOfScienceActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "WEB_OF_SCIENCE")
-                                ? searchForm.sources.filter((source) => source !== "WEB_OF_SCIENCE")
-                                : [...searchForm.sources, "WEB_OF_SCIENCE"]
-                          })
-                        }}
-                    />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck3">Web of Science</label>
-
-                    <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck4"
-                        autoComplete="off"
-                        checked={isIEEEActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "IEEE_XPLORE")
-                                ? searchForm.sources.filter((source) => source !== "IEEE_XPLORE")
-                                : [...searchForm.sources, "IEEE_XPLORE"]
-                          })
-                        }}
-                    />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck4">IEEE Xplore</label>
-
-                    <input
-                        type="checkbox"
-                        className="btn-check"
-                        id="btncheck5"
-                        autoComplete="off"
-                        checked={isScopusActive}
-                        onClick={() => {
-                          setSearchForm({
-                            ...searchForm,
-                            sources: searchForm.sources.find((source) => source === "SCOPUS")
-                                ? searchForm.sources.filter((source) => source !== "SCOPUS")
-                                : [...searchForm.sources, "SCOPUS"]
-                          })
-                        }}
-                    />
-                    <label className="btn btn-outline-secondary" htmlFor="btncheck5">Scopus</label>
-
                   </div>
-                </div>
 
-                {/* Validation Papers */}
-                <div className="d-flex flex-row w-100">
-                  <Tooltip title={tooltipText.search.validationPapers} placement='right'>
-                    <div className="input-group-prepend">
-                      <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
-                    </div>
-                  </Tooltip>
-                  <input
-                      type="text"
-                      className="form-control"
-                      placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
-                      value={searchForm.validation_papers.join(',')}
-                      onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
-                  />
-                </div>
 
-                {/* Root Paper matches */}
-                {
+                  {/*  Database Types */}
+                  <div className="d-flex flex-row w-100 mb-3">
+                    <InputLabel tooltip={tooltipText.search.database} label="Database Types" required/>
+                    <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>                   
+                  </div>
+
+                  {/* Validation Papers */}
+                  <div className="d-flex flex-row w-100">
+                    <Tooltip title={tooltipText.search.validationPapers} placement='right'>
+                      <div className="input-group-prepend">
+                        <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
+                      </div>
+                    </Tooltip>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
+                        value={searchForm.validation_papers.join(',')}
+                        onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
+                    />
+                  </div>
+
+                  {/* Root Paper matches */}
+                  {
                     searchForm.validation_papers.length > 0 &&
                     <div className="d-flex flex-column w-100 mt-3">
                       <div className="d-flex flex-row align-items-center gap-2 w-100">
@@ -1109,60 +704,68 @@ function App() {
                           <tbody>
                           {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
                           {
-                              searchResults?.matches?.papers?.length > 0 && searchResults.matches.papers.map((match, index) => (
-                                  <tr key={match.doi}>
-                                    <td>{index + 1}</td>
-                                    <p>{match.doi || match.title}</p>
-                                  </tr>
-                              ))}
+                            searchResults?.matches?.papers?.length > 0 && 
+                            searchResults.matches.papers.map((match, index) => (
+                                <tr key={match.doi}>
+                                  <td>{index + 1}</td>
+                                  <p>{match.doi || match.title}</p>
+                                </tr>
+                          ))}
                           </tbody>
                         </table>
                       </div>
                     </div>
-                }
+                  }
 
 
-                {/* Buttons */}
-                <div className="d-flex flex-row justify-content-end mt-3 gap-2">
-                  <button type="button" className="btn btn-primary" onClick={handleSearch}>
-                    {
-                      isSearching
-                          ? <div className="spinner-border text-light">
+                  {/* Buttons */}
+                  <div className="d-flex flex-row justify-content-end mt-3 gap-2">
+                    <Button onClick={handleSearch}>
+                      {
+                        isSearching
+                        ? <div className="spinner-border text-light">
                             <span className="sr-only"></span>
                           </div>
-                          : <span>Search</span>
-                    }
-                  </button>
-                  <Tooltip title={tooltipText.search.clearButton} placement="top">
-                    <button type="button" className="btn btn-secondary ml-2" onClick={resetSearchParameters}>Clear
-                    </button>
-                  </Tooltip>
-                </div>
-              </div>)
-          }
-        </div>
+                        : <span>Search</span>
+                      }
+                    </Button>
+                    <Tooltip title={tooltipText.search.clearButton} placement="top">
+                      <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={resetSearchParameters}>Clear</Button>
+                    </Tooltip>
+                  </div>
+                </div>)
+            }
+          </div>
 
-        {/* LLM Questions */}
-        {
-            !useSimpleMode && buttonState.showLLMQuestions && searchResults.results?.length > 0 &&
-            <div className="container p-3 mt-3 border rounded" id="llm-questions">
+          {/* LLM Questions */}
+          {
+              buttonState.showLLMQuestions && searchResults.results?.length > 0 &&
+              <div className="container p-3 mt-3 border rounded" id="llm-questions">
 
-              <div className="d-flex flex-row justify-content-between align-items-center">
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h3 className="p-0 m-0">Paper Filter Questions (LLM-Powered)</h3>
-                  <div>
-                    <Tooltip title={tooltipText.search.llmQuestions} placement="top">
-                      <InfoIcon color="info"/>
+                <div className="d-flex flex-row justify-content-between align-items-center">
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h3 className="text-3xl font-medium p-0 m-0">Paper Filter Questions (LLM-Powered)</h3>
+                    <div>
+                      <Tooltip title={tooltipText.search.llmQuestions} placement="top">
+                        <InfoIcon color="info"/>
+                      </Tooltip>
+                    </div>
+                  </div>
+                  <div className='flex flex-row gap-2'>
+                    <Tooltip title={tooltipText.search.llmQuestion.add} placement="top">
+                      <IconButton onClick={handleAddLLMQuestion}>
+                        <AddIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title={tooltipText.search.llmQuestion.remove} placement="top">
+                      <IconButton onClick={handleRemoveLLMQuestion}>
+                        <MinusIcon />
+                      </IconButton>
                     </Tooltip>
                   </div>
                 </div>
-                <div className='d-flex flex-row gap-2'>
-                  <button className="btn btn-primary" onClick={handleAddLLMQuestion}>Add Question</button>
-                  <button className="btn btn-secondary" onClick={handleRemoveLLMQuestion}>Remove a Question</button>
-                </div>
-              </div>
-              <div className="max-height-30vh overflow-y-scroll">
-                {
+                <div className="max-height-30vh overflow-y-scroll">
+                  {
                     llmQuestions && llmQuestions.length > 0 && llmQuestions.map((question, index) => (
                         <div key={question.id} className="d-flex flex-row gap-2 mt-3">
                           <div className="d-flex align-items-center justify-content-center w-5">{index + 1}</div>
@@ -1186,71 +789,173 @@ function App() {
                           }/>
                         </div>
                     ))
-                }
+                  }
+                </div>
+                <div className="d-flex justify-content-end mt-3">
+                  <button className="btn btn-success" onClick={handleLLMFiltering}>Submit Questions</button>
+                </div>
               </div>
-              <div className="d-flex justify-content-end mt-3">
-                <button className="btn btn-success" onClick={handleLLMFiltering}>Submit Questions</button>
-              </div>
-            </div>
-        }
+          }
+        </div>
 
-        {/* Publications Data */}
-        <div className="container p-3 mt-3 border rounded" id="publication-data">
-          {/* Actions */}
-          <h3 className="p-0 m-0">Search Results</h3>
-          <div className="d-flex flex-row justify-content-between">
-            <div className="d-flex justify-content-center flex-row">
-              Total Publications: {searchResults.results.length}
+        {/* Search History */}
+        {
+          searchHistory.length > 0 &&
+          <div className="container mt-3">
+            <div className="container rounded border p-3" id="search-history">
+              <div className="d-flex justify-content-between mb-3">
+                <h3 className="text-3xl font-medium">Search History</h3>
+                <Tooltip title={tooltipText.search.history} placement="top">
+                  <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>Diff mode</Button>
+                </Tooltip>
+              </div>
+
+              <div className="w-100 relative">
+                {/* <button className="btn w-5" onClick={() => handleSearchHistory(-1)}>{"<"}</button> */}
+                <div className="px-12 py-3">
+                  <Carousel className="">
+                    <CarouselContent>
+                      {
+                        searchHistory.map((search, index) => (
+                          <CarouselItem 
+                            key={search.year_start}
+                            className="basis-1/3"
+                            onClick={() => handleChooseSearchHistory(index)}
+                          >
+                            <Tooltip title={
+                              <Box>
+                                <div>Search {index + 1}</div>
+                                <div>Ref: {search.id ?? "-"}</div>
+                                <div>Year Range: {search.year_start} - {search.year_end}</div>
+                                {
+                                  search.search_terms.advanced 
+                                  ? <div>Advanced Search: {search.search_terms.advanced}</div>
+                                  : <>
+                                      <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
+                                      <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
+                                      <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
+                                    </>
+                                }
+                                <div>Sources: {search.sources.join(', ')}</div>
+                              </Box>
+                            } placement="top">
+                              <Button 
+                                className={
+                                  cn(
+                                    "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
+                                    (index === currentSearchHistoryIndex ? "bg-blue-500/80 text-white hover:bg-blue-600/80" : "") + 
+                                    (diffMode && diffSearchHistoryIndex === index ? "bg-green-700/80 text-white hover:bg-green-800/80" : "")
+                                  )
+                                }
+                              >
+                                <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
+                                <span className="text-wrap text-left text-ellipsis overflow-hidden h-[40px]">Ref: {search.id ?? "-"}</span>
+                                {
+                                  search.search_terms.advanced &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Advanced Search: {search.search_terms.advanced}
+                                  </span>
+                                }
+                                {
+                                  search.search_terms.primary.length > 0 &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Primary Search: {search.search_terms.primary.join(', ')}
+                                  </span>
+                                }
+                                {
+                                  search.search_terms.secondary.length > 0 &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Secondary Search: {search.search_terms.secondary.join(', ')}
+                                  </span>
+                                }
+                                {
+                                  search.search_terms.tertiary.length > 0 &&
+                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    Tertiary Search: {search.search_terms.tertiary.join(', ')}
+                                  </span>
+                                }
+                              </Button>
+                            </Tooltip>
+                          </CarouselItem>
+                        ))
+                      }
+                      {
+                        searchHistory.length === 0 &&
+                        <div className="flex justify-content-center w-100">
+                          <div className="p-0 m-0 leading-[16px] text-muted">No search history</div>
+                        </div>
+                      }
+                    </CarouselContent>
+                    <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
+                    <CarouselNext onClick={() => handleSearchHistory(1)} />
+                  </Carousel>
+                </div>
+                {/* <button className="btn w-5" onClick={() => handleSearchHistory(1)}>{">"}</button> */}
+              </div>
+
             </div>
-            <div className='d-flex mb-3 gap-2'>
-              {/* Select All */}
-              {
+          </div>
+        }
+        
+        {/* Publications Data */}
+        <section className="container" id="publication-data">
+          <div className="p-3 mt-3 border rounded container" id="publication-data-inner">
+            <div className="d-flex align-items-end gap-2 justify-content-between">
+              <h3 className="p-0 m-0 text-3xl font-medium">Search Results</h3>
+              {/* Button to make fullscreen */}
+              <Tooltip title={fullscreenState ? tooltipText.results.toggleFullScreen.enter : tooltipText.results.toggleFullScreen.exit} placement="top">
+                <IconButton onClick={handleFullScreen}>
+                  {fullscreenState ? <FullscreenExitIcon/> : <FullscreenIcon/>}
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>Total Publications: {searchResults.results.length}</div>
+                
+            <div className="d-flex flex-column justify-content-between items-align-end mb-3 gap-2">
+              
+              {/* add input and button to manually add papers  */}
+              <div className="flex flex-row">
+                <div className="flex flex-row"></div>
+                  <InputLabel tooltip={tooltipText.results.manualAdd} label="Manual Add"/>
+                  <input
+                      type="text"
+                      className="form-control rounded-0"
+                      placeholder="10.18653/v1/N18-3011"
+                      value={manualAddPapers.join(',')}
+                      onChange={(e) => setManualAddPapers(e.target.value.split(','))}
+                  />
+                  <Button className="bg-blue-500 rounded-0 shadow-none" onClick={handleAddPaper}>
+                    { 
+                      isManuallyAddingPaper ? 
+                      <CircularProgress size={18} color="inherit" /> :
+                      <span>Add</span>
+                    } 
+                  </Button>
+                  <CsvImportField 
+                    // handleAddPaper={setManualAddPapers} 
+                    tooltip={tooltipText.results.manualAddCsv} 
+                  />
+              </div>
+
+              <div className='flex flex-wrap gap-2'>
+                {/* Select All */}
+                {
                   buttonState.showSelectAll &&
                   <Tooltip title={tooltipText.results.selectAll} placement="top">
-                    <button type="button" className="btn btn-primary" onClick={handleSelectAll}>Select All</button>
+                    <Button className='bg-blue-500' onClick={handleSelectAll}>Select All</Button>
                   </Tooltip>
-              }
-              {
+                }
+                {
                   buttonState.showDeselectAll &&
                   <Tooltip title={tooltipText.results.deselectAll} placement="top">
-                    <button type="button" className="btn btn-secondary" onClick={handleDeselectAll}>Deselect All
-                    </button>
+                    <Button className="bg-blue-500" onClick={handleDeselectAll}>Deselect All</Button>
                   </Tooltip>
-              }
-              {/* Hide Metadata */}
-              {
-                  buttonState.showHideMetadata && (showMetadata
-                      ?
-                      <button type="button" className="btn btn-warning" onClick={handleShowMetadata}>Hide Metadata</button>
-                      :
-                      <button type="button" className="btn btn-primary" onClick={handleShowMetadata}>Show Metadata</button>)
-              }
-
-              {/* Popualte metadata */}
-              {
-                  buttonState.showPopulateMetadata &&
-                  <Tooltip title={tooltipText.results.populateMetadata} placement="top">
-                    <button
-                        type="button"
-                        className="btn btn-success"
-                        onClick={populateMetadata}
-                    >
-                      {
-                        !isPopulatingMetadata
-                            ? <span>Populate Metadata</span>
-                            : <div className="spinner-border text-light">
-                              <span className="sr-only"></span>
-                            </div>
-                      }
-                    </button>
-                  </Tooltip>
-              }
-              {/* Forward/BackwardSearch */}
-              {
-                  !useSimpleMode &&
+                }
+                {/* Forward/BackwardSearch */}
+                {
                   buttonState.showForwardSearch &&
                   <Tooltip title={tooltipText.results.forwardSearch} placement="top">
-                    <button type="button" className="btn btn-primary" disabled={snowballingType != ""}
+                    <Button className="" disabled={snowballingType != ""}
                             onClick={() => handleSnowballing("forward")}>
                       {
                         snowballingType === "forward"
@@ -1259,14 +964,13 @@ function App() {
                             </div>
                             : <span>Forward Search</span>
                       }
-                    </button>
+                    </Button>
                   </Tooltip>
-              }
-              {
-                  !useSimpleMode &&
+                }
+                {
                   buttonState.showBackwardSearch &&
                   <Tooltip title={tooltipText.results.backwardSearch} placement="top">
-                    <button type="button" className="btn btn-primary" disabled={snowballingType != ""}
+                    <Button type="button" className="btn btn-primary" disabled={snowballingType != ""}
                             onClick={() => handleSnowballing("backward")}>
                       {
                         snowballingType === "backward"
@@ -1275,140 +979,105 @@ function App() {
                             </div>
                             : <span>Backward Search</span>
                       }
-                    </button>
+                    </Button>
                   </Tooltip>
-              }
-
-              {/* Export */}
-              <div className="dropdown">
+                }
+                {/* Hide Metadata */}
                 {
-                    buttonState.showExport &&
-                    <Tooltip title={tooltipText.results.export} placement="top">
-                      <button className="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                              aria-expanded="false">
-                        Export
-                      </button>
+                  buttonState.showHideMetadata && (showMetadata
+                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Hide Metadata</Button>
+                    : <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Show Metadata</Button>)
+                }
+
+                {/* Popualte metadata */}
+                {
+                    buttonState.showPopulateMetadata &&
+                    <Tooltip title={tooltipText.results.populateMetadata} placement="top">
+                      <Button className="bg-green-600 hover:bg-green-700" onClick={populateMetadata}>
+                        {
+                          !isPopulatingMetadata
+                              ? <span>Populate Metadata</span>
+                              : <div className="spinner-border text-light">
+                                <span className="sr-only"></span>
+                              </div>
+                        }
+                      </Button>
                     </Tooltip>
                 }
-                <ul className="dropdown-menu">
-                  <li>
-                    <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={handleExport("BIBTEX")}>Bibtex</button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={handleExport("RIS")}>RIS</button>
-                  </li>
-                </ul>
+                {/* Toggle delete mode */}
+                {
+                  (buttonState.showDeleteMode || searchResults.results.length > 0) &&
+                  <Button className="bg-red-600 hover:bg-red-700" onClick={() => setDeleteMode(!deleteMode)}>
+                    {deleteMode ? 'Cancel' : 'Edit/Delete Mode'}
+                  </Button>
+                }
+                {/* Export */}
+                {
+                  buttonState.showExport &&
+                  <div className="dropdown d-flex">
+                        <Tooltip title={tooltipText.results.export} placement="top">
+                          <Button className="bg-slate-500 hover:bg-slate-600 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Export
+                          </Button>
+                        </Tooltip>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" onClick={handleExport("BIBTEX")}>Bibtex</button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" onClick={handleExport("RIS")}>RIS</button>
+                      </li>
+                    </ul>
+                  </div>
+                }
               </div>
             </div>
-          </div>
 
-          {/* Table data */}
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <thead className='bg-primary text-white'>
-              <td></td>
-              <td>Paper ID</td>
-              <td style={{minWidth: "250px"}}>Title</td>
-              <td>Source</td>
-              <td style={{minWidth: "250px"}}>Search String</td>
-              <td style={{minWidth: "250px"}}>Formatted Search String</td>
-              <td>Status</td>
+            {/* Table data */}
+            <div className="search-results row" style={{ height: "80%" }}>
+              
+              {/* Filter */}
+              {/* <div id="table-filter-bar">
+                <div className="flex items-center justify-between">
+                  <InputLabel label="Filter" tooltip={tooltipText.results.filterBar} />
+                  <input type="text" className="form-control rounded-0" placeholder="Filter by title, authors, etc." />
+                  <Button className="bg-blue-500 rounded-0 shadow-none">Apply Filter</Button>
+                </div>
+              </div> */}
 
-              {/* Metadata */}
+              {/* Main #1 */}
+              <div id="publication-data-table" className='main-data-table h-[100%]'>
+                  <PublicationTable
+                    searchResults={searchResults}
+                    setSearchResults={setSearchResults}
+                    selectedPapers={selectedPapers}
+                    handlePaperSelect={handlePaperSelect}
+                    showMetadata={showMetadata}
+                    llmQuestions={llmQuestions}
+                    deleteMode={deleteMode}
+                  />
+              </div>
+              {/* Diff #2 */}
               {
-                  showMetadata &&
-                  <>
-                    <td style={{
-                      minWidth: "350px",
-                      maxHeight: "50px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis"
-                    }}>Abstract
-                    </td>
-                    <td>Authors</td>
-                    <td>Citations Count</td>
-                    <td>Conference/Journal</td>
-                    <td>DOI</td>
-                    <td>DOI URL</td>
-                    <td>Keywords</td>
-                    <td>Publication Date</td>
-                    <td>Publication Type</td>
-                    <td>Publisher</td>
-                    <td>Semantic Scholar URL</td>
-                  </>
+                diffMode && diffSearchHistoryIndex !== null &&
+                <div id="publication-data-table" className="diff-data-table col-6 border h-100">
+                  <PublicationTable searchResults={diffSearchResults} /> 
+                </div> 
               }
-
-              {/* Questions */}
               {
-                  searchResults.results && searchResults.results.length > 0 &&
-                  searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-                  llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
-                      <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1} {response.question}</td>
-                  ))
+                diffMode && diffSearchHistoryIndex === null &&
+                <div id="publication-data-table" className="diff-data-table col-6 border h-100">
+                  <div className="flex justify-content-center align-items-center h-100">
+                    <div className="text-muted">No chosen search to compare</div>
+                  </div>
+                </div>
               }
-              </thead>
-              <tbody>
-              {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result) => {
-
-                let publicationRows = [];
-
-                publicationRows.push(
-                    <PublicationRow
-                        rowType='main'
-                        publication={result}
-                        handlePaperSelect={handlePaperSelect}
-                        selectedPapers={selectedPapers}
-                        showMetadata={showMetadata}
-                        searchResults={searchResults}
-                        llmQuestions={llmQuestions}
-                        setSearchResults={setSearchResults}
-                    />
-                )
-
-                if (result.showReferences && result.references !== undefined && result.references?.length > 0) {
-                  result.references.forEach((reference) => {
-                    publicationRows.push(
-                        <PublicationRow
-                            rowType="reference"
-                            publication={reference}
-                            handlePaperSelect={handlePaperSelect}
-                            selectedPapers={selectedPapers}
-                            showMetadata={showMetadata}
-                            searchResults={searchResults}
-                            llmQuestions={llmQuestions}
-                            setSearchResults={setSearchResults}
-                        />
-                    )
-                  })
-                }
-
-
-                if (result.showCitations && result.citations !== undefined && result.citations?.length > 0) {
-                  result.citations.forEach((citation) => {
-                    publicationRows.push(
-                        <PublicationRow
-                            rowType="citation"
-                            publication={citation}
-                            handlePaperSelect={handlePaperSelect}
-                            selectedPapers={selectedPapers}
-                            showMetadata={showMetadata}
-                            searchResults={searchResults}
-                            llmQuestions={llmQuestions}
-                            setSearchResults={setSearchResults}
-                        />
-                    )
-                  })
-                }
-                return publicationRows;
-              })}
-              </tbody>
-            </table>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
   )
 }

@@ -1,9 +1,10 @@
 import string
+import re
 from itertools import product
 from typing import Dict, List, Tuple
 
 from django.http import JsonResponse
-from publication.models import Publication, PublicationMetadata
+from publication.models import Publication, PublicationMetadata, PublicationStatus
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from scraping.domain import (
@@ -16,13 +17,17 @@ from scraping.domain import (
     WebOfScienceEngine,
 )
 from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
-from scraping.models import SearchEngineType, SearchResult
+from scraping.models import SearchEngineType, SearchResult, SearchResponse
 from scraping.serializers.core_serializers import (
     PublicationMetadataSerializer,
     SearchAndCleanSerializer,
     SearchStringDifferenceSerializer,
+    ManualAddPublicationSerializer
 )
 from utils import Logger
+from django.shortcuts import get_object_or_404
+from utils.profiler import Controller
+
 
 log = Logger(__name__)
 
@@ -41,10 +46,13 @@ class SearchAndCleanView(APIView):
             self.sources       = serializer.validated_data['sources']
             
             # Simple three-level search & advanced search
-            self.all_search_terms   = [*self.search_terms['primary'], *self.search_terms['secondary'], *self.search_terms['tertiary']]
-            self.all_search_terms = list(product(self.all_search_terms))
-            print(self.all_search_terms)
-            self.all_search_terms = [terms for terms in self.all_search_terms if all(terms)]
+            self.all_search_terms = []
+            if self.search_terms.get('primary'): self.all_search_terms.append(list(self.search_terms['primary']))
+            if self.search_terms.get('secondary'): self.all_search_terms.append(list(self.search_terms['secondary']))
+            if self.search_terms.get('tertiary'): self.all_search_terms.append(list(self.search_terms['tertiary']))
+            self.all_search_terms = list(product(*self.all_search_terms))
+            log.info("All search terms: %s", self.all_search_terms)
+
             self.advanced_search    = self.search_terms.get('advanced')
 
             self.query = SearchQuery(
@@ -59,8 +67,10 @@ class SearchAndCleanView(APIView):
             self.all_search_words = self.generate_variants()
 
             matches = self.get_matches()
-            response = [result.to_dict() for result in self.results]
-            return JsonResponse({ "variations": self.all_search_words, "results": response, "matches": matches })
+            results = [result.to_dict() for result in self.results]
+            response = { "query": request.data, "variations": self.all_search_words, "results": results, "matches": matches }
+            response = self.save_response(response)
+            return JsonResponse(response)
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
 
     def search(self) -> List[Publication]:
@@ -87,11 +97,17 @@ class SearchAndCleanView(APIView):
     def generate_variants(self) -> List[SearchTerm]:
         """ Generate American and British variants of the search terms. """
         log.info("Generating search term variants...")
+        if self.all_search_terms == [()]:
+            words_and_quoted_phrases = r"'[^']*'|\"[^\"]*\"|\b\w+\b"
+            self.terms = re.findall(words_and_quoted_phrases, self.advanced_search)
+            self.terms = [term for term in self.terms if term.lower() not in ['and', 'or', 'not']]
+            self.all_search_terms = [[term.replace('"', '').replace("'", '') for term in self.terms]]
+        log.info("All search terms: %s", self.all_search_terms)
         word_processor = SearchTermProcessor(self.all_search_terms)
         word_processor.generate_variants()
         return [search_term.to_dict() for search_term in word_processor.all_search_words]
     
-    def get_matches(self) -> List[Publication]:
+    def get_matches(self) -> Dict:
         """ Get publications that match the validation papers. """
         matches = []
 
@@ -104,6 +120,17 @@ class SearchAndCleanView(APIView):
 
         percentage_match = (len(matches) / len(self.validation_papers)) * 100 if self.validation_papers else 0
         return { "papers": matches, "num_matches": len(matches), "percentage_match": percentage_match }
+
+    def save_response(self, response: Dict) -> Dict:
+        """ Save the search results to the database. """
+        search_results = SearchResponse(
+            query       = response['query'],
+            variations  = response['variations'],
+            matches     = response['matches'],
+            results     = response['results']
+        )
+        search_results.save()
+        return search_results.to_dict()
 
 class PublicationMetadataView(APIView):
     def post(self, request):
@@ -121,6 +148,34 @@ class PublicationMetadataView(APIView):
             
             return JsonResponse({ "metadata": metadata, "failed": failed })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+class ManualAddPublicationView(APIView):
+
+    def post(self, request):
+        """
+        Manually search for the paper and metadata of a list of DOIs
+        Searches from Semantic Scholar.
+        """
+        serializer = ManualAddPublicationSerializer(data=request.data)
+        if serializer.is_valid():
+            dois = serializer.validated_data['dois']
+            sch_engine = SemanticScholarEngine()
+            publication_results = []
+            for doi in dois:
+                paper_doi = f"DOI:{doi}" if not doi.startswith("DOI:") else doi
+                publication = Publication.objects.filter(paper_id=paper_doi)
+                if publication.exists():
+                    log.info(f"Publication with DOI {paper_doi} already exists.")
+                    publication = publication.first()
+                else:
+                    log.info(f"Searching for publication with DOI {paper_doi}")
+                    publication = sch_engine.find_by_doi(doi)
+                    publication.save()
+
+                publication_results.append(publication)
+            return JsonResponse({ "publications": [pub.to_dict() for pub in publication_results] })
+        return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        
 
 class SearchStringDifferenceView(APIView):
 
@@ -216,3 +271,15 @@ class SearchStringDifferenceView(APIView):
             return [pub.to_dict() for pub in publications]
         return paper_ids
 
+class HistoricalSearchQueryResultsView(APIView):
+
+    def get(self, request):
+        """
+        Get historical search query results based on search id
+        """
+        search_id = request.query_params.get('id')
+        if search_id is None:
+            return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
+        
+        search_results = get_object_or_404(SearchResponse, id=search_id)
+        return JsonResponse(search_results.to_dict())

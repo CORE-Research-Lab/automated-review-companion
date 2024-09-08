@@ -26,14 +26,14 @@ export type Publication = {
   paper_id: string,
   paper_title: string,
   searched_from: string,
-  search_string: string,
+  search_string: string[] | string,
   formatted_search_string: string,
   status: string
 
   // Metadata fields
   abstract?: string,
-  authors?: Author,
-  citations_count?: number,
+  authors?: Author[],
+  citation_count?: number,
   conference_journal?: string,
   doi?: string,
   doi_url?: string,
@@ -51,7 +51,12 @@ export type Publication = {
   citations?: Publication[],
   showReferences?: boolean,
   showCitations?: boolean
-}
+
+  // View fields
+  diffType?: DiffType
+} 
+
+export type DiffType = "add" | "remove" | "common"
 
 export type SnowballingSearch = Publication & {
   references?: Publication[]
@@ -64,19 +69,26 @@ export type Author = {
 }
 
 export type SearchForm = {
+  id?: string,
   validation_papers: string[],
   search_terms: {
     advanced: string,
-    primary: string,
-    secondary: string,
-    tertiary: string
+    primary: string[],
+    secondary: string[],
+    tertiary: string[]
   },
   year_start: number,
   year_end: number,
   sources: SearchEngineType[]
 }
 
-export type SearchEngineType = "DBLP" | "SEMANTIC_SCHOLAR" | "WEB_OF_SCIENCE" | "IEEE_XPLORE" | "SCOPUS"
+export enum SearchEngineType {
+  DBLP = "DBLP",
+  SEMANTIC_SCHOLAR = "SEMANTIC_SCHOLAR",
+  WEB_OF_SCIENCE = "WEB_OF_SCIENCE",
+  IEEE_XPLORE = "IEEE_XPLORE",
+  SCOPUS = "SCOPUS"
+}
 
 export type LLMQuestion = {
   id: number,
