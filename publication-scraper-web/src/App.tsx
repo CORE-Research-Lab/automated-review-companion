@@ -3,7 +3,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import InfoIcon from '@mui/icons-material/Info';
 import MinusIcon from '@mui/icons-material/Remove';
-import { Box, Chip, CircularProgress, IconButton, Modal, Tooltip } from '@mui/material';
+import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -562,14 +562,11 @@ function App() {
               <h3 className="text-3xl font-medium">Search Bar</h3>
               {/* Button to open up a modal for a usability guide */}
               <div className="d-flex gap-2">
-                <Tooltip title={tooltipText.usabilityGuide}>
-                  <Button className="bg-blue-500/80" onClick={() => setShowUsabilityGuide(true)}>
-                    <InfoIcon/>
-                  </Button>
-                </Tooltip>
-                <Modal open={showUsabilityGuide} onClose={() => setShowUsabilityGuide(false)}>
-                  <UsabilityGuide handleClose={() => setShowUsabilityGuide(false)}/>
-                </Modal>
+                <UsabilityGuide 
+                  showUsabilityGuide={showUsabilityGuide} 
+                  setShowUsabilityGuide={setShowUsabilityGuide}
+                  handleClose={() => setShowUsabilityGuide(false)}
+                />
               </div>
             </div>
 
