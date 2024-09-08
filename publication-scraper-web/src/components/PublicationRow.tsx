@@ -152,7 +152,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             </Tooltip>
           }
           {
-            rowType === 'main' && selectedPapers && selectedPapers.length > 0 && handlePaperSelect &&
+            rowType === 'main' && selectedPapers && handlePaperSelect &&
             <>
               <input
                 type="checkbox"

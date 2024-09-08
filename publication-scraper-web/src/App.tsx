@@ -447,23 +447,16 @@ function App() {
   }
 
   const handleDiffMode = () => {
+    
     if (diffMode) {
       setDiffSearchHistoryIndex(null);
-      // find main-data-table and remove col-6 class from it
-    } else {
-      // TODO: Implement diff mode functionality
-      // ========================================================================
-      // 1. Query all search results for the diff search history (given index)
-      // 2. Compare the two search results:
-      //    - Common papers: no change in background color
-      //    - Papers only in the first search: green background
-      //    - Papers only in the second search: red background
       let prevSearchResults = [...searchResults.results];
       let newPrevSearchResults = prevSearchResults.map((result: Publication) => {
         return { ...result, diffType: undefined }
       });
       setSearchResults({...searchResults, results: newPrevSearchResults});
     }
+    
     const publicationData = document.getElementsByClassName('main-data-table')[0];
       if (publicationData) {
         publicationData.classList.toggle('col-6');
