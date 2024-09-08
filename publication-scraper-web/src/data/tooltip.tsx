@@ -30,6 +30,7 @@ export const tooltipText = {
       enter: "Click to enter fullscreen",
       exit: "Click to exit fullscreen"
     },
+    filterBar: "Filter the search results",
     manualAdd: "Manually add a paper to the search results",
     manualAddCsv: "Drag a CSV file here with DOIs to manually add papers",
     selectAll: "Select all papers in the search results",

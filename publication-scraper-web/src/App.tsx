@@ -919,12 +919,12 @@ function App() {
                   <InputLabel tooltip={tooltipText.results.manualAdd} label="Manual Add"/>
                   <input
                       type="text"
-                      className="form-control"
+                      className="form-control rounded-0"
                       placeholder="10.18653/v1/N18-3011"
                       value={manualAddPapers.join(',')}
                       onChange={(e) => setManualAddPapers(e.target.value.split(','))}
                   />
-                  <Button onClick={handleAddPaper}>
+                  <Button className="bg-blue-500 rounded-0 shadow-none" onClick={handleAddPaper}>
                     { 
                       isManuallyAddingPaper ? 
                       <CircularProgress size={18} color="inherit" /> :
@@ -1038,6 +1038,16 @@ function App() {
 
             {/* Table data */}
             <div className="search-results row" style={{ height: "80%" }}>
+              
+              {/* Filter */}
+              {/* <div id="table-filter-bar">
+                <div className="flex items-center justify-between">
+                  <InputLabel label="Filter" tooltip={tooltipText.results.filterBar} />
+                  <input type="text" className="form-control rounded-0" placeholder="Filter by title, authors, etc." />
+                  <Button className="bg-blue-500 rounded-0 shadow-none">Apply Filter</Button>
+                </div>
+              </div> */}
+
               {/* Main #1 */}
               <div id="publication-data-table" className='main-data-table h-[100%]'>
                   <PublicationTable
