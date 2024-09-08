@@ -46,6 +46,15 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     }
   }
 
+  const getDiffRowColor = () => {
+    if (publication.diffType === 'add') {
+      return 'table-success';
+    } else if (publication.diffType === 'remove') {
+      return 'table-danger';
+    }
+    return '';
+  }
+
   const handleReferencesVisibility = () => {
     if (!setSearchResults) return;
     const updatedResults = searchResults.results.map((result: Publication) => {
@@ -112,7 +121,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
 
   return (
     <tr key={publication.paper_id}
-      className={`${getColorByRowType()} publication-row`}
+      className={`${getColorByRowType()} ${getDiffRowColor()} publication-row`}
       style={{ height: "20px" }}
     >
       <td>

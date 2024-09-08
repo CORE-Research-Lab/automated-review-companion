@@ -273,7 +273,6 @@ class SearchStringDifferenceView(APIView):
 
 class HistoricalSearchQueryResultsView(APIView):
 
-    @Controller
     def get(self, request):
         """
         Get historical search query results based on search id

@@ -51,7 +51,12 @@ export type Publication = {
   citations?: Publication[],
   showReferences?: boolean,
   showCitations?: boolean
+
+  // View fields
+  diffType?: DiffType
 } 
+
+export type DiffType = "add" | "remove" | "common"
 
 export type SnowballingSearch = Publication & {
   references?: Publication[]

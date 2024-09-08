@@ -21,6 +21,7 @@ import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
 import './main.css';
 import {
+  DiffType,
   LLMPaperFilterResponse,
   LLMQuestion,
   Publication,
@@ -457,6 +458,11 @@ function App() {
       //    - Common papers: no change in background color
       //    - Papers only in the first search: green background
       //    - Papers only in the second search: red background
+      let prevSearchResults = [...searchResults.results];
+      let newPrevSearchResults = prevSearchResults.map((result: Publication) => {
+        return { ...result, diffType: undefined }
+      });
+      setSearchResults({...searchResults, results: newPrevSearchResults});
     }
     const publicationData = document.getElementsByClassName('main-data-table')[0];
       if (publicationData) {
@@ -495,10 +501,39 @@ function App() {
       await axios.get(`${BASE_URL}/scraper/historical-search`, {
         params: { id: searchHistory[index].id }
       })
-      .then((res) => setDiffSearchResults(res.data))
+      .then((res) => handleDiffModeClassification(res.data))
       .catch(handleError)
       .finally(() => setDiffSearchHistoryIndex(index));
     }
+  }
+
+  const handleDiffModeClassification = (newSearchResults: SearchResult) => {
+    // setDiffSearchResults(newSearchResults); 
+
+    // Handle the diff mode classification here
+    // new search result = searchResults
+    // old search result = diffSearchResults
+    // 1. if paper is only in the new search results, set diffType to 'add'
+    // 2. if paper is only in the old search results, set diffType to 'remove'
+
+    let updatedResults = [...searchResults.results];
+    let newUpdatedResults = updatedResults.map((result: Publication) => {
+      if (!newSearchResults.results.find((r) => r.paper_id === result.paper_id)) {
+        return { ...result, diffType: ('add' as DiffType) }
+      }
+      return { ...result, diffType: ('common' as DiffType) }
+    });
+
+    let newDiffSearchResults = newSearchResults.results.map((result: Publication) => {
+      const index = searchResults.results.findIndex((r) => r.paper_id === result.paper_id);
+      if (index === -1) {
+        return { ...result, diffType: ('remove' as DiffType)  }
+      }
+      return result
+    });
+
+    setSearchResults({...searchResults, results: newUpdatedResults});
+    setDiffSearchResults({ ...newSearchResults, results: newDiffSearchResults });
   }
 
   const handleAdvancedChipClick = (keyword: string, synonym: string) => {
