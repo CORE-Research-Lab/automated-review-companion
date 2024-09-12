@@ -70,7 +70,6 @@ function App() {
   const [isManuallyAddingPaper, setIsManuallyAddingPaper] = useState(false);
   const [isPopulatingMetadata, setIsPopulatingMetadata] = useState(false);
   const [snowballingType, setSnowballingType] = useState<string>('');
-  const [useSimpleMode, setUseSimpleMode] = useState(true);
   const [deleteMode, setDeleteMode] = useState(false);
 
   const [buttonState, setButtonState] = useState({
