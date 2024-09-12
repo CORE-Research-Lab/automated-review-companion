@@ -33,7 +33,7 @@ import {
 } from './types';
 
 function App() {
-  const BASE_URL = 'http://localhost:8000/api';
+  const BASE_URL = process.env.VITE_APP_BASE_URL ?? 'http://localhost:5000';
   const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
   const [searchForm, setSearchForm] = useState<SearchForm>({
     validation_papers: [],
