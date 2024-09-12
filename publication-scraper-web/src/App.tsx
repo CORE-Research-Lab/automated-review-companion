@@ -63,7 +63,6 @@ function App() {
     answer: ''
   }]);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
-  const [expandedSearchBar, setExpandedSearchBar] = useState(true);
   const [showMetadata, setShowMetadata] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
@@ -146,7 +145,7 @@ function App() {
     })
   }
 
-  const handleSearchFormChange = (e: React.SyntheticEvent, value: string[], field: MultiLayerSearch) => {
+  const handleSearchFormChange = (value: string[], field: MultiLayerSearch) => {
     setSearchForm({
       ...searchForm,
       search_terms: {
@@ -406,12 +405,6 @@ function App() {
     })
   }
 
-  const handleSimpleMode = () => {
-    let mode = !useSimpleMode ? 'Simple' : 'Advanced';
-    toast.success(`${mode} mode enabled!`);
-    setUseSimpleMode(!useSimpleMode);
-  }
-
   const handleChipClick = (keyword: string, field: MultiLayerSearch) => {
     setSearchForm({
       ...searchForm,
@@ -574,167 +567,165 @@ function App() {
 
             <div className="divider border-bottom"></div>
             {/* Multi-layer Keyword Search */}
-            {expandedSearchBar && (
-                <div className="mt-3">
-                  {searchMode === SearchMode.SIMPLE && (
-                      <div className="input-group mb-3 d-flex flex-column">
-                        {multiLayerSearchFields.map((field) => (
-                          <SearchTermAutocomplete
-                            key={field}
-                            field={field}
-                            searchForm={searchForm}
-                            searchResults={searchResults}
-                            setSearchResults={setSearchResults}
-                            tooltipText={tooltipText}
-                            handleSearchFormChange={handleSearchFormChange}
-                            handleChipClick={handleChipClick}
-                        />))}
-                      </div>
-                  )}
+            <div className="mt-3">
+              {searchMode === SearchMode.SIMPLE && (
+                  <div className="input-group mb-3 d-flex flex-column">
+                    {multiLayerSearchFields.map((field) => (
+                      <SearchTermAutocomplete
+                        key={field}
+                        field={field}
+                        searchForm={searchForm}
+                        searchResults={searchResults}
+                        setSearchResults={setSearchResults}
+                        tooltipText={tooltipText}
+                        handleSearchFormChange={handleSearchFormChange}
+                        handleChipClick={handleChipClick}
+                    />))}
+                  </div>
+              )}
 
-                  {searchMode === SearchMode.ADVANCED && (
-                    <>
-                      <div className="input-group mb-3">
-                        <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
-                          value={searchForm.search_terms.advanced}
-                          onChange={(e) => setSearchForm({
-                            ...searchForm,
-                            search_terms: {...searchForm.search_terms, advanced: e.target.value}
-                          })}
-                        />
-                      </div>
-                      <div className="container">
-                        {searchResults.variations.length > 0 && (
-                          <div className="flex flex-row gap-2 flex-wrap my-3">
-                            <span className="text-center">Variations:</span>
-                              {searchResults.variations.map((variation) => (
-                                <Tooltip title={
-                                  <div className="d-flex flex-column gap-2">
-                                    <span>Synonyms:</span>
-                                    <Box className="word-variant-box mb-2">
-                                      {variation.synonyms.map((synonym) => (
-                                          <div
-                                            key={synonym}
-                                            onClick={() => handleAdvancedChipClick(variation.word, synonym)}
-                                            className='word-variant-chip'
-                                            style={{ color: "black", cursor: "pointer" }}
-                                          >
-                                            {synonym}
-                                          </div>
-                                      ))}
-                                    </Box>
-                                  </div>
-                                }>
-                                  <Chip
-                                    key={variation.word}
-                                    label={variation.word}
-                                    className='p-0 m-0'
-                                  />
-                              </Tooltip>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  )}
-
-                  {/* Year Range */}
+              {searchMode === SearchMode.ADVANCED && (
+                <>
                   <div className="input-group mb-3">
-                    <InputLabel tooltip={tooltipText.search.yearRange} label="Year Range" required/>
+                    <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
                     <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Start Year"
-                        value={searchForm.year_start}
-                        onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
-                    />
-                    <input
-                        type="number"
-                        className="form-control"
-                        placeholder="End Year"
-                        value={searchForm.year_end}
-                        onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
+                      type="text"
+                      className="form-control"
+                      placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
+                      value={searchForm.search_terms.advanced}
+                      onChange={(e) => setSearchForm({
+                        ...searchForm,
+                        search_terms: {...searchForm.search_terms, advanced: e.target.value}
+                      })}
                     />
                   </div>
-
-
-                  {/*  Database Types */}
-                  <div className="d-flex flex-row w-100 mb-3">
-                    <InputLabel tooltip={tooltipText.search.database} label="Database Types" required/>
-                    <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>                   
+                  <div className="container">
+                    {searchResults.variations.length > 0 && (
+                      <div className="flex flex-row gap-2 flex-wrap my-3">
+                        <span className="text-center">Variations:</span>
+                          {searchResults.variations.map((variation) => (
+                            <Tooltip title={
+                              <div className="d-flex flex-column gap-2">
+                                <span>Synonyms:</span>
+                                <Box className="word-variant-box mb-2">
+                                  {variation.synonyms.map((synonym) => (
+                                      <div
+                                        key={synonym}
+                                        onClick={() => handleAdvancedChipClick(variation.word, synonym)}
+                                        className='word-variant-chip'
+                                        style={{ color: "black", cursor: "pointer" }}
+                                      >
+                                        {synonym}
+                                      </div>
+                                  ))}
+                                </Box>
+                              </div>
+                            }>
+                              <Chip
+                                key={variation.word}
+                                label={variation.word}
+                                className='p-0 m-0'
+                              />
+                          </Tooltip>
+                        ))}
+                      </div>
+                    )}
                   </div>
+                </>
+              )}
 
-                  {/* Validation Papers */}
-                  <div className="d-flex flex-row w-100">
-                    <Tooltip title={tooltipText.search.validationPapers} placement='right'>
-                      <div className="input-group-prepend">
-                        <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
-                      </div>
-                    </Tooltip>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
-                        value={searchForm.validation_papers.join(',')}
-                        onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
-                    />
+              {/* Year Range */}
+              <div className="input-group mb-3">
+                <InputLabel tooltip={tooltipText.search.yearRange} label="Year Range" required/>
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Start Year"
+                    value={searchForm.year_start}
+                    onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
+                />
+                <input
+                    type="number"
+                    className="form-control"
+                    placeholder="End Year"
+                    value={searchForm.year_end}
+                    onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
+                />
+              </div>
+
+
+              {/*  Database Types */}
+              <div className="d-flex flex-row w-100 mb-3">
+                <InputLabel tooltip={tooltipText.search.database} label="Database Types" required/>
+                <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>                   
+              </div>
+
+              {/* Validation Papers */}
+              <div className="d-flex flex-row w-100">
+                <Tooltip title={tooltipText.search.validationPapers} placement='right'>
+                  <div className="input-group-prepend">
+                    <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
                   </div>
+                </Tooltip>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
+                    value={searchForm.validation_papers.join(',')}
+                    onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
+                />
+              </div>
 
-                  {/* Root Paper matches */}
-                  {
-                    searchForm.validation_papers.length > 0 &&
-                    <div className="d-flex flex-column w-100 mt-3">
-                      <div className="d-flex flex-row align-items-center gap-2 w-100">
-                        <span>Result:</span>
-                        <progress className='w-75' value={percentageMatched} max="100"/>
-                        <span> {numMatched}/{searchForm.validation_papers.length} ({percentageMatched}%) matches</span>
-                      </div>
-                      <div className="table-responsive mt-3">
-                        <table className="table table-striped">
-                          <thead className='bg-primary text-white'>
-                          <tr>
-                            <td>#</td>
-                            <td>DOI/Paper Title</td>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
-                          {
-                            searchResults?.matches?.papers?.length > 0 && 
-                            searchResults.matches.papers.map((match, index) => (
-                                <tr key={match.doi}>
-                                  <td>{index + 1}</td>
-                                  <p>{match.doi || match.title}</p>
-                                </tr>
-                          ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  }
-
-
-                  {/* Buttons */}
-                  <div className="d-flex flex-row justify-content-end mt-3 gap-2">
-                    <Button onClick={handleSearch}>
+              {/* Root Paper matches */}
+              {
+                searchForm.validation_papers.length > 0 &&
+                <div className="d-flex flex-column w-100 mt-3">
+                  <div className="d-flex flex-row align-items-center gap-2 w-100">
+                    <span>Result:</span>
+                    <progress className='w-75' value={percentageMatched} max="100"/>
+                    <span> {numMatched}/{searchForm.validation_papers.length} ({percentageMatched}%) matches</span>
+                  </div>
+                  <div className="table-responsive mt-3">
+                    <table className="table table-striped">
+                      <thead className='bg-primary text-white'>
+                      <tr>
+                        <td>#</td>
+                        <td>DOI/Paper Title</td>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
                       {
-                        isSearching
-                        ? <div className="spinner-border text-light">
-                            <span className="sr-only"></span>
-                          </div>
-                        : <span>Search</span>
-                      }
-                    </Button>
-                    <Tooltip title={tooltipText.search.clearButton} placement="top">
-                      <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={resetSearchParameters}>Clear</Button>
-                    </Tooltip>
+                        searchResults?.matches?.papers?.length > 0 && 
+                        searchResults.matches.papers.map((match, index) => (
+                            <tr key={match.doi}>
+                              <td>{index + 1}</td>
+                              <p>{match.doi || match.title}</p>
+                            </tr>
+                      ))}
+                      </tbody>
+                    </table>
                   </div>
-                </div>)
-            }
+                </div>
+              }
+
+
+              {/* Buttons */}
+              <div className="d-flex flex-row justify-content-end mt-3 gap-2">
+                <Button onClick={handleSearch}>
+                  {
+                    isSearching
+                    ? <div className="spinner-border text-light">
+                        <span className="sr-only"></span>
+                      </div>
+                    : <span>Search</span>
+                  }
+                </Button>
+                <Tooltip title={tooltipText.search.clearButton} placement="top">
+                  <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={resetSearchParameters}>Clear</Button>
+                </Tooltip>
+              </div>
+            </div>
           </div>
 
           {/* LLM Questions */}

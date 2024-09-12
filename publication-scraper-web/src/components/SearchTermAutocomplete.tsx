@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-import React, { SyntheticEvent } from "react";
+import React from "react";
 import { SearchForm, SearchResult } from "../types";
 import InputLabel from "./InputLabel";
 import SearchTermChip from "./SearchTermChip";
@@ -11,7 +11,7 @@ export interface SearchTermAutocompleteProps {
   searchResults: SearchResult,
   setSearchResults: React.Dispatch<React.SetStateAction<SearchResult>>,
   tooltipText: any,
-  handleSearchFormChange: (event: SyntheticEvent, value: string[], field: MultiLayerSearch) => void,
+  handleSearchFormChange: (value: string[], field: MultiLayerSearch) => void,
   handleChipClick: (chip: string, field: MultiLayerSearch) => void
 }
 
@@ -39,7 +39,7 @@ const SearchTermAutocomplete: React.FC<SearchTermAutocompleteProps> = (props) =>
         multiple
         freeSolo
         value={searchForm.search_terms[field]}
-        onChange={(e, value) => handleSearchFormChange(e, value, field)}
+        onChange={(e, value) => handleSearchFormChange(value, field)}
         options={searchResults.variations.map((variation) => variation.word)}
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (

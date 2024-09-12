@@ -11,7 +11,8 @@ export const handleError = (error: AxiosError) => {
       if (typeof error.response.data === 'object') {
         let errorString = '';
         for (const key in error.response.data) {
-          let value = parseValue(error.response.data[key]);
+          let val = error.response.data[(key as keyof typeof error.response.data)];
+          const value = parseValue(val);
           errorString += `${key}: ${value}\n`;
         }
         toast.error(`Error: ${errorString}`);
