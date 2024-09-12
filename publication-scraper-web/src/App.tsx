@@ -33,7 +33,7 @@ import {
 } from './types';
 
 function App() {
-  const BASE_URL = process.env.VITE_APP_BASE_URL ?? 'http://localhost:5000';
+  const BASE_URL = "http://ec2-18-218-118-93.us-east-2.compute.amazonaws.com:8000"
   const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
   const [searchForm, setSearchForm] = useState<SearchForm>({
     validation_papers: [],
