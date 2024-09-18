@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { handleError } from './common/handler';
 import CsvImportField from './components/CsvImportField';
 import DatabaseSelector from './components/DatabaseSelector';
+import ExportDropdown from './components/ExportDropdown';
 import InputLabel from './components/InputLabel';
 import PaperOperations from './components/PaperOperations';
 import PublicationTable from './components/PublicationTable';
@@ -125,17 +126,27 @@ function App() {
       .finally(() => setIsSearching(false));
   }
 
+  const updateSearchResults = async (papers: Publication[]) => {
+    const searchReferenceId = searchHistory[currentSearchHistoryIndex]?.id ?? ""
+    await axios.put(
+      `${BASE_URL}/scraper/history/publications?search_reference_id=${searchReferenceId}`, 
+      { papers }
+    ).then((res) => console.log(`Persisted search results with: ${res.data.length} new papers`))
+    .catch(handleError);
+  }
+
   const handleAddPaper = async () => {
     setIsManuallyAddingPaper(true);
     toast.info('Adding papers...');
     await axios.post(`${BASE_URL}/scraper/manual-add-publication`, {
       dois: manualAddPapers
     })
-    .then((res) => {
-      // Do not add if paper is already in 
-      const updatedResults = searchResults.results.filter((result: Publication) => !res.data.publications.find((paper: Publication) => paper.paper_id === result.paper_id));
-      setSearchResults({...searchResults, results: [...updatedResults, ...res.data.publications]})
+    .then(async (res) => {
+      let modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL'}));
+      let newResults = modifiedResults.filter((paper: Publication) => !searchResults.results.find((result: Publication) => result.paper_id === paper.paper_id));
+      setSearchResults({...searchResults, results: [...searchResults.results, ...newResults]});
       toast.success('Papers added successfully');
+      await updateSearchResults(newResults);
     })
     .catch(handleError)
     .finally(() => setIsManuallyAddingPaper(false));
@@ -147,24 +158,6 @@ function App() {
 
   const handleDeselectAll = () => {
     setSelectedPapers([])
-  }
-
-  const handleExport = (format: string) => async () => {
-    await axios.post(`${BASE_URL}/scraper/export`, {
-      paper_ids: selectedPapers,
-      format
-    })
-      .then((res) => {
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        const contentDisposition = res.headers['content-disposition'];
-        const filename = contentDisposition.split('filename=')[1].replace(/"/g, '');
-        link.setAttribute('download', filename);
-        document.body.appendChild(link);
-        link.click();
-      })
-      .catch(handleError);
   }
 
   const handlePaperSelect = (paper_id: string) => {
@@ -322,8 +315,8 @@ function App() {
           ...prevState,
           showSelectAll: true,
           showDeselectAll: true,
-          showForwardSearch: false,
-          showBackwardSearch: false,
+          showForwardSearch: true,
+          showBackwardSearch: true,
           showPopulateMetadata: true,
           showHideMetadata: true,
           showExport: true,
@@ -839,29 +832,10 @@ function App() {
                   buttonState={buttonState}
                   setButtonState={setButtonState}
                 />
-
-                {/* Export */}
-                {
-                  buttonState.showExport &&
-                  <div className="dropdown d-flex">
-                    <Tooltip title={tooltipText.results.export} placement="top">
-                      <Button className="bg-slate-500 hover:bg-slate-600 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Export
-                      </Button>
-                    </Tooltip>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
-                      </li>
-                      <li>
-                        <button className="dropdown-item" onClick={handleExport("BIBTEX")}>Bibtex</button>
-                      </li>
-                      <li>
-                        <button className="dropdown-item" onClick={handleExport("RIS")}>RIS</button>
-                      </li>
-                    </ul>
-                  </div>
-                }
+                <ExportDropdown
+                  selectedPapers={selectedPapers}
+                  buttonState={buttonState}
+                />
               </div>
             </div>
 
@@ -886,13 +860,16 @@ function App() {
                     handlePaperSelect={handlePaperSelect}
                     showMetadata={showMetadata}
                     llmQuestions={llmQuestions}
+                    currentSearchReferenceId={searchHistory[currentSearchHistoryIndex]?.id ?? ""}
                   />
               </div>
               {/* Diff #2 */}
               {
                 diffMode && diffSearchHistoryIndex !== null &&
                 <div id="publication-data-table" className="diff-data-table col-6 border h-100">
-                  <PublicationTable searchResults={diffSearchResults} /> 
+                  <PublicationTable 
+                    searchResults={diffSearchResults} 
+                  /> 
                 </div> 
               }
               {

@@ -284,7 +284,29 @@ class HistoricalSearchQueryResultsView(APIView):
         search_results = get_object_or_404(SearchResponse, id=search_id)
         return JsonResponse(search_results.to_dict())
 
-class DeleteSearchHistoryPublicationView(APIView):
+class SearchHistoryPublicationView(APIView):
+
+    def put(self, request):
+        """
+        Update the search history with additional new search results.
+        """
+        search_id = request.query_params.get('search_reference_id')
+        paper_data = request.data.get('papers', [])
+
+        if search_id is None:
+            return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
+        if paper_data is None:
+            return JsonResponse({ "error": "Paper data is required." }, status=HTTP_400_BAD_REQUEST)
+        
+        search_results = get_object_or_404(SearchResponse, id=search_id)
+        print(len(search_results.results))
+        search_results.results.extend(paper_data)
+        print(len(search_results.results))
+        search_results.save()
+
+        log.info(f"Updated search results for paper IDs: {search_results.results}")
+
+        return JsonResponse({ "message": "Search results updated successfully." })
 
     def delete(self, request):
         """

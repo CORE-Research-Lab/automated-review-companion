@@ -1,7 +1,10 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import { handleError } from '@/common/handler';
+import { BASE_URL } from '@/utils/common';
 import { Tooltip } from '@mui/material';
+import axios from 'axios';
 import {
   LLMQuestion,
   Publication,
@@ -18,6 +21,7 @@ export interface PublicationRowProps {
   searchResults: SearchResult
   setSearchResults?: React.Dispatch<React.SetStateAction<SearchResult>>
   llmQuestions?: LLMQuestion[]
+  currentSearchReferenceId?: string
 }
 
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
@@ -28,9 +32,9 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     handlePaperSelect,
     selectedPapers,
     showMetadata,
-    searchResults,
+    searchResults, setSearchResults,
     llmQuestions,
-    setSearchResults
+    currentSearchReferenceId,
   } = props;
 
   const getColorByRowType = () => {
@@ -82,26 +86,33 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   }
 
   // Only applicable to references/citations
-  const addToMainSearchResult = (paper: Publication) => {
+  const addToMainSearchResult = async (paper: Publication) => {
     if (!setSearchResults) return;
     // remove from references/citations from all results' citations/references
-    const updatedResults = searchResults.results.map((result: Publication) => {
-      var references: Publication[] = [];
-      var citations: Publication[] = [];
-      if (result.references && result.references.length > 0) {
-        references = result.references.filter((reference) => reference.paper_id !== paper.paper_id)
-      }
-      if (result.citations && result.citations.length > 0) {
-          citations = result.citations.filter((citation) => citation.paper_id !== paper.paper_id)
-      }
-      return {
-        ...result,
-        references,
-        citations
-      }
-    });
-
-    setSearchResults({...searchResults, results: [...updatedResults, paper]})
+    await axios.put(
+      `${BASE_URL}/scraper/history/publications?search_reference_id=${currentSearchReferenceId}`, 
+      { papers: [paper] }
+    )
+    .then((res) => {
+      console.log(res.data);
+      const updatedResults = searchResults.results.map((result: Publication) => {
+        var references: Publication[] = [];
+        var citations: Publication[] = [];
+        if (result.references && result.references.length > 0) {
+          references = result.references.filter((reference) => reference.paper_id !== paper.paper_id)
+        }
+        if (result.citations && result.citations.length > 0) {
+            citations = result.citations.filter((citation) => citation.paper_id !== paper.paper_id)
+        }
+        return {
+          ...result,
+          references,
+          citations
+        }
+      });
+      setSearchResults({...searchResults, results: [...updatedResults, paper]})
+    })
+    .catch(handleError);
   }
 
   const parseSearchString = (searchString: string[] | string) => {
@@ -142,7 +153,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
               <input
                 type="checkbox"
                 checked={selectedPapers.includes(publication.paper_id)}
-                onClick={() => handlePaperSelect (publication.paper_id)}
+                onClick={() => handlePaperSelect(publication.paper_id)}
               />
               {/* Expand/contract references/citations */}
               {

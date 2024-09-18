@@ -9,6 +9,7 @@ export interface PublicationTableProps {
   handlePaperSelect?: (paperId: string) => void;
   showMetadata?: boolean;
   llmQuestions?: LLMQuestion[];
+  currentSearchReferenceId?: string;
 }
 
 const PublicationTable: React.FC<PublicationTableProps> = (props) => {
@@ -20,6 +21,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
     handlePaperSelect,
     showMetadata,
     llmQuestions,
+    currentSearchReferenceId,
   } = props;
 
   // Publication Data Table Resizability
@@ -190,6 +192,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                 searchResults={searchResults}
                 llmQuestions={llmQuestions}
                 setSearchResults={setSearchResults}
+                currentSearchReferenceId={currentSearchReferenceId}
               />
             )
 
@@ -206,6 +209,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                     searchResults={searchResults}
                     llmQuestions={llmQuestions}
                     setSearchResults={setSearchResults}
+                    currentSearchReferenceId={currentSearchReferenceId}
                   />
                 )
               })
@@ -225,6 +229,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                     searchResults={searchResults}
                     llmQuestions={llmQuestions}
                     setSearchResults={setSearchResults}
+                    currentSearchReferenceId={currentSearchReferenceId}
                   />
                 )
               })

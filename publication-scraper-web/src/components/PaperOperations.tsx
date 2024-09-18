@@ -34,7 +34,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     searchResults, setSearchResults 
   } = props
  
-  const isPaperOperationsDisabled  = selectedPapers.length === 0;
+  const isPaperOperationsDisabled = selectedPapers.length === 0;
   const [showDialogPrompt, setShowDialogPrompt] = useState<PublicationOperation | null>(null);
   const [snowballingType, setSnowballingType] = useState<string>('');
   const [isPerformingOperation, setIsPerformingOperation] = useState<boolean>(false);
@@ -212,7 +212,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     // 2. Update search history in backend
     
     // update results to only include paper ids not in selectedPapers
-    await axios.delete(`${BASE_URL}/scraper/history/delete-publications`, {
+    await axios.delete(`${BASE_URL}/scraper/history/publications`, {
       params: {
         search_reference_id: currentSearchReferenceId,
         paper_ids: selectedPapers.join(',')

@@ -39,7 +39,10 @@ export const tooltipText = {
     populateMetadata: "Populate metadata for the selected papers. Only applicable to papers with DOI",
     forwardSearch: "Search for papers that the selected papers cite",
     backwardSearch: "Search for papers that cite the selected papers",
-    export: "Export selected papers in CSV/BibTex/RIS format",
+    export: {
+      enabled: "Export selected papers in CSV/BibTex/RIS format",
+      disabled: "Select at least one paper to enable export"
+    },
     operations: { 
       enabled: "Operations on resulting papers",
       disabled: "Select at least one paper to enable operations"

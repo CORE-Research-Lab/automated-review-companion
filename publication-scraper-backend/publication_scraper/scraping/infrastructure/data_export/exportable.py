@@ -1,7 +1,9 @@
 from abc import abstractmethod
 
 from django.db.models import Model as DjangoModel
+from utils.logger import Logger
 
+log = Logger(__name__)
 
 class Exportable:
     """
@@ -47,9 +49,10 @@ class Exportable:
                         **self.data,
                         **innner_attribute
                     }
-                    print(self.data)
+                elif value := getattr(self, name):
+                    self.data[name] = value
                 else:
-                    self.data[name] = getattr(self, name)
+                    self.data[name] = None
 
     def _is_attribute(self, name: str) -> bool:
         """
@@ -66,4 +69,4 @@ class Exportable:
             
             return is_attribute
         except Exception as e:
-            raise Exception(f"Attribute: {name} Error: {e}")
+            log.error(f"Attribute: {name} Error: {e}")
