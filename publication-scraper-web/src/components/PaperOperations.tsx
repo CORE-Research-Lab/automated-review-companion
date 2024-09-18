@@ -24,6 +24,7 @@ export interface PaperOperationsProps {
   setSearchResults: React.Dispatch<React.SetStateAction<SearchResult>>,
   buttonState: ButtonState,
   setButtonState: React.Dispatch<React.SetStateAction<ButtonState>>
+  diffMode: boolean;
 }
 
 const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
@@ -31,10 +32,11 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     selectedPapers, 
     currentSearchReferenceId,
     buttonState, setButtonState,
-    searchResults, setSearchResults 
+    searchResults, setSearchResults,
+    diffMode
   } = props
  
-  const isPaperOperationsDisabled = selectedPapers.length === 0;
+  const isPaperOperationsDisabled = selectedPapers.length === 0 || diffMode;
   const [showDialogPrompt, setShowDialogPrompt] = useState<PublicationOperation | null>(null);
   const [snowballingType, setSnowballingType] = useState<string>('');
   const [isPerformingOperation, setIsPerformingOperation] = useState<boolean>(false);

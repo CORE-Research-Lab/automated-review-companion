@@ -15,6 +15,7 @@ import InputLabel from './components/InputLabel';
 import PaperOperations from './components/PaperOperations';
 import PublicationTable from './components/PublicationTable';
 import SearchAppBar from './components/SearchAppBar';
+import SearchHistoryHeaderCard from './components/SearchHistoryHeaderCard';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
@@ -60,6 +61,7 @@ function App() {
   const [diffMode, setDiffMode] = useState(false);
   const [diffSearchHistoryIndex, setDiffSearchHistoryIndex] = useState<null | number>(null);
   const [diffSearchResults, setDiffSearchResults] = useState<SearchResult>(defaultDiffSearchResults);
+  const [showDiffOnly, setShowDiffOnly] = useState(false);
   
   // TODO: store a search reference id of the results it provides;
   // query endpoint when triggered to get the results of the search
@@ -288,6 +290,7 @@ function App() {
   const handleDiffMode = () => {
     
     if (diffMode) {
+      handleShowDiffOnly();
       setDiffSearchHistoryIndex(null);
       let prevSearchResults = [...searchResults.results];
       let newPrevSearchResults = prevSearchResults.map((result: Publication) => {
@@ -360,7 +363,7 @@ function App() {
       if (index === -1) {
         return { ...result, diffType: ('remove' as DiffType)  }
       }
-      return result
+      return { ...result, diffType: ('common' as DiffType) }
     });
 
     setSearchResults({...searchResults, results: newUpdatedResults});
@@ -387,6 +390,32 @@ function App() {
         advanced: searchForm.search_terms.advanced.replace(keyword, replacement),
       }
     })
+  }
+
+  const handleShowDiffOnly = () => {
+    // Handle Original Search Results
+    let updatedResults = [...searchResults.results];
+    let newUpdatedResults = updatedResults.map((result: Publication) => {
+      if (result.diffType === 'common') {
+        if (showDiffOnly) return { ...result, show: true }
+        else { return { ...result, show: false } }
+      }
+      return { ...result, show: true }
+    });
+    setSearchResults({...searchResults, results: newUpdatedResults});
+
+    // Handle diff search results
+    let updatedDiffResults = [...diffSearchResults.results];
+    let newUpdatedDiffResults = updatedDiffResults.map((result: Publication) => {
+      if (result.diffType === 'common') {
+        if (showDiffOnly) return { ...result, show: true }
+        else { return { ...result, show: false } }
+      }
+      return { ...result, show: true }
+    });
+    setDiffSearchResults({...diffSearchResults, results: newUpdatedDiffResults});
+
+    setShowDiffOnly(!showDiffOnly);
   }
 
   return (
@@ -626,7 +655,13 @@ function App() {
                   }
                 </div>
                 <div className="d-flex justify-content-end mt-3">
-                  <button className="btn btn-success" onClick={handleLLMFiltering}>Submit Questions</button>
+                  <Button 
+                    className="bg-green-600 hover:bg-green-700/80" 
+                    // disabled={}
+                    onClick={handleLLMFiltering}
+                  >
+                    Submit Questions
+                  </Button>
                 </div>
               </div>
           }
@@ -639,9 +674,22 @@ function App() {
             <div className="container rounded border p-3" id="search-history">
               <div className="d-flex justify-content-between mb-3">
                 <h3 className="text-3xl font-medium">Search History</h3>
-                <Tooltip title={tooltipText.search.history} placement="top">
-                  <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>Diff mode</Button>
-                </Tooltip>
+                <div className="flex gap-2">
+                  {
+                    diffMode &&
+                    <Tooltip title={tooltipText.search.history} placement="top">
+                      <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={handleShowDiffOnly}>
+                        {showDiffOnly ? "Hide Diff Only" : "Show Diff Only"}
+                      </Button>
+                    </Tooltip>
+                  }
+
+                  <Tooltip title={tooltipText.search.history} placement="top">
+                    <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
+                      {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
+                    </Button>
+                  </Tooltip>
+                </div>
               </div>
 
               <div className="w-100 relative">
@@ -677,8 +725,9 @@ function App() {
                                 className={
                                   cn(
                                     "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
-                                    (index === currentSearchHistoryIndex ? "bg-blue-500/80 text-white hover:bg-blue-600/80" : "") + 
-                                    (diffMode && diffSearchHistoryIndex === index ? "bg-green-700/80 text-white hover:bg-green-800/80" : "")
+                                    (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "" )+
+                                    (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
+                                    (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
                                   )
                                 }
                               >
@@ -753,12 +802,17 @@ function App() {
                   <InputLabel tooltip={tooltipText.results.manualAdd} label="Manual Add"/>
                   <input
                       type="text"
+                      disabled={diffMode}
                       className="form-control rounded-0"
                       placeholder="10.18653/v1/N18-3011"
                       value={manualAddPapers.join(',')}
                       onChange={(e) => setManualAddPapers(e.target.value.split(','))}
                   />
-                  <Button className="bg-blue-500 rounded-0 shadow-none" onClick={handleAddPaper}>
+                  <Button 
+                    className="bg-blue-500 rounded-0 shadow-none" 
+                    disabled={diffMode}
+                    onClick={handleAddPaper}
+                  >
                     { 
                       isManuallyAddingPaper ? 
                       <CircularProgress size={18} color="inherit" /> :
@@ -766,57 +820,25 @@ function App() {
                     } 
                   </Button>
                   <CsvImportField 
-                    // handleAddPaper={setManualAddPapers} 
+                    setManualAddPapers={setManualAddPapers}
+                    disabled={diffMode ?? false}
                     tooltip={tooltipText.results.manualAddCsv} 
                   />
               </div>
 
               <div className='flex flex-wrap gap-2'>
-                {/* Select All */}
                 {
                   buttonState.showSelectAll &&
                   <Tooltip title={tooltipText.results.selectAll} placement="top">
-                    <Button className='bg-blue-500' onClick={handleSelectAll}>Select All</Button>
+                    <Button className='bg-blue-500' onClick={handleSelectAll} disabled={diffMode}>Select All</Button>
                   </Tooltip>
                 }
                 {
                   buttonState.showDeselectAll &&
                   <Tooltip title={tooltipText.results.deselectAll} placement="top">
-                    <Button className="bg-blue-500" onClick={handleDeselectAll}>Deselect All</Button>
+                    <Button className="bg-blue-500" onClick={handleDeselectAll} disabled={diffMode}>Deselect All</Button>
                   </Tooltip>
                 }
-                {/* Forward/BackwardSearch */}
-                {/* {
-                  buttonState.showForwardSearch &&
-                  <Tooltip title={tooltipText.results.forwardSearch} placement="top">
-                    <Button className="" disabled={snowballingType != ""}
-                            onClick={() => handleSnowballing("forward")}>
-                      {
-                        snowballingType === "forward"
-                            ? <div className="spinner-border text-light">
-                              <span className="sr-only"></span>
-                            </div>
-                            : <span>Forward Search</span>
-                      }
-                    </Button>
-                  </Tooltip>
-                } */}
-                {/* {
-                  buttonState.showBackwardSearch &&
-                  <Tooltip title={tooltipText.results.backwardSearch} placement="top">
-                    <Button type="button" className="btn btn-primary" disabled={snowballingType != ""}
-                            onClick={() => handleSnowballing("backward")}>
-                      {
-                        snowballingType === "backward"
-                            ? <div className="spinner-border text-light">
-                              <span className="sr-only"></span>
-                            </div>
-                            : <span>Backward Search</span>
-                      }
-                    </Button>
-                  </Tooltip>
-                } */}
-                {/* Hide Metadata */}
                 {
                   buttonState.showHideMetadata && (showMetadata
                     ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Hide Metadata</Button>
@@ -831,26 +853,38 @@ function App() {
                   setSearchResults={setSearchResults}
                   buttonState={buttonState}
                   setButtonState={setButtonState}
+                  diffMode={diffMode}
                 />
                 <ExportDropdown
                   selectedPapers={selectedPapers}
                   buttonState={buttonState}
+                  diffMode={diffMode}
                 />
               </div>
             </div>
+            
+            {
+              diffMode &&
+              <>
+                <div className="search-results row">
+                  <div className="col-6">
+                    <SearchHistoryHeaderCard 
+                      index={currentSearchHistoryIndex}
+                      searchHistory={searchHistory} 
+                    />
+                  </div>
+                  <div className="col-6">
+                    <SearchHistoryHeaderCard 
+                      index={diffSearchHistoryIndex ?? -1}
+                      searchHistory={searchHistory} 
+                    />
+                  </div>
+                </div>
+              </>
+            }
 
             {/* Table data */}
             <div className="search-results row" style={{ height: "80%" }}>
-              
-              {/* Filter */}
-              {/* <div id="table-filter-bar">
-                <div className="flex items-center justify-between">
-                  <InputLabel label="Filter" tooltip={tooltipText.results.filterBar} />
-                  <input type="text" className="form-control rounded-0" placeholder="Filter by title, authors, etc." />
-                  <Button className="bg-blue-500 rounded-0 shadow-none">Apply Filter</Button>
-                </div>
-              </div> */}
-
               {/* Main #1 */}
               <div id="publication-data-table" className='main-data-table h-[100%]'>
                   <PublicationTable
@@ -861,6 +895,7 @@ function App() {
                     showMetadata={showMetadata}
                     llmQuestions={llmQuestions}
                     currentSearchReferenceId={searchHistory[currentSearchHistoryIndex]?.id ?? ""}
+                    diffMode={diffMode}
                   />
               </div>
               {/* Diff #2 */}

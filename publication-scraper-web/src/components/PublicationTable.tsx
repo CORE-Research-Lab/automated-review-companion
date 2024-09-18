@@ -10,6 +10,7 @@ export interface PublicationTableProps {
   showMetadata?: boolean;
   llmQuestions?: LLMQuestion[];
   currentSearchReferenceId?: string;
+  diffMode?: boolean;
 }
 
 const PublicationTable: React.FC<PublicationTableProps> = (props) => {
@@ -22,6 +23,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
     showMetadata,
     llmQuestions,
     currentSearchReferenceId,
+    diffMode,
   } = props;
 
   // Publication Data Table Resizability
@@ -181,20 +183,23 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
 
             let publicationRows = [];
 
-            publicationRows.push(
-              <PublicationRow
-                rowType='main'
-                rowIdx={rowIdx+1}
-                publication={result}
-                handlePaperSelect={handlePaperSelect}
-                selectedPapers={selectedPapers}
-                showMetadata={showMetadata}
-                searchResults={searchResults}
-                llmQuestions={llmQuestions}
-                setSearchResults={setSearchResults}
-                currentSearchReferenceId={currentSearchReferenceId}
-              />
-            )
+            if (result.show == undefined || result.show) {
+              publicationRows.push(
+                <PublicationRow
+                  rowType='main'
+                  rowIdx={rowIdx+1}
+                  publication={result}
+                  handlePaperSelect={handlePaperSelect}
+                  selectedPapers={selectedPapers}
+                  showMetadata={showMetadata}
+                  searchResults={searchResults}
+                  llmQuestions={llmQuestions}
+                  setSearchResults={setSearchResults}
+                  currentSearchReferenceId={currentSearchReferenceId}
+                  diffMode={diffMode}
+                />
+              )
+            }
 
             if (result.showReferences && result.references !== undefined && result.references?.length > 0) {
               result.references.forEach((reference, referenceIdx) => {
@@ -210,6 +215,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                     llmQuestions={llmQuestions}
                     setSearchResults={setSearchResults}
                     currentSearchReferenceId={currentSearchReferenceId}
+                    diffMode={diffMode}
                   />
                 )
               })
@@ -230,6 +236,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                     llmQuestions={llmQuestions}
                     setSearchResults={setSearchResults}
                     currentSearchReferenceId={currentSearchReferenceId}
+                    diffMode={diffMode}
                   />
                 )
               })

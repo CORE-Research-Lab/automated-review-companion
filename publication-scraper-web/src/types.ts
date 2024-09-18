@@ -51,6 +51,7 @@ export type Publication = {
   citations?: Publication[],
   showReferences?: boolean,
   showCitations?: boolean
+  show?: boolean
 
   // View fields
   diffType?: DiffType

@@ -200,3 +200,33 @@ table > thead > td {
   min-width: 100px;
 }
 
+
+/* table color */
+.table-row-red > * {
+  background-color: #FFEEF0 !important;
+}
+
+.table-row-red:hover > * {
+  background-color: #fbd8dd !important;
+}
+
+.table-row-green > * {
+  background-color: #E6FFED !important;
+}
+
+.table-row-green:hover > * {
+  background-color: #c5fad4 !important;
+}
+
+.diff-mode-red {
+  background-color: #e0c0c4 !important;
+}
+
+.diff-mode-red:hover,
+.diff-mode-green:hover {
+  opacity: 0.75 !important;
+}
+
+.diff-mode-green {
+  background-color: #b2dcbe !important;
+}

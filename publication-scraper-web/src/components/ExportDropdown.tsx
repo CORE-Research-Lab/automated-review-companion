@@ -11,12 +11,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 export interface ExportDropdownProps {
   selectedPapers: string[];
   buttonState: ButtonState;
+  diffMode: boolean;
 }
 
 const ExportDropdown: React.FC<ExportDropdownProps> = (props) => {
 
-  const { selectedPapers } = props;
-  const isExportDisabled = selectedPapers.length === 0;
+  const { selectedPapers, diffMode } = props;
+  const isExportDisabled = selectedPapers.length === 0 || diffMode;
   const exportFormats = [
     {
       label: "CSV",

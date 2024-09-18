@@ -1,10 +1,11 @@
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import { handleError } from '@/common/handler';
 import { BASE_URL } from '@/utils/common';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
+import { useEffect } from 'react';
+import '../main.css';
 import {
   LLMQuestion,
   Publication,
@@ -22,6 +23,7 @@ export interface PublicationRowProps {
   setSearchResults?: React.Dispatch<React.SetStateAction<SearchResult>>
   llmQuestions?: LLMQuestion[]
   currentSearchReferenceId?: string
+  diffMode?: boolean
 }
 
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
@@ -35,6 +37,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     searchResults, setSearchResults,
     llmQuestions,
     currentSearchReferenceId,
+    diffMode,
   } = props;
 
   const getColorByRowType = () => {
@@ -50,9 +53,9 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
 
   const getDiffRowColor = () => {
     if (publication.diffType === 'add') {
-      return 'table-success';
+      return 'table-row-red bg-[#FFEEF0]';
     } else if (publication.diffType === 'remove') {
-      return 'table-danger';
+      return 'table-row-green bg-[#E6FFED]';
     }
     return '';
   }
@@ -81,6 +84,18 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
         }
       }
       return result;
+    });
+    setSearchResults({...searchResults, results: updatedResults})
+  }
+
+  const turnReferencesAndCitationsInvisible = () => {
+    if (!setSearchResults) return;
+    const updatedResults = searchResults.results.map((result: Publication) => {
+      return {
+        ...result,
+        showReferences: false,
+        showCitations: false
+      }
     });
     setSearchResults({...searchResults, results: updatedResults})
   }
@@ -122,6 +137,10 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     return searchString
   }
 
+  useEffect(() => {
+    if (diffMode) { turnReferencesAndCitationsInvisible(); }
+  }, [diffMode]);
+
   return (
     <tr key={publication.paper_id}
       className={`${getColorByRowType()} ${getDiffRowColor()} publication-row`}
@@ -130,7 +149,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       <td>
         <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
           {
-            rowType === 'reference' &&
+            rowType === 'reference' && !diffMode &&
             <Tooltip title="Append to the bottom of the main search results" placement="top">
               <button 
                 className="btn btn-primary btn-sm"
@@ -139,7 +158,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             </Tooltip>
           }
           {
-            rowType === 'citation' && 
+            rowType === 'citation' && !diffMode &&
             <Tooltip title="Append to the bottom of the main search results" placement="top">
               <button 
                 className="btn btn-primary btn-sm"
@@ -148,7 +167,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             </Tooltip>
           }
           {
-            rowType === 'main' && selectedPapers && handlePaperSelect &&
+            rowType === 'main' && selectedPapers && handlePaperSelect && !diffMode &&
             <>
               <input
                 type="checkbox"
@@ -157,7 +176,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
               />
               {/* Expand/contract references/citations */}
               {
-                publication.references && publication.references.length > 0 &&
+                publication.references && publication.references.length > 0 && !diffMode &&
                 <Tooltip title="Expand/Collapse references" placement="top">
                   {publication.showReferences ? 
                     <ExpandMoreIcon 
@@ -177,7 +196,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
                 </Tooltip>
               }
               {
-                publication.citations && publication.citations.length > 0 &&
+                publication.citations && publication.citations.length > 0 && !diffMode &&
                 <Tooltip title="Expand/Collapse citations" placement="top">
                   {publication.showCitations ?
                     <ExpandMoreIcon 
@@ -279,8 +298,8 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       {
           searchResults.results && searchResults.results.length > 0 &&
           searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
-          <td key={response.id} style={{ minWidth: "220px" }}>Q{index + 1} {response.question}</td>
+        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion) => (
+          <td key={response.id} style={{ minWidth: "220px" }}>{response.answer}</td>
         ))
       }
     </tr>
