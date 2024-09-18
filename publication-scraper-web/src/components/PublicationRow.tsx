@@ -11,7 +11,6 @@ import {
 export interface PublicationRowProps {
   rowType?: string
   rowIdx?: number | string
-  deleteMode?: boolean
   publication: Publication
   handlePaperSelect?: (paper_id: string) => void
   selectedPapers?: string[]
@@ -25,7 +24,6 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   const { 
     rowType,
     rowIdx,
-    deleteMode,
     publication,
     handlePaperSelect,
     selectedPapers,
@@ -106,12 +104,6 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     setSearchResults({...searchResults, results: [...updatedResults, paper]})
   }
 
-  const handlePaperDelete = (paper_id: string) => {
-    if (!setSearchResults) return;
-    const updatedResults = searchResults.results.filter((result: Publication) => result.paper_id !== paper_id);
-    setSearchResults({...searchResults, results: updatedResults})
-  }
-
   const parseSearchString = (searchString: string[] | string) => {
     if (Array.isArray(searchString)) {
       return `(${searchString.join(', ')})`;
@@ -126,13 +118,6 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     >
       <td>
         <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
-          {
-            deleteMode &&
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={() => handlePaperDelete(publication.paper_id)}
-            >-</button>
-          }
           {
             rowType === 'reference' &&
             <Tooltip title="Append to the bottom of the main search results" placement="top">

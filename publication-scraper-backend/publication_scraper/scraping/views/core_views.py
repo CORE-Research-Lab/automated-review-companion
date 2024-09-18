@@ -283,3 +283,24 @@ class HistoricalSearchQueryResultsView(APIView):
         
         search_results = get_object_or_404(SearchResponse, id=search_id)
         return JsonResponse(search_results.to_dict())
+
+class DeleteSearchHistoryPublicationView(APIView):
+
+    def delete(self, request):
+        """
+        Delete a publication from the search history.
+        """
+        search_id = request.query_params.get('search_reference_id')
+        paper_ids = request.query_params.get('paper_ids')
+        paper_ids = paper_ids.split(',') if paper_ids else []
+
+        if search_id is None:
+            return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
+        
+        search_results = get_object_or_404(SearchResponse, id=search_id)
+        search_results.results = [result for result in search_results.results if result['paper_id'] not in paper_ids]
+        search_results.save()
+
+        log.info(f"Deleted search results for paper IDs: {search_results.results}")
+        
+        return JsonResponse({ "message": "Search results deleted successfully." })

@@ -105,3 +105,21 @@ export enum SearchMode {
   SIMPLE = "simple",
   ADVANCED = "advanced"
 }
+
+export enum PublicationOperation {
+  POPULATE_METADATA = "populate_metadata",
+  FORWARD_SEARCH = "forward_search",
+  BACKWARD_SEARCH = "backward_search",
+  DELETE = "delete"
+}
+
+export type ButtonState = {
+  showSelectAll: boolean,
+  showDeselectAll: boolean,
+  showHideMetadata: boolean,
+  showPopulateMetadata: boolean,
+  showForwardSearch: boolean,
+  showBackwardSearch: boolean,
+  showExport: boolean,
+  showLLMQuestions: boolean,
+}

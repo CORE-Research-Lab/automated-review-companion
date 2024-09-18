@@ -11,9 +11,11 @@ import { handleError } from './common/handler';
 import CsvImportField from './components/CsvImportField';
 import DatabaseSelector from './components/DatabaseSelector';
 import InputLabel from './components/InputLabel';
+import PaperOperations from './components/PaperOperations';
 import PublicationTable from './components/PublicationTable';
 import SearchAppBar from './components/SearchAppBar';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
+import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
 import UsabilityGuide from './components/UsabilityGuide';
@@ -21,6 +23,7 @@ import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
 import './main.css';
 import {
+  ButtonState,
   DiffType,
   LLMPaperFilterResponse,
   LLMQuestion,
@@ -28,101 +31,35 @@ import {
   SearchEngineType,
   SearchForm,
   SearchMode,
-  SearchResult,
-  SnowballingSearch
+  SearchResult
 } from './types';
+import { BASE_URL } from './utils/common';
+import { defaultButtonState, defaultDiffSearchResults, defaultLLMQuestions, defaultSearchForm, defaultSearchResult } from './utils/templates';
+import { validateSearchForm } from './utils/validators';
 
 function App() {
-  const BASE_URL = "http://ec2-18-218-118-93.us-east-2.compute.amazonaws.com:8000"
   const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
-  const [searchForm, setSearchForm] = useState<SearchForm>({
-    validation_papers: [],
-    search_terms: {
-      advanced: 'AI and "Machine Learning" and not Education',
-      primary: [],
-      secondary: [],
-      tertiary: [],
-    },
-    year_start: 2023,
-    year_end: 2024,
-    sources: [SearchEngineType.DBLP],
-  });
-  const [searchResults, setSearchResults] = useState<SearchResult>({
-    matches: {
-      num_matches: 0,
-      papers: [],
-      percentage_match: 0
-    },
-    results: [],
-    variations: []
-  });
+  const [searchForm, setSearchForm] = useState<SearchForm>(defaultSearchForm);
+  const [searchResults, setSearchResults] = useState<SearchResult>(defaultSearchResult);
   const [selectedPapers, setSelectedPapers] = useState<string[]>([]);
-  const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>([{
-    id: 1,
-    question: '',
-    answer: ''
-  }]);
+  
+  const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>(defaultLLMQuestions);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [showMetadata, setShowMetadata] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
   const [isManuallyAddingPaper, setIsManuallyAddingPaper] = useState(false);
-  const [isPopulatingMetadata, setIsPopulatingMetadata] = useState(false);
-  const [snowballingType, setSnowballingType] = useState<string>('');
-  const [deleteMode, setDeleteMode] = useState(false);
 
-  const [buttonState, setButtonState] = useState({
-    showSelectAll: false,
-    showDeselectAll: false,
-    showHideMetadata: false,
-    showPopulateMetadata: false,
-    showForwardSearch: false,
-    showBackwardSearch: false,
-    showExport: false,
-    showLLMQuestions: false,
-    showDeleteMode: false,
-  })
-
+  const [buttonState, setButtonState] = useState<ButtonState>(defaultButtonState);
   const [fullscreenState, setFullscreenState] = useState(false);
-  const [searchHistory, setSearchHistory] = useState<SearchForm[]>([
-    // {
-    //   validation_papers: [],
-    //   search_terms: {
-    //     advanced: 'AI and "Machine Learning" and not Education',
-    //     primary: [],
-    //     secondary: [],
-    //     tertiary: [],
-    //   },
-    //   year_start: 2023,
-    //   year_end: 2024,
-    //   sources: [SearchEngineType.DBLP],
-    // },
-    // {
-    //   validation_papers: [],
-    //   search_terms: {
-    //     advanced: 'AI and "Machine Learning"',
-    //     primary: [],
-    //     secondary: [],
-    //     tertiary: [],
-    //   },
-    //   year_start: 2023,
-    //   year_end: 2024,
-    //   sources: [SearchEngineType.DBLP],
-    // },
-  ]);
+
+  const [searchHistory, setSearchHistory] = useState<SearchForm[]>([]);
   const [currentSearchHistoryIndex, setCurrentSearchHistoryIndex] = useState(0);
   const [diffMode, setDiffMode] = useState(false);
   const [diffSearchHistoryIndex, setDiffSearchHistoryIndex] = useState<null | number>(null);
-  const [diffSearchResults, setDiffSearchResults] = useState<SearchResult>({
-    matches: {
-      num_matches: 0,
-      papers: [],
-      percentage_match: 0
-    },
-    results: [],
-    variations: []
-  });
+  const [diffSearchResults, setDiffSearchResults] = useState<SearchResult>(defaultDiffSearchResults);
+  
   // TODO: store a search reference id of the results it provides;
   // query endpoint when triggered to get the results of the search
     
@@ -154,20 +91,8 @@ function App() {
     })
   }
 
-  const validateSearchForm = () => {
-    if (!searchForm.search_terms.primary && searchMode === SearchMode.SIMPLE) {
-      toast.error('Primary search term is required');
-      return false;
-    }
-    if (searchForm.sources.length === 0) {
-      toast.error('At least one database must be selected');
-      return false;
-    }
-    return true;
-  }
-
   const handleSearch = async () => {
-    if (!validateSearchForm() || isSearching) return;
+    if (!validateSearchForm(searchForm, searchMode) || isSearching) return;
     setIsSearching(true);
     toast.info('Searching...');
     const payload = {
@@ -190,7 +115,6 @@ function App() {
           showDeselectAll: true,
           showForwardSearch: true,
           showBackwardSearch: true,
-          showDeleteMode: true,
           showPopulateMetadata: true,
           showHideMetadata: true,
         }))
@@ -215,32 +139,6 @@ function App() {
     })
     .catch(handleError)
     .finally(() => setIsManuallyAddingPaper(false));
-  }
-
-  const populateMetadata = async () => {
-    setIsPopulatingMetadata(true);
-    await axios.post(`${BASE_URL}/scraper/publication-metadata`, {
-      paper_ids: selectedPapers
-    })
-      .then((res) => {
-        const data = res.data;
-        const updatedResults = searchResults.results.map((result: Publication) => {
-          const metadata = data.metadata.find((metadata: Publication) => metadata.paper_id === result.paper_id);
-          return {
-            ...result,
-            ...metadata
-          }
-        });
-        setSearchResults({...searchResults, results: updatedResults})
-        setButtonState((prevState) => ({
-          ...prevState,
-          showLLMQuestions: true,
-          showExport: true,
-        }))
-        toast.success('Metadata populated successfully');
-      })
-      .catch(handleError)
-      .finally(() => setIsPopulatingMetadata(false));
   }
 
   const handleSelectAll = () => {
@@ -275,49 +173,6 @@ function App() {
     } else {
       setSelectedPapers([...selectedPapers, paper_id])
     }
-  }
-
-  const matchDOIs = (originalDOI: string, toMatchDoi: string) => {
-    return originalDOI.toLowerCase().includes(toMatchDoi.toLowerCase())
-  }
-
-  const handleSnowballing = async (searchType: string) => {
-    if (snowballingType) return;
-    setSnowballingType(searchType);
-    await axios.post(`${BASE_URL}/publication/snowballing`, {
-      publication_ids: selectedPapers,
-      search_type: searchType,
-      show_metadata: true
-    })
-    .then((res) => {
-      let _searchType = searchType.charAt(0).toUpperCase() + searchType.slice(1);
-      toast.info(`${_searchType} snowballing search completed`);
-      
-      if (searchType === "forward") {
-        let updatedResults = [...searchResults.results];
-        res.data.results.forEach((result: SnowballingSearch) => {
-          const index = updatedResults.findIndex((r) => matchDOIs(r.paper_id, result.paper_id));
-          if (index !== -1) {
-            updatedResults[index].references = result.references;
-            updatedResults[index].showReferences = true;
-          }
-        });
-        setSearchResults({...searchResults, results: updatedResults})
-      } 
-      else if (searchType === "backward") {
-        let updatedResults = [...searchResults.results];
-        res.data.results.forEach((result: SnowballingSearch) => {
-          const index = updatedResults.findIndex((r) => matchDOIs(r.paper_id, result.paper_id));
-          if (index !== -1) {
-            updatedResults[index].citations = result.citations;
-            updatedResults[index].showCitations = true;
-          }
-        });
-        setSearchResults({...searchResults, results: updatedResults})
-      }
-    })
-    .catch(handleError)
-    .finally(() => setSnowballingType(''));
   }
 
   const handleLLMFiltering = async () => {
@@ -400,7 +255,6 @@ function App() {
       showBackwardSearch: false,
       showExport: false,
       showLLMQuestions: false,
-      showDeleteMode: false,
     })
   }
 
@@ -470,7 +324,6 @@ function App() {
           showDeselectAll: true,
           showForwardSearch: false,
           showBackwardSearch: false,
-          showDeleteMode: true,
           showPopulateMetadata: true,
           showHideMetadata: true,
           showExport: true,
@@ -714,9 +567,7 @@ function App() {
                 <Button onClick={handleSearch}>
                   {
                     isSearching
-                    ? <div className="spinner-border text-light">
-                        <span className="sr-only"></span>
-                      </div>
+                    ? <Spinner />
                     : <span>Search</span>
                   }
                 </Button>
@@ -942,7 +793,7 @@ function App() {
                   </Tooltip>
                 }
                 {/* Forward/BackwardSearch */}
-                {
+                {/* {
                   buttonState.showForwardSearch &&
                   <Tooltip title={tooltipText.results.forwardSearch} placement="top">
                     <Button className="" disabled={snowballingType != ""}
@@ -956,8 +807,8 @@ function App() {
                       }
                     </Button>
                   </Tooltip>
-                }
-                {
+                } */}
+                {/* {
                   buttonState.showBackwardSearch &&
                   <Tooltip title={tooltipText.results.backwardSearch} placement="top">
                     <Button type="button" className="btn btn-primary" disabled={snowballingType != ""}
@@ -971,7 +822,7 @@ function App() {
                       }
                     </Button>
                   </Tooltip>
-                }
+                } */}
                 {/* Hide Metadata */}
                 {
                   buttonState.showHideMetadata && (showMetadata
@@ -979,37 +830,25 @@ function App() {
                     : <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Show Metadata</Button>)
                 }
 
-                {/* Popualte metadata */}
-                {
-                    buttonState.showPopulateMetadata &&
-                    <Tooltip title={tooltipText.results.populateMetadata} placement="top">
-                      <Button className="bg-green-600 hover:bg-green-700" onClick={populateMetadata}>
-                        {
-                          !isPopulatingMetadata
-                              ? <span>Populate Metadata</span>
-                              : <div className="spinner-border text-light">
-                                <span className="sr-only"></span>
-                              </div>
-                        }
-                      </Button>
-                    </Tooltip>
-                }
-                {/* Toggle delete mode */}
-                {
-                  (buttonState.showDeleteMode || searchResults.results.length > 0) &&
-                  <Button className="bg-red-600 hover:bg-red-700" onClick={() => setDeleteMode(!deleteMode)}>
-                    {deleteMode ? 'Cancel' : 'Edit/Delete Mode'}
-                  </Button>
-                }
+                {/* Paper operations */}
+                <PaperOperations
+                  selectedPapers={selectedPapers}
+                  currentSearchReferenceId={searchHistory[currentSearchHistoryIndex]?.id ?? ""}
+                  searchResults={searchResults}
+                  setSearchResults={setSearchResults}
+                  buttonState={buttonState}
+                  setButtonState={setButtonState}
+                />
+
                 {/* Export */}
                 {
                   buttonState.showExport &&
                   <div className="dropdown d-flex">
-                        <Tooltip title={tooltipText.results.export} placement="top">
-                          <Button className="bg-slate-500 hover:bg-slate-600 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Export
-                          </Button>
-                        </Tooltip>
+                    <Tooltip title={tooltipText.results.export} placement="top">
+                      <Button className="bg-slate-500 hover:bg-slate-600 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Export
+                      </Button>
+                    </Tooltip>
                     <ul className="dropdown-menu">
                       <li>
                         <button className="dropdown-item" onClick={handleExport("CSV")}>CSV</button>
@@ -1047,7 +886,6 @@ function App() {
                     handlePaperSelect={handlePaperSelect}
                     showMetadata={showMetadata}
                     llmQuestions={llmQuestions}
-                    deleteMode={deleteMode}
                   />
               </div>
               {/* Diff #2 */}

@@ -9,7 +9,6 @@ export interface PublicationTableProps {
   handlePaperSelect?: (paperId: string) => void;
   showMetadata?: boolean;
   llmQuestions?: LLMQuestion[];
-  deleteMode?: boolean;
 }
 
 const PublicationTable: React.FC<PublicationTableProps> = (props) => {
@@ -21,7 +20,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
     handlePaperSelect,
     showMetadata,
     llmQuestions,
-    deleteMode
   } = props;
 
   // Publication Data Table Resizability
@@ -185,7 +183,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
               <PublicationRow
                 rowType='main'
                 rowIdx={rowIdx+1}
-                deleteMode={deleteMode}
                 publication={result}
                 handlePaperSelect={handlePaperSelect}
                 selectedPapers={selectedPapers}
@@ -202,7 +199,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                   <PublicationRow
                     rowType="reference"
                     rowIdx={rowIdx+1 + "-R" + referenceIdx}
-                    deleteMode={deleteMode}
                     publication={reference}
                     handlePaperSelect={handlePaperSelect}
                     selectedPapers={selectedPapers}
@@ -222,7 +218,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                   <PublicationRow
                     rowType="citation"
                     rowIdx={rowIdx+1 + "-C" + citationIdx}
-                    deleteMode={deleteMode}
                     publication={citation}
                     handlePaperSelect={handlePaperSelect}
                     selectedPapers={selectedPapers}

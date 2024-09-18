@@ -3,15 +3,15 @@ export const tooltipText = {
   search: {
     primary: {
       hint: "Primary search term is required", 
-      example: "i.e., AI, Deep Learning, etc. (Press Enter to add the search term)",
+      example: "i.e., Undergraduate, Students, etc. (Press Enter to add the search term)",
     },
     secondary: {
       hint: "Secondary search term",
-      example: "i.e., Machine Learning, Generative AI, etc. (Press Enter to add the search term)",
+      example: "i.e., Transparency, GenAI guide, training, etc. (Press Enter to add the search term)",
     },
     tertiary: {
       hint: "Tertiary search term",
-      example: "i.e., Deep Reinforcement Learning, Neural Networks, etc. (Press Enter to add the search term)",
+      example: "i.e., Responsible Use, Academic Performance etc. (Press Enter to add the search term)",
     },
     advanced: "Required field: advanced case-insensitive boolean search string. Use 'AND', 'OR', 'NOT' operators to combine search terms, and quotations to search for exact phrases.",
     yearRange: "Year range including the start and end years (i.e., 2023 - 2024)",
@@ -40,5 +40,9 @@ export const tooltipText = {
     forwardSearch: "Search for papers that the selected papers cite",
     backwardSearch: "Search for papers that cite the selected papers",
     export: "Export selected papers in CSV/BibTex/RIS format",
+    operations: { 
+      enabled: "Operations on resulting papers",
+      disabled: "Select at least one paper to enable operations"
+    }
   }
 }

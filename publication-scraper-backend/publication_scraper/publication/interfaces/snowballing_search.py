@@ -92,7 +92,9 @@ class SnowballingSearch:
 
     def _get_publication_data(self, publication: Publication, show_metadata: bool) -> Dict[str, Any]:
         """ Get publication data if show_metadata is flagged. """
-
-        if show_metadata:
-            return publication.metadata.to_dict(show_publication = True)
+        try:
+            if show_metadata:
+                return publication.metadata.to_dict(show_publication = True)
+        except Exception as e:
+            log.error(f"Metadata not found for {publication.paper_id} - {e}")
         return publication.to_dict()
