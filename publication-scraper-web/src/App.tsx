@@ -452,7 +452,7 @@ function App() {
   useEffect(() => { 
     const currentVersion = CURRENT_VERSION;
     const userVersion = localStorage.getItem('searchHistory');
-    if (!userVersion || parseInt(userVersion) < currentVersion) {
+    if (!userVersion || userVersion !== currentVersion) {
       localStorage.setItem('userArcVersion', currentVersion.toString());
       setShowChangelog(true);
     }
