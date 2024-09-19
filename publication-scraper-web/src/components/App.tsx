@@ -5,10 +5,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import MinusIcon from '@mui/icons-material/Remove';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { handleError } from './common/handler';
-import ChangelogModal from './components/ChangelogModal';
 import CsvImportField from './components/CsvImportField';
 import DatabaseSelector from './components/DatabaseSelector';
 import ExportDropdown from './components/ExportDropdown';
@@ -40,13 +39,12 @@ import {
   SearchMode,
   SearchResult
 } from './types';
-import { BASE_URL, CURRENT_VERSION } from './utils/common';
+import { BASE_URL } from './utils/common';
 import { defaultButtonState, defaultDiffSearchResults, defaultLLMOptions, defaultLLMQuestions, defaultSearchForm, defaultSearchResult } from './utils/templates';
 import { validateSearchForm } from './utils/validators';
 
 function App() {
   const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
-  const [showChangelog, setShowChangelog] = useState(false);
   const [searchForm, setSearchForm] = useState<SearchForm>(defaultSearchForm);
   const [searchResults, setSearchResults] = useState<SearchResult>(defaultSearchResult);
   const [selectedPapers, setSelectedPapers] = useState<string[]>([]);
@@ -448,16 +446,6 @@ function App() {
     })
   }
 
-  // Fetch the search history from the local storage
-  useEffect(() => { 
-    const currentVersion = CURRENT_VERSION;
-    const userVersion = localStorage.getItem('searchHistory');
-    if (!userVersion || parseInt(userVersion) < currentVersion) {
-      localStorage.setItem('userArcVersion', currentVersion.toString());
-      setShowChangelog(true);
-    }
-  }, []);
-
   return (
       <div className="mt-3">
         <div className="container">
@@ -474,9 +462,10 @@ function App() {
                   setShowUsabilityGuide={setShowUsabilityGuide}
                   handleClose={() => setShowUsabilityGuide(false)}
                 />
-                <ChangelogModal 
-                  showChangelog={showChangelog} 
-                  setShowChangelog={setShowChangelog}
+                <UsabilityGuide 
+                  showUsabilityGuide={showUsabilityGuide} 
+                  setShowUsabilityGuide={setShowUsabilityGuide}
+                  handleClose={() => setShowUsabilityGuide(false)}
                 />
               </div>
             </div>

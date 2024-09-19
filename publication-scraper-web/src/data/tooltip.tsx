@@ -1,5 +1,6 @@
 export const tooltipText = {
   usabilityGuide: "Click to view the usability guide",
+  changelog: "Click to view the changelog",
   search: {
     primary: {
       hint: "Primary search term is required", 
