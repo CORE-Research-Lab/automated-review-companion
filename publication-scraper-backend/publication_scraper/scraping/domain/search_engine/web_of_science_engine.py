@@ -10,6 +10,10 @@ from utils import Logger, Profiler
 
 from .search_engine import SearchEngine
 
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
 log = Logger(__name__)
 
 class WebOfScienceEngine(SearchEngine):
@@ -19,7 +23,7 @@ class WebOfScienceEngine(SearchEngine):
         super().__init__()
         self.url     = 'https://api.clarivate.com/api/wos'
         self.headers = {
-            'X-ApiKey': "1c19a6c1114c4ee6f84142bba8040e6bbaa9825b", # env('WOS_API_KEY'),
+            'X-ApiKey': env('WOS_KEY'),
             "Content-Type": "application/json"
         }
         

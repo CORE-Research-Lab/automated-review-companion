@@ -11,6 +11,10 @@ from utils import Logger, Profiler
 
 from .search_engine import SearchEngine
 
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
 log = Logger(__name__)
 class SemanticScholarEngine(SearchEngine):
     """ Search engine for Semantic Scholar. """
@@ -19,7 +23,7 @@ class SemanticScholarEngine(SearchEngine):
         super().__init__()
         self.headers = {
             "Content-Type": "application/json", 
-            "x-api-key": "X48LIBLqr86ouHlnMYd3z052sgEm3Nd2wMORPzu5"  #env('SEMANTIC_SCHOLAR_API_KEY')
+            "x-api-key": env('SEMANTIC_SCHOLAR_KEY') 
         }
         self.sch_fields: List[str] = [
             "title",
