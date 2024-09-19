@@ -176,6 +176,8 @@ class ManualAddPublicationView(APIView):
                 else:
                     log.info(f"Searching for publication with DOI {paper_doi}")
                     publication = sch_engine.find_by_doi(doi)
+                    if publication is None:
+                        return JsonResponse({ "Not found": f"Publication with DOI '{doi}' not found." }, status=HTTP_400_BAD_REQUEST)
                     publication.save()
 
                 publication_results.append(publication)
@@ -299,15 +301,15 @@ class SearchHistoryPublicationView(APIView):
         search_id = request.query_params.get('search_reference_id')
         paper_data = request.data.get('papers', [])
 
+        log.info(f"{search_id}, {paper_data}")
+
         if search_id is None:
             return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
         if paper_data is None:
             return JsonResponse({ "error": "Paper data is required." }, status=HTTP_400_BAD_REQUEST)
         
         search_results = get_object_or_404(SearchResponse, id=search_id)
-        print(len(search_results.results))
         search_results.results.extend(paper_data)
-        print(len(search_results.results))
         search_results.save()
 
         log.info(f"Updated search results for paper IDs: {search_results.results}")

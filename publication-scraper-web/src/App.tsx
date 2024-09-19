@@ -150,6 +150,10 @@ function App() {
   }
 
   const handleAddPaper = async () => {
+    if (!manualAddPapers || manualAddPapers.length === 0 || (manualAddPapers.length === 1 && !manualAddPapers[0])) {
+      toast.error('No papers to add');
+      return;
+    }
     setIsManuallyAddingPaper(true);
     toast.info('Adding papers...');
     await axios.post(`${BASE_URL}/scraper/manual-add-publication`, {
