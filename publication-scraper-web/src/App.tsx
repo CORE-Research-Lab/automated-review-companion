@@ -80,8 +80,12 @@ function App() {
   
   const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
 
-  // Return as a object with doi and title fields,
-  // if the doi exists in the paper id, attribute it as doi, else attribute it as title
+
+  /**
+   * Parses the root papers from the search form, and returns an array of objects with doi and title fields 
+   * @param papers DOIs or paper titles 
+   * @returns Array of objects with doi and title fields
+   */
   const parseRootPapers = (papers: string[]) => {
     if (!papers || papers.length === 1 && !papers[0]) return [];
     return papers.map((paper) => {
@@ -96,8 +100,7 @@ function App() {
   const handleSearchFormChange = (value: string[], field: MultiLayerSearch) => {
     setSearchForm({
       ...searchForm,
-      search_terms: {
-        ...searchForm.search_terms,
+      search_terms: { ...searchForm.search_terms,
         [field]: value
       }
     })
@@ -452,7 +455,7 @@ function App() {
   useEffect(() => { 
     const currentVersion = CURRENT_VERSION;
     const userVersion = localStorage.getItem('searchHistory');
-    if (!userVersion || userVersion !== currentVersion) {
+    if (!userVersion || parseInt(userVersion) < currentVersion) {
       localStorage.setItem('userArcVersion', currentVersion.toString());
       setShowChangelog(true);
     }

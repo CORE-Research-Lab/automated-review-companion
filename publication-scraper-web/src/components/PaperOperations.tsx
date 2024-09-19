@@ -71,7 +71,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
       case PublicationOperation.FORWARD_SEARCH:
         return !buttonState.showForwardSearch
       case PublicationOperation.BACKWARD_SEARCH:
-        return !buttonState.showForwardSearch
+        return !buttonState.showBackwardSearch
       case PublicationOperation.DELETE:
         return searchResults.results.length === 0
       default:
@@ -178,7 +178,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
       let _searchType = searchType.charAt(0).toUpperCase() + searchType.slice(1);
       toast.info(`${_searchType} snowballing search completed`);
       
-      if (searchType === "forward") {
+      if (searchType === "backward") {
         let updatedResults = [...searchResults.results];
         res.data.results.forEach((result: SnowballingSearch) => {
           const index = updatedResults.findIndex((r) => matchDOIs(r.paper_id, result.paper_id));
@@ -189,7 +189,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         });
         setSearchResults({...searchResults, results: updatedResults})
       } 
-      else if (searchType === "backward") {
+      else if (searchType === "forward") {
         let updatedResults = [...searchResults.results];
         res.data.results.forEach((result: SnowballingSearch) => {
           const index = updatedResults.findIndex((r) => matchDOIs(r.paper_id, result.paper_id));

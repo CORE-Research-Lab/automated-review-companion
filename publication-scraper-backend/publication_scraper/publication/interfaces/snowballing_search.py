@@ -80,6 +80,7 @@ class SnowballingSearch:
             # publication.save()
         
         publication.searched_from = reference.src_doi
+        publication.search_string = reference.type.value
         publication.formatted_search_string = "Not Applicable"    
         return publication
     

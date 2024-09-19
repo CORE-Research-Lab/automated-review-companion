@@ -16,15 +16,15 @@ class PublicationStatus(str, Enum):
 
 class Publication(models.Model, Exportable):
     paper_id                = models.CharField(max_length=200, primary_key=True)
-    paper_title             = models.CharField(max_length=200)
-    search_string           = models.CharField(max_length=200)
-    searched_from           = models.CharField(max_length=200)
+    paper_title             = models.CharField(max_length=200, default="")
+    search_string           = models.CharField(max_length=200, default="")
+    searched_from           = models.CharField(max_length=200, default="")
     formatted_search_string = models.CharField(max_length=200, default="")
     status                  = models.CharField(max_length=200, default=PublicationStatus.NEW, choices=[(status.value, status.name) for status in PublicationStatus])
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['paper_id', 'paper_title'], name='unique_paper_id_and_title')
+            models.UniqueConstraint(fields=['paper_id', 'paper_title', 'searched_from'], name='unique_paper_id_and_title')
         ]
         
     def exportable_fields(self) -> List[str]:
