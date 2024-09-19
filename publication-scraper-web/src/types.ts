@@ -93,7 +93,8 @@ export enum SearchEngineType {
 export type LLMQuestion = {
   id: number,
   question: string,
-  answer: string
+  answer: string,
+  rationale: string
 }
 
 export type LLMUserAnswer = {

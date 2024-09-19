@@ -296,12 +296,17 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
 
       {/* Questions */}
       {
-          searchResults.results && searchResults.results.length > 0 &&
-          searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-          llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
-          <td key={response.id} style={{ minWidth: "220px" }}>
-            {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.answer ?? "-"}
-          </td>
+        searchResults.results && searchResults.results.length > 0 &&
+        searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
+        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
+          <>
+            <td key={response.id} style={{ minWidth: "220px" }}>
+              {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.answer ?? "-"}
+            </td>
+            <td key={response.id + "-rational"} style={{ minWidth: "220px" }}>
+              {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.rationale ?? "-"}
+            </td>
+          </>
         ))
       }
     </tr>
