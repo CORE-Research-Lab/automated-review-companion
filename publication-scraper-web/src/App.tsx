@@ -106,14 +106,22 @@ function App() {
     })
   }
 
+  const cleanAdvancedSearch = (searchPhrase: string) => {
+    return searchPhrase.replace(/ AND /ig, ' and ')
+      .replace(/ OR /ig, ' or ')
+      .replace(/ NOT /ig, ' not ')
+      .replace(/"/g, '');
+  }
+
   const handleSearch = async () => {
     if (!validateSearchForm(searchForm, searchMode) || isSearching) return;
     setIsSearching(true);
     toast.info('Searching...');
+    const cleanedAdvancedSearch = cleanAdvancedSearch(searchForm.search_terms.advanced);
     const payload = {
       ...searchForm,
       search_terms: {
-        advanced: searchMode === SearchMode.ADVANCED ? searchForm.search_terms.advanced : "",
+        advanced: searchMode === SearchMode.ADVANCED ? cleanedAdvancedSearch : "",
         primary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.primary : [],
         secondary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.secondary : [],
         tertiary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.tertiary : []

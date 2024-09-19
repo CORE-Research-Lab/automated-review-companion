@@ -100,7 +100,10 @@ const validateBooleanOperators = (searchPhrase: string) => {
 
 const validatePhrases = (searchPhrase: string) => {
   let keywords = searchPhrase.split(/[\s()]/).filter((word) => word !== '') 
-  let operators = ['and', 'or', 'not', 'AND', 'OR', 'NOT'];
+  let operators = [
+    'and', 'or', 'not',
+    'AND', 'OR', 'NOT'
+  ];
   let phrases = [];
   
   // Extract phrases
