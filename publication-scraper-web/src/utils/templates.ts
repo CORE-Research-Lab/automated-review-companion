@@ -29,6 +29,11 @@ export const defaultLLMQuestions = [{
   answer: ''
 }]
 
+export const defaultLLMOptions = {
+  includeExamples: false,
+  includeRationale: false,
+}
+
 export const defaultButtonState = {
   showSelectAll: false,
   showDeselectAll: false,

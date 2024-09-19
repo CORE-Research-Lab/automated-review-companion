@@ -87,6 +87,12 @@ class SearchAndCleanView(APIView):
         if SearchEngineType.WEB_OF_SCIENCE in self.sources:
             engines.append(WebOfScienceEngine(self.query))
 
+        if SearchEngineType.IEEE_XPLORE in self.sources:
+            engines.append(SemanticScholarEngine(self.query, "IEEE Xplore"))
+        
+        if SearchEngineType.SCOPUS in self.sources:
+            engines.append(SemanticScholarEngine(self.query, "Scopus"))
+
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
         results.extend([result for engine in engines for result in engine.search()])

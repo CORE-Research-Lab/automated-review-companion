@@ -5,7 +5,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import MinusIcon from '@mui/icons-material/Remove';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { handleError } from './common/handler';
 import CsvImportField from './components/CsvImportField';
@@ -20,6 +20,9 @@ import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTer
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
+import { Checkbox } from './components/ui/checkbox';
+import { Input } from './components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
@@ -27,16 +30,17 @@ import './main.css';
 import {
   ButtonState,
   DiffType,
+  LLMOptions,
   LLMPaperFilterResponse,
   LLMQuestion,
+  LLMUserAnswer,
   Publication,
-  SearchEngineType,
   SearchForm,
   SearchMode,
   SearchResult
 } from './types';
 import { BASE_URL } from './utils/common';
-import { defaultButtonState, defaultDiffSearchResults, defaultLLMQuestions, defaultSearchForm, defaultSearchResult } from './utils/templates';
+import { defaultButtonState, defaultDiffSearchResults, defaultLLMOptions, defaultLLMQuestions, defaultSearchForm, defaultSearchResult } from './utils/templates';
 import { validateSearchForm } from './utils/validators';
 
 function App() {
@@ -46,6 +50,9 @@ function App() {
   const [selectedPapers, setSelectedPapers] = useState<string[]>([]);
   
   const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>(defaultLLMQuestions);
+  const [llmAnswers, setLLMAnswers] = useState<LLMUserAnswer[]>([]);
+  const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
+  const [isLLMFilterProcessing, setIsLLMFilterProcessing] = useState(false);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [showMetadata, setShowMetadata] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -171,25 +178,32 @@ function App() {
   }
 
   const handleLLMFiltering = async () => {
+    if (!validateLLMQuestionSubmittability()) return;
+    setIsLLMFilterProcessing(true);
     await axios.post(`${BASE_URL}/publication/llm-filter`, {
       questions: llmQuestions,
-      paper_ids: selectedPapers
+      paper_ids: selectedPapers,
+      answers: llmAnswers,
+      options: llmOptions,
     })
     .then((res) => {
+      // debugger;
       let data = res.data.results
       const updatedResults = searchResults.results.map((result: Publication) => {
-        const llm_responses = data.find((response: LLMPaperFilterResponse) => response.paper_id === result.paper_id)?.response;
-        return {
-          ...result,
-          llm_responses
-        }
+        const llm_responses = data.find((response: LLMPaperFilterResponse) => response.paper_id === result.paper_id)?.responses;
+        return { ...result, llm_responses }
       });
       setSearchResults({...searchResults, results: updatedResults})
     })
-    .catch(handleError);
+    .catch(handleError)
+    .finally(() => setIsLLMFilterProcessing(false));
   }
   
   const handleAddLLMQuestion = () => {
+    if (llmQuestions.length >= 5) {
+      toast.info('Maximum of 5 questions allowed.');
+      return
+    }
     setLLMQuestions([...llmQuestions, {
       id: llmQuestions.length + 1,
       question: '',
@@ -214,43 +228,11 @@ function App() {
   }
 
   const resetSearchParameters = () => {
-    setSearchForm({
-      validation_papers: [],
-      search_terms: {
-        advanced: '',
-        primary: [],
-        secondary: [],
-        tertiary: [],
-      },
-      year_start: 2023,
-      year_end: 2024,
-      sources: [SearchEngineType.DBLP],
-    });
-    setSearchResults({
-      matches: {
-        num_matches: 0,
-        papers: [],
-        percentage_match: 0
-      },
-      results: [],
-      variations: []
-    });
+    setSearchForm(defaultSearchForm);
+    setSearchResults(defaultSearchResult);
     setSelectedPapers([]);
-    setLLMQuestions([{
-      id: 1,
-      question: '',
-      answer: ''
-    }]);
-    setButtonState({
-      showSelectAll: false,
-      showDeselectAll: false,
-      showHideMetadata: false,
-      showPopulateMetadata: false,
-      showForwardSearch: false,
-      showBackwardSearch: false,
-      showExport: false,
-      showLLMQuestions: false,
-    })
+    setLLMQuestions(defaultLLMQuestions);
+    setButtonState(defaultButtonState)
   }
 
   const handleChipClick = (keyword: string, field: MultiLayerSearch) => {
@@ -284,7 +266,6 @@ function App() {
       if (newIndex >= searchHistory.length) newIndex = searchHistory.length - 1;
       return newIndex;
     });
-    // setSearchForm(searchHistory[index]);
   }
 
   const handleDiffMode = () => {
@@ -372,15 +353,13 @@ function App() {
 
   const handleAdvancedChipClick = (keyword: string, synonym: string) => {
     
-    // Surround keyword/synonym phrases with quotes
-    toast.info(`Replacing ${keyword} with ${synonym}`);
+    // Surround keyword/synonym phrases with quotes if they contain spaces
     if (keyword.split(' ').length > 1) {
       keyword = `"${keyword}"`;
     }
     if (synonym.split(' ').length > 1) {
       synonym = `"${synonym}"`;
     }
-
 
     let replacement = `(${keyword} or ${synonym})`;
     setSearchForm({
@@ -416,6 +395,55 @@ function App() {
     setDiffSearchResults({...diffSearchResults, results: newUpdatedDiffResults});
 
     setShowDiffOnly(!showDiffOnly);
+  }
+
+  const validateLLMQuestionSubmittability = () => {
+    let valid = true;
+    for (let i = 0; i < llmQuestions.length; i++) {
+      if (!llmQuestions[i].question) {
+        valid = false;
+        toast.error('Question is required');
+        break;
+      }
+    }
+    if (!valid) return false;
+
+    searchResults.results.forEach((result: Publication) => {
+     if (selectedPapers.includes(result.paper_id) && !result.abstract) { 
+      valid = false; 
+      toast.error(`Metadata is required for all papers: ${result.paper_id} does not fulfill the necessary requirement.`);
+    }
+    });
+
+    if (selectedPapers.length > 50) {
+      valid = false;
+      toast.error('Maximum of 50 selected papers allowed at once.');
+    }
+    return valid;
+  }
+
+  const handleLLMQuestionChange = (e: ChangeEvent<HTMLInputElement>, question: LLMQuestion) => {
+    const updatedQuestions = llmQuestions.map((q) => {
+      if (q.id === question.id) return {...q, [e.target.name]: e.target.value}
+      return q;
+    })
+    setLLMQuestions(updatedQuestions);
+  }
+
+  const handleLLMOptions = (checked: string | boolean, fieldName: string) => {
+
+    if (fieldName === "includeExamples" && checked && selectedPapers.length > 3) {  
+      setLLMAnswers([
+        { paper_id: selectedPapers[0], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) },
+        { paper_id: selectedPapers[1], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) },
+        { paper_id: selectedPapers[2], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) }
+      ]);
+    }
+
+    setLLMOptions({
+      ...llmOptions,
+      [fieldName]: Boolean(checked)
+    })
   }
 
   return (
@@ -605,7 +633,7 @@ function App() {
               buttonState.showLLMQuestions && searchResults.results?.length > 0 &&
               <div className="container p-3 mt-3 border rounded" id="llm-questions">
 
-                <div className="d-flex flex-row justify-content-between align-items-center">
+                <div className="flex flex-row justify-content-between align-items-center">
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h3 className="text-3xl font-medium p-0 m-0">Paper Filter Questions (LLM-Powered)</h3>
                     <div>
@@ -614,53 +642,141 @@ function App() {
                       </Tooltip>
                     </div>
                   </div>
-                  <div className='flex flex-row gap-2'>
-                    <Tooltip title={tooltipText.search.llmQuestion.add} placement="top">
-                      <IconButton onClick={handleAddLLMQuestion}>
-                        <AddIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={tooltipText.search.llmQuestion.remove} placement="top">
-                      <IconButton onClick={handleRemoveLLMQuestion}>
-                        <MinusIcon />
-                      </IconButton>
-                    </Tooltip>
+                  <div className="flex flex-row gap-2">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="llm-examples" checked={llmOptions.includeExamples} onCheckedChange={(checked) => handleLLMOptions(checked, "includeExamples")} />
+                      <label htmlFor="llm-examples" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        Include examples
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="llm-rationale" checked={llmOptions.includeRationale} onCheckedChange={(checked) => handleLLMOptions(checked, "includeRationale")} />
+                      <label htmlFor="llm-rationale" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        Include rationale
+                      </label>
+                    </div>
                   </div>
                 </div>
+                
                 <div className="max-height-30vh overflow-y-scroll">
+                  <div className="d-flex flex-row gap-2 mt-3 align-items-center">
+                    <div className="w-5">#</div>
+                    <div className="w-50">Question</div>
+                    <div className="w-40">Answer <span className="text-slate-600/60 text-xs">(Comma-separated)</span></div>
+                    <div className='flex flex-row gap-2'>
+                      <Tooltip title={tooltipText.search.llmQuestion.add} placement="top">
+                        <IconButton onClick={handleAddLLMQuestion}>
+                          <AddIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={tooltipText.search.llmQuestion.remove} placement="top">
+                        <IconButton onClick={handleRemoveLLMQuestion}>
+                          <MinusIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  </div>
                   {
                     llmQuestions && llmQuestions.length > 0 && llmQuestions.map((question, index) => (
                         <div key={question.id} className="d-flex flex-row gap-2 mt-3">
                           <div className="d-flex align-items-center justify-content-center w-5">{index + 1}</div>
-                          <input className="form-control" placeholder="Question" value={question.question} onChange={
-                            (e) => {
-                              const updatedQuestions = llmQuestions.map((q) => {
-                                if (q.id === question.id) return {...q, question: e.target.value}
-                                return q;
-                              })
-                              setLLMQuestions(updatedQuestions);
-                            }
-                          }/>
-                          <input className="form-control" placeholder="Answer" value={question.answer} onChange={
-                            (e) => {
-                              const updatedQuestions = llmQuestions.map((q) => {
-                                if (q.id === question.id) return {...q, answer: e.target.value}
-                                return q;
-                              })
-                              setLLMQuestions(updatedQuestions);
-                            }
-                          }/>
+                          <Input 
+                            name="question"
+                            className="bg-white"
+                            placeholder="Question" 
+                            value={question.question} 
+                            onChange={(e) => handleLLMQuestionChange(e, question)}
+                          />
+                          <Input 
+                            name="answer"
+                            className="bg-white" 
+                            placeholder="Answer" 
+                            value={question.answer} 
+                            onChange={(e) => handleLLMQuestionChange(e, question)}
+                          />
                         </div>
                     ))
                   }
                 </div>
+
+                {/* Few-shot examples */}
+                {
+                  llmOptions.includeExamples && selectedPapers.length > 3 &&
+                  <div className="flex flex-row mt-3">
+                    <div className="table-responsive">
+                      <table className="table table-striped">
+                        <thead className="bg-primary text-white">
+                          <td>Paper ID</td>
+                          <td style={{ minWidth: "300px" }}>Paper Title</td>
+                          {
+                            llmQuestions.map((question) => (
+                              <td key={question.id} style={{ minWidth: "300px" }}>
+                                Q{question.id}: Answer & Rationale
+                              </td>
+                            ))
+                          }
+                        </thead>
+                        <tbody>
+                        {selectedPapers.length > 0 && selectedPapers.map((paper_id, index) => {
+                          let paperName = searchResults.results.find((result) => result.paper_id === paper_id)?.paper_title;
+                          if (index < 3) {
+                            return (
+                              <tr>
+                                <td>{paper_id}</td>
+                                <td>{paperName}</td>
+                                {llmQuestions.map((llmQuestion, questionIdx) => (
+                                  <td key={questionIdx}>
+                                    <Select 
+                                      value={llmAnswers[index]?.responses[questionIdx].answer ?? ""}
+                                      onValueChange={(value) => {
+                                        let updatedAnswers = [...llmAnswers];
+                                        updatedAnswers[index].responses[questionIdx].answer = value;
+                                        setLLMAnswers(updatedAnswers);
+                                      }}
+                                    >
+                                      <SelectTrigger className="bg-white">
+                                        <SelectValue placeholder="Select Answer" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {llmQuestion.answer.split(',').map((choice) => {
+                                          if (choice) return (
+                                            <SelectItem key={choice} value={choice}>{choice}</SelectItem>
+                                          )})
+                                        }
+                                      </SelectContent>
+                                    </Select>
+                                    { 
+                                      llmOptions.includeRationale &&
+                                      <Input 
+                                        placeholder="Rationale" 
+                                        className="bg-white"
+                                        value={llmAnswers[index]?.responses[questionIdx].rationale ?? ""}
+                                        onChange={(e) => {
+                                          let updatedAnswers = [...llmAnswers];
+                                          updatedAnswers[index].responses[questionIdx].rationale = e.target.value;
+                                          setLLMAnswers(updatedAnswers);
+                                        }}
+                                      />
+                                    }
+                                  </td>
+                                ))}
+                              </tr>
+                            );
+                          }
+                        })}
+                      </tbody>
+                      </table>
+                    </div>
+                  </div>
+                }
+
                 <div className="d-flex justify-content-end mt-3">
                   <Button 
                     className="bg-green-600 hover:bg-green-700/80" 
-                    // disabled={}
+                    disabled={isLLMFilterProcessing}
                     onClick={handleLLMFiltering}
                   >
-                    Submit Questions
+                    {isLLMFilterProcessing ? <Spinner /> : "Submit Questions"}
                   </Button>
                 </div>
               </div>
@@ -693,7 +809,6 @@ function App() {
               </div>
 
               <div className="w-100 relative">
-                {/* <button className="btn w-5" onClick={() => handleSearchHistory(-1)}>{"<"}</button> */}
                 <div className="px-12 py-3">
                   <Carousel className="">
                     <CarouselContent>

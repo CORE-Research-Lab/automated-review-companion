@@ -103,7 +103,7 @@ class WebOfScienceEngine(SearchEngine):
         paper_count     = 0
         search_results: List[Dict[str, Any]] = []
         
-        while True:
+        while True and paper_count < 1000:
             search_params   = self._parse_search_params(search_string, start_record)
             data            = self.fetch_search_results(search_params)
             
@@ -169,7 +169,7 @@ class WebOfScienceEngine(SearchEngine):
         self, 
         params: Dict[str, Any],
         max_retries: int = 3,
-        delay: int = 5
+        delay: int = 1
     ) -> Dict[str, Any]:
         """ Fetch search results from the Web of Science API. """
         

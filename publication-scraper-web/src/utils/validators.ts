@@ -2,7 +2,7 @@ import { SearchForm, SearchMode } from '@/types';
 import { toast } from 'react-toastify';
 
 export const validateSearchForm = (searchForm: SearchForm, searchMode: SearchMode) => {
-  if (!searchForm.search_terms.primary && searchMode === SearchMode.SIMPLE) {
+  if (searchForm.search_terms.primary.length === 0 && searchMode === SearchMode.SIMPLE) {
     toast.error('Primary search term is required');
     return false;
   }

@@ -88,11 +88,11 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
       width: 100,
       requirement: "showMetadata"
     },
-    {
-      name: "Keywords",
-      width: 100,
-      requirement: "showMetadata"
-    },
+    // {
+    //   name: "Keywords",
+    //   width: 100,
+    //   requirement: "showMetadata"
+    // },
     {
       name: "Publication Date",
       width: 150,

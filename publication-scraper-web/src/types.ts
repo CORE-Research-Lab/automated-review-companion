@@ -37,7 +37,6 @@ export type Publication = {
   conference_journal?: string,
   doi?: string,
   doi_url?: string,
-  keywords?: string[],
   publication_date?: string,
   publication_type?: string[],
   publisher?: string,
@@ -95,6 +94,22 @@ export type LLMQuestion = {
   id: number,
   question: string,
   answer: string
+}
+
+export type LLMUserAnswer = {
+  paper_id: string,
+  responses: LLMUserAnswerResponse[]
+}
+
+export type LLMUserAnswerResponse = {
+  id: number,
+  answer: string
+  rationale: string
+}
+
+export type LLMOptions = {
+  includeExamples: boolean,
+  includeRationale: boolean,
 }
 
 export type LLMPaperFilterResponse = {

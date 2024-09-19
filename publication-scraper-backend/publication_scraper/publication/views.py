@@ -1,3 +1,4 @@
+import datetime
 import logging
 from itertools import product
 
@@ -7,15 +8,16 @@ from rest_framework.views import APIView
 from utils import Logger
 
 from .interfaces.backward_search import BackwardSearch
-from .interfaces.filter.llm_filter import FilterResponse, LLMFilter
+from .interfaces.filter.llm_filter import FilterResponse, LLMFilter, FilterAnswerExamples, FilterAnswer
 from .interfaces.forward_search import ForwardSearch
 from .interfaces.validation import PublicationValidator
-from .models import Publication, PublicationMetadata
+from .models import Publication, PublicationMetadata, PublicationLLMUsage
 from .serializers import (
     PublicationLLMFilterSerializer,
     PublicationSnowballingSerializer,
     PublicationValidationSerializer,
 )
+
 
 log = Logger(__name__)
 
@@ -62,12 +64,58 @@ class PublicationValidationView(APIView):
 
 class PublicationLLMFilterView(APIView):
 
+
+    def check_for_validity(self, request, paper_ids):
+        """ Checks if the user has submitted MAX_AMOUNT paper ids already for the day. """
+        MAX_LLM_CALL_COUNT = 20
+        ip = request.META.get('REMOTE_ADDR')
+        today = datetime.date.today()
+        usage = PublicationLLMUsage.objects.filter(ip_address=ip, date=today).first()
+        if not usage:
+            usage = PublicationLLMUsage(ip_address=ip, date=today)
+        usage.count += len(paper_ids)
+        usage.save()
+
+        if usage.count >= (MAX_LLM_CALL_COUNT - len(paper_ids)):
+            return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."
+
     def post(self, request):
+
         serializer = PublicationLLMFilterSerializer(data=request.data)
         if serializer.is_valid():
+
+            includeExamples: bool
+            includeRationale: bool
             
             questions = serializer.validated_data['questions']
             paper_ids = serializer.validated_data.get('paper_ids')
+            answers = serializer.validated_data.get('answers')
+            options = serializer.validated_data.get('options')
+
+            validity = self.check_for_validity(request, paper_ids)
+            if validity:
+                log.error(f"LLM filter error: {validity}")
+                return JsonResponse({ "Max attempts reached" : validity }, status=HTTP_400_BAD_REQUEST)
+
+            if options:
+                includeExamples = options.get('includeExamples', False)
+                includeRationale = options.get('includeRationale', False)
+
+            # Remove paper_ids that are in answers
+            for paper in answers:
+                examples = [
+                    FilterAnswerExamples(
+                        paper_id = paper['paper_id'],
+                        responses = [
+                            FilterAnswer(
+                                id       = response['id'],
+                                answer   = response['answer'],
+                                rationale = response['rationale']
+                            ) for response in paper['responses']
+                        ] 
+                    ) for paper in answers
+                ]
+                log.info(f"LLM filter example: {paper}.")
 
             # Data transformation
             publications = list(PublicationMetadata.objects.filter(publication_id__in=paper_ids))
@@ -87,8 +135,11 @@ class PublicationLLMFilterView(APIView):
 
             # Filter publications by questions
             llm_filter = LLMFilter()
-            llm_filter.parse(publications, questions)
+            llm_filter.parse(publications, questions, examples, includeRationale, includeExamples)
             results = llm_filter.completion()
+            
+            if includeExamples:
+                results = [*answers, *results]    
 
             return JsonResponse({ "results" : results })
-        
+        return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)

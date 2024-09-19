@@ -271,7 +271,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
                   'Not Available'
               )}
             </td>
-            <td>{publication.keywords?.join(', ') ?? "-"}</td>
+            {/* <td>{publication.keywords?.join(', ') ?? "-"}</td> */}
             <td>{publication.publication_date ?? "-"}</td>
             <td>{publication.publication_type ?? "-"}</td>
             <td>
@@ -298,8 +298,10 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       {
           searchResults.results && searchResults.results.length > 0 &&
           searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion) => (
-          <td key={response.id} style={{ minWidth: "220px" }}>{response.answer}</td>
+          llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
+          <td key={response.id} style={{ minWidth: "220px" }}>
+            {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.answer ?? "-"}
+          </td>
         ))
       }
     </tr>

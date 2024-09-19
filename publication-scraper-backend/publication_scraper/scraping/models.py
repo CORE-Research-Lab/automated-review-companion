@@ -6,6 +6,8 @@ class SearchEngineType(str, Enum):
     DBLP = "DBLP"
     SEMANTIC_SCHOLAR = "SEMANTIC_SCHOLAR"
     WEB_OF_SCIENCE = "WEB_OF_SCIENCE"
+    IEEE_XPLORE = "IEEE_XPLORE"
+    SCOPUS = "SCOPUS"
     
     def get_choices():
       return [

@@ -76,9 +76,11 @@ class SnowballingSearch:
             )
             metadata = self._get_metadata(paper_doi)
             publication.metadata = metadata
-            metadata.save()
-            publication.save()
-            
+            # metadata.save()
+            # publication.save()
+        
+        publication.searched_from = reference.src_doi
+        publication.formatted_search_string = "Not Applicable"    
         return publication
     
 
