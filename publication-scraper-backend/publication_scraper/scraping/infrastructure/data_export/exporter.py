@@ -29,7 +29,18 @@ class DataExporter(ABC):
             
             if len(self.exportable) > 0:
                 self.headers    = list(self.exportable[0].data.keys())
-                self.data       = [list(data.data.values()) for data in self.exportable]
+                headers_num     = len(self.headers) 
+                for data in self.exportable:
+                    if headers_num < len(data.data.keys()):
+                        self.headers = list(data.data.keys())
+                        headers_num = len(self.headers)
+
+                self.data = []
+                for data in self.exportable:
+                    _data = [None for _ in range(len(self.headers))]
+                    for key, value in data.data.items():
+                        _data[self.headers.index(key)] = value
+                    self.data.append(_data)
                 
         # Exportable
         else:

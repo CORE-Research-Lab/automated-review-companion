@@ -31,7 +31,10 @@ SECRET_KEY = 'django-insecure-zsj=ww(o4$p#(+*g#7vi99467668h%#j5yqeh#7uj2zgqc-ge2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+  "localhost",
+  "ec2-18-218-118-93.us-east-2.compute.amazonaws.com"
+]
 
 # Remove trailing slash from URLs
 APPEND_SLASH = False

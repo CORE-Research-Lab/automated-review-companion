@@ -37,7 +37,6 @@ export type Publication = {
   conference_journal?: string,
   doi?: string,
   doi_url?: string,
-  keywords?: string[],
   publication_date?: string,
   publication_type?: string[],
   publisher?: string,
@@ -51,6 +50,7 @@ export type Publication = {
   citations?: Publication[],
   showReferences?: boolean,
   showCitations?: boolean
+  show?: boolean
 
   // View fields
   diffType?: DiffType
@@ -96,6 +96,22 @@ export type LLMQuestion = {
   answer: string
 }
 
+export type LLMUserAnswer = {
+  paper_id: string,
+  responses: LLMUserAnswerResponse[]
+}
+
+export type LLMUserAnswerResponse = {
+  id: number,
+  answer: string
+  rationale: string
+}
+
+export type LLMOptions = {
+  includeExamples: boolean,
+  includeRationale: boolean,
+}
+
 export type LLMPaperFilterResponse = {
   paper_id: string,
   response: LLMQuestion[]
@@ -104,4 +120,22 @@ export type LLMPaperFilterResponse = {
 export enum SearchMode {
   SIMPLE = "simple",
   ADVANCED = "advanced"
+}
+
+export enum PublicationOperation {
+  POPULATE_METADATA = "populate_metadata",
+  FORWARD_SEARCH = "forward_search",
+  BACKWARD_SEARCH = "backward_search",
+  DELETE = "delete"
+}
+
+export type ButtonState = {
+  showSelectAll: boolean,
+  showDeselectAll: boolean,
+  showHideMetadata: boolean,
+  showPopulateMetadata: boolean,
+  showForwardSearch: boolean,
+  showBackwardSearch: boolean,
+  showExport: boolean,
+  showLLMQuestions: boolean,
 }

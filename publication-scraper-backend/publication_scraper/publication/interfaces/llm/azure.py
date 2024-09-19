@@ -19,7 +19,7 @@ class AzureLLM:
 
     def init_llm(
       self, 
-      max_tokens: int = 2000, 
+      max_tokens: int = 4000, 
       model_name: str = "gpt-4"
     ):
         self.llm = AzureChatOpenAI(

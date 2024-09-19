@@ -25,12 +25,16 @@ class ForwardSearch(SnowballingSearch):
     """ Serialize publications. """
 
     for publication in self.publications:
-      self.results.append({
-        "title": publication.paper_title,
-        "doi": publication.metadata.doi,
-        "references": [],
-        **self._get_publication_data(publication, self.show_metadata)
-      })
+      try:
+        self.results.append({
+          "title": publication.paper_title,
+          "doi": publication.metadata.doi,
+          "references": [],
+          **self._get_publication_data(publication, self.show_metadata)
+        })
+      except Exception as e:
+        log.error(f"Error loading publication: {publication.paper_title}")
+        log.error(e)
 
   @Profiler("Forward Search - Searching")
   def search(self):

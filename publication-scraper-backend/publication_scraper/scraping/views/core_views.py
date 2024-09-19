@@ -87,6 +87,12 @@ class SearchAndCleanView(APIView):
         if SearchEngineType.WEB_OF_SCIENCE in self.sources:
             engines.append(WebOfScienceEngine(self.query))
 
+        if SearchEngineType.IEEE_XPLORE in self.sources:
+            engines.append(SemanticScholarEngine(self.query, "IEEE Xplore"))
+        
+        if SearchEngineType.SCOPUS in self.sources:
+            engines.append(SemanticScholarEngine(self.query, "Scopus"))
+
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
         results.extend([result for engine in engines for result in engine.search()])
@@ -283,3 +289,46 @@ class HistoricalSearchQueryResultsView(APIView):
         
         search_results = get_object_or_404(SearchResponse, id=search_id)
         return JsonResponse(search_results.to_dict())
+
+class SearchHistoryPublicationView(APIView):
+
+    def put(self, request):
+        """
+        Update the search history with additional new search results.
+        """
+        search_id = request.query_params.get('search_reference_id')
+        paper_data = request.data.get('papers', [])
+
+        if search_id is None:
+            return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
+        if paper_data is None:
+            return JsonResponse({ "error": "Paper data is required." }, status=HTTP_400_BAD_REQUEST)
+        
+        search_results = get_object_or_404(SearchResponse, id=search_id)
+        print(len(search_results.results))
+        search_results.results.extend(paper_data)
+        print(len(search_results.results))
+        search_results.save()
+
+        log.info(f"Updated search results for paper IDs: {search_results.results}")
+
+        return JsonResponse({ "message": "Search results updated successfully." })
+
+    def delete(self, request):
+        """
+        Delete a publication from the search history.
+        """
+        search_id = request.query_params.get('search_reference_id')
+        paper_ids = request.query_params.get('paper_ids')
+        paper_ids = paper_ids.split(',') if paper_ids else []
+
+        if search_id is None:
+            return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
+        
+        search_results = get_object_or_404(SearchResponse, id=search_id)
+        search_results.results = [result for result in search_results.results if result['paper_id'] not in paper_ids]
+        search_results.save()
+
+        log.info(f"Deleted search results for paper IDs: {search_results.results}")
+        
+        return JsonResponse({ "message": "Search results deleted successfully." })

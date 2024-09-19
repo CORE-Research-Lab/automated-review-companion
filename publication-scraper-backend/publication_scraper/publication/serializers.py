@@ -25,7 +25,23 @@ class LLMFilterQuestionSerializer(serializers.Serializer):
     question = serializers.CharField()
     answer = serializers.CharField()
 
+class LLMFilterUserResponseSerializer(serializers.Serializer):
+    
+    id = serializers.IntegerField()
+    answer = serializers.CharField()
+    rationale = serializers.CharField(default="", allow_blank=True)
+
+class LLMFilterUserAnswerSerializer(serializers.Serializer):
+   
+    paper_id = serializers.CharField()
+    responses = serializers.ListField(child=LLMFilterUserResponseSerializer())
+
+class LLMFilterOptionsSerializer(serializers.Serializer):
+    includeExamples = serializers.BooleanField(default=False)
+    includeRationale = serializers.BooleanField(default=False)
 class PublicationLLMFilterSerializer(serializers.Serializer):
 
-  questions = serializers.ListField(child=LLMFilterQuestionSerializer())
-  paper_ids = serializers.ListField(child=serializers.CharField(), default=[])
+    questions = serializers.ListField(child=LLMFilterQuestionSerializer())
+    paper_ids = serializers.ListField(child=serializers.CharField(), default=[])
+    answers = serializers.ListField(child=LLMFilterUserAnswerSerializer(), default=[])
+    options = LLMFilterOptionsSerializer(required=False, default={})

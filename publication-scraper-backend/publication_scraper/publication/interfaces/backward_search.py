@@ -1,8 +1,10 @@
 from typing import List
 
+from utils.logger import Logger
 from ..models import Publication, PublicationReference, PublicationReferenceType
 from .snowballing_search import SnowballingSearch
 
+log = Logger(__name__)
 
 class BackwardSearch(SnowballingSearch):
     def __init__(
@@ -22,14 +24,16 @@ class BackwardSearch(SnowballingSearch):
         Load publications into the dataframe.
         """
         for publication in self.publications:
-            
-
-            self.results.append({
-                "title":        publication.paper_title,
-                "doi":          publication.metadata.doi,
-                "citations":   [],
-                **self._get_publication_data(publication, self.show_metadata)
-            })
+            try:
+                self.results.append({
+                    "title":        publication.paper_title,
+                    "doi":          publication.metadata.doi,
+                    "citations":   [],
+                    **self._get_publication_data(publication, self.show_metadata)
+                })
+            except Exception as e:
+                log.error(f"Error loading publication: {publication.paper_title}")
+                log.error(e)
 
 
     def search(self):
