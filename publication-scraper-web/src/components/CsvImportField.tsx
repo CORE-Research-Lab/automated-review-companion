@@ -4,14 +4,17 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 export interface CsvImportFieldProps {
-  tooltip: string
+  disabled: boolean;
+  tooltip: string;
+  setManualAddPapers: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
-  const { tooltip } = props;
+  const { tooltip, disabled } = props;
   const [dragActive, setDragActive] = useState(false);
   
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
@@ -22,6 +25,7 @@ const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -37,8 +41,9 @@ const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
   };
 
   const parseCsv = (file: File) => {
+    if (disabled) return;
     const dois = [];
-    Papa.parse(file, {
+    return Papa.parse(file, {
       complete: function(results: any) {
         const data = results.data;
         if (data.length > 0) {
@@ -47,7 +52,7 @@ const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
           const doiIndex = header.indexOf('DOI');
 
           if (doiIndex === -1) {
-            console.error("No 'DOI' column found in the CSV file.");
+            toast.error("No 'DOI' column found in the CSV file.");
             return;
           }
 
@@ -67,9 +72,12 @@ const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
 
 
   return (
-    <Tooltip title={tooltip} placement="right" style={{ cursor: "pointer" }}>
+    <Tooltip title={tooltip} placement="right" style={{ cursor: disabled ? "not-allowed" : "pointer" }}>
       <div
-        className={`input-group-prepend ${dragActive ? 'drag-active' : ''}`}
+        className={
+          `input-group-prepend ${dragActive ? 'drag-active' : ''}` +
+          `${disabled ? 'disabled text-muted' : ''}` 
+        }
         onDragEnter={(e) => handleDrag(e)}
         onDragLeave={(e) => handleDrag(e)}
         onDragOver={(e) => handleDrag(e)}

@@ -180,6 +180,10 @@ class PublicationMetadata(models.Model):
         
         log.info(f"──────── Bulk upserted {len(to_update)}, created {len(to_create)} publications ────────")
 
+class PublicationLLMUsage(models.Model):
+    ip_address      = models.CharField(max_length=200)
+    date            = models.DateField()
+    count           = models.IntegerField(default=0)
 
 class PublicationReferenceType(str, Enum):
     CITATION = 'CITATION'

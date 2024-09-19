@@ -1,7 +1,11 @@
+import { handleError } from '@/common/handler';
+import { BASE_URL } from '@/utils/common';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import { Tooltip } from '@mui/material';
+import axios from 'axios';
+import { useEffect } from 'react';
+import '../main.css';
 import {
   LLMQuestion,
   Publication,
@@ -11,7 +15,6 @@ import {
 export interface PublicationRowProps {
   rowType?: string
   rowIdx?: number | string
-  deleteMode?: boolean
   publication: Publication
   handlePaperSelect?: (paper_id: string) => void
   selectedPapers?: string[]
@@ -19,20 +22,22 @@ export interface PublicationRowProps {
   searchResults: SearchResult
   setSearchResults?: React.Dispatch<React.SetStateAction<SearchResult>>
   llmQuestions?: LLMQuestion[]
+  currentSearchReferenceId?: string
+  diffMode?: boolean
 }
 
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   const { 
     rowType,
     rowIdx,
-    deleteMode,
     publication,
     handlePaperSelect,
     selectedPapers,
     showMetadata,
-    searchResults,
+    searchResults, setSearchResults,
     llmQuestions,
-    setSearchResults
+    currentSearchReferenceId,
+    diffMode,
   } = props;
 
   const getColorByRowType = () => {
@@ -48,9 +53,9 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
 
   const getDiffRowColor = () => {
     if (publication.diffType === 'add') {
-      return 'table-success';
+      return 'table-row-red bg-[#FFEEF0]';
     } else if (publication.diffType === 'remove') {
-      return 'table-danger';
+      return 'table-row-green bg-[#E6FFED]';
     }
     return '';
   }
@@ -83,33 +88,46 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     setSearchResults({...searchResults, results: updatedResults})
   }
 
-  // Only applicable to references/citations
-  const addToMainSearchResult = (paper: Publication) => {
+  const turnReferencesAndCitationsInvisible = () => {
     if (!setSearchResults) return;
-    // remove from references/citations from all results' citations/references
     const updatedResults = searchResults.results.map((result: Publication) => {
-      var references: Publication[] = [];
-      var citations: Publication[] = [];
-      if (result.references && result.references.length > 0) {
-        references = result.references.filter((reference) => reference.paper_id !== paper.paper_id)
-      }
-      if (result.citations && result.citations.length > 0) {
-          citations = result.citations.filter((citation) => citation.paper_id !== paper.paper_id)
-      }
       return {
         ...result,
-        references,
-        citations
+        showReferences: false,
+        showCitations: false
       }
     });
-
-    setSearchResults({...searchResults, results: [...updatedResults, paper]})
+    setSearchResults({...searchResults, results: updatedResults})
   }
 
-  const handlePaperDelete = (paper_id: string) => {
+  // Only applicable to references/citations
+  const addToMainSearchResult = async (paper: Publication) => {
     if (!setSearchResults) return;
-    const updatedResults = searchResults.results.filter((result: Publication) => result.paper_id !== paper_id);
-    setSearchResults({...searchResults, results: updatedResults})
+    // remove from references/citations from all results' citations/references
+    await axios.put(
+      `${BASE_URL}/scraper/history/publications?search_reference_id=${currentSearchReferenceId}`, 
+      { papers: [paper] }
+    )
+    .then((res) => {
+      console.log(res.data);
+      const updatedResults = searchResults.results.map((result: Publication) => {
+        var references: Publication[] = [];
+        var citations: Publication[] = [];
+        if (result.references && result.references.length > 0) {
+          references = result.references.filter((reference) => reference.paper_id !== paper.paper_id)
+        }
+        if (result.citations && result.citations.length > 0) {
+            citations = result.citations.filter((citation) => citation.paper_id !== paper.paper_id)
+        }
+        return {
+          ...result,
+          references,
+          citations
+        }
+      });
+      setSearchResults({...searchResults, results: [...updatedResults, paper]})
+    })
+    .catch(handleError);
   }
 
   const parseSearchString = (searchString: string[] | string) => {
@@ -119,6 +137,10 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     return searchString
   }
 
+  useEffect(() => {
+    if (diffMode) { turnReferencesAndCitationsInvisible(); }
+  }, [diffMode]);
+
   return (
     <tr key={publication.paper_id}
       className={`${getColorByRowType()} ${getDiffRowColor()} publication-row`}
@@ -127,14 +149,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       <td>
         <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
           {
-            deleteMode &&
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={() => handlePaperDelete(publication.paper_id)}
-            >-</button>
-          }
-          {
-            rowType === 'reference' &&
+            rowType === 'reference' && !diffMode &&
             <Tooltip title="Append to the bottom of the main search results" placement="top">
               <button 
                 className="btn btn-primary btn-sm"
@@ -143,7 +158,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             </Tooltip>
           }
           {
-            rowType === 'citation' && 
+            rowType === 'citation' && !diffMode &&
             <Tooltip title="Append to the bottom of the main search results" placement="top">
               <button 
                 className="btn btn-primary btn-sm"
@@ -152,16 +167,16 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             </Tooltip>
           }
           {
-            rowType === 'main' && selectedPapers && handlePaperSelect &&
+            rowType === 'main' && selectedPapers && handlePaperSelect && !diffMode &&
             <>
               <input
                 type="checkbox"
                 checked={selectedPapers.includes(publication.paper_id)}
-                onClick={() => handlePaperSelect (publication.paper_id)}
+                onClick={() => handlePaperSelect(publication.paper_id)}
               />
               {/* Expand/contract references/citations */}
               {
-                publication.references && publication.references.length > 0 &&
+                publication.references && publication.references.length > 0 && !diffMode &&
                 <Tooltip title="Expand/Collapse references" placement="top">
                   {publication.showReferences ? 
                     <ExpandMoreIcon 
@@ -181,7 +196,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
                 </Tooltip>
               }
               {
-                publication.citations && publication.citations.length > 0 &&
+                publication.citations && publication.citations.length > 0 && !diffMode &&
                 <Tooltip title="Expand/Collapse citations" placement="top">
                   {publication.showCitations ?
                     <ExpandMoreIcon 
@@ -256,7 +271,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
                   'Not Available'
               )}
             </td>
-            <td>{publication.keywords?.join(', ') ?? "-"}</td>
+            {/* <td>{publication.keywords?.join(', ') ?? "-"}</td> */}
             <td>{publication.publication_date ?? "-"}</td>
             <td>{publication.publication_type ?? "-"}</td>
             <td>
@@ -283,8 +298,10 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       {
           searchResults.results && searchResults.results.length > 0 &&
           searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
-          <td key={response.id} style={{ minWidth: "220px" }}>Q{index + 1} {response.question}</td>
+          llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
+          <td key={response.id} style={{ minWidth: "220px" }}>
+            {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.answer ?? "-"}
+          </td>
         ))
       }
     </tr>

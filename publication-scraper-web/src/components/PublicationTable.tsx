@@ -9,7 +9,8 @@ export interface PublicationTableProps {
   handlePaperSelect?: (paperId: string) => void;
   showMetadata?: boolean;
   llmQuestions?: LLMQuestion[];
-  deleteMode?: boolean;
+  currentSearchReferenceId?: string;
+  diffMode?: boolean;
 }
 
 const PublicationTable: React.FC<PublicationTableProps> = (props) => {
@@ -21,7 +22,8 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
     handlePaperSelect,
     showMetadata,
     llmQuestions,
-    deleteMode
+    currentSearchReferenceId,
+    diffMode,
   } = props;
 
   // Publication Data Table Resizability
@@ -86,11 +88,11 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
       width: 100,
       requirement: "showMetadata"
     },
-    {
-      name: "Keywords",
-      width: 100,
-      requirement: "showMetadata"
-    },
+    // {
+    //   name: "Keywords",
+    //   width: 100,
+    //   requirement: "showMetadata"
+    // },
     {
       name: "Publication Date",
       width: 150,
@@ -181,20 +183,23 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
 
             let publicationRows = [];
 
-            publicationRows.push(
-              <PublicationRow
-                rowType='main'
-                rowIdx={rowIdx+1}
-                deleteMode={deleteMode}
-                publication={result}
-                handlePaperSelect={handlePaperSelect}
-                selectedPapers={selectedPapers}
-                showMetadata={showMetadata}
-                searchResults={searchResults}
-                llmQuestions={llmQuestions}
-                setSearchResults={setSearchResults}
-              />
-            )
+            if (result.show == undefined || result.show) {
+              publicationRows.push(
+                <PublicationRow
+                  rowType='main'
+                  rowIdx={rowIdx+1}
+                  publication={result}
+                  handlePaperSelect={handlePaperSelect}
+                  selectedPapers={selectedPapers}
+                  showMetadata={showMetadata}
+                  searchResults={searchResults}
+                  llmQuestions={llmQuestions}
+                  setSearchResults={setSearchResults}
+                  currentSearchReferenceId={currentSearchReferenceId}
+                  diffMode={diffMode}
+                />
+              )
+            }
 
             if (result.showReferences && result.references !== undefined && result.references?.length > 0) {
               result.references.forEach((reference, referenceIdx) => {
@@ -202,7 +207,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                   <PublicationRow
                     rowType="reference"
                     rowIdx={rowIdx+1 + "-R" + referenceIdx}
-                    deleteMode={deleteMode}
                     publication={reference}
                     handlePaperSelect={handlePaperSelect}
                     selectedPapers={selectedPapers}
@@ -210,6 +214,8 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                     searchResults={searchResults}
                     llmQuestions={llmQuestions}
                     setSearchResults={setSearchResults}
+                    currentSearchReferenceId={currentSearchReferenceId}
+                    diffMode={diffMode}
                   />
                 )
               })
@@ -222,7 +228,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                   <PublicationRow
                     rowType="citation"
                     rowIdx={rowIdx+1 + "-C" + citationIdx}
-                    deleteMode={deleteMode}
                     publication={citation}
                     handlePaperSelect={handlePaperSelect}
                     selectedPapers={selectedPapers}
@@ -230,6 +235,8 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                     searchResults={searchResults}
                     llmQuestions={llmQuestions}
                     setSearchResults={setSearchResults}
+                    currentSearchReferenceId={currentSearchReferenceId}
+                    diffMode={diffMode}
                   />
                 )
               })

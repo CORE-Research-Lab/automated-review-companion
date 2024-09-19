@@ -6,7 +6,8 @@ from .views.core_views import (
     SearchAndCleanView,
     SearchStringDifferenceView,
     ManualAddPublicationView,
-    HistoricalSearchQueryResultsView
+    HistoricalSearchQueryResultsView,
+    SearchHistoryPublicationView,
 )
 from .views.crud_views import PublicationViewSet
 from .views.export_views import ExportView
@@ -22,6 +23,7 @@ core_urls = [
     path('manual-add-publication', ManualAddPublicationView.as_view(), name='manual-add-publication'),
     path('search-string-difference', SearchStringDifferenceView.as_view(), name='search-string-difference'),
     path('historical-search', HistoricalSearchQueryResultsView.as_view(), name='historical-search'),
+    path('history/publications', SearchHistoryPublicationView.as_view(), name='delete-publication'),
 ]
 
 # Web controller views

@@ -19,7 +19,7 @@ log = Logger(__name__)
 class SemanticScholarEngine(SearchEngine):
     """ Search engine for Semantic Scholar. """
     
-    def __init__(self, search_query: SearchQuery = None): # queries: List[str], year: str):
+    def __init__(self, search_query: SearchQuery = None, proxy_name: str = ""): # queries: List[str], year: str):
         super().__init__()
         self.headers = {
             "Content-Type": "application/json", 
@@ -32,6 +32,7 @@ class SemanticScholarEngine(SearchEngine):
             "url",
             "authors",
         ]
+        self.proxy_name                 = proxy_name if proxy_name else "Semantic Scholar"
         self.url: str                   = "https://api.semanticscholar.org/graph/v1/paper/search"
         self.bulkUrl: str               = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
         self.arxiv_doi: str             = "DOI:10.48550/arXiv."
@@ -173,7 +174,7 @@ class SemanticScholarEngine(SearchEngine):
                                 paper_title             = result.get("title"),
                                 paper_id                = paper_id,
                                 search_string           = search_string,
-                                searched_from           = SearchEngineType.SEMANTIC_SCHOLAR.value,
+                                searched_from           = self.proxy_name,
                                 formatted_search_string = formatted_search_string,
                                 status                  = PublicationStatus.NEW.value
                             )
