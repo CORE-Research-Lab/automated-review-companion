@@ -26,7 +26,8 @@ export const defaultSearchResult = {
 export const defaultLLMQuestions = [{
   id: 1,
   question: '',
-  answer: ''
+  answer: '',
+  rationale: ''
 }]
 
 export const defaultLLMOptions = {

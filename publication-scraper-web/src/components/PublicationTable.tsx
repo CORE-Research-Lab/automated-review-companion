@@ -174,7 +174,10 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
                 searchResults.results && searchResults.results.length > 0 &&
                 searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
                 llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
-                    <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1} {response.question}</td>
+                    <>
+                      <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}"</td>
+                      <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}" Rational</td>
+                    </>
                 ))
             }
           </thead>
