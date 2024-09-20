@@ -426,9 +426,9 @@ function App() {
     if (!valid) return false;
 
     searchResults.results.forEach((result: Publication) => {
-     if (selectedPapers.includes(result.paper_id) && !result.abstract) { 
-      valid = false; 
-      toast.error(`Metadata is required for all papers: ${result.paper_id} does not fulfill the necessary requirement.`);
+     if (selectedPapers.includes(result.paper_id) && !result.abstract) {
+      // valid = false; TODO: paper without metadata shouldn't stop LLM filtering
+      toast.warning(`Metadata is required for all papers: ${result.paper_id} does not fulfill the necessary requirement.`);
     }
     });
 
