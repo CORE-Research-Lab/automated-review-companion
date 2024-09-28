@@ -16,7 +16,6 @@ export const validateSearchForm = (searchForm: SearchForm, searchMode: SearchMod
   return true;
 }
 
-
 /**
  * Validate the advanced keyword search
  * 1. Brackets must be in sets - ( and )
@@ -71,7 +70,10 @@ const validateBracketSets = (searchPhrase: string) => {
 
 const validateBooleanOperators = (searchPhrase: string) => {
   let operators = ['and', 'or', 'not', 'AND', 'OR', 'NOT'];
-  var keywords = searchPhrase.match(/"[^"]*"|'[^']*'|\S+/g) || [];
+  var matches = searchPhrase.match(/(?:\bnot\b|\band\b|\bor\b|\bNOT\b|\bAND\b|\bOR\b|'.+?'|\b\w+\b)/gi) || [];
+  var keywords = matches.map(str => str.replace(/'/g, "")) || [];
+  // var keywords = searchPhrase.match(/"[^"]*"|'[^']*'|\S+/g) || [];
+  toast.info(JSON.stringify(keywords));
 
   if (keywords.length === 0) {
     return false;
@@ -89,6 +91,7 @@ const validateBooleanOperators = (searchPhrase: string) => {
       hasOperatorInBetween = true;
     } else {
       if (!hasOperatorInBetween && i !== 0) {
+        toast.info(keywords[i] + keywords[i+1]);
         toast.error('Keywords must be separated by operators');
         return false;
       }
