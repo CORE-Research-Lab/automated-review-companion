@@ -100,9 +100,7 @@ function App() {
   const handleSearchFormChange = (value: string[], field: MultiLayerSearch) => {
     setSearchForm({
       ...searchForm,
-      search_terms: { ...searchForm.search_terms,
-        [field]: value
-      }
+      search_terms: { ...searchForm.search_terms, [field]: value }
     })
   }
 
@@ -168,7 +166,7 @@ function App() {
       dois: manualAddPapers
     })
     .then(async (res) => {
-      let modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL'}));
+      let modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL', formatted_search_string: 'Not Applicable'}));
       let newResults = modifiedResults.filter((paper: Publication) => !searchResults.results.find((result: Publication) => result.paper_id === paper.paper_id));
       setSearchResults({...searchResults, results: [...searchResults.results, ...newResults]});
       toast.success('Papers added successfully');
