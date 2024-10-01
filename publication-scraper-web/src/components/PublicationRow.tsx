@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import '../main.css';
 import {
+  Author,
   LLMQuestion,
   Publication,
   SearchResult
@@ -137,6 +138,15 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     return searchString
   }
 
+  const getAuthorLabel = (author: Author) => {
+    let authorName = author.name;
+    if (author.affiliation) {
+      let affiliations = author.affiliation.map((affiliate: string) => affiliate.replace(",", ", "))
+      authorName += ` (${affiliations.join(", ")})`;
+    }
+    return authorName;
+  }
+
   useEffect(() => {
     if (diffMode) { turnReferencesAndCitationsInvisible(); }
   }, [diffMode]);
@@ -244,13 +254,13 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
         showMetadata &&
           <>
             <td>
-              <div style={{ maxHeight: "100px", overflow: "scroll"}}>
+              <div style={{ maxHeight: "120px", overflow: "scroll"}}>
                 {publication.abstract ?? "-"}
               </div>
             </td>
             <td>
               <div className="publication-data-table-cell" style={{ width: "200px"}}>
-                {publication.authors?.map((author) => author.name).join(', ') ?? "-"}
+                {publication.authors?.map((author) => getAuthorLabel(author)).join(', ') ?? "-"}
               </div>
             </td>
             <td>{publication.citation_count ?? "-"}
