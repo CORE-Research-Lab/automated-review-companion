@@ -1,11 +1,10 @@
-import AddIcon from '@mui/icons-material/Add';
+
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import InfoIcon from '@mui/icons-material/Info';
-import MinusIcon from '@mui/icons-material/Remove';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { handleError } from './common/handler';
 import ChangelogModal from './components/ChangelogModal';
@@ -32,7 +31,6 @@ import {
   ButtonState,
   DiffType,
   LLMOptions,
-  LLMPaperFilterResponse,
   LLMQuestion,
   LLMUserAnswer,
   Publication,
@@ -54,7 +52,6 @@ function App() {
   const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>(defaultLLMQuestions);
   const [llmAnswers, setLLMAnswers] = useState<LLMUserAnswer[]>([]);
   const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
-  const [isLLMFilterProcessing, setIsLLMFilterProcessing] = useState(false);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [showMetadata, setShowMetadata] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -192,50 +189,8 @@ function App() {
     }
   }
 
-  const handleLLMFiltering = async () => {
-    if (!validateLLMQuestionSubmittability()) return;
-    setIsLLMFilterProcessing(true);
-    await axios.post(`${BASE_URL}/publication/llm-filter`, {
-      questions: llmQuestions,
-      paper_ids: selectedPapers,
-      answers: llmAnswers,
-      options: llmOptions,
-    })
-    .then((res) => {
-      // debugger;
-      let data = res.data.results
-      const updatedResults = searchResults.results.map((result: Publication) => {
-        const llm_responses = data.find((response: LLMPaperFilterResponse) => response.paper_id === result.paper_id)?.responses;
-        return { ...result, llm_responses }
-      });
-      setSearchResults({...searchResults, results: updatedResults})
-    })
-    .catch(handleError)
-    .finally(() => setIsLLMFilterProcessing(false));
-  }
-  
-  const handleAddLLMQuestion = () => {
-    if (llmQuestions.length >= 5) {
-      toast.info('Maximum of 5 questions allowed.');
-      return
-    }
-    setLLMQuestions([...llmQuestions, {
-      id: llmQuestions.length + 1,
-      question: '',
-      answer: ''
-    }])
-  }
-
   const handleShowMetadata = () => {
     setShowMetadata(!showMetadata)
-  }
-
-  const handleRemoveLLMQuestion = () => {
-    if (llmQuestions.length === 1) {
-      toast.info('At least one question is required');
-      return;
-    }
-    setLLMQuestions(llmQuestions.slice(0, llmQuestions.length - 1))
   }
 
   const handleSelectSearchMode = (mode: SearchMode) => {
@@ -410,55 +365,6 @@ function App() {
     setDiffSearchResults({...diffSearchResults, results: newUpdatedDiffResults});
 
     setShowDiffOnly(!showDiffOnly);
-  }
-
-  const validateLLMQuestionSubmittability = () => {
-    let valid = true;
-    for (let i = 0; i < llmQuestions.length; i++) {
-      if (!llmQuestions[i].question) {
-        valid = false;
-        toast.error('Question is required');
-        break;
-      }
-    }
-    if (!valid) return false;
-
-    searchResults.results.forEach((result: Publication) => {
-     if (selectedPapers.includes(result.paper_id) && !result.abstract) { 
-      valid = false; 
-      toast.error(`Metadata is required for all papers: ${result.paper_id} does not fulfill the necessary requirement.`);
-    }
-    });
-
-    if (selectedPapers.length > 50) {
-      valid = false;
-      toast.error('Maximum of 50 selected papers allowed at once.');
-    }
-    return valid;
-  }
-
-  const handleLLMQuestionChange = (e: ChangeEvent<HTMLInputElement>, question: LLMQuestion) => {
-    const updatedQuestions = llmQuestions.map((q) => {
-      if (q.id === question.id) return {...q, [e.target.name]: e.target.value}
-      return q;
-    })
-    setLLMQuestions(updatedQuestions);
-  }
-
-  const handleLLMOptions = (checked: string | boolean, fieldName: string) => {
-
-    if (fieldName === "includeExamples" && checked && selectedPapers.length > 3) {  
-      setLLMAnswers([
-        { paper_id: selectedPapers[0], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) },
-        { paper_id: selectedPapers[1], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) },
-        { paper_id: selectedPapers[2], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) }
-      ]);
-    }
-
-    setLLMOptions({
-      ...llmOptions,
-      [fieldName]: Boolean(checked)
-    })
   }
 
   // Fetch the search history from the local storage
@@ -728,7 +634,6 @@ function App() {
                   }
                 </div>
 
-                {/* Few-shot examples */}
                 {
                   llmOptions.includeExamples && selectedPapers.length > 3 &&
                   <div className="flex flex-row mt-3">
@@ -998,6 +903,13 @@ function App() {
                   buttonState={buttonState}
                   setButtonState={setButtonState}
                   diffMode={diffMode}
+
+                  llmOptions={llmOptions}
+                  llmQuestions={llmQuestions}
+                  llmAnswers={llmAnswers}
+                  setLLMOptions={setLLMOptions}
+                  setLLMQuestions={setLLMQuestions}
+                  setLLMAnswers={setLLMAnswers}
                 />
                 <ExportDropdown
                   selectedPapers={selectedPapers}

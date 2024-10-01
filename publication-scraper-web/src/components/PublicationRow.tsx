@@ -238,7 +238,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
           {publication.formatted_search_string}
         </code>
       </td>
-      {/* <td>{publication.status}</td> */}
+      
       {/* Metadata */}
       {
         showMetadata &&
@@ -257,7 +257,6 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
 
             </td>
             <td>{publication.conference_journal ?? "-"}</td>
-            <td>{publication.doi ?? "-"}</td>
             {/*todo: doi_url isnt working properly, changed to workaround*/}
             <td>
               {publication.doi ? (

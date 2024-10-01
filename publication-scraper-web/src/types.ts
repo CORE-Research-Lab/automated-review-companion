@@ -127,6 +127,7 @@ export enum PublicationOperation {
   POPULATE_METADATA = "populate_metadata",
   FORWARD_SEARCH = "forward_search",
   BACKWARD_SEARCH = "backward_search",
+  LLM_FILTER = "llm_filter",
   DELETE = "delete"
 }
 

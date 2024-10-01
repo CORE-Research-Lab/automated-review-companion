@@ -84,16 +84,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
       requirement: "showMetadata"
     },
     {
-      name: "DOI URL",
-      width: 100,
-      requirement: "showMetadata"
-    },
-    // {
-    //   name: "Keywords",
-    //   width: 100,
-    //   requirement: "showMetadata"
-    // },
-    {
       name: "Publication Date",
       width: 150,
       requirement: "showMetadata"
