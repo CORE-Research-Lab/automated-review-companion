@@ -1,4 +1,4 @@
-
+import '@/main.css';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
@@ -18,11 +18,10 @@ import SearchHistoryHeaderCard from './components/SearchHistoryHeaderCard';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from './components/ui/carousel';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
-import './main.css';
 import {
   ButtonState,
   DiffType,
@@ -101,7 +100,7 @@ function App() {
     return searchPhrase.replace(/ AND /ig, ' and ')
       .replace(/ OR /ig, ' or ')
       .replace(/ NOT /ig, ' not ')
-      .replace(/"/g, '');
+      .replace(/"/g, "'");
   }
 
   const handleSearch = async () => {
@@ -198,7 +197,7 @@ function App() {
     setSearchResults(defaultSearchResult);
     setSelectedPapers([]);
     setLLMQuestions(defaultLLMQuestions);
-    setButtonState(defaultButtonState)
+    setButtonState(defaultButtonState);
   }
 
   const handleChipClick = (keyword: string, field: MultiLayerSearch) => {
@@ -392,6 +391,7 @@ function App() {
                 <ChangelogModal 
                   showChangelog={showChangelog} 
                   setShowChangelog={setShowChangelog}
+                  handleClose={() => setShowChangelog(false)}
                 />
               </div>
             </div>
@@ -410,7 +410,6 @@ function App() {
                         searchForm={searchForm}
                         searchResults={searchResults}
                         setSearchResults={setSearchResults}
-                        tooltipText={tooltipText}
                         handleSearchFormChange={handleSearchFormChange}
                         handleChipClick={handleChipClick}
                     />))}
@@ -437,7 +436,9 @@ function App() {
                       <div className="flex flex-row gap-2 flex-wrap my-3">
                         <span className="text-center">Variations:</span>
                           {searchResults.variations.map((variation) => (
-                            <Tooltip title={
+                            <Tooltip 
+                              key={variation.word}
+                              title={
                               <div className="d-flex flex-column gap-2">
                                 <span>Synonyms:</span>
                                 <Box className="word-variant-box mb-2">
@@ -495,7 +496,7 @@ function App() {
 
               {/* Validation Papers */}
               <div className="d-flex flex-row w-100">
-                <Tooltip title={tooltipText.search.validationPapers} placement='right'>
+                <Tooltip title={tooltipText.search.validationPapers.hint} placement='right'>
                   <div className="input-group-prepend">
                     <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
                   </div>
@@ -503,7 +504,7 @@ function App() {
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
+                    placeholder={tooltipText.search.validationPapers.example}
                     value={searchForm.validation_papers.join(',')}
                     onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
                 />
@@ -578,92 +579,99 @@ function App() {
                   }
 
                   <Tooltip title={tooltipText.search.history} placement="top">
-                    <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
-                      {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
-                    </Button>
+                    <>
+                      <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
+                        {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
+                      </Button>
+                    </>
                   </Tooltip>
                 </div>
               </div>
 
               <div className="w-100 relative">
                 <div className="px-12 py-3">
-                  <Carousel className="">
-                    <CarouselContent>
-                      {
-                        searchHistory.map((search, index) => (
-                          <CarouselItem 
-                            key={search.year_start}
-                            className="basis-1/3"
-                            onClick={() => handleChooseSearchHistory(index)}
-                          >
-                            <Tooltip title={
-                              <Box>
-                                <div>Search {index + 1}</div>
-                                <div>Ref: {search.id ?? "-"}</div>
-                                <div>Year Range: {search.year_start} - {search.year_end}</div>
-                                {
-                                  search.search_terms.advanced 
-                                  ? <div>Advanced Search: {search.search_terms.advanced}</div>
-                                  : <>
-                                      <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
-                                      <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
-                                      <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
-                                    </>
-                                }
-                                <div>Sources: {search.sources.join(', ')}</div>
-                              </Box>
-                            } placement="top">
-                              <Button 
-                                className={
-                                  cn(
-                                    "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
-                                    (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "" )+
-                                    (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
-                                    (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
-                                  )
-                                }
-                              >
-                                <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
-                                <span className="text-wrap text-left text-ellipsis overflow-hidden h-[40px]">Ref: {search.id ?? "-"}</span>
-                                {
-                                  search.search_terms.advanced &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Advanced Search: {search.search_terms.advanced}
-                                  </span>
-                                }
-                                {
-                                  search.search_terms.primary.length > 0 &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Primary Search: {search.search_terms.primary.join(', ')}
-                                  </span>
-                                }
-                                {
-                                  search.search_terms.secondary.length > 0 &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Secondary Search: {search.search_terms.secondary.join(', ')}
-                                  </span>
-                                }
-                                {
-                                  search.search_terms.tertiary.length > 0 &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Tertiary Search: {search.search_terms.tertiary.join(', ')}
-                                  </span>
-                                }
-                              </Button>
-                            </Tooltip>
-                          </CarouselItem>
-                        ))
-                      }
-                      {
-                        searchHistory.length === 0 &&
-                        <div className="flex justify-content-center w-100">
-                          <div className="p-0 m-0 leading-[16px] text-muted">No search history</div>
-                        </div>
-                      }
-                    </CarouselContent>
-                    <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
-                    <CarouselNext onClick={() => handleSearchHistory(1)} />
-                  </Carousel>
+                    <Carousel
+                    opts={{
+                      align: "start",
+                      loop: true,
+                    }}
+                    >
+                      <CarouselContent>
+                        {
+                          searchHistory.map((search, index) => (
+                            <CarouselItem 
+                              key={search.year_start}
+                              className="basis-1/3"
+                              onClick={() => handleChooseSearchHistory(index)}
+                            >
+                              <Tooltip title={
+                                <Box>
+                                  <div>Search {index + 1}</div>
+                                  <div>Ref: {search.id ?? "-"}</div>
+                                  <div>Year Range: {search.year_start} - {search.year_end}</div>
+                                  {
+                                    search.search_terms.advanced 
+                                    ? <div>Advanced Search: {search.search_terms.advanced}</div>
+                                    : <>
+                                        <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
+                                        <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
+                                        <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
+                                      </>
+                                  }
+                                  <div>Sources: {search.sources.join(', ')}</div>
+                                </Box>
+                              } placement="top">
+                                <Button 
+                                  className={
+                                    cn(
+                                      "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
+                                      (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "" )+
+                                      (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
+                                      (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
+                                    )
+                                  }
+                                >
+                                  <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
+                                  <span className="text-wrap text-left text-ellipsis overflow-hidden h-[40px]">Ref: {search.id ?? "-"}</span>
+                                  {
+                                    search.search_terms.advanced &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Advanced Search: {search.search_terms.advanced}
+                                    </span>
+                                  }
+                                  {
+                                    search.search_terms.primary.length > 0 &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Primary Search: {search.search_terms.primary.join(', ')}
+                                    </span>
+                                  }
+                                  {
+                                    search.search_terms.secondary.length > 0 &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Secondary Search: {search.search_terms.secondary.join(', ')}
+                                    </span>
+                                  }
+                                  {
+                                    search.search_terms.tertiary.length > 0 &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Tertiary Search: {search.search_terms.tertiary.join(', ')}
+                                    </span>
+                                  }
+                                </Button>
+                              </Tooltip>
+                            </CarouselItem>
+                          ))
+                        }
+                        {
+                          searchHistory.length === 0 &&
+                          <div className="flex justify-content-center w-100">
+                            <div className="p-0 m-0 leading-[16px] text-muted">No search history</div>
+                          </div>
+                        }
+                      </CarouselContent>
+                      {/* <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
+                      <CarouselNext onClick={() => handleSearchHistory(1)} /> */}
+                    </Carousel>
                 </div>
                 {/* <button className="btn w-5" onClick={() => handleSearchHistory(1)}>{">"}</button> */}
               </div>
@@ -718,17 +726,17 @@ function App() {
                   />
               </div>
 
-              <div className='flex flex-wrap gap-2'>
+              <div id="paper-operations" className='flex flex-wrap gap-2'>
                 {
                   buttonState.showSelectAll &&
                   <Tooltip title={tooltipText.results.selectAll} placement="top">
-                    <Button className='bg-blue-500' onClick={handleSelectAll} disabled={diffMode}>Select All</Button>
+                    <><Button className='bg-blue-500' onClick={handleSelectAll} disabled={diffMode}>Select All</Button></>
                   </Tooltip>
                 }
                 {
                   buttonState.showDeselectAll &&
                   <Tooltip title={tooltipText.results.deselectAll} placement="top">
-                    <Button className="bg-blue-500" onClick={handleDeselectAll} disabled={diffMode}>Deselect All</Button>
+                    <><Button className="bg-blue-500" onClick={handleDeselectAll} disabled={diffMode}>Deselect All</Button></>
                   </Tooltip>
                 }
                 {

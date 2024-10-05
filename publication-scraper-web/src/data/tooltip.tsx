@@ -17,7 +17,10 @@ export const tooltipText = {
     advanced: "Required field: advanced case-insensitive boolean search string. Use 'AND', 'OR', 'NOT' operators to combine search terms, and quotations to search for exact phrases.",
     yearRange: "Year range including the start and end years (i.e., 2023 - 2024)",
     database: "Select the databases to search from: Click on the database name to toggle the selection; a filled checkbox indicates the database is selected. At least one must be selected.",
-    validationPapers: "Enter the DOI of the validation papers to validate if the search configurations result in the validation papers.",
+    validationPapers: {
+      hint: "Enter the DOI of the validation papers to validate if the search configurations result in the validation papers.",
+      example: "10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
+    },
     clearButton: "Resets and clears all search parameters and results",
     llmQuestions: "Enter the questions to filter the papers. At least one question is required. Answers should be comma-separated categorical answers.",
     llmQuestion: {

@@ -1,11 +1,11 @@
 import { handleError } from '@/common/handler';
+// import '@/main.css';
 import { BASE_URL } from '@/utils/common';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useEffect } from 'react';
-import '../main.css';
 import {
   Author,
   LLMQuestion,
@@ -29,8 +29,7 @@ export interface PublicationRowProps {
 
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   const { 
-    rowType,
-    rowIdx,
+    rowType, rowIdx,
     publication,
     handlePaperSelect,
     selectedPapers,
@@ -182,7 +181,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
               <input
                 type="checkbox"
                 checked={selectedPapers.includes(publication.paper_id)}
-                onClick={() => handlePaperSelect(publication.paper_id)}
+                onChange={() => handlePaperSelect(publication.paper_id)}
               />
               {/* Expand/contract references/citations */}
               {

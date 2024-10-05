@@ -1,11 +1,11 @@
 import { handleError } from "@/common/handler";
 import { tooltipText } from "@/data/tooltip";
+import { cn } from "@/lib/utils";
 import { ButtonState } from "@/types";
 import { BASE_URL } from "@/utils/common";
 import { Tooltip } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export interface ExportDropdownProps {
@@ -52,6 +52,14 @@ const ExportDropdown: React.FC<ExportDropdownProps> = (props) => {
       .catch(handleError);
   }
 
+  let dropdownClasses = cn(
+    "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+    "bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle",
+    "hover:cursor-pointer",
+    "h-8 rounded-md px-3 text-xs",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  );
+  
   return ( 
     <DropdownMenu>
       <Tooltip
@@ -62,14 +70,15 @@ const ExportDropdown: React.FC<ExportDropdownProps> = (props) => {
         }
         placement="bottom"
       > 
-        <DropdownMenuTrigger disabled={isExportDisabled}>
-          <Button
+        <span>
+          <DropdownMenuTrigger 
             disabled={isExportDisabled}
-            className="bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle"
+            className={dropdownClasses}
+            aria-label="Export Papers"
           >
-            Export
-          </Button>
-        </DropdownMenuTrigger>
+              Export
+          </DropdownMenuTrigger>
+        </span>
       </Tooltip>
       <DropdownMenuContent>
 

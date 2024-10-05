@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material';
-import Papa from 'papaparse';
-import React, { useState } from 'react';
+// import Papa from 'papaparse';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 export interface CsvImportFieldProps {
@@ -41,33 +41,7 @@ const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
   };
 
   const parseCsv = (file: File) => {
-    if (disabled) return;
-    const dois = [];
-    return Papa.parse(file, {
-      complete: function(results: any) {
-        const data = results.data;
-        if (data.length > 0) {
-          // Find the DOI column index (assuming header in first row)
-          const header = data[0];
-          const doiIndex = header.indexOf('DOI');
-
-          if (doiIndex === -1) {
-            toast.error("No 'DOI' column found in the CSV file.");
-            return;
-          }
-
-          // Iterate over each row, skipping the header
-          for (let i = 1; i < data.length; i++) {
-            const row = data[i];
-            const doi = row[doiIndex];
-            if (doi) {
-              dois.push(doi);
-            }
-          }
-        }
-      },
-      header: true // CSV containing headers
-    });
+    console.log(file);
   };
 
 

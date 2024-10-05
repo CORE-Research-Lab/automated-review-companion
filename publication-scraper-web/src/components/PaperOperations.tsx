@@ -1,5 +1,6 @@
 import { ButtonState, LLMOptions, LLMPaperFilterResponse, LLMQuestion, LLMUserAnswer, Publication, PublicationOperation, SearchResult, SnowballingSearch } from "@/types";
 import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import InfoIcon from '@mui/icons-material/Info';
@@ -12,6 +13,7 @@ import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTit
 
 import { handleError } from "@/common/handler";
 import { tooltipText } from "@/data/tooltip";
+import { cn } from "@/lib/utils";
 import { BASE_URL } from "@/utils/common";
 import { IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
@@ -107,6 +109,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
 
   const handleOperation = (operation: PublicationOperation) => {
     return async () => {
+      console.log(operation);
       switch (operation) {
         case PublicationOperation.POPULATE_METADATA:
           await populateMetadata();
@@ -281,6 +284,8 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
   }
 
   const validateLLMQuestionSubmittability = () => {
+
+    // Validate LLM questions
     let valid = true;
     for (let i = 0; i < llmQuestions.length; i++) {
       if (!llmQuestions[i].question) {
@@ -291,13 +296,20 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     }
     if (!valid) return false;
 
+    // Validate Paper metadata
+    let missingMetadataPapers: Publication[] = [];
     searchResults.results.forEach((result: Publication) => {
      if (selectedPapers.includes(result.paper_id) && !result.abstract) { 
       valid = false; 
-      toast.error(`Metadata is required for all papers: ${result.paper_id} does not fulfill the necessary requirement.`);
+      missingMetadataPapers.push(result);
     }
     });
+    if (!valid) {
+      toast.error(`Metadata is missing for ${missingMetadataPapers.length} papers: ${missingMetadataPapers.map((paper) => paper.paper_id).join(', ')}`);
+      return
+    }
 
+    // Validate selected papers
     if (selectedPapers.length > 50) {
       valid = false;
       toast.error('Maximum of 50 selected papers allowed at once.');
@@ -351,6 +363,13 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     })
   }
 
+  let dropdownClasses = cn(
+    "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+    "bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle",
+    "hover:cursor-pointer",
+    "h-8 rounded-md px-3 text-xs",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  );
 
   return ( 
     <>
@@ -363,14 +382,19 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
             title={selectedPapers.length === 0 ? tooltipText.results.operations.enabled : tooltipText.results.operations.disabled} 
             placement="bottom"
           > 
-            <DropdownMenuTrigger disabled={isPaperOperationsDisabled}>
-              <Button 
+            <span>
+              <DropdownMenuTrigger 
                 disabled={isPaperOperationsDisabled}
-                className="bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle"
+                className={dropdownClasses}
               >
-                Paper Operations
-              </Button>
-            </DropdownMenuTrigger>
+                {/* <Button 
+                  disabled={isPaperOperationsDisabled}
+                  className="bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle"
+                > */}
+                  Paper Operations
+                {/* </Button> */}
+              </DropdownMenuTrigger>
+            </span>
           </Tooltip>
 
           <DropdownMenuContent>
@@ -392,7 +416,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         {
           showDialogPrompt === PublicationOperation.LLM_FILTER && 
           <DialogContent 
-            className="w-100 border overflow-scroll"
+            className="max-w-fit border overflow-scroll"
           >
             <div className="container p-3 mt-3 border rounded" id="llm-questions">
               <div className="flex flex-row justify-content-between align-items-center">
@@ -404,19 +428,24 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                     </Tooltip>
                   </div>
                 </div>
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-2 items-center">
+                  
                   <div className="flex items-center space-x-2">
                     <Checkbox id="llm-examples" checked={llmOptions.includeExamples} onCheckedChange={(checked) => handleLLMOptions(checked, "includeExamples")} />
                     <label htmlFor="llm-examples" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Include examples
                     </label>
                   </div>
+                  
                   <div className="flex items-center space-x-2">
                     <Checkbox id="llm-rationale" checked={llmOptions.includeRationale} onCheckedChange={(checked) => handleLLMOptions(checked, "includeRationale")} />
                     <label htmlFor="llm-rationale" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Include rationale
                     </label>
                   </div>
+                  <IconButton onClick={handleCloseDialog}>
+                    <CloseIcon />
+                  </IconButton>
                 </div>
               </div>
 

@@ -1,5 +1,5 @@
+import { tooltipText } from "@/data/tooltip";
 import { Autocomplete, TextField } from "@mui/material";
-import React from "react";
 import { SearchForm, SearchResult } from "../types";
 import InputLabel from "./InputLabel";
 import SearchTermChip from "./SearchTermChip";
@@ -10,7 +10,6 @@ export interface SearchTermAutocompleteProps {
   searchForm: SearchForm,
   searchResults: SearchResult,
   setSearchResults: React.Dispatch<React.SetStateAction<SearchResult>>,
-  tooltipText: any,
   handleSearchFormChange: (value: string[], field: MultiLayerSearch) => void,
   handleChipClick: (chip: string, field: MultiLayerSearch) => void
 }
@@ -21,7 +20,6 @@ const SearchTermAutocomplete: React.FC<SearchTermAutocompleteProps> = (props) =>
     searchForm,
     searchResults,
     setSearchResults,
-    tooltipText,
     handleSearchFormChange,
     handleChipClick
   } = props;
