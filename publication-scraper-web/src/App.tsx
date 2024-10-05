@@ -361,7 +361,7 @@ function App() {
 
     setShowDiffOnly(!showDiffOnly);
   }
-
+  
   // Fetch the search history from the local storage
   useEffect(() => { 
     const currentVersion = CURRENT_VERSION;

@@ -36,20 +36,38 @@ const ChangelogModal: React.FC<ChangelogModalProps> = (props) => {
           borderRadius: '5px'
         }}>
           <div className="d-flex justify-content-between mb-3">
-            <h3 className="text-4xl font-medium ">Changelog</h3>
+            <h3 className="text-4xl font-medium ">Welcome to Automated Review Companion (ARC)</h3>
             <Tooltip title="Close" className="flex">
               <IconButton onClick={handleClose} color="error">
                 <CloseIcon aria-label="Close changelog" />
               </IconButton>
             </Tooltip>
           </div>
-          
+
           <div className="divider border-bottom my-3"></div>
 
-          <p>Version 1.0.0</p>
-          <ul>
-            <li>Initial release</li>
-          </ul>
+          <div>
+            <p>
+              <strong>Note:</strong> This is a demo software built for the anonymous review process.
+              We are actively working on fixing bugs and improving UI aesthetics.
+            </p>
+            <br/>
+            <p>
+              <strong>Rate Limits:</strong> To ensure a smooth experience for everyone while we host the site on a
+              resource-constrained cloud environment, we have applied the following limitations:
+            </p>
+            <p><strong>Rate Limit - search results:</strong> Each search platform will return a maximum of 1000 papers.
+              This limitation will be lifted once the review process is completed.
+            </p>
+            <p><strong>Rate Limit - LLM based paper filtering:</strong>The LLM-powered paper filtering functionality,
+              powered by OpenAI's GPT-4 API, is rate limited to 20 interactions per user per day (i.e., 20 papers tagged).
+            </p>
+            <br/>
+            <p>
+            These limitations are not barriers on the software side but are due to our current hosting resources and
+              the fact that we are actively paying for all OpenAI API usage.
+            </p>
+          </div>
         </div>
       </Modal>
     </>
