@@ -121,11 +121,29 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,14 +151,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">44x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">44x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -179,7 +197,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">import { tooltipText } from '@/data/tooltip';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span></td><td class="text"><pre class="prettyprint lang-js">import { tooltipText } from '@/data/tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 import HistoryIcon from '@mui/icons-material/History';
 import { IconButton, Modal, Tooltip } from "@mui/material";
@@ -217,20 +253,38 @@ const ChangelogModal: React.FC&lt;ChangelogModalProps&gt; = (props) =&gt; {
           borderRadius: '5px'
         }}&gt;
           &lt;div className="d-flex justify-content-between mb-3"&gt;
-            &lt;h3 className="text-4xl font-medium "&gt;Changelog&lt;/h3&gt;
+            &lt;h3 className="text-4xl font-medium "&gt;Welcome to Automated Review Companion (ARC)&lt;/h3&gt;
             &lt;Tooltip title="Close" className="flex"&gt;
               &lt;IconButton onClick={handleClose} color="error"&gt;
                 &lt;CloseIcon aria-label="Close changelog" /&gt;
               &lt;/IconButton&gt;
             &lt;/Tooltip&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="divider border-bottom my-3"&gt;&lt;/div&gt;
 &nbsp;
-          &lt;p&gt;Version 1.0.0&lt;/p&gt;
-          &lt;ul&gt;
-            &lt;li&gt;Initial release&lt;/li&gt;
-          &lt;/ul&gt;
+          &lt;div&gt;
+            &lt;p&gt;
+              &lt;strong&gt;Note:&lt;/strong&gt; This is a demo software built for the anonymous review process.
+              We are actively working on fixing bugs and improving UI aesthetics.
+            &lt;/p&gt;
+            &lt;br/&gt;
+            &lt;p&gt;
+              &lt;strong&gt;Rate Limits:&lt;/strong&gt; To ensure a smooth experience for everyone while we host the site on a
+              resource-constrained cloud environment, we have applied the following limitations:
+            &lt;/p&gt;
+            &lt;p&gt;&lt;strong&gt;Rate Limit - search results:&lt;/strong&gt; Each search platform will return a maximum of 1000 papers.
+              This limitation will be lifted once the review process is completed.
+            &lt;/p&gt;
+            &lt;p&gt;&lt;strong&gt;Rate Limit - LLM based paper filtering:&lt;/strong&gt;The LLM-powered paper filtering functionality,
+              powered by OpenAI's GPT-4 API, is rate limited to 20 interactions per user per day (i.e., 20 papers tagged).
+            &lt;/p&gt;
+            &lt;br/&gt;
+            &lt;p&gt;
+            These limitations are not barriers on the software side but are due to our current hosting resources and
+              the fact that we are actively paying for all OpenAI API usage.
+            &lt;/p&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
       &lt;/Modal&gt;
     &lt;/&gt;
@@ -244,7 +298,7 @@ export default ChangelogModal;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-05T14:50:17.098Z
+                at 2024-10-05T16:26:25.942Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

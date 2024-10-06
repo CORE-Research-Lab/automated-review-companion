@@ -9,11 +9,11 @@ describe('Changelog Modal', () => {
     
     const changelogButton = screen.getByLabelText('Click to view the changelog');
     fireEvent.click(changelogButton);
-    expect(screen.getByText(/Changelog/)).toBeInTheDocument();
+    expect(screen.getByText("Welcome to Automated Review Companion (ARC)")).toBeInTheDocument();
 
     const changelogCloseButton = screen.getByLabelText('Close changelog');
     fireEvent.click(changelogCloseButton);
-    expect(screen.queryByText(/Changelog/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Welcome to Automated Review Companion (ARC)")).not.toBeInTheDocument();
   });
   
 });

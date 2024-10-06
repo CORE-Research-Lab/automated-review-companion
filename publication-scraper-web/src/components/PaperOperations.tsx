@@ -109,7 +109,6 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
 
   const handleOperation = (operation: PublicationOperation) => {
     return async () => {
-      console.log(operation);
       switch (operation) {
         case PublicationOperation.POPULATE_METADATA:
           await populateMetadata();
@@ -248,8 +247,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
       }
     })
     .then((res) => {
-      console.log(res.data);
-      toast.success(`${selectedPapers.length} papers deleted successfully`);
+      toast.success(`${selectedPapers.length} paper(s) deleted successfully`);
       const updatedResults = searchResults.results.filter((result: Publication) => !selectedPapers.includes(result.paper_id));
       setSearchResults({...searchResults, results: updatedResults})
     })
@@ -421,7 +419,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
             <div className="container p-3 mt-3 border rounded" id="llm-questions">
               <div className="flex flex-row justify-content-between align-items-center">
                 <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h3 className="text-3xl font-medium p-0 m-0">Paper Filter Questions (LLM-Powered)</h3>
+                  <DialogTitle>Paper Filter Questions (LLM-Powered)</DialogTitle>
                   <div>
                     <Tooltip title={tooltipText.search.llmQuestions} placement="top">
                       <InfoIcon color="info"/>
@@ -429,7 +427,6 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                   </div>
                 </div>
                 <div className="flex flex-row gap-2 items-center">
-                  
                   <div className="flex items-center space-x-2">
                     <Checkbox id="llm-examples" checked={llmOptions.includeExamples} onCheckedChange={(checked) => handleLLMOptions(checked, "includeExamples")} />
                     <label htmlFor="llm-examples" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -438,7 +435,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="llm-rationale" checked={llmOptions.includeRationale} onCheckedChange={(checked) => handleLLMOptions(checked, "includeRationale")} />
+                    <Checkbox id="llm-rationale" data-testid="llm-rationale" checked={llmOptions.includeRationale} onCheckedChange={(checked) => handleLLMOptions(checked, "includeRationale")} />
                     <label htmlFor="llm-rationale" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Include rationale
                     </label>
@@ -497,22 +494,24 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                   <div className="table-responsive">
                     <table className="table table-striped">
                       <thead className="bg-primary text-white">
-                        <td>Paper ID</td>
-                        <td style={{ minWidth: "300px" }}>Paper Title</td>
-                        {
-                          llmQuestions.map((question) => (
-                            <td key={question.id} style={{ minWidth: "300px" }}>
-                              Q{question.id}: Answer & Rationale
-                            </td>
-                          ))
-                        }
+                        <tr>
+                          <td>Paper ID</td>
+                          <td style={{ minWidth: "300px" }}>Paper Title</td>
+                          {
+                            llmQuestions.map((question) => (
+                              <td key={question.id} style={{ minWidth: "300px" }}>
+                                Q{question.id}: Answer & Rationale
+                              </td>
+                            ))
+                          }
+                        </tr>
                       </thead>
                       <tbody>
                       {selectedPapers.length > 0 && selectedPapers.map((paper_id, index) => {
                         let paperName = searchResults.results.find((result) => result.paper_id === paper_id)?.paper_title;
                         if (index < 3) {
                           return (
-                            <tr>
+                            <tr key={paper_id}>
                               <td>{paper_id}</td>
                               <td>{paperName}</td>
                               {llmQuestions.map((llmQuestion, questionIdx) => (
@@ -581,7 +580,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
               <DialogTitle>{getDialogTitle()}</DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              <p>Are you sure about performing the following operation:</p>
+              <span>Are you sure about performing the following operation:</span>
               <br />
               <span>{getDialogDescription(selectedPapers.length)}</span>
             </DialogDescription>

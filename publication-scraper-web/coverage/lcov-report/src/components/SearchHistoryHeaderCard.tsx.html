@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -114,16 +114,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,20 +151,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span></td><td class="text"><pre class="prettyprint lang-js">import { SearchForm } from "@/types";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">import { SearchForm } from "@/types";
 &nbsp;
 export interface SearchHistoryHeaderCardProps {
   index: number
   searchHistory: SearchForm[];
 }
-const SearchHistoryHeaderCard: React.FC&lt;SearchHistoryHeaderCardProps&gt; = <span class="fstat-no" title="function not covered" >(p</span>rops) =&gt; {
-  const { index, searchHistory } = <span class="cstat-no" title="statement not covered" >props;</span>
+const SearchHistoryHeaderCard: React.FC&lt;SearchHistoryHeaderCardProps&gt; = (props) =&gt; {
+  const { index, searchHistory } = props;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (index == -1) {</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;&gt;&lt;/&gt;;</span>
+  if (index == -1) {
+    return &lt;&gt;&lt;/&gt;;
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return ( </span>
+  return ( 
     &lt;div className="px-3 py-2 border rounded-t-lg bg-slate-500/10"&gt;
       &lt;p&gt;&lt;b&gt;Search {index + 1}:&lt;/b&gt;&lt;/p&gt;
       &lt;p&gt;Year: {searchHistory[index]?.year_start} - {searchHistory[index]?.year_end}&lt;/p&gt;
@@ -178,19 +178,19 @@ const SearchHistoryHeaderCard: React.FC&lt;SearchHistoryHeaderCardProps&gt; = <s
       }
       {
         searchHistory[index]?.search_terms.primary.length &gt; 0 &amp;&amp;
-        &lt;p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden"&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >        &lt;p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden"&gt;</span>
           Primary Search: {searchHistory[index]?.search_terms.primary.join(', ')}
         &lt;/p&gt;
       }
       {
         searchHistory[index]?.search_terms.secondary.length &gt; 0 &amp;&amp;
-        &lt;p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden"&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >        &lt;p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden"&gt;</span>
           Secondary Search: {searchHistory[index]?.search_terms.secondary.join(', ')}
         &lt;/p&gt;
       }
       {
         searchHistory[index]?.search_terms.tertiary.length &gt; 0 &amp;&amp;
-        &lt;p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden"&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >        &lt;p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden"&gt;</span>
           Tertiary Search: {searchHistory[index]?.search_terms.tertiary.join(', ')}
         &lt;/p&gt;
       }
@@ -205,7 +205,7 @@ export default SearchHistoryHeaderCard;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-05T13:15:38.925Z
+                at 2024-10-06T02:43:13.567Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -37,8 +37,7 @@ const SearchTermAutocomplete: React.FC<SearchTermAutocompleteProps> = (props) =>
         multiple
         freeSolo
         value={searchForm.search_terms[field]}
-        onChange={(e, value) => {
-          console.log(e);
+        onChange={(_, value) => {
           handleSearchFormChange(value, field)
         }}
         options={searchResults.variations.map((variation) => variation.word)}
