@@ -17,6 +17,11 @@
   color: white !important;
 }
 
+thead > tr > td {
+  background: #3691f2 !important; 
+  color: white !important;
+}
+
 .w-5 { 
   width: 5%; 
 }
