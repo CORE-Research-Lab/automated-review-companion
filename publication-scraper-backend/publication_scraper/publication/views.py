@@ -67,7 +67,7 @@ class PublicationLLMFilterView(APIView):
 
     def check_for_validity(self, request, paper_ids):
         """ Checks if the user has submitted MAX_AMOUNT paper ids already for the day. """
-        MAX_LLM_CALL_COUNT = 20
+        MAX_LLM_CALL_COUNT = 1000
         ip = request.META.get('REMOTE_ADDR')
         today = datetime.date.today()
         usage = PublicationLLMUsage.objects.filter(ip_address=ip, date=today).first()

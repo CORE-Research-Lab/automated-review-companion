@@ -358,7 +358,6 @@ function App() {
       return { ...result, show: true }
     });
     setDiffSearchResults({...diffSearchResults, results: newUpdatedDiffResults});
-
     setShowDiffOnly(!showDiffOnly);
   }
   

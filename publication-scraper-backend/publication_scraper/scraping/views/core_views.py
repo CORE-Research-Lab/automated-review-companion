@@ -33,7 +33,6 @@ log = Logger(__name__)
 
 class SearchAndCleanView(APIView):
     def post(self, request):
-
         try:
             if request.data.get("sources") is None:
                 request.data["sources"] = [SearchEngineType.DBLP]
