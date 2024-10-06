@@ -19,6 +19,7 @@ services:
   server:
     container_name: server
     build:
+      context: ./publication-scraper-backend
       dockerfile: Dockerfile
     networks:
       backend:

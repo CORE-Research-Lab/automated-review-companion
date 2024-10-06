@@ -3,9 +3,9 @@ from dataclasses import dataclass, field
 from typing import List, Tuple
 
 from bs4 import BeautifulSoup
-import nltk
+# import nltk
 
-nltk.download('wordnet')
+# nltk.download('wordnet')
 
 from breame.spelling import (
     american_spelling_exists,
@@ -13,7 +13,7 @@ from breame.spelling import (
     get_american_spelling,
     get_british_spelling,
 )
-from nltk.corpus import wordnet as wn
+# from nltk.corpus import wordnet as wn
 from utils import Logger
 
 log = Logger(__name__)
@@ -88,28 +88,28 @@ class SearchTermProcessor:
         """ Generates synonyms of the search term with nltk and thesaurus.com. """
         
         sym_thesaurus = self._get_thesaurus_synonym(search_term)
-        sym_nltk = self._get_nltk_synonyms(search_term)
+        # sym_nltk = self._get_nltk_synonyms(search_term)
         
         if sym_thesaurus:
             search_term.synonyms = sym_thesaurus
-        else:
-            search_term.synonyms = sym_nltk
+        # else:
+        #     search_term.synonyms = sym_nltk
 
 
-    def _get_nltk_synonyms(self, search_term: SearchTerm) -> List[str]:
-        """ Generates synonyms of the search term with breame. """
+    # def _get_nltk_synonyms(self, search_term: SearchTerm) -> List[str]:
+    #     """ Generates synonyms of the search term with breame. """
 
-        log.info(f"Getting synonyms for {search_term.word} from nltk...")
-        word = search_term.word
-        all_synonyms = set()
-        synonyms = wn.synsets(word)
+    #     log.info(f"Getting synonyms for {search_term.word} from nltk...")
+    #     word = search_term.word
+    #     all_synonyms = set()
+    #     synonyms = wn.synsets(word)
 
-        for synonym in synonyms:
-            for lemma in synonym.lemmas():
-                all_synonyms.add(lemma.name())
+    #     for synonym in synonyms:
+    #         for lemma in synonym.lemmas():
+    #             all_synonyms.add(lemma.name())
         
-        all_synonyms.discard(word)
-        return list(all_synonyms)
+    #     all_synonyms.discard(word)
+    #     return list(all_synonyms)
 
 
     def _get_thesaurus_synonym(self, search_term: SearchTerm) -> List[str]:

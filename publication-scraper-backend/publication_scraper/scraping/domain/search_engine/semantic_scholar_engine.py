@@ -223,7 +223,7 @@ class SemanticScholarEngine(SearchEngine):
         url: str, 
         params: Dict[str, str], 
         max_retries: int = 3, 
-        delay: int = 30
+        delay: int = 5
     ) -> Dict[str, Any]:
         """Fetch search results from the Semantic Scholar API."""
         
@@ -236,7 +236,7 @@ class SemanticScholarEngine(SearchEngine):
             if attempt < max_retries - 1:
                 time.sleep(delay)
                 
-        raise Exception(f"Failed to fetch data after {max_retries} retries.")
+        raise Exception(f"Failed to fetch data: {response.text}")
 
     def _parse_search_string(self, search_string: List[str] = []) -> str:
         """ 

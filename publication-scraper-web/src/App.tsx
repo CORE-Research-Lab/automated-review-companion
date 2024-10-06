@@ -110,7 +110,7 @@ function App() {
     return searchPhrase.replace(/ AND /ig, ' and ')
       .replace(/ OR /ig, ' or ')
       .replace(/ NOT /ig, ' not ')
-      .replace(/"/g, '');
+      .replace(/"/g, "'");
   }
 
   const handleSearch = async () => {
@@ -224,7 +224,8 @@ function App() {
     setLLMQuestions([...llmQuestions, {
       id: llmQuestions.length + 1,
       question: '',
-      answer: ''
+      answer: '',
+      rationale: '',
     }])
   }
 

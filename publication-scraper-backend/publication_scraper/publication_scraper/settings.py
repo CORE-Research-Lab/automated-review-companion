@@ -33,7 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
   "localhost",
-  "ec2-18-218-118-93.us-east-2.compute.amazonaws.com"
+  "ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
 ]
 
 # Remove trailing slash from URLs
@@ -57,8 +57,14 @@ INSTALLED_APPS = [
 ]
 
 DEBUG = True
-CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
-CORS_ORIGIN_WHITELIST = ['http://localhost:5173']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    "http://ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
+]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
+    "http://ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
+]
 CORS_ALLOW_CREDENTIALS = True
 
 
