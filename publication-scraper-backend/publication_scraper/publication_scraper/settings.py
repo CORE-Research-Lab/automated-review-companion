@@ -59,11 +59,11 @@ INSTALLED_APPS = [
 
 DEBUG = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    'http://localhost:3000',
     "http://ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
 ]
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:5173',
+    'http://localhost:3000',
     "http://ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
 ]
 CORS_ALLOW_CREDENTIALS = True

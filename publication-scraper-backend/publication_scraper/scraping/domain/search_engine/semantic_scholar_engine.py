@@ -95,7 +95,7 @@ class SemanticScholarEngine(SearchEngine):
         
     def _simple_search(self) -> List[Publication]:
         for idx, search_string in enumerate(self.queries):
-            sch_search_string = self._parse_search_string()
+            sch_search_string = self._parse_search_string(search_string)
             log.info(f"--- Searching for {sch_search_string} ({idx + 1}/{len(self.queries)}) ---")
             search_results    = self.search_semantic_scholar(
                                     search_string=sch_search_string, 
@@ -247,11 +247,14 @@ class SemanticScholarEngine(SearchEngine):
         NOTE: match search string with boolean operators, and other terms
         are only matched with the exact phrase.
         """
+        log.info(f"Search type: {self.search_type}")
         if self.search_type == SearchQueryType.ADVANCED:
             parser = SearchQueryParser(self.advanced_query)
             return parser.parse(SearchEngineType.SEMANTIC_SCHOLAR)
         
-        return " + ".join(f"'{term}'" for term in search_string)
+        search_term = " + ".join(f"'{term}'" for term in search_string)
+        log.info(f"Search term: {search_term}")
+        return search_term
     
     def save_results(self):
         return super().save_results()

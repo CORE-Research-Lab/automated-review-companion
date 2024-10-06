@@ -18,7 +18,7 @@ import SearchHistoryHeaderCard from './components/SearchHistoryHeaderCard';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
-import { Carousel, CarouselContent, CarouselItem } from './components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
@@ -131,7 +131,7 @@ function App() {
           showPopulateMetadata: true,
           showHideMetadata: true,
         }))
-        setSearchHistory([...searchHistory, { id: res.data.id, ...searchForm}]);
+        setSearchHistory([...searchHistory, { id: res.data.id, ...payload, validation_papers: searchForm.validation_papers}]);
         setCurrentSearchHistoryIndex(searchHistory.length);
       })
       .catch(handleError)
@@ -359,6 +359,11 @@ function App() {
     });
     setDiffSearchResults({...diffSearchResults, results: newUpdatedDiffResults});
     setShowDiffOnly(!showDiffOnly);
+  }
+
+  const parseSearchId = (id: string | undefined) => {
+    if (!id) return null;
+    return id.split('-')[0];
   }
   
   // Fetch the search history from the local storage
@@ -620,43 +625,41 @@ function App() {
                                   <div>Sources: {search.sources.join(', ')}</div>
                                 </Box>
                               } placement="top">
-                                <Button 
-                                  className={
-                                    cn(
-                                      "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
-                                      (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "" )+
-                                      (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
-                                      (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
-                                    )
-                                  }
+                               <Button 
+                                  className={cn(
+                                    "block w-full h-24 bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1",
+                                    (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "") +
+                                    (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
+                                    (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
+                                  )}
                                 >
-                                  <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
-                                  <span className="text-wrap text-left text-ellipsis overflow-hidden h-[40px]">Ref: {search.id ?? "-"}</span>
-                                  {
-                                    search.search_terms.advanced &&
-                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                  <div className="leading-[14px] whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                                    Search {index + 1} : {search.year_start} - {search.year_end}
+                                  </div>
+                                  <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                                    Ref: {parseSearchId(search.id) ?? "-"}
+                                  </div>
+                                  {search.search_terms.advanced && (
+                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
                                       Advanced Search: {search.search_terms.advanced}
-                                    </span>
-                                  }
-                                  {
-                                    search.search_terms.primary.length > 0 &&
-                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    </div>
+                                  )}
+                                  {search.search_terms.primary.length > 0 && (
+                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
                                       Primary Search: {search.search_terms.primary.join(', ')}
-                                    </span>
-                                  }
-                                  {
-                                    search.search_terms.secondary.length > 0 &&
-                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    </div>
+                                  )}
+                                  {search.search_terms.secondary.length > 0 && (
+                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
                                       Secondary Search: {search.search_terms.secondary.join(', ')}
-                                    </span>
-                                  }
-                                  {
-                                    search.search_terms.tertiary.length > 0 &&
-                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                    </div>
+                                  )}
+                                  {search.search_terms.tertiary.length > 0 && (
+                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
                                       Tertiary Search: {search.search_terms.tertiary.join(', ')}
-                                    </span>
-                                  }
-                                </Button>
+                                    </div>
+                                  )}
+                                </Button>                                
                               </Tooltip>
                             </CarouselItem>
                           ))
@@ -668,8 +671,8 @@ function App() {
                           </div>
                         }
                       </CarouselContent>
-                      {/* <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
-                      <CarouselNext onClick={() => handleSearchHistory(1)} /> */}
+                      <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
+                      <CarouselNext onClick={() => handleSearchHistory(1)} />
                     </Carousel>
                 </div>
                 {/* <button className="btn w-5" onClick={() => handleSearchHistory(1)}>{">"}</button> */}
