@@ -28,18 +28,21 @@ const SearchTermAutocomplete: React.FC<SearchTermAutocompleteProps> = (props) =>
   const isRequiredField = field === "primary";
 
   return ( 
-    <div className="d-flex flex-row ">
-      <div className="input-group-prepend rounded-0 w-25 d-flex">
-        <InputLabel tooltip={tooltipText.search[field].hint} label={fieldName} required={isRequiredField} className="w-100" />
+    <div className="flex flex-grow h-full">
+      <div className="rounded-0 w-25">
+        <InputLabel
+          tooltip={tooltipText.search[field].hint} 
+          label={fieldName} 
+          required={isRequiredField} 
+          className="w-100 h-full" 
+        />
       </div>
       <Autocomplete
-        className="w-100"
+        className="w-75"
         multiple
         freeSolo
         value={searchForm.search_terms[field]}
-        onChange={(_, value) => {
-          handleSearchFormChange(value, field)
-        }}
+        onChange={(_, value) => handleSearchFormChange(value, field)}
         options={searchResults.variations.map((variation) => variation.word)}
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (

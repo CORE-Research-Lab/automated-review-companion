@@ -1,6 +1,7 @@
 import datetime
 import logging
 from itertools import product
+from typing import List
 
 from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
@@ -86,6 +87,7 @@ class PublicationLLMFilterView(APIView):
 
             includeExamples: bool
             includeRationale: bool
+            examples: List[FilterAnswerExamples] = []
             
             questions = serializer.validated_data['questions']
             paper_ids = serializer.validated_data.get('paper_ids')

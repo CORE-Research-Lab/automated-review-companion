@@ -2,23 +2,44 @@ import functools
 from django.http import JsonResponse
 from rest_framework import status
 from django.http import Http404
+from typing import Any, Callable
+from functools import wraps
+import time
+import datetime
+from utils import Color
+
+class BadRequestError(Exception): # 400
+    pass
 
 
-def HandleExceptions(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
+class ForbiddenError(Exception): # 403
+    pass
+
+
+class NotFoundError(Exception):
+    pass
+
+def HandleExceptions(func: Callable) -> Callable:
+    @wraps(func)
+    def wrapper(*args, **kwargs) -> Any:
         try:
             return func(*args, **kwargs)
-        except Http404 as e:            
-            return ErrorResponse(str(e), status=status.HTTP_404_NOT_FOUND)
+        except BadRequestError as e:
+            return ErrorResponse(str(e), status=400)  # Adjust status as needed
+        except Http404 as e:
+            return ErrorResponse(str(e), status=404)
         except ValueError as e:
-            return ErrorResponse(str(e), status=status.HTTP_404_NOT_FOUND)
+            return ErrorResponse(str(e), status=404)
+        except ForbiddenError as e:
+            return ErrorResponse(str(e), status=403)
         except Exception as e:
-            return ErrorResponse(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return ErrorResponse(str(e), status=500)
     return wrapper
 
 
 def Controller(func):
+    # future use of multiple decorators:
+    # method3(method2(handle_exceptions(func)))
     return HandleExceptions(func)
 
 

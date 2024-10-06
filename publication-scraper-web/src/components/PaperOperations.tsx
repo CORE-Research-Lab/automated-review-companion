@@ -12,6 +12,7 @@ import { Checkbox } from "./ui/checkbox";
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
 
 import { handleError } from "@/common/handler";
+import { parseAuthors } from "@/common/labels";
 import { tooltipText } from "@/data/tooltip";
 import { cn } from "@/lib/utils";
 import { BASE_URL } from "@/utils/common";
@@ -264,7 +265,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     setIsLLMFilterProcessing(true);
     await axios.post(`${BASE_URL}/publication/llm-filter`, {
       questions: llmQuestions,
-      paper_ids: selectedPapers,
+      paper_ids: processSelectedPapers(selectedPapers),
       answers: llmAnswers,
       options: llmOptions,
     })
@@ -276,6 +277,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         return { ...result, llm_responses }
       });
       setSearchResults({...searchResults, results: updatedResults})
+      setShowDialogPrompt(null);
     })
     .catch(handleError)
     .finally(() => setIsLLMFilterProcessing(false));
@@ -298,13 +300,14 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     let missingMetadataPapers: Publication[] = [];
     searchResults.results.forEach((result: Publication) => {
      if (selectedPapers.includes(result.paper_id) && !result.abstract) { 
-      valid = false; 
+      valid = false;
       missingMetadataPapers.push(result);
     }
     });
     if (!valid) {
-      toast.error(`Metadata is missing for ${missingMetadataPapers.length} papers: ${missingMetadataPapers.map((paper) => paper.paper_id).join(', ')}`);
-      return
+      toast.warn(`Metadata is missing for ${missingMetadataPapers.length} papers: ${missingMetadataPapers.map((paper) => paper.paper_id).join(', ')}`);
+      valid = true;
+      return valid;
     }
 
     // Validate selected papers
@@ -314,6 +317,17 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     }
     return valid;
   }
+
+  const processSelectedPapers = (selectedPapers: string[]) => {
+    let missingMetadataPapers: Publication[] = [];
+    searchResults.results.forEach((result: Publication) => {
+     if (selectedPapers.includes(result.paper_id) && !result.abstract) { 
+        missingMetadataPapers.push(result);
+      }
+    });
+    return selectedPapers.filter((paper_id) => !missingMetadataPapers.map((paper) => paper.paper_id).includes(paper_id));
+  }
+
 
   const handleAddLLMQuestion = () => {
     if (llmQuestions.length >= 5) {
@@ -353,12 +367,19 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         { paper_id: selectedPapers[1], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) },
         { paper_id: selectedPapers[2], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) }
       ]);
+    } 
+    if (fieldName === "includeExamples" && !checked) {
+      setLLMAnswers([]);
+      setLLMOptions({ 
+        includeExamples: false,
+        includeRationale: false
+      })
+    } else {
+      setLLMOptions({
+        ...llmOptions,
+        [fieldName]: Boolean(checked)
+      })
     }
-
-    setLLMOptions({
-      ...llmOptions,
-      [fieldName]: Boolean(checked)
-    })
   }
 
   let dropdownClasses = cn(
@@ -371,7 +392,8 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
 
   return ( 
     <>
-      <Dialog open={showDialogPrompt !== null}
+      <Dialog 
+        open={showDialogPrompt !== null}
         // onOpenChange={handleCloseDialog}
         // className="w-full max-w-[425px]"
       >
@@ -414,7 +436,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         {
           showDialogPrompt === PublicationOperation.LLM_FILTER && 
           <DialogContent 
-            className="max-w-fit border overflow-scroll"
+            className="max-w-fit max-h-full border overflow-scroll"
           >
             <div className="container p-3 mt-3 border rounded" id="llm-questions">
               <div className="flex flex-row justify-content-between align-items-center">
@@ -435,7 +457,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="llm-rationale" data-testid="llm-rationale" checked={llmOptions.includeRationale} onCheckedChange={(checked) => handleLLMOptions(checked, "includeRationale")} />
+                    <Checkbox id="llm-rationale" data-testid="llm-rationale" checked={llmOptions.includeRationale} onCheckedChange={(checked) => handleLLMOptions(checked, "includeRationale")} disabled={!llmOptions.includeExamples} />
                     <label htmlFor="llm-rationale" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Include rationale
                     </label>
@@ -446,7 +468,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                 </div>
               </div>
 
-              <div className="max-height-30vh overflow-y-scroll">
+              <div className="height-[30vh]">
                 <div className="d-flex flex-row gap-2 mt-3 align-items-center">
                   <div className="w-5">#</div>
                   <div className="w-50">Question</div>
@@ -487,16 +509,38 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                 }
               </div>
 
+              {
+                (!llmOptions.includeExamples || selectedPapers.length < 3) &&
+                <div className="flex justify-content-center items-center min-w-[60vw] min-h-[20vh] bg-slate-200 mt-3">
+                   {
+                    !llmOptions.includeExamples && 
+                    <div className="text-slate-600/60 text-center">
+                      Select at least 3 papers to include examples/rationale
+                    </div>
+                   }
+                </div>
+              }
+
               {/* Few-shot examples */}
               {
                 llmOptions.includeExamples && selectedPapers.length > 3 &&
-                <div className="flex flex-row mt-3">
+                <div className="flex flex-row mt-3 min-w-full">
                   <div className="table-responsive">
                     <table className="table table-striped">
                       <thead className="bg-primary text-white">
                         <tr>
                           <td>Paper ID</td>
                           <td style={{ minWidth: "300px" }}>Paper Title</td>
+                          <td style={{ minWidth: "300px" }}>Search String</td>
+                          <td style={{ minWidth: "300px" }}>Formatted Search String</td>
+                          <td>Abstract</td>
+                          <td style={{ minWidth: "300px" }}>Authors</td>
+                          <td style={{ minWidth: "300px" }}>Citations Count</td>
+                          <td style={{ minWidth: "300px" }}>Conference/Journal</td>
+                          <td style={{ minWidth: "300px" }}>DOI</td>
+                          <td>Publication Date</td>
+                          <td>Publication Type</td>
+                          <td>Publisher</td>
                           {
                             llmQuestions.map((question) => (
                               <td key={question.id} style={{ minWidth: "300px" }}>
@@ -508,16 +552,36 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                       </thead>
                       <tbody>
                       {selectedPapers.length > 0 && selectedPapers.map((paper_id, index) => {
-                        let paperName = searchResults.results.find((result) => result.paper_id === paper_id)?.paper_title;
+                        let paper = searchResults.results.find((result) => result.paper_id === paper_id);
+                        if (!paper) return;
                         if (index < 3) {
                           return (
                             <tr key={paper_id}>
-                              <td>{paper_id}</td>
-                              <td>{paperName}</td>
+                              <td>{paper.paper_id}</td>
+                              <td>{paper.paper_title}</td>
+                              <td>{paper.search_string}</td>
+                              <td>{paper.formatted_search_string}</td>
+                              <td>
+                                <div style={{ maxHeight: "120px", overflow: "scroll"}}>
+                                  {paper.abstract}
+                                </div>
+                              </td>
+                              <td>
+                                <div style={{ maxHeight: "120px", overflow: "scroll"}}>
+                                  {parseAuthors(paper.authors)}
+                                </div>
+                              </td>
+                              <td>{paper.citation_count}</td>
+                              <td>{paper.conference_journal}</td>
+                              <td>{paper.doi}</td>
+                              <td>{paper.publication_date}</td>
+                              <td>{paper.publication_type}</td>
+                              <td>{paper.publisher}</td>
                               {llmQuestions.map((llmQuestion, questionIdx) => (
                                 <td key={questionIdx}>
+                                  {/* {JSON.stringify(llmAnswers)} */}
                                   <Select
-                                    value={llmAnswers[index]?.responses[questionIdx].answer ?? ""}
+                                    value={llmAnswers[index]?.responses[questionIdx]?.answer ?? ""}
                                     onValueChange={(value) => {
                                       let updatedAnswers = [...llmAnswers];
                                       updatedAnswers[index].responses[questionIdx].answer = value;

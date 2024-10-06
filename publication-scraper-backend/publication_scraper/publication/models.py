@@ -50,7 +50,6 @@ class Publication(models.Model, Exportable):
     
     @staticmethod
     def remove_duplicates(publications: List['Publication']) -> List['Publication']:
-        log.info("Removing duplicate publications...")
         unique_papers = []
         paper_ids = []
         paper_titles = []

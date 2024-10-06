@@ -26,12 +26,14 @@ from scraping.serializers.core_serializers import (
 )
 from utils import Logger
 from django.shortcuts import get_object_or_404
-from utils.profiler import Controller
+from utils.controller import Controller
 
 
 log = Logger(__name__)
 
 class SearchAndCleanView(APIView):
+
+    @Controller
     def post(self, request):
         try:
             if request.data.get("sources") is None:
@@ -99,6 +101,7 @@ class SearchAndCleanView(APIView):
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
         results.extend([result for engine in engines for result in engine.search()])
+        # TODO: remove_duplicates -> aggregate_duplicates
         results = Publication.remove_duplicates(results)
         Publication.bulk_upsert(results)
         return results
@@ -142,6 +145,8 @@ class SearchAndCleanView(APIView):
         return search_results.to_dict()
 
 class PublicationMetadataView(APIView):
+
+    @Controller
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
         if serializer.is_valid():
@@ -160,6 +165,7 @@ class PublicationMetadataView(APIView):
 
 class ManualAddPublicationView(APIView):
 
+    @Controller
     def post(self, request):
         """
         Manually search for the paper and metadata of a list of DOIs
@@ -190,6 +196,7 @@ class ManualAddPublicationView(APIView):
 
 class SearchStringDifferenceView(APIView):
 
+    @Controller
     def post(self, request):
         """
         Get the difference of search results between multiple search strings.
@@ -284,6 +291,7 @@ class SearchStringDifferenceView(APIView):
 
 class HistoricalSearchQueryResultsView(APIView):
 
+    @Controller
     def get(self, request):
         """
         Get historical search query results based on search id
@@ -297,6 +305,7 @@ class HistoricalSearchQueryResultsView(APIView):
 
 class SearchHistoryPublicationView(APIView):
 
+    @Controller
     def put(self, request):
         """
         Update the search history with additional new search results.
@@ -319,6 +328,7 @@ class SearchHistoryPublicationView(APIView):
 
         return JsonResponse({ "message": "Search results updated successfully." })
 
+    @Controller
     def delete(self, request):
         """
         Delete a publication from the search history.

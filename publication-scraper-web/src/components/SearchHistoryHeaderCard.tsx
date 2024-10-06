@@ -17,25 +17,25 @@ const SearchHistoryHeaderCard: React.FC<SearchHistoryHeaderCardProps> = (props) 
       <p>Year: {searchHistory[index]?.year_start} - {searchHistory[index]?.year_end}</p>
       {
         searchHistory[index]?.search_terms.advanced &&
-        <p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+        <p className="text-[16px] leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
           Advanced Search: {searchHistory[index]?.search_terms.advanced}
         </p>
       }
       {
         searchHistory[index]?.search_terms.primary.length > 0 &&
-        <p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+        <p className="text-[16px] leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
           Primary Search: {searchHistory[index]?.search_terms.primary.join(', ')}
         </p>
       }
       {
         searchHistory[index]?.search_terms.secondary.length > 0 &&
-        <p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+        <p className="text-[16px] leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
           Secondary Search: {searchHistory[index]?.search_terms.secondary.join(', ')}
         </p>
       }
       {
         searchHistory[index]?.search_terms.tertiary.length > 0 &&
-        <p className="leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+        <p className="text-[16px] leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
           Tertiary Search: {searchHistory[index]?.search_terms.tertiary.join(', ')}
         </p>
       }

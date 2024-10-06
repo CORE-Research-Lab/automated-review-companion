@@ -15,7 +15,7 @@ const InputLabel: React.FC<InputLabelProps> = (props) => {
   return ( 
     <Tooltip title={tooltip}>
       <div className={cn("input-group-prepend", props.className)}>
-        <div className="input-group-text rounded-0" id="basic-addon1">
+        <div className="input-group-text h-100 rounded-0" id="basic-addon1">
           <span>{label}</span>{isRequired}
         </div>
       </div>
