@@ -37,6 +37,7 @@ class SemanticScholarEngine(SearchEngine):
         self.bulkUrl: str               = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
         self.arxiv_doi: str             = "DOI:10.48550/arXiv."
         self.results: List[Publication] = []
+        self.BULK_MAX_RESULTS           = 5000
         
         if search_query:
             self.search_type                = search_query.search_type
@@ -83,7 +84,7 @@ class SemanticScholarEngine(SearchEngine):
                                 bulk=True, 
                                 year=self.year
                             )
-        search_results    = search_results.get("data")
+        # search_results    = search_results.get("data")
         
         if search_results is None:
             log.info(">>> Semantic Scholar total: 0")
@@ -102,15 +103,16 @@ class SemanticScholarEngine(SearchEngine):
                                     bulk=True, 
                                     year=self.year
                                 )
-            search_results    = search_results.get("data")
             
             if search_results is None:
                 log.info(">>> Semantic Scholar total: 0")
                 continue
             
+            log.info(f"Search results: {len(search_results)}")
             self.process_search_results(search_results, search_string, sch_search_string)
-        
+        log.info(f"Processed results: {len(self.results)}")
         self.save_search_results()    
+        log.info(f"Saved results: {len(self.results)}")
         return self.results
 
     def search_semantic_scholar(
@@ -157,8 +159,8 @@ class SemanticScholarEngine(SearchEngine):
         """
         api_url       = self.url if not bulk else self.bulkUrl
         search_params = self._parse_search_params(search_string, year) 
-        response      = self.fetch_search_results(api_url, params=search_params)
-        return response.json()
+        response      = self.get_all_responses(bulk, api_url, search_params)
+        return response
     
     def process_search_results(
         self, 
@@ -218,6 +220,26 @@ class SemanticScholarEngine(SearchEngine):
                 "fields": ",".join(self.sch_fields)
             }     
         
+    def get_all_responses(self, bulk: bool, url: str, params: Dict[str, str]) -> List[Dict[str, Any]]:
+        """Get all search results from the Semantic Scholar API."""
+        
+        response = self.fetch_search_results(url, params=params)
+        data = response.json()
+        total_results = data.get("total")
+        results = data.get("data")
+        token = data.get("token")
+        log.info(f"Total number of matching papers: {total_results} | Token: {token}")
+        
+        while len(results) < total_results and len(results) < self.BULK_MAX_RESULTS and bulk:
+            log.info(f"Fetching results {len(results) + 1} to {len(results) + 1000}...")
+            params["token"] = token
+            response = self.fetch_search_results(url, params)
+            data = response.json()
+            token = data.get("token")
+            results.extend(data.get("data"))
+        
+        return results
+
     def fetch_search_results(
         self, 
         url: str, 
@@ -230,7 +252,6 @@ class SemanticScholarEngine(SearchEngine):
         for attempt in range(max_retries):
             response = requests.get(url, headers=self.headers, params=params)
             
-            print(response.text)
             if response.status_code == 200:
                 return response
             

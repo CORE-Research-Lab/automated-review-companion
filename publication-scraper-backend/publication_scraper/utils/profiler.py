@@ -83,12 +83,6 @@ def Logger(func: Callable, _name: str = None, _class: str = None) -> Callable:
         return result
     return wrapper
 
-def Controller(func: Callable) -> Callable:
-    """ 
-    Decorator to handle exceptions in the controller methods.
-    """
-    return HandleExceptions(Logger(Profiler(func), _name=__name__, _class=func.__class__))
-
 
 def ErrorResponse(error: Union[str, Dict[str, Union[Any]]], status: int = status.HTTP_400_BAD_REQUEST):
     """

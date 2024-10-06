@@ -1,5 +1,6 @@
 import { handleError } from '@/common/handler';
 // import '@/main.css';
+import { parseAuthors } from '@/common/labels';
 import { BASE_URL } from '@/utils/common';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -7,7 +8,6 @@ import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useEffect } from 'react';
 import {
-  Author,
   LLMQuestion,
   Publication,
   SearchResult
@@ -137,15 +137,6 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     return searchString
   }
 
-  const getAuthorLabel = (author: Author) => {
-    let authorName = author.name;
-    if (author.affiliation) {
-      let affiliations = author.affiliation.map((affiliate: string) => affiliate.replace(",", ", "))
-      authorName += ` (${affiliations.join(", ")})`;
-    }
-    return authorName;
-  }
-
   useEffect(() => {
     if (diffMode) { turnReferencesAndCitationsInvisible(); }
   }, [diffMode]);
@@ -259,7 +250,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             </td>
             <td>
               <div className="publication-data-table-cell" style={{ width: "200px"}}>
-                {publication.authors?.map((author) => getAuthorLabel(author)).join(', ') ?? "-"}
+                {parseAuthors(publication.authors)}
               </div>
             </td>
             <td>{publication.citation_count ?? "-"}
