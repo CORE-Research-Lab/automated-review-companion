@@ -20,12 +20,20 @@ describe('SearchTermChip', () => {
       variations: [
         {
           word: 'AI',
-          synonyms: ['artificial intelligence'],
+          synonyms: [
+            {
+              meaning: 'artificial intelligence',
+              words: ['a.i.'],
+            }
+          ],
           variants: ['a.i.']
         },
         {
           word: "testWord",
-          synonyms: ["synonym1", "synonym2"],
+          synonyms: [{
+            meaning: "testMeaning",
+            words: ["variant1", "variant2"],
+          }],
           variants: ["variant1", "variant2"],
         },
       ]

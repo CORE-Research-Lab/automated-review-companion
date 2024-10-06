@@ -444,17 +444,24 @@ function App() {
                               key={variation.word}
                               title={
                               <div className="d-flex flex-column gap-2">
-                                <span>Synonyms:</span>
+                                <span>Synonyms (From <a className="text-blue-300" href={`https://www.thesaurus.com/browse/${variation.word}`} target="_blank" rel="noreferrer">Thesaurus.com</a>:):</span>
                                 <Box className="word-variant-box mb-2">
                                   {variation.synonyms.map((synonym) => (
-                                      <div
-                                        key={synonym}
-                                        onClick={() => handleAdvancedChipClick(variation.word, synonym)}
-                                        className='word-variant-chip'
-                                        style={{ color: "black", cursor: "pointer" }}
-                                      >
-                                        {synonym}
+                                    <>
+                                      <div>Meaning: {synonym.meaning}</div>
+                                      <div className="word-variant-box">
+                                        {synonym.words.map((word) =>
+                                          <div
+                                            key={word}
+                                            onClick={() => handleAdvancedChipClick(variation.word, word)}
+                                            className='word-variant-chip'
+                                            style={{ color: "black", cursor: "pointer" }}
+                                          >
+                                            {word}
+                                          </div>
+                                        )}
                                       </div>
+                                    </>
                                   ))}
                                 </Box>
                               </div>

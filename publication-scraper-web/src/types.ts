@@ -8,7 +8,12 @@ export type SearchResult = {
 export type KeywordVariation = {
   word: string,
   variants: string[]
-  synonyms: string[]
+  synonyms: KeywordSynonym[]
+}
+
+export type KeywordSynonym = {
+  meaning: string,
+  words: string[]
 }
 
 export type SearchMatch = {

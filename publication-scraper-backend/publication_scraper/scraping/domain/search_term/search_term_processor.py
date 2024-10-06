@@ -1,7 +1,6 @@
 import requests
 from dataclasses import dataclass, field
-from typing import List, Tuple
-
+from typing import List, Tuple, Dict, Union
 from bs4 import BeautifulSoup
 # import nltk
 
@@ -88,40 +87,48 @@ class SearchTermProcessor:
         """ Generates synonyms of the search term with nltk and thesaurus.com. """
         
         sym_thesaurus = self._get_thesaurus_synonym(search_term)
-        # sym_nltk = self._get_nltk_synonyms(search_term)
         
         if sym_thesaurus:
             search_term.synonyms = sym_thesaurus
-        # else:
-        #     search_term.synonyms = sym_nltk
 
+    def _get_thesaurus_synonym(self, search_term: SearchTerm) -> List[Dict[str, Union[str, List[str]]]]:
+        """ 
+        Acquires synonyms of the search term from thesaurus.com. 
 
-    # def _get_nltk_synonyms(self, search_term: SearchTerm) -> List[str]:
-    #     """ Generates synonyms of the search term with breame. """
-
-    #     log.info(f"Getting synonyms for {search_term.word} from nltk...")
-    #     word = search_term.word
-    #     all_synonyms = set()
-    #     synonyms = wn.synsets(word)
-
-    #     for synonym in synonyms:
-    #         for lemma in synonym.lemmas():
-    #             all_synonyms.add(lemma.name())
-        
-    #     all_synonyms.discard(word)
-    #     return list(all_synonyms)
-
-
-    def _get_thesaurus_synonym(self, search_term: SearchTerm) -> List[str]:
-        """ Acquires synonyms of the search term from thesaurus.com. """
+        Example output:
+        [
+            {
+            "meaning": "a word",
+            "synonyms": ["word1", "word2", "word3"]
+            },
+            {
+            "meaning": "another word",
+            "synonyms": ["word4", "word5", "word6"]
+            }
+        ]
+        """
         
         log.info(f"Getting synonyms for {search_term.word} from thesaurus.com...")
         data = requests.get(f"https://www.thesaurus.com/browse/{search_term.word}")
         soup = BeautifulSoup(data.text, "html.parser")
         try:
-            focus = soup.find("div", {"data-type": "synonym-and-antonym-card"})
-            synonyms = focus.find_all("a")
-            return [synonym.text for synonym in synonyms]
+            focus = soup.find_all("div", {"data-type": "synonym-and-antonym-card"})
+            meanings = [foci.find("strong").text for foci in focus]
+            log.info(f"Meanings: {meanings}")
+            grouped_links = [foci.find_all("a") for foci in focus]
+            
+            data = []
+            for idx, group in enumerate(grouped_links):
+                synonyms = []
+                for link in group:
+                    synonyms.append(link.text)
+                
+                data.append({
+                    "meaning": meanings[idx] if idx < len(meanings) else "-",
+                    "words": synonyms
+                })
+            log.info(f"Got synonyms for {search_term.word} - {data}.")
+            return data
         except Exception as e:
-            log.error(f"Failed to get synonyms for {search_term.word}.")
+            log.error(f"Failed to get synonyms for {search_term.word} - {e}.")
             return []

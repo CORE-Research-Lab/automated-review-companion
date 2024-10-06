@@ -36,18 +36,27 @@ const SearchTermChip: React.FC<SearchTermProps> = (props) => {
           {
             hasSynonyms &&
             <>
-              <span>Synonyms:</span>
+              <span>Synonyms (From <a className="text-blue-300" href={`https://www.thesaurus.com/browse/${option}}`} target="_blank" rel="noreferrer">Thesaurus.com</a>:):</span>
               <Box className="word-variant-box mb-2" width={200}>
                 {
                   searchResults.variations.find((variation) => variation.word === option)?.synonyms.map((synonym) => (
-                    <div
-                      key={option + synonym}
-                      onClick={() => handleChipClick(synonym, field)}
-                      className="word-variant-chip"
-                      style={{ color: "black", cursor: "pointer" }}
-                    >
-                      {synonym}
-                  </div>
+                    <>
+                      <div>
+                        Meaning: {synonym.meaning}
+                      </div>
+                      <div className="word-variant-box">
+                        {synonym.words.map((word) => 
+                          <div
+                            key={option + word}
+                            onClick={() => handleChipClick(word, field)}
+                            className="word-variant-chip"
+                            style={{ color: "black", cursor: "pointer" }}
+                          >
+                            {word}
+                          </div>
+                        )}
+                      </div>
+                    </>
                 ))}
               </Box>
             </>
@@ -78,7 +87,7 @@ const SearchTermChip: React.FC<SearchTermProps> = (props) => {
       label={option}
       {...getTagProps({ index })}
     />
-  </Tooltip>
+   </Tooltip>
   );
 }
  
