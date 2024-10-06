@@ -18,6 +18,8 @@ const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
     handleClose 
   } = props;
 
+
+
   return (
     <>
       <Tooltip title={tooltipText.usabilityGuide}>
@@ -25,7 +27,10 @@ const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
           <InfoIcon style={{ fontSize: "1.5rem" }} />
         </Button>
       </Tooltip>
-      <Modal open={showUsabilityGuide} onClose={() => setShowUsabilityGuide(false)}>
+      <Modal 
+        open={showUsabilityGuide} 
+        onClose={handleClose}
+      >
         <div className="container p-5 z-10 bg-white" style={{
           position: 'absolute',
           top: '50%',
@@ -42,7 +47,7 @@ const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
               <h3 className="text-4xl font-medium ">Usability Guide</h3>
               <Tooltip title="Close" className="flex">
                 <IconButton onClick={handleClose} color="error">
-                  <CloseIcon />
+                  <CloseIcon aria-label='Close usability guide' />
                 </IconButton>
               </Tooltip>
             </div>

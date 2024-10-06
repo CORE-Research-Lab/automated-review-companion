@@ -33,11 +33,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
   "localhost",
+  "127.0.0.1",
   "ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
 ]
 
 # Remove trailing slash from URLs
-APPEND_SLASH = False
+APPEND_SLASH = True
 
 # Application definition
 

@@ -16,7 +16,7 @@ const SearchAppBar: React.FC<SearchAppBarProps> = (props) => {
             id="option1"
             autoComplete='off'
             checked={searchMode === SearchMode.SIMPLE}
-            onClick={() => handleSelectSearchMode(SearchMode.SIMPLE)}
+            onChange={() => handleSelectSearchMode(SearchMode.SIMPLE)}
         />
         <label className="search-nav-item" htmlFor="option1">Multi-layer Keyword Search</label>
 
@@ -26,7 +26,7 @@ const SearchAppBar: React.FC<SearchAppBarProps> = (props) => {
             id="advanced-search"
             autoComplete='off'
             checked={searchMode === SearchMode.ADVANCED}
-            onClick={() => handleSelectSearchMode(SearchMode.ADVANCED)}
+            onChange={() => handleSelectSearchMode(SearchMode.ADVANCED)}
         />
         <label className="search-nav-item" htmlFor="advanced-search">Advanced Keyword Search</label>
       </nav>

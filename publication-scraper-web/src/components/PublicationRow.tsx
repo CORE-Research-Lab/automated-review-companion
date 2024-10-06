@@ -1,12 +1,13 @@
 import { handleError } from '@/common/handler';
+// import '@/main.css';
 import { BASE_URL } from '@/utils/common';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useEffect } from 'react';
-import '../main.css';
 import {
+  Author,
   LLMQuestion,
   Publication,
   SearchResult
@@ -28,8 +29,7 @@ export interface PublicationRowProps {
 
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   const { 
-    rowType,
-    rowIdx,
+    rowType, rowIdx,
     publication,
     handlePaperSelect,
     selectedPapers,
@@ -137,6 +137,15 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     return searchString
   }
 
+  const getAuthorLabel = (author: Author) => {
+    let authorName = author.name;
+    if (author.affiliation) {
+      let affiliations = author.affiliation.map((affiliate: string) => affiliate.replace(",", ", "))
+      authorName += ` (${affiliations.join(", ")})`;
+    }
+    return authorName;
+  }
+
   useEffect(() => {
     if (diffMode) { turnReferencesAndCitationsInvisible(); }
   }, [diffMode]);
@@ -172,7 +181,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
               <input
                 type="checkbox"
                 checked={selectedPapers.includes(publication.paper_id)}
-                onClick={() => handlePaperSelect(publication.paper_id)}
+                onChange={() => handlePaperSelect(publication.paper_id)}
               />
               {/* Expand/contract references/citations */}
               {
@@ -238,26 +247,25 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
           {publication.formatted_search_string}
         </code>
       </td>
-      {/* <td>{publication.status}</td> */}
+      
       {/* Metadata */}
       {
         showMetadata &&
           <>
             <td>
-              <div style={{ maxHeight: "100px", overflow: "scroll"}}>
+              <div style={{ maxHeight: "120px", overflow: "scroll"}}>
                 {publication.abstract ?? "-"}
               </div>
             </td>
             <td>
               <div className="publication-data-table-cell" style={{ width: "200px"}}>
-                {publication.authors?.map((author) => author.name).join(', ') ?? "-"}
+                {publication.authors?.map((author) => getAuthorLabel(author)).join(', ') ?? "-"}
               </div>
             </td>
             <td>{publication.citation_count ?? "-"}
 
             </td>
             <td>{publication.conference_journal ?? "-"}</td>
-            <td>{publication.doi ?? "-"}</td>
             {/*todo: doi_url isnt working properly, changed to workaround*/}
             <td>
               {publication.doi ? (

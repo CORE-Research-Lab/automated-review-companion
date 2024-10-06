@@ -69,8 +69,9 @@ class BibtexExporter(DataExporter):
             field_name = self.field_mapping[field_name]
 
             if field_name == 'author':
-                authors = [author.get("name") for author in field_value]
-                field_value = ' AND '.join(authors)
+                authors = [self._parse_author_name(author.get("name")) for author in field_value]
+
+                field_value = ' and '.join(authors)
 
             if field_name == 'year':
                 try: 
@@ -80,3 +81,15 @@ class BibtexExporter(DataExporter):
 
             return field_name, field_value
         return None, None
+    
+    def _parse_author_name(self, author_name: str) -> str:
+        """
+        Parse the author name into the Bibtex format.
+        
+        :param author_name (str): The name of the author.
+        :rettype str: The parsed author name.
+        """
+        name_parts = author_name.split(" ")
+        if len(name_parts) == 1:
+            return name_parts[0]
+        return f"{name_parts[-1]}, {' '.join(name_parts[:-1])}"

@@ -1,11 +1,9 @@
-import AddIcon from '@mui/icons-material/Add';
+import '@/main.css';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import InfoIcon from '@mui/icons-material/Info';
-import MinusIcon from '@mui/icons-material/Remove';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { handleError } from './common/handler';
 import ChangelogModal from './components/ChangelogModal';
@@ -20,19 +18,14 @@ import SearchHistoryHeaderCard from './components/SearchHistoryHeaderCard';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
-import { Checkbox } from './components/ui/checkbox';
-import { Input } from './components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
+import { Carousel, CarouselContent, CarouselItem } from './components/ui/carousel';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
-import './main.css';
 import {
   ButtonState,
   DiffType,
   LLMOptions,
-  LLMPaperFilterResponse,
   LLMQuestion,
   LLMUserAnswer,
   Publication,
@@ -54,7 +47,6 @@ function App() {
   const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>(defaultLLMQuestions);
   const [llmAnswers, setLLMAnswers] = useState<LLMUserAnswer[]>([]);
   const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
-  const [isLLMFilterProcessing, setIsLLMFilterProcessing] = useState(false);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [showMetadata, setShowMetadata] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -100,9 +92,7 @@ function App() {
   const handleSearchFormChange = (value: string[], field: MultiLayerSearch) => {
     setSearchForm({
       ...searchForm,
-      search_terms: { ...searchForm.search_terms,
-        [field]: value
-      }
+      search_terms: { ...searchForm.search_terms, [field]: value }
     })
   }
 
@@ -168,7 +158,7 @@ function App() {
       dois: manualAddPapers
     })
     .then(async (res) => {
-      let modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL'}));
+      let modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL', formatted_search_string: 'Not Applicable'}));
       let newResults = modifiedResults.filter((paper: Publication) => !searchResults.results.find((result: Publication) => result.paper_id === paper.paper_id));
       setSearchResults({...searchResults, results: [...searchResults.results, ...newResults]});
       toast.success('Papers added successfully');
@@ -194,51 +184,8 @@ function App() {
     }
   }
 
-  const handleLLMFiltering = async () => {
-    if (!validateLLMQuestionSubmittability()) return;
-    setIsLLMFilterProcessing(true);
-    await axios.post(`${BASE_URL}/publication/llm-filter`, {
-      questions: llmQuestions,
-      paper_ids: selectedPapers,
-      answers: llmAnswers,
-      options: llmOptions,
-    })
-    .then((res) => {
-      // debugger;
-      let data = res.data.results
-      const updatedResults = searchResults.results.map((result: Publication) => {
-        const llm_responses = data.find((response: LLMPaperFilterResponse) => response.paper_id === result.paper_id)?.responses;
-        return { ...result, llm_responses }
-      });
-      setSearchResults({...searchResults, results: updatedResults})
-    })
-    .catch(handleError)
-    .finally(() => setIsLLMFilterProcessing(false));
-  }
-  
-  const handleAddLLMQuestion = () => {
-    if (llmQuestions.length >= 5) {
-      toast.info('Maximum of 5 questions allowed.');
-      return
-    }
-    setLLMQuestions([...llmQuestions, {
-      id: llmQuestions.length + 1,
-      question: '',
-      answer: '',
-      rationale: '',
-    }])
-  }
-
   const handleShowMetadata = () => {
     setShowMetadata(!showMetadata)
-  }
-
-  const handleRemoveLLMQuestion = () => {
-    if (llmQuestions.length === 1) {
-      toast.info('At least one question is required');
-      return;
-    }
-    setLLMQuestions(llmQuestions.slice(0, llmQuestions.length - 1))
   }
 
   const handleSelectSearchMode = (mode: SearchMode) => {
@@ -250,7 +197,7 @@ function App() {
     setSearchResults(defaultSearchResult);
     setSelectedPapers([]);
     setLLMQuestions(defaultLLMQuestions);
-    setButtonState(defaultButtonState)
+    setButtonState(defaultButtonState);
   }
 
   const handleChipClick = (keyword: string, field: MultiLayerSearch) => {
@@ -411,59 +358,9 @@ function App() {
       return { ...result, show: true }
     });
     setDiffSearchResults({...diffSearchResults, results: newUpdatedDiffResults});
-
     setShowDiffOnly(!showDiffOnly);
   }
-
-  const validateLLMQuestionSubmittability = () => {
-    let valid = true;
-    for (let i = 0; i < llmQuestions.length; i++) {
-      if (!llmQuestions[i].question) {
-        valid = false;
-        toast.error('Question is required');
-        break;
-      }
-    }
-    if (!valid) return false;
-
-    searchResults.results.forEach((result: Publication) => {
-     if (selectedPapers.includes(result.paper_id) && !result.abstract) {
-      // valid = false; TODO: paper without metadata shouldn't stop LLM filtering
-      toast.warning(`Metadata is required for all papers: ${result.paper_id} does not fulfill the necessary requirement.`);
-    }
-    });
-
-    if (selectedPapers.length > 50) {
-      valid = false;
-      toast.error('Maximum of 50 selected papers allowed at once.');
-    }
-    return valid;
-  }
-
-  const handleLLMQuestionChange = (e: ChangeEvent<HTMLInputElement>, question: LLMQuestion) => {
-    const updatedQuestions = llmQuestions.map((q) => {
-      if (q.id === question.id) return {...q, [e.target.name]: e.target.value}
-      return q;
-    })
-    setLLMQuestions(updatedQuestions);
-  }
-
-  const handleLLMOptions = (checked: string | boolean, fieldName: string) => {
-
-    if (fieldName === "includeExamples" && checked && selectedPapers.length > 3) {  
-      setLLMAnswers([
-        { paper_id: selectedPapers[0], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) },
-        { paper_id: selectedPapers[1], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) },
-        { paper_id: selectedPapers[2], responses: llmQuestions.map((question) => ({ id: question.id, answer: "", rationale: "" })) }
-      ]);
-    }
-
-    setLLMOptions({
-      ...llmOptions,
-      [fieldName]: Boolean(checked)
-    })
-  }
-
+  
   // Fetch the search history from the local storage
   useEffect(() => { 
     const currentVersion = CURRENT_VERSION;
@@ -493,6 +390,7 @@ function App() {
                 <ChangelogModal 
                   showChangelog={showChangelog} 
                   setShowChangelog={setShowChangelog}
+                  handleClose={() => setShowChangelog(false)}
                 />
               </div>
             </div>
@@ -511,7 +409,6 @@ function App() {
                         searchForm={searchForm}
                         searchResults={searchResults}
                         setSearchResults={setSearchResults}
-                        tooltipText={tooltipText}
                         handleSearchFormChange={handleSearchFormChange}
                         handleChipClick={handleChipClick}
                     />))}
@@ -538,7 +435,9 @@ function App() {
                       <div className="flex flex-row gap-2 flex-wrap my-3">
                         <span className="text-center">Variations:</span>
                           {searchResults.variations.map((variation) => (
-                            <Tooltip title={
+                            <Tooltip 
+                              key={variation.word}
+                              title={
                               <div className="d-flex flex-column gap-2">
                                 <span>Synonyms:</span>
                                 <Box className="word-variant-box mb-2">
@@ -596,7 +495,7 @@ function App() {
 
               {/* Validation Papers */}
               <div className="d-flex flex-row w-100">
-                <Tooltip title={tooltipText.search.validationPapers} placement='right'>
+                <Tooltip title={tooltipText.search.validationPapers.hint} placement='right'>
                   <div className="input-group-prepend">
                     <span className="input-group-text rounded-0" id="basic-addon1">Validation Papers</span>
                   </div>
@@ -604,7 +503,7 @@ function App() {
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"
+                    placeholder={tooltipText.search.validationPapers.example}
                     value={searchForm.validation_papers.join(',')}
                     onChange={(e) => setSearchForm({...searchForm, validation_papers: e.target.value.split(',')})}
                 />
@@ -659,160 +558,6 @@ function App() {
               </div>
             </div>
           </div>
-
-          {/* LLM Questions */}
-          {
-              buttonState.showLLMQuestions && searchResults.results?.length > 0 &&
-              <div className="container p-3 mt-3 border rounded" id="llm-questions">
-
-                <div className="flex flex-row justify-content-between align-items-center">
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h3 className="text-3xl font-medium p-0 m-0">Paper Filter Questions (LLM-Powered)</h3>
-                    <div>
-                      <Tooltip title={tooltipText.search.llmQuestions} placement="top">
-                        <InfoIcon color="info"/>
-                      </Tooltip>
-                    </div>
-                  </div>
-                  <div className="flex flex-row gap-2">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="llm-examples" checked={llmOptions.includeExamples} onCheckedChange={(checked) => handleLLMOptions(checked, "includeExamples")} />
-                      <label htmlFor="llm-examples" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Include examples
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="llm-rationale" checked={llmOptions.includeRationale} onCheckedChange={(checked) => handleLLMOptions(checked, "includeRationale")} />
-                      <label htmlFor="llm-rationale" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Include rationale
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="max-height-30vh overflow-y-scroll">
-                  <div className="d-flex flex-row gap-2 mt-3 align-items-center">
-                    <div className="w-5">#</div>
-                    <div className="w-50">Question</div>
-                    <div className="w-40">Answer <span className="text-slate-600/60 text-xs">(Comma-separated)</span></div>
-                    <div className='flex flex-row gap-2'>
-                      <Tooltip title={tooltipText.search.llmQuestion.add} placement="top">
-                        <IconButton onClick={handleAddLLMQuestion}>
-                          <AddIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title={tooltipText.search.llmQuestion.remove} placement="top">
-                        <IconButton onClick={handleRemoveLLMQuestion}>
-                          <MinusIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  </div>
-                  {
-                    llmQuestions && llmQuestions.length > 0 && llmQuestions.map((question, index) => (
-                        <div key={question.id} className="d-flex flex-row gap-2 mt-3">
-                          <div className="d-flex align-items-center justify-content-center w-5">{index + 1}</div>
-                          <Input 
-                            name="question"
-                            className="bg-white"
-                            placeholder="Question" 
-                            value={question.question} 
-                            onChange={(e) => handleLLMQuestionChange(e, question)}
-                          />
-                          <Input 
-                            name="answer"
-                            className="bg-white" 
-                            placeholder="Answer" 
-                            value={question.answer} 
-                            onChange={(e) => handleLLMQuestionChange(e, question)}
-                          />
-                        </div>
-                    ))
-                  }
-                </div>
-
-                {/* Few-shot examples */}
-                {
-                  llmOptions.includeExamples && selectedPapers.length > 3 &&
-                  <div className="flex flex-row mt-3">
-                    <div className="table-responsive">
-                      <table className="table table-striped">
-                        <thead className="bg-primary text-white">
-                          <td>Paper ID</td>
-                          <td style={{ minWidth: "300px" }}>Paper Title</td>
-                          {
-                            llmQuestions.map((question) => (
-                              <td key={question.id} style={{ minWidth: "300px" }}>
-                                Q{question.id}: Answer & Rationale
-                              </td>
-                            ))
-                          }
-                        </thead>
-                        <tbody>
-                        {selectedPapers.length > 0 && selectedPapers.map((paper_id, index) => {
-                          let paperName = searchResults.results.find((result) => result.paper_id === paper_id)?.paper_title;
-                          if (index < 3) {
-                            return (
-                              <tr>
-                                <td>{paper_id}</td>
-                                <td>{paperName}</td>
-                                {llmQuestions.map((llmQuestion, questionIdx) => (
-                                  <td key={questionIdx}>
-                                    <Select 
-                                      value={llmAnswers[index]?.responses[questionIdx].answer ?? ""}
-                                      onValueChange={(value) => {
-                                        let updatedAnswers = [...llmAnswers];
-                                        updatedAnswers[index].responses[questionIdx].answer = value;
-                                        setLLMAnswers(updatedAnswers);
-                                      }}
-                                    >
-                                      <SelectTrigger className="bg-white">
-                                        <SelectValue placeholder="Select Answer" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        {llmQuestion.answer.split(',').map((choice) => {
-                                          if (choice) return (
-                                            <SelectItem key={choice} value={choice}>{choice}</SelectItem>
-                                          )})
-                                        }
-                                      </SelectContent>
-                                    </Select>
-                                    { 
-                                      llmOptions.includeRationale &&
-                                      <Input 
-                                        placeholder="Rationale" 
-                                        className="bg-white"
-                                        value={llmAnswers[index]?.responses[questionIdx].rationale ?? ""}
-                                        onChange={(e) => {
-                                          let updatedAnswers = [...llmAnswers];
-                                          updatedAnswers[index].responses[questionIdx].rationale = e.target.value;
-                                          setLLMAnswers(updatedAnswers);
-                                        }}
-                                      />
-                                    }
-                                  </td>
-                                ))}
-                              </tr>
-                            );
-                          }
-                        })}
-                      </tbody>
-                      </table>
-                    </div>
-                  </div>
-                }
-
-                <div className="d-flex justify-content-end mt-3">
-                  <Button 
-                    className="bg-green-600 hover:bg-green-700/80" 
-                    disabled={isLLMFilterProcessing}
-                    onClick={handleLLMFiltering}
-                  >
-                    {isLLMFilterProcessing ? <Spinner /> : "Submit Questions"}
-                  </Button>
-                </div>
-              </div>
-          }
         </div>
 
         {/* Search History */}
@@ -833,92 +578,99 @@ function App() {
                   }
 
                   <Tooltip title={tooltipText.search.history} placement="top">
-                    <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
-                      {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
-                    </Button>
+                    <>
+                      <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
+                        {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
+                      </Button>
+                    </>
                   </Tooltip>
                 </div>
               </div>
 
               <div className="w-100 relative">
                 <div className="px-12 py-3">
-                  <Carousel className="">
-                    <CarouselContent>
-                      {
-                        searchHistory.map((search, index) => (
-                          <CarouselItem 
-                            key={search.year_start}
-                            className="basis-1/3"
-                            onClick={() => handleChooseSearchHistory(index)}
-                          >
-                            <Tooltip title={
-                              <Box>
-                                <div>Search {index + 1}</div>
-                                <div>Ref: {search.id ?? "-"}</div>
-                                <div>Year Range: {search.year_start} - {search.year_end}</div>
-                                {
-                                  search.search_terms.advanced 
-                                  ? <div>Advanced Search: {search.search_terms.advanced}</div>
-                                  : <>
-                                      <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
-                                      <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
-                                      <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
-                                    </>
-                                }
-                                <div>Sources: {search.sources.join(', ')}</div>
-                              </Box>
-                            } placement="top">
-                              <Button 
-                                className={
-                                  cn(
-                                    "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
-                                    (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "" )+
-                                    (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
-                                    (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
-                                  )
-                                }
-                              >
-                                <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
-                                <span className="text-wrap text-left text-ellipsis overflow-hidden h-[40px]">Ref: {search.id ?? "-"}</span>
-                                {
-                                  search.search_terms.advanced &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Advanced Search: {search.search_terms.advanced}
-                                  </span>
-                                }
-                                {
-                                  search.search_terms.primary.length > 0 &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Primary Search: {search.search_terms.primary.join(', ')}
-                                  </span>
-                                }
-                                {
-                                  search.search_terms.secondary.length > 0 &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Secondary Search: {search.search_terms.secondary.join(', ')}
-                                  </span>
-                                }
-                                {
-                                  search.search_terms.tertiary.length > 0 &&
-                                  <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-                                    Tertiary Search: {search.search_terms.tertiary.join(', ')}
-                                  </span>
-                                }
-                              </Button>
-                            </Tooltip>
-                          </CarouselItem>
-                        ))
-                      }
-                      {
-                        searchHistory.length === 0 &&
-                        <div className="flex justify-content-center w-100">
-                          <div className="p-0 m-0 leading-[16px] text-muted">No search history</div>
-                        </div>
-                      }
-                    </CarouselContent>
-                    <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
-                    <CarouselNext onClick={() => handleSearchHistory(1)} />
-                  </Carousel>
+                    <Carousel
+                    opts={{
+                      align: "start",
+                      loop: true,
+                    }}
+                    >
+                      <CarouselContent>
+                        {
+                          searchHistory.map((search, index) => (
+                            <CarouselItem 
+                              key={search.year_start}
+                              className="basis-1/3"
+                              onClick={() => handleChooseSearchHistory(index)}
+                            >
+                              <Tooltip title={
+                                <Box>
+                                  <div>Search {index + 1}</div>
+                                  <div>Ref: {search.id ?? "-"}</div>
+                                  <div>Year Range: {search.year_start} - {search.year_end}</div>
+                                  {
+                                    search.search_terms.advanced 
+                                    ? <div>Advanced Search: {search.search_terms.advanced}</div>
+                                    : <>
+                                        <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
+                                        <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
+                                        <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
+                                      </>
+                                  }
+                                  <div>Sources: {search.sources.join(', ')}</div>
+                                </Box>
+                              } placement="top">
+                                <Button 
+                                  className={
+                                    cn(
+                                      "flex flex-col w-100 h-24 align-items-start bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1 overflow-scroll",
+                                      (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "" )+
+                                      (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
+                                      (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
+                                    )
+                                  }
+                                >
+                                  <span className="leading-[16px]">Search {index + 1} : {search.year_start} - {search.year_end}</span>
+                                  <span className="text-wrap text-left text-ellipsis overflow-hidden h-[40px]">Ref: {search.id ?? "-"}</span>
+                                  {
+                                    search.search_terms.advanced &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Advanced Search: {search.search_terms.advanced}
+                                    </span>
+                                  }
+                                  {
+                                    search.search_terms.primary.length > 0 &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Primary Search: {search.search_terms.primary.join(', ')}
+                                    </span>
+                                  }
+                                  {
+                                    search.search_terms.secondary.length > 0 &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Secondary Search: {search.search_terms.secondary.join(', ')}
+                                    </span>
+                                  }
+                                  {
+                                    search.search_terms.tertiary.length > 0 &&
+                                    <span className="mt-2 leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
+                                      Tertiary Search: {search.search_terms.tertiary.join(', ')}
+                                    </span>
+                                  }
+                                </Button>
+                              </Tooltip>
+                            </CarouselItem>
+                          ))
+                        }
+                        {
+                          searchHistory.length === 0 &&
+                          <div className="flex justify-content-center w-100">
+                            <div className="p-0 m-0 leading-[16px] text-muted">No search history</div>
+                          </div>
+                        }
+                      </CarouselContent>
+                      {/* <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
+                      <CarouselNext onClick={() => handleSearchHistory(1)} /> */}
+                    </Carousel>
                 </div>
                 {/* <button className="btn w-5" onClick={() => handleSearchHistory(1)}>{">"}</button> */}
               </div>
@@ -973,17 +725,17 @@ function App() {
                   />
               </div>
 
-              <div className='flex flex-wrap gap-2'>
+              <div id="paper-operations" className='flex flex-wrap gap-2'>
                 {
                   buttonState.showSelectAll &&
                   <Tooltip title={tooltipText.results.selectAll} placement="top">
-                    <Button className='bg-blue-500' onClick={handleSelectAll} disabled={diffMode}>Select All</Button>
+                    <><Button className='bg-blue-500' onClick={handleSelectAll} disabled={diffMode}>Select All</Button></>
                   </Tooltip>
                 }
                 {
                   buttonState.showDeselectAll &&
                   <Tooltip title={tooltipText.results.deselectAll} placement="top">
-                    <Button className="bg-blue-500" onClick={handleDeselectAll} disabled={diffMode}>Deselect All</Button>
+                    <><Button className="bg-blue-500" onClick={handleDeselectAll} disabled={diffMode}>Deselect All</Button></>
                   </Tooltip>
                 }
                 {
@@ -1001,6 +753,13 @@ function App() {
                   buttonState={buttonState}
                   setButtonState={setButtonState}
                   diffMode={diffMode}
+
+                  llmOptions={llmOptions}
+                  llmQuestions={llmQuestions}
+                  llmAnswers={llmAnswers}
+                  setLLMOptions={setLLMOptions}
+                  setLLMQuestions={setLLMQuestions}
+                  setLLMAnswers={setLLMAnswers}
                 />
                 <ExportDropdown
                   selectedPapers={selectedPapers}

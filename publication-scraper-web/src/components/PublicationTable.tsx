@@ -1,5 +1,6 @@
 import { LLMQuestion, SearchResult } from "@/types";
 import { useRef, useState } from "react";
+import '../main.css';
 import PublicationRow from "./PublicationRow";
 
 export interface PublicationTableProps {
@@ -84,16 +85,6 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
       requirement: "showMetadata"
     },
     {
-      name: "DOI URL",
-      width: 100,
-      requirement: "showMetadata"
-    },
-    // {
-    //   name: "Keywords",
-    //   width: 100,
-    //   requirement: "showMetadata"
-    // },
-    {
       name: "Publication Date",
       width: 150,
       requirement: "showMetadata"
@@ -150,36 +141,38 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
     <>
      <div className="table-container">
         <table className="table table-striped border-1 border-slate-600 bg-white min-h-[85vh]" ref={tableRef}>
-          <thead className='bg-primary text-white sticky-top' style={{ height: "20px" }}>
-            <td style={{ minWidth: "10px" }}></td>
-            <td style={{ minWidth: "70px" }}>#</td>
-            {
-              columns.map((column, index) => {
-                if (checkColumnRequirement(column.requirement)) {
-                  return (
-                    <td 
-                      key={index} 
-                      className="resizable leading-[14px]" 
-                      style={{  minWidth: column.width + "px", ...column.style}}
-                    >
-                      {column.name}
-                      <div className="resizer" onMouseDown={(e) => startResizing(index, e.clientX)} style={{ cursor: "col-resize" }}></div>
-                    </td>
-                  )}
-              })
-            }
+          <thead className='bg-primary bg-black text-white sticky-top' style={{ height: "20px" }}>
+            <tr>
+              <td style={{ minWidth: "10px" }}></td>
+              <td style={{ minWidth: "70px" }}>#</td>
+              {
+                columns.map((column, index) => {
+                  if (checkColumnRequirement(column.requirement)) {
+                    return (
+                      <td 
+                        key={index} 
+                        className="resizable leading-[14px]" 
+                        style={{  minWidth: column.width + "px", ...column.style}}
+                      >
+                        {column.name}
+                        <div className="resizer" onMouseDown={(e) => startResizing(index, e.clientX)} style={{ cursor: "col-resize" }}></div>
+                      </td>
+                    )}
+                })
+              }
 
-            {/* Questions */}
-            {
-                searchResults.results && searchResults.results.length > 0 &&
-                searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-                llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
-                    <>
-                      <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}"</td>
-                      <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}" Rational</td>
-                    </>
-                ))
-            }
+              {/* Questions */}
+              {
+                  searchResults.results && searchResults.results.length > 0 &&
+                  searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
+                  llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
+                      <>
+                        <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}"</td>
+                        <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}" Rational</td>
+                      </>
+                  ))
+              }
+            </tr>
           </thead>
           <tbody>
           {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result, rowIdx) => {
@@ -189,6 +182,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
             if (result.show == undefined || result.show) {
               publicationRows.push(
                 <PublicationRow
+                  key={rowIdx}
                   rowType='main'
                   rowIdx={rowIdx+1}
                   publication={result}

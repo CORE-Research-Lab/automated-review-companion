@@ -229,13 +229,15 @@ class SemanticScholarEngine(SearchEngine):
         
         for attempt in range(max_retries):
             response = requests.get(url, headers=self.headers, params=params)
+            
+            print(response.text)
             if response.status_code == 200:
                 return response
             
             log.error(f"Request failed with status code {response.status_code}. Attempt {attempt + 1} of {max_retries}.")
             if attempt < max_retries - 1:
                 time.sleep(delay)
-                
+
         raise Exception(f"Failed to fetch data: {response.text}")
 
     def _parse_search_string(self, search_string: List[str] = []) -> str:

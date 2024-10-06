@@ -1,16 +1,23 @@
-/*  Inter as default font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 * {
   font-family: 'Inter', serif !important
 }
+
 .custom-tooltip {
   --bs-tooltip-bg: var(--bd-violet-bg);
   --bs-tooltip-color: var(--bs-white);
 }
+
+
+
+
 /* General */
 
 .bg-primary {
+  background: #3691f2 !important; 
+  color: white !important;
+}
+
+thead > tr > td {
   background: #3691f2 !important; 
   color: white !important;
 }

@@ -7,12 +7,14 @@ import { Button } from './ui/button';
 export interface ChangelogModalProps {
   showChangelog: boolean,
   setShowChangelog: React.Dispatch<React.SetStateAction<boolean>>,
+  handleClose: () => void,
 } 
 
 const ChangelogModal: React.FC<ChangelogModalProps> = (props) => {
   const { 
     showChangelog,
     setShowChangelog,
+    handleClose,
   } = props;
 
   return (
@@ -22,7 +24,7 @@ const ChangelogModal: React.FC<ChangelogModalProps> = (props) => {
           <HistoryIcon style={{ fontSize: "1.5rem" }} />
         </Button>
       </Tooltip>
-      <Modal open={showChangelog} onClose={() => setShowChangelog(false)}>
+      <Modal open={showChangelog} onClose={handleClose}>
         <div className="container p-5 z-10 bg-white" style={{
           position: 'absolute',
           top: '50%',
@@ -36,8 +38,8 @@ const ChangelogModal: React.FC<ChangelogModalProps> = (props) => {
           <div className="d-flex justify-content-between mb-3">
             <h3 className="text-4xl font-medium ">Welcome to Automated Review Companion (ARC)</h3>
             <Tooltip title="Close" className="flex">
-              <IconButton onClick={() => setShowChangelog(false)} color="error">
-                <CloseIcon/>
+              <IconButton onClick={handleClose} color="error">
+                <CloseIcon aria-label="Close changelog" />
               </IconButton>
             </Tooltip>
           </div>

@@ -3,7 +3,7 @@ import { SearchEngineType } from "@/types";
 export const defaultSearchForm = {
   validation_papers: [],
   search_terms: {
-    advanced: '',
+    advanced: "AI and ('Machine Learning' or 'Generative AI') and not Education",
     primary: [],
     secondary: [],
     tertiary: [],

@@ -41,6 +41,7 @@ const SearchTermChip: React.FC<SearchTermProps> = (props) => {
                 {
                   searchResults.variations.find((variation) => variation.word === option)?.synonyms.map((synonym) => (
                     <div
+                      key={option + synonym}
                       onClick={() => handleChipClick(synonym, field)}
                       className="word-variant-chip"
                       style={{ color: "black", cursor: "pointer" }}
@@ -59,6 +60,7 @@ const SearchTermChip: React.FC<SearchTermProps> = (props) => {
                 {
                   searchResults.variations.find((variation) => variation.word === option)?.variants.map((variant) => (
                     <div
+                      key={option + variant}
                       onClick={() => handleChipClick(variant, field)}
                       className="word-variant-chip"
                       style={{ color: "black", cursor: "pointer" }}
