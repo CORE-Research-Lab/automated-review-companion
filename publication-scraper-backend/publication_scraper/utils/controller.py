@@ -38,8 +38,6 @@ def HandleExceptions(func: Callable) -> Callable:
 
 
 def Controller(func):
-    # future use of multiple decorators:
-    # method3(method2(handle_exceptions(func)))
     return HandleExceptions(func)
 
 

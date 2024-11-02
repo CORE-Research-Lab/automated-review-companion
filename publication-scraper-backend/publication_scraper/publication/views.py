@@ -6,7 +6,7 @@ from typing import List
 from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-from utils import Logger
+from utils import Logger, Controller
 
 from .interfaces.backward_search import BackwardSearch
 from .interfaces.filter.llm_filter import FilterResponse, LLMFilter, FilterAnswerExamples, FilterAnswer
@@ -24,6 +24,7 @@ log = Logger(__name__)
 
 class PublicationSnowballingView(APIView):
     
+    @Controller
     def post(self, request):
         serializer = PublicationSnowballingSerializer(data=request.data)
         if serializer.is_valid():
@@ -49,6 +50,7 @@ class PublicationSnowballingView(APIView):
 
 class PublicationValidationView(APIView):
 
+    @Controller
     def post(self, request):
         serializer = PublicationValidationSerializer(data=request.data)
         if serializer.is_valid():
@@ -65,21 +67,7 @@ class PublicationValidationView(APIView):
 
 class PublicationLLMFilterView(APIView):
 
-
-    def check_for_validity(self, request, paper_ids):
-        """ Checks if the user has submitted MAX_AMOUNT paper ids already for the day. """
-        MAX_LLM_CALL_COUNT = 1000
-        ip = request.META.get('REMOTE_ADDR')
-        today = datetime.date.today()
-        usage = PublicationLLMUsage.objects.filter(ip_address=ip, date=today).first()
-        if not usage:
-            usage = PublicationLLMUsage(ip_address=ip, date=today)
-        usage.count += len(paper_ids)
-        usage.save()
-
-        if usage.count >= (MAX_LLM_CALL_COUNT - len(paper_ids)):
-            return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."
-
+    @Controller
     def post(self, request):
 
         serializer = PublicationLLMFilterSerializer(data=request.data)
@@ -145,3 +133,19 @@ class PublicationLLMFilterView(APIView):
 
             return JsonResponse({ "results" : results })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    
+
+
+    def check_for_validity(self, request, paper_ids):
+        """ Checks if the user has submitted MAX_AMOUNT paper ids already for the day. """
+        MAX_LLM_CALL_COUNT = 20
+        ip = request.META.get('REMOTE_ADDR')
+        today = datetime.date.today()
+        usage = PublicationLLMUsage.objects.filter(ip_address=ip, date=today).first()
+        if not usage:
+            usage = PublicationLLMUsage(ip_address=ip, date=today)
+        usage.count += len(paper_ids)
+        usage.save()
+
+        if usage.count >= (MAX_LLM_CALL_COUNT - len(paper_ids)):
+            return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."

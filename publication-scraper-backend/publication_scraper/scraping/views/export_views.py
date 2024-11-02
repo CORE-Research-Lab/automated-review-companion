@@ -19,7 +19,7 @@ class ExportView(APIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = PublicationFilter
     
-    # @Controller
+    @Controller
     def post(self, request):
         """ Export the publications based on the given filters. """
         
