@@ -21,6 +21,7 @@ class DBLPEngine(SearchEngine):
         super().__init__()
         self.url                            = "https://dblp.org/search/publ/api"
         self.results: List[Publication]     = []
+        self.engine_type: SearchEngineType  = SearchEngineType.DBLP
         if search_query:
             self.search_type: SearchQueryType   = search_query.search_type
             self.queries: List[str]             = search_query.search_strings
@@ -102,7 +103,7 @@ class DBLPEngine(SearchEngine):
                 paper_title = result.get('info').get('title'),   
                 paper_id = paper_id,
                 search_string = search_string,
-                searched_from = SearchEngineType.DBLP.value,
+                searched_from = [SearchEngineType.DBLP.value],
                 formatted_search_string = formatted_search_string,
                 status = PublicationStatus.NEW.value
             )

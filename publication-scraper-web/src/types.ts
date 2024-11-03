@@ -140,6 +140,7 @@ export type ButtonState = {
   showSelectAll: boolean,
   showDeselectAll: boolean,
   showHideMetadata: boolean,
+  showEnableFilters: boolean,
   showPopulateMetadata: boolean,
   showForwardSearch: boolean,
   showBackwardSearch: boolean,

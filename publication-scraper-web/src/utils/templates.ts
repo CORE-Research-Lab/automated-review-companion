@@ -39,6 +39,7 @@ export const defaultButtonState = {
   showSelectAll: false,
   showDeselectAll: false,
   showHideMetadata: false,
+  showEnableFilters: false,
   showPopulateMetadata: false,
   showForwardSearch: false,
   showBackwardSearch: false,

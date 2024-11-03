@@ -5,5 +5,7 @@ from .search_engine import (
   SearchEngine,
   SemanticScholarEngine,
   WebOfScienceEngine,
+  ScopusEngine,
+  IEEEXploreEngine,
 )
 from .search_term.search_term_processor import SearchTerm, SearchTermProcessor

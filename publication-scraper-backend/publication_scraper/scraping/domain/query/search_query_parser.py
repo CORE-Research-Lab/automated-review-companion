@@ -96,6 +96,15 @@ class SearchQueryParser:
                 joined_operands = " ".join(formatted_operands)
             elif operator == SearchQueryOperator.OR:
                 joined_operands = " OR ".join(formatted_operands)
+
+        elif (
+            format_type == SearchEngineType.IEEE_XPLORE or
+            format_type == SearchEngineType.SCOPUS
+        ):
+            if operator == SearchQueryOperator.AND:
+                joined_operands = " AND ".join(formatted_operands)
+            elif operator == SearchQueryOperator.OR:
+                joined_operands = " OR ".join(formatted_operands)
         
         # Add parentheses if this is an OR operator to ensure proper precedence
         if operator == SearchQueryOperator.OR:
@@ -104,17 +113,15 @@ class SearchQueryParser:
         return joined_operands
     
     def _format_not_operator(self, operand: str, format_type: SearchEngineType) -> str:
-        """ 
-        Format the NOT operator based on the format type.
-        """
-        
         if format_type == SearchEngineType.SEMANTIC_SCHOLAR:
             return f"-{operand}"
-        
         elif format_type == SearchEngineType.DBLP:
             return f"-{operand}"  # Assuming no specific NOT syntax, fallback to minus
-        
-        elif format_type == SearchEngineType.WEB_OF_SCIENCE:
+        elif (
+            format_type == SearchEngineType.WEB_OF_SCIENCE or 
+            format_type == SearchEngineType.IEEE_XPLORE or
+            format_type == SearchEngineType.SCOPUS
+        ):
             return f"NOT {operand}"
 
     def _format_phrase(self, phrase: str, format_type: SearchEngineType) -> str:
@@ -124,3 +131,9 @@ class SearchQueryParser:
             return f'{phrase}$'  # Append $ for DBLP
         if format_type == SearchEngineType.WEB_OF_SCIENCE:
             return f'{phrase}'
+        if format_type == SearchEngineType.IEEE_XPLORE:
+            return f'"{phrase}"'
+        if format_type == SearchEngineType.SCOPUS:
+            if " " in phrase:
+                return f'{{{phrase}}}'
+            return phrase
