@@ -8,13 +8,15 @@ from publication.models import Publication, PublicationMetadata, PublicationStat
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from scraping.domain import (
-    DBLPEngine,
     SearchEngine,
     SearchQuery,
     SearchTerm,
     SearchTermProcessor,
+    DBLPEngine,
+    IEEEXploreEngine,
     SemanticScholarEngine,
     WebOfScienceEngine,
+    ScopusEngine
 )
 from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
 from scraping.models import SearchEngineType, SearchResult, SearchResponse
@@ -33,9 +35,9 @@ log = Logger(__name__)
 
 class SearchAndCleanView(APIView):
 
-    @Controller
+    # @Controller
     def post(self, request):
-        try:
+        # try:
             if request.data.get("sources") is None:
                 request.data["sources"] = [SearchEngineType.DBLP]
             
@@ -70,18 +72,24 @@ class SearchAndCleanView(APIView):
 
                 matches = self.get_matches()
                 results = [result.to_dict() for result in self.results]
-                response = { "query": request.data, "variations": self.all_search_words, "results": results, "matches": matches }
+                response = { 
+                    "query": request.data, 
+                    "variations": self.all_search_words, 
+                    "results": results, 
+                    "matches": matches 
+                }
                 response = self.save_response(response)
                 return JsonResponse(response)
             return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
-        except Exception as e:
-            log.error(f"An error occurred: {e}")
-            return JsonResponse({ "Publication Search": f"{e}" }, status=HTTP_400_BAD_REQUEST)
+        # except Exception as e:
+        #     log.error(f"An error occurred: {e}")
+        #     return JsonResponse({ "Publication Search": f"{e}" }, status=HTTP_400_BAD_REQUEST)
 
     def search(self) -> List[Publication]:
         """ Search for publications using the search terms. """
         
         engines: List[SearchEngine] = []
+        metadata: Dict[str, str] = dict()
 
         if SearchEngineType.DBLP in self.sources:
             engines.append(DBLPEngine(self.query))
@@ -93,14 +101,23 @@ class SearchAndCleanView(APIView):
             engines.append(WebOfScienceEngine(self.query))
 
         if SearchEngineType.IEEE_XPLORE in self.sources:
-            engines.append(SemanticScholarEngine(self.query, "IEEE Xplore"))
+            engines.append(IEEEXploreEngine(self.query))
         
         if SearchEngineType.SCOPUS in self.sources:
-            engines.append(SemanticScholarEngine(self.query, "Scopus"))
+            engines.append(ScopusEngine(self.query))
 
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
         results.extend([result for engine in engines for result in engine.search()])
+
+        for engine in engines:
+            results.extend([result for result in engine.search()])
+            metadata[engine.engine_type] = {
+                "cursor": engine.cursor,
+                "total_results": engine.total_results
+            }
+            
+
         # TODO: remove_duplicates -> aggregate_duplicates
         results = Publication.remove_duplicates(results)
         Publication.bulk_upsert(results)

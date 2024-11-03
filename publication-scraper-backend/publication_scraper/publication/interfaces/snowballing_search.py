@@ -70,7 +70,7 @@ class SnowballingSearch:
                 paper_id = paper_doi,
                 paper_title = reference.ref_paper_title,
                 search_string = reference.type.value,
-                searched_from = SearchEngineType.SEMANTIC_SCHOLAR,
+                searched_from = [SearchEngineType.SEMANTIC_SCHOLAR],
                 formatted_search_string = reference.type.value,
                 status = PublicationStatus.NEW,
             )

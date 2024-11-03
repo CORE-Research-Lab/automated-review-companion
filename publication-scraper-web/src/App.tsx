@@ -19,6 +19,7 @@ import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTer
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
+import { MultiSelect } from './components/ui/multi-select';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
@@ -37,6 +38,16 @@ import { BASE_URL, CURRENT_VERSION } from './utils/common';
 import { defaultButtonState, defaultDiffSearchResults, defaultLLMOptions, defaultLLMQuestions, defaultSearchForm, defaultSearchResult } from './utils/templates';
 import { validateSearchForm } from './utils/validators';
 
+export type FilterForm = {
+  searchEngines: string[],
+  conference: string[],
+  llmQuestions: number[]
+  llmAnswers: {
+    questionId: number,
+    answer: string[]
+  }[]
+}
+
 function App() {
   const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
   const [showChangelog, setShowChangelog] = useState(false);
@@ -49,6 +60,7 @@ function App() {
   const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [showMetadata, setShowMetadata] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
@@ -71,6 +83,13 @@ function App() {
   let percentageMatched = searchResults?.matches?.percentage_match;
   
   const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
+
+  const [filterForm, setFilterForm] = useState<FilterForm>({
+    searchEngines: [],
+    conference: [],
+    llmQuestions: [],
+    llmAnswers: [],
+  })
 
 
   /**
@@ -186,6 +205,11 @@ function App() {
 
   const handleShowMetadata = () => {
     setShowMetadata(!showMetadata)
+  }
+
+  const handleShowFilters = () => {
+    setShowFilters(!showFilters)
+    toast.info('Filters are now ' + (showFilters ? 'enabled' : 'disabled'));
   }
 
   const handleSelectSearchMode = (mode: SearchMode) => {
@@ -369,7 +393,7 @@ function App() {
   // Fetch the search history from the local storage
   useEffect(() => { 
     const currentVersion = CURRENT_VERSION;
-    const userVersion = localStorage.getItem('searchHistory');
+    const userVersion = localStorage.getItem('userArcVersion');
     if (!userVersion || parseInt(userVersion) < currentVersion) {
       localStorage.setItem('userArcVersion', currentVersion.toString());
       setShowChangelog(true);
@@ -690,7 +714,7 @@ function App() {
         }
         
         {/* Publications Data */}
-        <section className="container" id="publication-data">
+        <section className="container overflow-scroll" id="publication-data">
           <div className="p-3 mt-3 border rounded container" id="publication-data-inner">
             <div className="d-flex align-items-end gap-2 justify-content-between">
               <h3 className="p-0 m-0 text-3xl font-medium">Search Results</h3>
@@ -705,7 +729,6 @@ function App() {
                 
             <div className="d-flex flex-column justify-content-between items-align-end mb-3 gap-2">
               
-              {/* add input and button to manually add papers  */}
               <div className="flex flex-row">
                 <div className="flex flex-row"></div>
                   <InputLabel tooltip={tooltipText.results.manualAdd} label="Manual Add"/>
@@ -753,6 +776,11 @@ function App() {
                     ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Hide Metadata</Button>
                     : <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Show Metadata</Button>)
                 }
+                {/* {
+                  !showFilters 
+                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowFilters}>Enable Filters</Button>
+                    : <Button className="bg-red-600 hover:bg-red-700" onClick={handleShowFilters}>Disable Filters</Button>
+                } */}
 
                 {/* Paper operations */}
                 <PaperOperations
@@ -777,6 +805,95 @@ function App() {
                   diffMode={diffMode}
                 />
               </div>
+              {/* Filters */}
+              {
+                showFilters &&
+                <div className="flex flex-col gap-y-2">
+                  <InputLabel tooltip="" label="Filters"/>
+                  <div className="flex gap-2">
+                    <MultiSelect
+                      placeholder='Search Engines'
+                      options={
+                        Array.from(new Set(new Set(searchResults.results.map((result) => result.searched_from))))
+                          .map((searchEngine) => ({ label: searchEngine, value: searchEngine }))
+                      }
+                      value={filterForm.searchEngines}
+                      onValueChange={(value) => setFilterForm({...filterForm, searchEngines: value})}
+                    />
+                    <MultiSelect
+                      placeholder="Conference"
+                      options={
+                        Array.from(new Set(
+                          searchResults.results
+                            .map((result) => result.conference_journal)
+                            .filter((conference) => conference !== undefined)  
+                        ))
+                        .map((conference) => ({ label: conference, value: conference }))
+                      }
+                      value={filterForm.conference}
+                      onValueChange={(value) => setFilterForm({...filterForm, conference: value})}
+                    />
+                    {/* LLM Choose which question to filter */}
+                    <MultiSelect
+                        placeholder='LLM Questions'
+                        options={
+                          Array.from(new Set(
+                            searchResults.results.map((result) => result.llm_responses)
+                              .filter((llm) => llm !== undefined)
+                              .map((llm) => llm.map((response) => ({ label: String(response.id), value: String(response.id) })))
+                              .flat()
+                          ))
+                        }
+                        value={filterForm.llmQuestions.map((val) => String(val))}
+                        onValueChange={(value) => {
+                          let newValues = value.map((val) => parseInt(val));
+
+                          const newLLMAnswers = newValues.map((id) => {
+                            let record = filterForm.llmAnswers.find((answer) => answer.questionId === id)
+                            if (record) return record;
+                            return { questionId: id, answer: [] };
+                          })
+
+                          setFilterForm({...filterForm, llmQuestions: newValues, llmAnswers: newLLMAnswers });
+                        }}
+                    />
+                    {
+                      filterForm.llmQuestions.map((questionId) => {
+                        const currentAnswer = filterForm.llmAnswers.find(answer => answer.questionId === questionId);
+                        return (
+                          <MultiSelect
+                            key={questionId}
+                            placeholder={`LLM Question ${questionId}`}
+                            options={
+                              Array.from(new Set(
+                                searchResults.results.map((result) => result.llm_responses)
+                                  .filter((llm) => llm !== undefined)
+                                  .map((llm) => llm.find((response) => response.id === questionId))
+                                  .filter((response) => response !== undefined)
+                                  .map((response) => ({ label: response.answer, value: response.answer }))
+                                  .flat()
+                              ))}
+                            value={currentAnswer?.answer}
+                            onValueChange={(value) => {
+                              let newAnswers = filterForm.llmAnswers.map((answer) => {
+                                if (answer.questionId === questionId) {
+                                  return { questionId, answer: value }
+                                }
+                                return answer;
+                              })
+                              setFilterForm({...filterForm, llmAnswers: newAnswers});
+                            }}
+                          />
+                        ) 
+                    })}
+                  </div>
+                  <Button 
+                    className="bg-blue-500 hover:bg-blue-600"
+                    onClick={() => toast.info(JSON.stringify(filterForm))}>
+                    Apply Filters
+                  </Button>
+                </div>
+              }
             </div>
             
             {

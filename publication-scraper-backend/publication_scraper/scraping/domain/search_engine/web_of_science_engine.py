@@ -26,7 +26,7 @@ class WebOfScienceEngine(SearchEngine):
             'X-ApiKey': env('WOS_KEY'),
             "Content-Type": "application/json"
         }
-        
+        self.engine_type: SearchEngineType = SearchEngineType.WEB_OF_SCIENCE
         self.wos_fields                 = []
         self.search_type                = search_query.search_type
         self.advanced_query             = search_query.advanced_search
@@ -91,7 +91,7 @@ class WebOfScienceEngine(SearchEngine):
                                     paper_title             = self._get_paper_title(titles),
                                     paper_id                = self._get_paper_id(uid, record_identifiers),
                                     search_string           = search_string,
-                                    searched_from           = SearchEngineType.WEB_OF_SCIENCE.value,
+                                    searched_from           = [SearchEngineType.WEB_OF_SCIENCE.value],
                                     formatted_search_string = formatted_search_string,
                                     status                  = PublicationStatus.NEW.value,
                                 )
