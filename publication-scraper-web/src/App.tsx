@@ -508,7 +508,7 @@ function App() {
 
               {/* Year Range */}
               <div className="input-group mb-3">
-                <InputLabel tooltip={tooltipText.search.yearRange} label="Date Range" required/>
+                <InputLabel tooltip={tooltipText.search.dateRange} label="Date Range" required/>
                 <input
                     type="date"
                     className="form-control"
