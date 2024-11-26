@@ -8,8 +8,8 @@ export const defaultSearchForm = {
     secondary: [],
     tertiary: [],
   },
-  year_start: 2023,
-  year_end: 2024,
+  start_date: new Date("2020-01-01"),
+  end_date: new Date("2021-01-01"),
   sources: [SearchEngineType.DBLP],
 }
 

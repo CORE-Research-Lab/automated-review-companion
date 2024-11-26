@@ -26,8 +26,9 @@ class DBLPEngine(SearchEngine):
             self.search_type: SearchQueryType   = search_query.search_type
             self.queries: List[str]             = search_query.search_strings
             self.advanced_query: str            = search_query.advanced_search
-            self.year_start: str                = search_query.start_year
-            self.year_end: str                  = search_query.end_year
+            # DBLP only supports searching by year, not by date, so we only pass in the year
+            self.year_start: str                = search_query.start_date.split('-')[0]
+            self.year_end: str                  = search_query.end_date.split('-')[0]
             self.years: str                     = self._format_years(self.year_start, self.year_end)
 
     @Profiler("DBLP Search")

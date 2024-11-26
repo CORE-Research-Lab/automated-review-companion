@@ -1,4 +1,5 @@
 import time
+from urllib.parse import quote_plus
 from typing import Any, Dict, List
 
 import requests
@@ -31,15 +32,15 @@ class WebOfScienceEngine(SearchEngine):
         self.search_type                = search_query.search_type
         self.advanced_query             = search_query.advanced_search
         self.queries                    = search_query.search_strings
-        self.start_year                 = int(search_query.start_year)
-        self.end_year                   = int(search_query.end_year)
+        self.start_date                 = int(search_query.start_date)
+        self.end_date                   = int(search_query.end_date)
         self.results: List[Publication] = []
         
     @Profiler("Web of Science Search")
     def search(self) -> List[Publication]:
         """ 
         Search for papers on Web of Science. 
-        Refer to https://webofscience.help.clarivate.com/en-us/Content/search-operators.html
+        Refer to https://webofscience.help.clarivate.com/en-us/Content/current-contents/ccc-search-field-tags.htm
         """
         if self.search_type == SearchQueryType.ADVANCED:
             return self._advanced_search()
@@ -162,7 +163,8 @@ class WebOfScienceEngine(SearchEngine):
             title_search = f"TS=({search_string})"
 
         return {
-            'usrQuery': f'({title_search}) AND PY=({self.start_year}-{self.end_year})',
+            'usrQuery': title_search,
+            'publishTimeSpan': quote_plus(f"{self.start_date}+{self.end_date}"),
             'count': 100,
             'firstRecord': start_record,
             'databaseId': 'WOS',
