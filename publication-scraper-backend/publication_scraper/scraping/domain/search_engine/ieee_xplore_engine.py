@@ -55,6 +55,7 @@ class IEEEXploreEngine(SearchEngine):
 
     def _advanced_search(self) -> List[Publication]:
         ieee_search_string = self._parse_search_string(self.advanced_query)
+        log.info(f"Searching for `{ieee_search_string}` on IEEE, {self.start_date} - {self.end_date}")
         search_results = self.search_ieee_xplore(ieee_search_string)
         log.info(f">>> IEEE Xplore total: {len(search_results)}")
 
@@ -132,7 +133,6 @@ class IEEEXploreEngine(SearchEngine):
                 formatted_search_string = f"({ieee_search_string})",
                 status                  = PublicationStatus.NEW,
             )
-            log.info(f"Processing {count}/{len(search_results)}: {publication.paper_title}")
             self.results.append(publication)
     
     def _get_paper_id(self, result: Dict[str, Any]) -> Optional[str]:

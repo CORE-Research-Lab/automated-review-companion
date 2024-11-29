@@ -27,9 +27,9 @@ class DBLPEngine(SearchEngine):
             self.queries: List[str]             = search_query.search_strings
             self.advanced_query: str            = search_query.advanced_search
             # DBLP only supports searching by year, not by date, so we only pass in the year
-            self.year_start: str                = search_query.start_date.split('-')[0]
-            self.year_end: str                  = search_query.end_date.split('-')[0]
-            self.years: str                     = self._format_years(self.year_start, self.year_end)
+            self.start_year: str                = search_query.start_date.year
+            self.end_year: str                  = search_query.end_date.year
+            self.years: str                     = self._format_years(self.start_year, self.end_year)
 
     @Profiler("DBLP Search")
     def search(self) -> List[Publication]:
@@ -41,8 +41,8 @@ class DBLPEngine(SearchEngine):
 
     def _advanced_search(self) -> List[Publication]:
         """ Perform an advanced search on DBLP. """
-        log.info(f"Searching for {self.advanced_query}")
         dblp_search_string = self._parse_search_string(self.advanced_query)
+        log.info(f"Searching for `{dblp_search_string}` on DBLP, {self.start_year} - {self.end_year}")
         dblp_search_results = self.search_dblp(dblp_search_string + self.years)
         
         if dblp_search_results is None:

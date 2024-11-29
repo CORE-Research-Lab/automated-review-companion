@@ -41,17 +41,11 @@ class SearchAndCleanView(APIView):
         if serializer.is_valid():
             self.validation_papers = serializer.validated_data['validation_papers']
             self.search_terms = serializer.validated_data['search_terms']
-            self.year_start = serializer.validated_data.get('start_date', '2017')  # Default to 2017 if not provided
-            self.year_end = serializer.validated_data.get('end_date', '2023')      # Default to 2023 if not provided
+            self.start_date = serializer.validated_data.get('start_date', '2020-01-01')
+            self.end_date = serializer.validated_data.get('end_date', '2021-01-01')
             self.sources = serializer.validated_data['sources']
 
-            # Ensure dates are in yyyy-mm-dd format
-            if isinstance(self.year_start, str):
-                self.year_start = self.year_start.split('T')[0]  # Strip time if present
-            if isinstance(self.year_end, str):
-                self.year_end = self.year_end.split('T')[0]  # Strip time if present
-
-            log.info(f"Search from {self.year_start} to {self.year_end}")
+            log.info(f"Search from {self.start_date} to {self.end_date}")
 
             self.all_search_terms = []
             if self.search_terms.get('primary'):
@@ -68,8 +62,8 @@ class SearchAndCleanView(APIView):
             self.query = SearchQuery(
                 search_strings=self.all_search_terms,
                 advanced_search=self.advanced_search,
-                start_date=self.year_start,
-                end_date=self.year_end,
+                start_date=self.start_date,
+                end_date=self.end_date,
             )
 
             self.results: List[Publication] = []

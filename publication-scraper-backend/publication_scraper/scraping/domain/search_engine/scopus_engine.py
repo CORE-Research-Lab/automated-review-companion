@@ -37,8 +37,8 @@ class ScopusEngine(SearchEngine):
             self.queries                  = search_query.search_strings
             self.advanced_query           = search_query.advanced_search
             # Scopus only supports searching by year, not by date, so we only pass in the year
-            self.start_year               = search_query.start_date.split('-')[0]
-            self.end_year                 = search_query.end_date.split('-')[0]
+            self.start_year: str          = search_query.start_date.year
+            self.end_year: str            = search_query.end_date.year
 
     @Profiler("Scopus Search")
     def search(self) -> List[Publication]:
@@ -62,6 +62,7 @@ class ScopusEngine(SearchEngine):
 
     def _advanced_search(self) -> List[Publication]:
         scopus_search_string = self._parse_search_string(self.advanced_query)
+        log.info(f"Searching for `{scopus_search_string}` on Scopus, {self.start_year} - {self.end_year}")
         search_results = self._get_search_results(scopus_search_string)
         log.info(f">>> Scopus total: {len(search_results)}")
 

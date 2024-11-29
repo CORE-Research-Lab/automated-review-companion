@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 from typing import List
 
@@ -13,8 +14,8 @@ class SearchQuery:
         self, 
         search_strings: List[str], 
         advanced_search: str        = None,
-        start_date: str             = None,
-        end_date: str               = None,
+        start_date: datetime.date   = None,
+        end_date: datetime.date     = None,
     ):
         self.search_strings = search_strings
         self.advanced_search = advanced_search

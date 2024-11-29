@@ -80,8 +80,8 @@ class SemanticScholarEngine(SearchEngine):
     
     def _advanced_search(self) -> List[Publication]:
         """ Perform an advanced search on Semantic Scholar. """
-
         sch_search_string = self._parse_search_string()
+        log.info(f"Searching for `{sch_search_string}` on Semantic Scholar, {self.start_date} - {self.end_date}")
         search_results    = self.search_semantic_scholar(
                                 search_string=sch_search_string, 
                                 bulk=True, 
@@ -186,7 +186,6 @@ class SemanticScholarEngine(SearchEngine):
                                 formatted_search_string = formatted_search_string,
                                 status                  = PublicationStatus.NEW.value
                             )
-            log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)
      
     def _get_paper_id(self, sch_result: Dict[str, str]) -> str:

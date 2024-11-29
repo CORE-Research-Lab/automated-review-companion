@@ -32,8 +32,8 @@ class WebOfScienceEngine(SearchEngine):
         self.search_type                = search_query.search_type
         self.advanced_query             = search_query.advanced_search
         self.queries                    = search_query.search_strings
-        self.start_date                 = int(search_query.start_date)
-        self.end_date                   = int(search_query.end_date)
+        self.start_date                 = search_query.start_date.year
+        self.end_date                   = search_query.end_date.year
         self.results: List[Publication] = []
         
     @Profiler("Web of Science Search")
@@ -48,8 +48,9 @@ class WebOfScienceEngine(SearchEngine):
     
     def _advanced_search(self) -> List[Publication]:
         """ Perform an advanced search on Web of Science. """
-            
+        # TODO: are we using the parsed string??
         wos_search_string = self._parse_search_string()
+        log.info(f"Searching Web of Science for `{wos_search_string}` on Web of Science, {self.start_date} - {self.end_date}")
         wos_search_results = self._search(self.advanced_query)
         
         if wos_search_results is None:
@@ -96,7 +97,6 @@ class WebOfScienceEngine(SearchEngine):
                                     formatted_search_string = formatted_search_string,
                                     status                  = PublicationStatus.NEW.value,
                                 )
-            log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)
     
     def _search(self, search_string):
