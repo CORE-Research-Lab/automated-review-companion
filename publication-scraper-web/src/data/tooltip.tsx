@@ -15,7 +15,7 @@ export const tooltipText = {
       example: "i.e., Responsible Use, Academic Performance etc. (Press Enter to add the search term)",
     },
     advanced: "Required field: advanced case-insensitive boolean search string. Use 'AND', 'OR', 'NOT' operators to combine search terms, and quotations to search for exact phrases.",
-    yearRange: "Year range including the start and end years (i.e., 2023 - 2024)",
+    dateRange: "Search range including the start and end date (i.e., 2023-01-01 - 2024-01-01). NOTE: some search engines may not support specific date range search (e.g., DBLP, Scopus), we will search base on the year provided.",
     database: "Select the databases to search from: Click on the database name to toggle the selection; a filled checkbox indicates the database is selected. At least one must be selected.",
     validationPapers: {
       hint: "Enter the DOI of the validation papers to validate if the search configurations result in the validation papers.",

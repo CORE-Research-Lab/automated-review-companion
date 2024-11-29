@@ -82,8 +82,8 @@ export type SearchForm = {
     secondary: string[],
     tertiary: string[]
   },
-  year_start: number,
-  year_end: number,
+  start_date: Date,
+  end_date: Date,
   sources: SearchEngineType[]
 }
 

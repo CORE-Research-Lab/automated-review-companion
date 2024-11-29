@@ -29,8 +29,8 @@ class IEEEXploreEngine(SearchEngine):
             self.search_type = search_query.search_type
             self.queries = search_query.search_strings
             self.advanced_query = search_query.advanced_search
-            self.start_year = search_query.start_year
-            self.end_year = search_query.end_year
+            self.start_date = search_query.start_date
+            self.end_date = search_query.end_date
 
     @Profiler("IEEE Xplore search")
     def search(self) -> List[Publication]:
@@ -83,10 +83,10 @@ class IEEEXploreEngine(SearchEngine):
             "apikey": self.api_key
         }
 
-        if self.start_year:
-            params["start_year"] = self.start_year
-        if self.end_year:
-            params["end_year"] = self.end_year
+        if self.start_date:  # YYYY-MM-DD
+            params["start_date"] = self.start_date.replace("-", "")
+        if self.end_date:
+            params["end_date"] = self.end_date.replace("-", "")
 
         return params
     

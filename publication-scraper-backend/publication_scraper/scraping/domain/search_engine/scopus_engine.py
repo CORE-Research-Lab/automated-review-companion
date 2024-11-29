@@ -36,8 +36,9 @@ class ScopusEngine(SearchEngine):
             self.search_type              = search_query.search_type
             self.queries                  = search_query.search_strings
             self.advanced_query           = search_query.advanced_search
-            self.start_year               = search_query.start_year
-            self.end_year                 = search_query.end_year
+            # Scopus only supports searching by year, not by date, so we only pass in the year
+            self.start_year               = search_query.start_date.split('-')[0]
+            self.end_year                 = search_query.end_date.split('-')[0]
 
     @Profiler("Scopus Search")
     def search(self) -> List[Publication]:

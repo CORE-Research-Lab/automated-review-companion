@@ -2,11 +2,11 @@ from publication.models import Publication
 from rest_framework.serializers import (
     BooleanField,
     CharField,
-    IntegerField,
     ListField,
     ModelSerializer,
     MultipleChoiceField,
     Serializer,
+    DateField
 )
 from scraping.models import SearchEngineType
 
@@ -24,8 +24,8 @@ class QuerySerializer(Serializer):
 class SearchAndCleanSerializer(Serializer):
     validation_papers = ListField(child=ValidationPaperSerializer(), default=[])
     search_terms = QuerySerializer(required=True)
-    year_start = IntegerField(default=2017)
-    year_end = IntegerField(default=2023)
+    start_date = DateField(input_formats=['%Y-%m-%d', '%Y-%m-%dT%H:%M:%S.%fZ'], format='%Y-%m-%d', required=False)
+    end_date = DateField(input_formats=['%Y-%m-%d', '%Y-%m-%dT%H:%M:%S.%fZ'], format='%Y-%m-%d', required=False)
     sources = MultipleChoiceField(choices=SearchEngineType.get_choices(), default=[[type for type in SearchEngineType]])
 
 class PublicationSerializer(ModelSerializer):

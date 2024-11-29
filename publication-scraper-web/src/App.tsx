@@ -432,93 +432,126 @@ function App() {
               {searchMode === SearchMode.SIMPLE && (
                   <div className="input-group mb-3 d-flex flex-column">
                     {multiLayerSearchFields.map((field) => (
-                      <SearchTermAutocomplete
-                        key={field}
-                        field={field}
-                        searchForm={searchForm}
-                        searchResults={searchResults}
-                        setSearchResults={setSearchResults}
-                        handleSearchFormChange={handleSearchFormChange}
-                        handleChipClick={handleChipClick}
-                    />))}
+                        <SearchTermAutocomplete
+                            key={field}
+                            field={field}
+                            searchForm={searchForm}
+                            searchResults={searchResults}
+                            setSearchResults={setSearchResults}
+                            handleSearchFormChange={handleSearchFormChange}
+                            handleChipClick={handleChipClick}
+                        />))}
                   </div>
               )}
 
               {searchMode === SearchMode.ADVANCED && (
-                <>
-                  <div className="input-group mb-3">
-                    <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
-                      value={searchForm.search_terms.advanced}
-                      onChange={(e) => setSearchForm({
-                        ...searchForm,
-                        search_terms: {...searchForm.search_terms, advanced: e.target.value}
-                      })}
-                    />
-                  </div>
-                  <div className="container">
-                    {searchResults.variations.length > 0 && (
-                      <div className="flex flex-row gap-2 flex-wrap my-3">
-                        <span className="text-center">Variations:</span>
-                          {searchResults.variations.map((variation) => (
-                            <Tooltip 
-                              key={variation.word}
-                              title={
-                              <div className="d-flex flex-column gap-2">
-                                <span>Synonyms (From <a className="text-blue-300" href={`https://www.thesaurus.com/browse/${variation.word}`} target="_blank" rel="noreferrer">Thesaurus.com</a>:):</span>
-                                <Box className="word-variant-box mb-2">
-                                  {variation.synonyms.map((synonym) => (
-                                    <>
-                                      <div>Meaning: {synonym.meaning}</div>
-                                      <div className="word-variant-box">
-                                        {synonym.words.map((word) =>
-                                          <div
-                                            key={word}
-                                            onClick={() => handleAdvancedChipClick(variation.word, word)}
-                                            className='word-variant-chip'
-                                            style={{ color: "black", cursor: "pointer" }}
-                                          >
-                                            {word}
-                                          </div>
-                                        )}
+                  <>
+                    <div className="input-group mb-3">
+                      <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
+                      <input
+                          type="text"
+                          className="form-control"
+                          placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
+                          value={searchForm.search_terms.advanced}
+                          onChange={(e) => setSearchForm({
+                            ...searchForm,
+                            search_terms: {...searchForm.search_terms, advanced: e.target.value}
+                          })}
+                      />
+                    </div>
+                    <div className="container">
+                      {searchResults.variations.length > 0 && (
+                          <div className="flex flex-row gap-2 flex-wrap my-3">
+                            <span className="text-center">Variations:</span>
+                            {searchResults.variations.map((variation) => (
+                                <Tooltip
+                                    key={variation.word}
+                                    title={
+                                      <div className="d-flex flex-column gap-2">
+                                        <span>Synonyms (From <a className="text-blue-300"
+                                                                href={`https://www.thesaurus.com/browse/${variation.word}`}
+                                                                target="_blank"
+                                                                rel="noreferrer">Thesaurus.com</a>:):</span>
+                                        <Box className="word-variant-box mb-2">
+                                          {variation.synonyms.map((synonym) => (
+                                              <>
+                                                <div>Meaning: {synonym.meaning}</div>
+                                                <div className="word-variant-box">
+                                                  {synonym.words.map((word) =>
+                                                      <div
+                                                          key={word}
+                                                          onClick={() => handleAdvancedChipClick(variation.word, word)}
+                                                          className='word-variant-chip'
+                                                          style={{color: "black", cursor: "pointer"}}
+                                                      >
+                                                        {word}
+                                                      </div>
+                                                  )}
+                                                </div>
+                                              </>
+                                          ))}
+                                        </Box>
                                       </div>
-                                    </>
-                                  ))}
-                                </Box>
-                              </div>
-                            }>
-                              <Chip
-                                key={variation.word}
-                                label={variation.word}
-                                className='p-0 m-0'
-                              />
-                          </Tooltip>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </>
+                                    }>
+                                  <Chip
+                                      key={variation.word}
+                                      label={variation.word}
+                                      className='p-0 m-0'
+                                  />
+                                </Tooltip>
+                            ))}
+                          </div>
+                      )}
+                    </div>
+                  </>
               )}
 
               {/* Year Range */}
               <div className="input-group mb-3">
-                <InputLabel tooltip={tooltipText.search.yearRange} label="Year Range" required/>
+                <InputLabel tooltip={tooltipText.search.dateRange} label="Date Range" required/>
                 <input
-                    type="number"
+                    type="date"
                     className="form-control"
-                    placeholder="Start Year"
-                    value={searchForm.year_start}
-                    onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
+                    placeholder="YYYY-MM-DD"
+                    value={searchForm.start_date ? searchForm.start_date.toISOString().slice(0, 10) : ''}
+                    onChange={(e) => {
+                      const newValue = e.target.value;
+                      if (newValue) {
+                        // Only update if the value is a valid date
+                        setSearchForm({
+                          ...searchForm,
+                          start_date: new Date(newValue),
+                        });
+                      } else {
+                        // Clear the value if the input is empty
+                        setSearchForm({
+                          ...searchForm,
+                          start_date: null,
+                        });
+                      }
+                    }}
                 />
                 <input
-                    type="number"
+                    type="date"
                     className="form-control"
-                    placeholder="End Year"
-                    value={searchForm.year_end}
-                    onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
+                    placeholder="YYYY-MM-DD"
+                    value={searchForm.end_date ? searchForm.end_date.toISOString().slice(0, 10) : ''}
+                    onChange={(e) => {
+                      const newValue = e.target.value;
+                      if (newValue) {
+                        // Only update if the value is a valid date
+                        setSearchForm({
+                          ...searchForm,
+                          end_date: new Date(newValue),
+                        });
+                      } else {
+                        // Clear the value if the input is empty
+                        setSearchForm({
+                          ...searchForm,
+                          end_date: null,
+                        });
+                      }
+                    }}
                 />
               </div>
 
@@ -526,7 +559,7 @@ function App() {
               {/*  Database Types */}
               <div className="d-flex flex-row w-100 mb-3">
                 <InputLabel tooltip={tooltipText.search.database} label="Database Types" required/>
-                <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>                   
+                <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>
               </div>
 
               {/* Validation Papers */}
@@ -547,35 +580,35 @@ function App() {
 
               {/* Root Paper matches */}
               {
-                searchForm.validation_papers.length > 0 &&
-                <div className="d-flex flex-column w-100 mt-3">
-                  <div className="d-flex flex-row align-items-center gap-2 w-100">
-                    <span>Result:</span>
-                    <progress className='w-75' value={percentageMatched} max="100"/>
-                    <span> {numMatched}/{searchForm.validation_papers.length} ({percentageMatched}%) matches</span>
+                  searchForm.validation_papers.length > 0 &&
+                  <div className="d-flex flex-column w-100 mt-3">
+                    <div className="d-flex flex-row align-items-center gap-2 w-100">
+                      <span>Result:</span>
+                      <progress className='w-75' value={percentageMatched} max="100"/>
+                      <span> {numMatched}/{searchForm.validation_papers.length} ({percentageMatched}%) matches</span>
+                    </div>
+                    <div className="table-responsive mt-3">
+                      <table className="table table-striped">
+                        <thead className='bg-primary text-white'>
+                        <tr>
+                          <td>#</td>
+                          <td>DOI/Paper Title</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
+                        {
+                            searchResults?.matches?.papers?.length > 0 &&
+                            searchResults.matches.papers.map((match, index) => (
+                                <tr key={match.doi}>
+                                  <td>{index + 1}</td>
+                                  <p>{match.doi || match.title}</p>
+                                </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <div className="table-responsive mt-3">
-                    <table className="table table-striped">
-                      <thead className='bg-primary text-white'>
-                      <tr>
-                        <td>#</td>
-                        <td>DOI/Paper Title</td>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
-                      {
-                        searchResults?.matches?.papers?.length > 0 && 
-                        searchResults.matches.papers.map((match, index) => (
-                            <tr key={match.doi}>
-                              <td>{index + 1}</td>
-                              <p>{match.doi || match.title}</p>
-                            </tr>
-                      ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
               }
 
 
@@ -584,8 +617,8 @@ function App() {
                 <Button onClick={handleSearch}>
                   {
                     isSearching
-                    ? <Spinner />
-                    : <span>Search</span>
+                        ? <Spinner/>
+                        : <span>Search</span>
                   }
                 </Button>
                 <Tooltip title={tooltipText.search.clearButton} placement="top">
@@ -598,32 +631,32 @@ function App() {
 
         {/* Search History */}
         {
-          searchHistory.length > 0 &&
-          <div className="container mt-3">
-            <div className="container rounded border p-3" id="search-history">
-              <div className="d-flex justify-content-between mb-3">
-                <h3 className="text-3xl font-medium">Search History</h3>
-                <div className="flex gap-2">
-                  {
-                    diffMode &&
+            searchHistory.length > 0 &&
+            <div className="container mt-3">
+              <div className="container rounded border p-3" id="search-history">
+                <div className="d-flex justify-content-between mb-3">
+                  <h3 className="text-3xl font-medium">Search History</h3>
+                  <div className="flex gap-2">
+                    {
+                        diffMode &&
+                        <Tooltip title={tooltipText.search.history} placement="top">
+                          <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={handleShowDiffOnly}>
+                            {showDiffOnly ? "Hide Diff Only" : "Show Diff Only"}
+                          </Button>
+                        </Tooltip>
+                    }
+
                     <Tooltip title={tooltipText.search.history} placement="top">
-                      <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={handleShowDiffOnly}>
-                        {showDiffOnly ? "Hide Diff Only" : "Show Diff Only"}
-                      </Button>
+                      <>
+                        <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
+                          {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
+                        </Button>
+                      </>
                     </Tooltip>
-                  }
-
-                  <Tooltip title={tooltipText.search.history} placement="top">
-                    <>
-                      <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
-                        {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
-                      </Button>
-                    </>
-                  </Tooltip>
+                  </div>
                 </div>
-              </div>
 
-              <div className="w-100 relative">
+                <div className="w-100 relative">
                 <div className="px-12 py-3">
                     <Carousel
                     opts={{
@@ -635,7 +668,7 @@ function App() {
                         {
                           searchHistory.map((search, index) => (
                             <CarouselItem 
-                              key={search.year_start}
+                              key={search.start_date.toISOString()}
                               className="basis-1/3"
                               onClick={() => handleChooseSearchHistory(index)}
                             >
@@ -643,7 +676,7 @@ function App() {
                                 <Box>
                                   <div>Search {index + 1}</div>
                                   <div>Ref: {search.id ?? "-"}</div>
-                                  <div>Year Range: {search.year_start} - {search.year_end}</div>
+                                  <div>Year Range: {search.start_date.toISOString()} - {search.end_date.toISOString()}</div>
                                   {
                                     search.search_terms.advanced 
                                     ? <div>Advanced Search: {search.search_terms.advanced}</div>
@@ -665,7 +698,7 @@ function App() {
                                   )}
                                 >
                                   <div className="leading-[14px] whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                    Search {index + 1} : {search.year_start} - {search.year_end}
+                                    Search {index + 1} : {search.start_date.toISOString()} - {search.end_date.toISOString()}
                                   </div>
                                   <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
                                     Ref: {parseSearchId(search.id) ?? "-"}
