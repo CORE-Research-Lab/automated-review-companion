@@ -167,5 +167,5 @@ class ScopusEngine(SearchEngine):
         identifier = result.get("dc:identifier")
 
         if doi:
-            return f"DOI:{doi}"
-        return identifier   
+            return f"DOI:https://doi.org/{doi}"
+        return f"URL:xxx TODO{identifier}"

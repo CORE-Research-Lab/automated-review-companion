@@ -137,5 +137,5 @@ class IEEEXploreEngine(SearchEngine):
     
     def _get_paper_id(self, result: Dict[str, Any]) -> Optional[str]:
         if doi := result.get("doi"):   
-            return f"DOI:{doi}"
-        return f"url:{result.get('html_url')}"
+            return f"DOI:https://doi.org/{doi}"
+        return f"URL:{result.get('html_url')}"

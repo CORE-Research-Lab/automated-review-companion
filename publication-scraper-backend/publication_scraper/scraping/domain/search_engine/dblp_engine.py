@@ -123,9 +123,9 @@ class DBLPEngine(SearchEngine):
         doi = information.get('doi')
         
         if doi: 
-            return f"DOI:{doi}"
+            return f"DOI:https://doi.org./{doi}"
         
-        return f"url:{url}"
+        return f"URL:{url}"
     
     def _fetch_all_search_results(self, options: Dict[str, Any]) -> List[Dict[str, Any]]:
         """ Fetch all search results, handling pagination. """

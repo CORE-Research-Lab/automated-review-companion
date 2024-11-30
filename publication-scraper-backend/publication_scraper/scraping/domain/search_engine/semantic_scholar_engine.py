@@ -37,7 +37,6 @@ class SemanticScholarEngine(SearchEngine):
         self.proxy_name                 = proxy_name if proxy_name else "Semantic Scholar"
         self.url: str                   = "https://api.semanticscholar.org/graph/v1/paper/search"
         self.bulkUrl: str               = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
-        self.arxiv_doi: str             = "DOI:10.48550/arXiv."
         self.results: List[Publication] = []
         self.BULK_MAX_RESULTS           = 5000
         
@@ -199,16 +198,16 @@ class SemanticScholarEngine(SearchEngine):
         """
         external_ids = sch_result.get('externalIds', {})
         doi = external_ids.get('DOI')
-        arxiv = external_ids.get('ArXiv')
-        paperId = sch_result.get("paperId")
+        arxiv_id = external_ids.get('ArXiv')
+        paper_id = sch_result.get("paperId")
         
         if doi: 
-            return f"DOI:{doi}"
+            return f"DOI:https://doi.org/{doi}"
         
-        if arxiv: 
-            return f"{self.arxiv_doi}{arxiv}"
+        if arxiv_id:
+            return f"DOI:https://doi.org/10.48550/arXiv.{arxiv_id}"
         
-        return f"paperid:{paperId}"
+        return f"URL:https://www.semanticscholar.org/paper/{paper_id}"
         
     def _parse_search_params(self, query: str, start_date: str, end_date: str) -> Dict[str, str]:
         """Parse the search parameters for the Semantic Scholar API."""

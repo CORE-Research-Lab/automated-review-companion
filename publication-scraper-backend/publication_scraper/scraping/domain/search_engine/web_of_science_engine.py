@@ -144,8 +144,8 @@ class WebOfScienceEngine(SearchEngine):
         
         for identifier in record_identifiers:
             if isinstance(identifier, dict) and identifier['type'] == 'doi':
-                return f"DOI:{identifier['value']}"
-        return uid
+                return f"DOI:https://doi.org/{identifier['value']}"
+        return f"URL:https://www.webofscience.com/wos/woscc/full-record/{uid}"
     
     def _get_paper_title(self, titles: List[Dict[str, str]]) -> str:
         """ Get the paper title from the record titles. """
