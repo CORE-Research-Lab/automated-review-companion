@@ -506,31 +506,43 @@ function App() {
                   </>
               )}
 
-              {/* Year Range */}
+              {/* Date Range */}
               <div className="input-group mb-3">
                 <InputLabel tooltip={tooltipText.search.dateRange} label="Date Range" required/>
-                <input
-                    type="date"
-                    className="form-control"
-                    value={searchForm.start_date.toISOString().slice(0, 10)}
-                    onChange={(e) => {
-                      setSearchForm({
-                        ...searchForm,
-                        start_date: new Date(e.target.value),
-                      });
-                    }}
-                />
-                <input
-                    type="date"
-                    className="form-control"
-                    value={searchForm.end_date.toISOString().slice(0, 10)}
-                    onChange={(e) => {
-                      setSearchForm({
-                        ...searchForm,
-                        end_date: new Date(e.target.value),
-                      });
-                    }}
-                />
+
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2 ml-4">
+                    <label htmlFor="start-date" className="whitespace-nowrap">Start Date:</label>
+                    <input
+                        id="start-date"
+                        type="date"
+                        className="form-control"
+                        value={searchForm.start_date.toISOString().slice(0, 10)}
+                        onChange={(e) => {
+                          setSearchForm({
+                            ...searchForm,
+                            start_date: new Date(e.target.value),
+                          });
+                        }}
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <label htmlFor="end-date" className="whitespace-nowrap">End Date:</label>
+                    <input
+                        id="end-date"
+                        type="date"
+                        className="form-control"
+                        value={searchForm.end_date.toISOString().slice(0, 10)}
+                        onChange={(e) => {
+                          setSearchForm({
+                            ...searchForm,
+                            end_date: new Date(e.target.value),
+                          });
+                        }}
+                    />
+                  </div>
+                </div>
               </div>
 
 
@@ -627,7 +639,7 @@ function App() {
                     <Tooltip title={tooltipText.search.history} placement="top">
                       <>
                         <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
-                          {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
+                        {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
                         </Button>
                       </>
                     </Tooltip>
