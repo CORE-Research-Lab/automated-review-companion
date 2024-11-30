@@ -1,13 +1,13 @@
 import {
-  ButtonState,
-  LLMOptions,
-  LLMPaperFilterResponse,
-  LLMQuestion,
-  LLMUserAnswer,
-  Publication,
-  PublicationOperation,
-  SearchResult,
-  SnowballingSearch
+    ButtonState,
+    LLMOptions,
+    LLMPaperFilterResponse,
+    LLMQuestion,
+    LLMUserAnswer,
+    Publication,
+    PublicationOperation,
+    SearchResult,
+    SnowballingSearch
 } from "@/types";
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -20,13 +20,13 @@ import MinusIcon from '@mui/icons-material/Remove';
 import ScreenSearchDesktopIcon from "@mui/icons-material/ScreenSearchDesktop";
 import {Checkbox} from "./ui/checkbox";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
 } from "./ui/dialog";
 
 import {handleError} from "@/common/handler";
@@ -376,36 +376,30 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     }
 
     const handleLLMOptions = (checked: string | boolean, fieldName: string) => {
-
-        if (fieldName === "includeExamples" && checked && selectedPapers.length > 3) {
-            setLLMAnswers([
-                {
-                    paper_id: selectedPapers[0],
-                    responses: llmQuestions.map((question) => ({id: question.id, answer: "", rationale: ""}))
-                },
-                {
-                    paper_id: selectedPapers[1],
-                    responses: llmQuestions.map((question) => ({id: question.id, answer: "", rationale: ""}))
-                },
-                {
-                    paper_id: selectedPapers[2],
-                    responses: llmQuestions.map((question) => ({id: question.id, answer: "", rationale: ""}))
-                }
-            ]);
+        if (fieldName === "includeExamples" && checked) {
+            const initializedAnswers = selectedPapers.map((paper_id) => ({
+                paper_id,
+                responses: llmQuestions.map((question) => ({
+                    id: question.id,
+                    answer: "",
+                    rationale: "",
+                })),
+            }));
+            setLLMAnswers(initializedAnswers);
         }
         if (fieldName === "includeExamples" && !checked) {
             setLLMAnswers([]);
             setLLMOptions({
                 includeExamples: false,
-                includeRationale: false
-            })
+                includeRationale: false,
+            });
         } else {
             setLLMOptions({
                 ...llmOptions,
-                [fieldName]: Boolean(checked)
-            })
+                [fieldName]: Boolean(checked),
+            });
         }
-    }
+    };
 
     let dropdownClasses = cn(
         "bg-primary text-primary-foreground shadow hover:bg-primary/90",
@@ -591,7 +585,16 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                 if (index < 3) {
                                                     return (
                                                         <tr key={paper_id}>
-                                                            <td>{paper.paper_id}</td>
+                                                            <td>
+                                                                <a
+                                                                    href={paper.paper_id.slice(4)}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-blue-500 underline"
+                                                                >
+                                                                    {paper.paper_id.slice(4)}
+                                                                </a>
+                                                            </td>
                                                             <td>{paper.paper_title}</td>
                                                             <td>{paper.search_string}</td>
                                                             <td>{paper.formatted_search_string}</td>
@@ -615,9 +618,19 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                                 <td key={questionIdx}>
                                                                     {/* {JSON.stringify(llmAnswers)} */}
                                                                     <Select
-                                                                        value={llmAnswers[index]?.responses[questionIdx]?.answer ?? ""}
+                                                                        value={llmAnswers[index]?.responses[questionIdx]?.answer || ""}
                                                                         onValueChange={(value) => {
-                                                                            let updatedAnswers = [...llmAnswers];
+                                                                            const updatedAnswers = [...llmAnswers];
+                                                                            if (!updatedAnswers[index]) {
+                                                                                updatedAnswers[index] = {
+                                                                                    paper_id: selectedPapers[index],
+                                                                                    responses: llmQuestions.map((q) => ({
+                                                                                        id: q.id,
+                                                                                        answer: "",
+                                                                                        rationale: "",
+                                                                                    })),
+                                                                                };
+                                                                            }
                                                                             updatedAnswers[index].responses[questionIdx].answer = value;
                                                                             setLLMAnswers(updatedAnswers);
                                                                         }}
@@ -626,28 +639,37 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                                             <SelectValue placeholder="Select Answer"/>
                                                                         </SelectTrigger>
                                                                         <SelectContent>
-                                                                            {llmQuestion.answer.split(',').map((choice) => {
-                                                                                if (choice) return (
+                                                                            {llmQuestion.answer.split(",").map((choice) =>
+                                                                                choice ? (
                                                                                     <SelectItem key={choice}
-                                                                                                value={choice}>{choice}</SelectItem>
-                                                                                )
-                                                                            })
-                                                                            }
+                                                                                                value={choice}>
+                                                                                        {choice}
+                                                                                    </SelectItem>
+                                                                                ) : null
+                                                                            )}
                                                                         </SelectContent>
                                                                     </Select>
-                                                                    {
-                                                                        llmOptions.includeRationale &&
-                                                                        <Input
-                                                                            placeholder="Rationale"
-                                                                            className="bg-white"
-                                                                            value={llmAnswers[index]?.responses[questionIdx].rationale ?? ""}
-                                                                            onChange={(e) => {
-                                                                                let updatedAnswers = [...llmAnswers];
-                                                                                updatedAnswers[index].responses[questionIdx].rationale = e.target.value;
-                                                                                setLLMAnswers(updatedAnswers);
-                                                                            }}
-                                                                        />
-                                                                    }
+
+                                                                    <Input
+                                                                        placeholder="Rationale"
+                                                                        className="bg-white"
+                                                                        value={llmAnswers[index]?.responses[questionIdx]?.rationale || ""}
+                                                                        onChange={(e) => {
+                                                                            const updatedAnswers = [...llmAnswers];
+                                                                            if (!updatedAnswers[index]) {
+                                                                                updatedAnswers[index] = {
+                                                                                    paper_id: selectedPapers[index],
+                                                                                    responses: llmQuestions.map((q) => ({
+                                                                                        id: q.id,
+                                                                                        answer: "",
+                                                                                        rationale: "",
+                                                                                    })),
+                                                                                };
+                                                                            }
+                                                                            updatedAnswers[index].responses[questionIdx].rationale = e.target.value;
+                                                                            setLLMAnswers(updatedAnswers);
+                                                                        }}
+                                                                    />
                                                                 </td>
                                                             ))}
                                                         </tr>

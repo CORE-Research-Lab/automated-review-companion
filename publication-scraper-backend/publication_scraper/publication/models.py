@@ -107,7 +107,6 @@ class PublicationMetadata(models.Model):
     abstract                = models.TextField()
     publisher               = models.CharField(max_length=200, default="")
     semantic_scholar_url    = models.CharField(max_length=200, default="")
-    doi_url                 = models.CharField(max_length=200, default="")
     publication_date        = models.DateField()
     field_of_study          = models.CharField(max_length=200, default="")
     conference_journal      = models.CharField(max_length=200, default="")

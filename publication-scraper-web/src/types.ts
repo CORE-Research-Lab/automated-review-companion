@@ -41,7 +41,6 @@ export type Publication = {
   citation_count?: number,
   conference_journal?: string,
   doi?: string,
-  doi_url?: string,
   publication_date?: string,
   publication_type?: string[],
   publisher?: string,

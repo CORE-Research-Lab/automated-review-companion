@@ -268,7 +268,6 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
 
               </td>
               <td>{publication.conference_journal ?? "-"}</td>
-              {/*todo: doi_url isnt working properly, changed to workaround*/}
               <td>
                 {publication.doi ? (
                     publication.doi
