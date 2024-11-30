@@ -512,45 +512,23 @@ function App() {
                 <input
                     type="date"
                     className="form-control"
-                    placeholder="YYYY-MM-DD"
-                    value={searchForm.start_date ? searchForm.start_date.toISOString().slice(0, 10) : ''}
+                    value={searchForm.start_date.toISOString().slice(0, 10)}
                     onChange={(e) => {
-                      const newValue = e.target.value;
-                      if (newValue) {
-                        // Only update if the value is a valid date
-                        setSearchForm({
-                          ...searchForm,
-                          start_date: new Date(newValue),
-                        });
-                      } else {
-                        // Clear the value if the input is empty
-                        setSearchForm({
-                          ...searchForm,
-                          start_date: null,
-                        });
-                      }
+                      setSearchForm({
+                        ...searchForm,
+                        start_date: new Date(e.target.value),
+                      });
                     }}
                 />
                 <input
                     type="date"
                     className="form-control"
-                    placeholder="YYYY-MM-DD"
-                    value={searchForm.end_date ? searchForm.end_date.toISOString().slice(0, 10) : ''}
+                    value={searchForm.end_date.toISOString().slice(0, 10)}
                     onChange={(e) => {
-                      const newValue = e.target.value;
-                      if (newValue) {
-                        // Only update if the value is a valid date
-                        setSearchForm({
-                          ...searchForm,
-                          end_date: new Date(newValue),
-                        });
-                      } else {
-                        // Clear the value if the input is empty
-                        setSearchForm({
-                          ...searchForm,
-                          end_date: null,
-                        });
-                      }
+                      setSearchForm({
+                        ...searchForm,
+                        end_date: new Date(e.target.value),
+                      });
                     }}
                 />
               </div>
