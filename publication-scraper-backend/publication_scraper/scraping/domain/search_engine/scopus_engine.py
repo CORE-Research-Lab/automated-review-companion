@@ -80,11 +80,27 @@ class ScopusEngine(SearchEngine):
         search_term = [f'{{term}}' if " " in term else term for term in search_string]
         search_term = " AND ".join(search_string)
         return f"KEY({search_term})"
-    
+
     def _get_search_results(self, search_string: str) -> List[Publication]:
-        search_params = self._parse_search_params(search_string)
-        response = self._get_all_responses(search_params)
-        return response
+        try:
+            search_params = self._parse_search_params(search_string)
+            response = self._get_all_responses(search_params)
+
+            if 'error' in response[0] and response[0]['error'] == 'Result set was empty':
+                log.warning(f"Scopus search results are empty for the query: {search_string}")
+                return []  # Return an empty list if no results found
+
+            # Additional error handling if needed
+            if 'error' in response:
+                log.error(f"Scopus search encountered an error: {response}")
+                raise ValueError(f"Scopus API returned an error: {response}")
+
+            return response  # Return the valid response
+
+        except Exception as e:
+            # Handle unexpected exceptions
+            log.exception(f"An unexpected error occurred while fetching search results: {e}")
+            raise  # Re-raise the exception after logging it
 
     def _parse_search_params(self, search_string: str) -> Dict[str, Any]:
         return {
