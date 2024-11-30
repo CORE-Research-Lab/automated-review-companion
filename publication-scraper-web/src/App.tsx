@@ -59,7 +59,7 @@ function App() {
   const [llmAnswers, setLLMAnswers] = useState<LLMUserAnswer[]>([]);
   const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
-  const [showMetadata, setShowMetadata] = useState(false);
+  const [showMetadata, setShowMetadata] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
