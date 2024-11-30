@@ -224,8 +224,8 @@ class PublicationMetadataExtractor:
     def _get_paper_id(self, paper_id: str) -> str:
         """ Get the paper ID from the record identifiers. """
         
-        if "URL" in paper_id and "abs-" in paper_id:
-            return "arXiv:" + paper_id.split("abs-")[1].replace("-", ".")
+        if "URL" in paper_id:
+            return paper_id.split(":")[1] # Extract the original URL since doi is not available
         
         return paper_id
   
@@ -234,11 +234,12 @@ class PublicationMetadataExtractor:
         
         external_ids = paper.get("externalIds", {})
         doi = external_ids.get("DOI", None)
-        
+
         if doi is None and str(paper_id).startswith("DOI"):
-            doi = paper_id.split(":")[1]
+            doi = paper_id.split("doi.org/")[1]  # Note the slash included in the split
 
         # TODO handle arXiv papers
+        log.info(f"DOI: {doi}")
         
         return doi
     
