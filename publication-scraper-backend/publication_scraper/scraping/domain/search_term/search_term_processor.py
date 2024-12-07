@@ -69,19 +69,27 @@ class SearchTermProcessor:
 
 
     def _get_all_variants(self, search_term: SearchTerm):
-        """ Generates all variants of the search term with breame. """
+        """ 
+        Generates all variants of the search term with breame. 
+
+        - american_spelling_exists(word) checks if the American spelling of the word exists.
+        - british_spelling_exists(word) checks if the British spelling of the word exists.
+
+        If the American spelling exists, get the British spelling of the word.
+        Similarly, if the British spelling exists, get the American spelling of the word.
+        """
         
         word = search_term.word 
-        log.info(f"Generating variants for {word}...")
         
         if american_spelling_exists(word):
-            americanized_word = get_american_spelling(search_term.word)
-            search_term.variants.append(americanized_word)
-
-        if british_spelling_exists(word):
             british_word = get_british_spelling(search_term.word)
             search_term.variants.append(british_word)
 
+        if british_spelling_exists(word):
+            americanized_word = get_british_spelling(search_term.word)
+            search_term.variants.append(americanized_word)
+
+        log.info(f"Variants for {word}: {search_term.variants}")
 
     def _get_synonyms(self, search_term: SearchTerm):
         """ Generates synonyms of the search term with nltk and thesaurus.com. """

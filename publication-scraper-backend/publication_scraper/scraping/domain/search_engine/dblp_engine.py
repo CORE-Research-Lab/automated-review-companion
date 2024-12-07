@@ -106,7 +106,6 @@ class DBLPEngine(SearchEngine):
                 search_string = search_string,
                 searched_from = [SearchEngineType.DBLP.value],
                 formatted_search_string = formatted_search_string,
-                status = PublicationStatus.NEW.value
             )
             log.info(f"{search_string}: Paper {count} - {new_paper.paper_title}")
             self.results.append(new_paper)
@@ -122,10 +121,8 @@ class DBLPEngine(SearchEngine):
         url = information.get('url')
         doi = information.get('doi')
         
-        if doi: 
-            return f"DOI:https://doi.org./{doi}"
+        return f"DOI:https://doi.org/{doi}" if doi else f"URL:{url}"
         
-        return f"URL:{url}"
     
     def _fetch_all_search_results(self, options: Dict[str, Any]) -> List[Dict[str, Any]]:
         """ Fetch all search results, handling pagination. """
