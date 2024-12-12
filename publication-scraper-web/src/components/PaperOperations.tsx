@@ -439,16 +439,28 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                     <DropdownMenuContent>
                         {operations.map((operation, index) => (
                             <DialogTrigger asChild key={index}>
-                                <DropdownMenuItem
-                                    disabled={isOperationDisabled(operation.operation)}
-                                    onClick={handleOperationDialog(operation.operation)}
+                                <Tooltip
+                                    title={
+                                        operation.operation === PublicationOperation.POPULATE_METADATA
+                                            ? tooltipText.results.populateMetadata
+                                            : operation.operation === PublicationOperation.FORWARD_SEARCH
+                                            ? tooltipText.results.forwardSearch
+                                            : operation.operation === PublicationOperation.BACKWARD_SEARCH
+                                            ? tooltipText.results.backwardSearch
+                                            : ""
+                                    }
+                                    placement="right-end"
                                 >
-                                    {operation.icon}
-                                    {operation.label}
-                                </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        disabled={isOperationDisabled(operation.operation)}
+                                        onClick={handleOperationDialog(operation.operation)}
+                                    >
+                                        {operation.icon}
+                                        {operation.label}
+                                    </DropdownMenuItem>
+                                </Tooltip>
                             </DialogTrigger>
                         ))}
-
                     </DropdownMenuContent>
                 </DropdownMenu>
 
