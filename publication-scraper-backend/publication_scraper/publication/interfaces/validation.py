@@ -44,7 +44,6 @@ class PublicationValidator:
       print(report_grouped_df)
     
       for search_result in search_results:
-        search_result.status = PublicationStatus.VALIDATED.value
         search_result.save()
       
       ret = report_df.to_dict(orient='records')

@@ -16,9 +16,8 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import InfoIcon from '@mui/icons-material/Info';
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import MinusIcon from '@mui/icons-material/Remove';
 import ScreenSearchDesktopIcon from "@mui/icons-material/ScreenSearchDesktop";
-import {Checkbox} from "./ui/checkbox";
+import { Checkbox } from "./ui/checkbox";
 import {
     Dialog,
     DialogContent,
@@ -29,20 +28,20 @@ import {
     DialogTrigger
 } from "./ui/dialog";
 
-import {handleError} from "@/common/handler";
-import {parseAuthors} from "@/common/labels";
-import {tooltipText} from "@/data/tooltip";
-import {cn} from "@/lib/utils";
-import {BASE_URL} from "@/utils/common";
-import {IconButton, Tooltip} from "@mui/material";
+import { handleError } from "@/common/handler";
+import { parseAuthors } from "@/common/labels";
+import { tooltipText } from "@/data/tooltip";
+import { cn } from "@/lib/utils";
+import { BASE_URL } from "@/utils/common";
+import { IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
-import {ChangeEvent, useState} from "react";
-import {toast} from "react-toastify";
+import { ChangeEvent, useState } from "react";
+import { toast } from "react-toastify";
 import Spinner from "./Spinner";
-import {Button} from "./ui/button";
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "./ui/dropdown-menu";
-import {Input} from "./ui/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "./ui/select";
+import { Button } from "./ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Input } from "./ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 export interface PaperOperationsProps {
     selectedPapers: string[],
@@ -278,6 +277,10 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
 
     const handleLLMFiltering = async () => {
         if (!validateLLMQuestionSubmittability()) return;
+
+        // Case 1: There are already examples generated
+
+        // Case 2: No previous LLM filtering performed
         setIsLLMFilterProcessing(true);
         await axios.post(`${BASE_URL}/publication/llm-filter`, {
             questions: llmQuestions,
@@ -334,6 +337,11 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         return valid;
     }
 
+    /**
+     * Returns a list of paper ids that have metadata available by examining the abstract field
+     * @param selectedPapers paper ids selected by the user
+     * @returns paper ids that have metadata available
+     */
     const processSelectedPapers = (selectedPapers: string[]) => {
         let missingMetadataPapers: Publication[] = [];
         searchResults.results.forEach((result: Publication) => {
@@ -356,15 +364,34 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
             answer: '',
             rationale: ''
         }])
+        let newLLMAnswers = [...llmAnswers];
+        newLLMAnswers.forEach((answer) => {
+            answer.responses.push({
+                id: llmQuestions.length + 1, 
+                answer: "", 
+                rationale: ""
+            })
+        })
+        setLLMAnswers(newLLMAnswers);
     }
 
-
-    const handleRemoveLLMQuestion = () => {
+    const handleRemoveLLMQuestion = (question: LLMQuestion) => {
         if (llmQuestions.length === 1) {
             toast.info('At least one question is required');
             return;
         }
-        setLLMQuestions(llmQuestions.slice(0, llmQuestions.length - 1))
+        const updatedQuestions = llmQuestions
+            .filter((q) => q.id !== question.id)
+            .map((q, index) => ({ ...q, id: index + 1 }));
+        setLLMQuestions(updatedQuestions);
+
+        // Remove the selected question from the answers
+        let newLLMAnswers = [...llmAnswers];
+        newLLMAnswers.forEach((answer) => {
+            answer.responses = answer.responses.filter((response) => response.id !== question.id);
+            answer.responses = answer.responses.map((response, index) => ({...response, id: index + 1}));
+        });
+        setLLMAnswers(newLLMAnswers);
     }
 
     const handleLLMQuestionChange = (e: ChangeEvent<HTMLInputElement>, question: LLMQuestion) => {
@@ -421,19 +448,19 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                         title={selectedPapers.length === 0 ? tooltipText.results.operations.enabled : tooltipText.results.operations.disabled}
                         placement="bottom"
                     >
-            <span>
-              <DropdownMenuTrigger
-                  disabled={isPaperOperationsDisabled}
-                  className={dropdownClasses}
-              >
-                {/* <Button 
-                  disabled={isPaperOperationsDisabled}
-                  className="bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle"
-                > */}
-                  Paper Operations
-                  {/* </Button> */}
-              </DropdownMenuTrigger>
-            </span>
+                        <span>
+                            <DropdownMenuTrigger
+                                disabled={isPaperOperationsDisabled}
+                                className={dropdownClasses}
+                            >
+                                {/* <Button 
+                                disabled={isPaperOperationsDisabled}
+                                className="bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle"
+                                > */}
+                                Paper Operations
+                                {/* </Button> */}
+                            </DropdownMenuTrigger>
+                        </span>
                     </Tooltip>
 
                     <DropdownMenuContent>
@@ -517,11 +544,6 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                 <AddIcon/>
                                             </IconButton>
                                         </Tooltip>
-                                        <Tooltip title={tooltipText.search.llmQuestion.remove} placement="top">
-                                            <IconButton onClick={handleRemoveLLMQuestion}>
-                                                <MinusIcon/>
-                                            </IconButton>
-                                        </Tooltip>
                                     </div>
                                 </div>
                                 {
@@ -543,13 +565,31 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                 value={question.answer}
                                                 onChange={(e) => handleLLMQuestionChange(e, question)}
                                             />
+                                            <Tooltip title={tooltipText.search.llmQuestion.remove} placement="top">
+                                                <Button
+                                                    className="bg-red-600 hover:bg-red-700/80"
+                                                    onClick={() => handleRemoveLLMQuestion(question)}
+                                                >
+                                                    <DeleteIcon/>
+                                                </Button>
+                                            </Tooltip>
                                         </div>
                                     ))
                                 }
                             </div>
 
                             {
-                                (!llmOptions.includeExamples || selectedPapers.length < 3) &&
+                                (!llmOptions.includeExamples && !llmOptions.includeRationale) &&
+                                <div className="flex justify-content-center items-center min-w-[60vw] min-h-[20vh] bg-slate-200 mt-3">
+                                    <div className="text-slate-600/60 text-center">
+                                        Include examples/rationale to proceed
+                                    </div>
+                                </div>
+                            }
+                            
+
+                            {
+                                (!llmOptions.includeExamples && selectedPapers.length < 3) &&
                                 <div
                                     className="flex justify-content-center items-center min-w-[60vw] min-h-[20vh] bg-slate-200 mt-3">
                                     {
@@ -568,27 +608,27 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                     <div className="table-responsive">
                                         <table className="table table-striped">
                                             <thead className="bg-primary text-white">
-                                            <tr>
-                                                <td>Paper ID</td>
-                                                <td style={{minWidth: "300px"}}>Paper Title</td>
-                                                <td style={{minWidth: "300px"}}>Search String</td>
-                                                <td style={{minWidth: "300px"}}>Formatted Search String</td>
-                                                <td>Abstract</td>
-                                                <td style={{minWidth: "300px"}}>Authors</td>
-                                                <td style={{minWidth: "300px"}}>Citations Count</td>
-                                                <td style={{minWidth: "300px"}}>Conference/Journal</td>
-                                                <td style={{minWidth: "300px"}}>DOI</td>
-                                                <td>Publication Date</td>
-                                                <td>Publication Type</td>
-                                                <td>Publisher</td>
-                                                {
-                                                    llmQuestions.map((question) => (
-                                                        <td key={question.id} style={{minWidth: "300px"}}>
-                                                            Q{question.id}: Answer & Rationale
-                                                        </td>
-                                                    ))
-                                                }
-                                            </tr>
+                                                <tr>
+                                                    <td>Paper ID</td>
+                                                    <td style={{minWidth: "300px"}}>Paper Title</td>
+                                                    <td style={{minWidth: "300px"}}>Search String</td>
+                                                    <td style={{minWidth: "300px"}}>Formatted Search String</td>
+                                                    <td>Abstract</td>
+                                                    <td style={{minWidth: "300px"}}>Authors</td>
+                                                    <td style={{minWidth: "300px"}}>Citations Count</td>
+                                                    <td style={{minWidth: "300px"}}>Conference/Journal</td>
+                                                    <td style={{minWidth: "300px"}}>DOI</td>
+                                                    <td>Publication Date</td>
+                                                    <td>Publication Type</td>
+                                                    <td>Publisher</td>
+                                                    {
+                                                        llmQuestions.map((question) => (
+                                                            <td key={question.id} style={{minWidth: "300px"}}>
+                                                                Q{question.id}: Answer & Rationale
+                                                            </td>
+                                                        ))
+                                                    }
+                                                </tr>
                                             </thead>
                                             <tbody>
                                             {selectedPapers.length > 0 && selectedPapers.map((paper_id, index) => {
@@ -628,7 +668,6 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                             <td>{paper.publisher}</td>
                                                             {llmQuestions.map((llmQuestion, questionIdx) => (
                                                                 <td key={questionIdx}>
-                                                                    {/* {JSON.stringify(llmAnswers)} */}
                                                                     <Select
                                                                         value={llmAnswers[index]?.responses[questionIdx]?.answer || ""}
                                                                         onValueChange={(value) => {
@@ -661,27 +700,29 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                                             )}
                                                                         </SelectContent>
                                                                     </Select>
-
-                                                                    <Input
-                                                                        placeholder="Rationale"
-                                                                        className="bg-white"
-                                                                        value={llmAnswers[index]?.responses[questionIdx]?.rationale || ""}
-                                                                        onChange={(e) => {
-                                                                            const updatedAnswers = [...llmAnswers];
-                                                                            if (!updatedAnswers[index]) {
-                                                                                updatedAnswers[index] = {
-                                                                                    paper_id: selectedPapers[index],
-                                                                                    responses: llmQuestions.map((q) => ({
-                                                                                        id: q.id,
-                                                                                        answer: "",
-                                                                                        rationale: "",
-                                                                                    })),
-                                                                                };
-                                                                            }
-                                                                            updatedAnswers[index].responses[questionIdx].rationale = e.target.value;
-                                                                            setLLMAnswers(updatedAnswers);
-                                                                        }}
-                                                                    />
+                                                                    {
+                                                                        llmOptions.includeRationale &&
+                                                                        <Input
+                                                                            placeholder="Rationale"
+                                                                            className="bg-white"
+                                                                            value={llmAnswers[index]?.responses[questionIdx]?.rationale || ""}
+                                                                            onChange={(e) => {
+                                                                                const updatedAnswers = [...llmAnswers];
+                                                                                if (!updatedAnswers[index]) {
+                                                                                    updatedAnswers[index] = {
+                                                                                        paper_id: selectedPapers[index],
+                                                                                        responses: llmQuestions.map((q) => ({
+                                                                                            id: q.id,
+                                                                                            answer: "",
+                                                                                            rationale: "",
+                                                                                        })),
+                                                                                    };
+                                                                                }
+                                                                                updatedAnswers[index].responses[questionIdx].rationale = e.target.value;
+                                                                                setLLMAnswers(updatedAnswers);
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 </td>
                                                             ))}
                                                         </tr>

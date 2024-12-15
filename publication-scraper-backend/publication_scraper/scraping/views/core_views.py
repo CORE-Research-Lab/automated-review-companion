@@ -163,7 +163,7 @@ class SearchAndCleanView(APIView):
 
 class PublicationMetadataView(APIView):
 
-    @Controller
+    # @Controller
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
         if serializer.is_valid():

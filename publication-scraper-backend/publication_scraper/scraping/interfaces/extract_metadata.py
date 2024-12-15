@@ -86,14 +86,14 @@ class PublicationMetadataExtractor:
                 if extracted_metadata.exists():
                     extracted_metadata.delete()
 
-            try:
-                extracted_metadata = self._extract_data(paper)
-                processed_metadata = self.post_processing(extracted_metadata)
-                processed_metadata.save()
-                self.extracted_metadata.append(processed_metadata)
-            except Exception as e:
-                log.error(f"Error extracting metadata for {paper.paper_title}. - {e}")
-                self.failed_papers.append((index, paper))
+            # try:
+            extracted_metadata = self._extract_data(paper)
+            processed_metadata = self.post_processing(extracted_metadata)
+            processed_metadata.save()
+            self.extracted_metadata.append(processed_metadata)
+            # except Exception as e:
+            #     log.error(f"Error extracting metadata for {paper.paper_title}. - {e}")
+            #     self.failed_papers.append((index, paper))
         
         if len(self.failed_papers) > 0:
             log.error(f"Failed to extract metadata for {len(self.failed_papers)} papers:")
@@ -156,7 +156,6 @@ class PublicationMetadataExtractor:
             publication_type      = paper_type,
             search_string         = paper.search_string,
             citation_count        = sch_paper.get("citationCount"),
-            searched_from         = paper.searched_from
         )
         return metadata
     
@@ -232,7 +231,7 @@ class PublicationMetadataExtractor:
         external_ids = paper.get("externalIds", {})
         doi = external_ids.get("DOI", None)
 
-        if doi is None and str(paper_id).startswith("DOI"):
+        if doi is None and "doi.org/" in paper_id:
             doi = paper_id.split("doi.org/")[1]  # Note the slash included in the split
 
         # TODO handle arXiv papers

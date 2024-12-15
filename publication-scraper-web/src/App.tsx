@@ -19,6 +19,7 @@ import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTer
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
+import { DatePicker } from './components/ui/date-picker';
 import { MultiSelect } from './components/ui/multi-select';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
@@ -46,6 +47,10 @@ export type FilterForm = {
     questionId: number,
     answer: string[]
   }[]
+  dateRange: {
+    start: Date | undefined,
+    end: Date | undefined
+  }
 }
 
 function App() {
@@ -89,6 +94,10 @@ function App() {
     conference: [],
     llmQuestions: [],
     llmAnswers: [],
+    dateRange: {
+      start: new Date(),
+      end: new Date()
+    }
   })
 
 
@@ -140,7 +149,12 @@ function App() {
 
     await axios.post(`${BASE_URL}/scraper/search-and-clean`, payload)
       .then((res) => {
-        setSearchResults(res.data)
+        let data = res.data;
+        let newSearchResults = {
+          ...data,
+          results: data.results.map((paper: Publication) => ({...paper, show: true}))
+        }
+        setSearchResults(newSearchResults);
         setButtonState((prevState) => ({
           ...prevState,
           showSelectAll: true,
@@ -209,7 +223,6 @@ function App() {
 
   const handleShowFilters = () => {
     setShowFilters(!showFilters)
-    toast.info('Filters are now ' + (showFilters ? 'enabled' : 'disabled'));
   }
 
   const handleSelectSearchMode = (mode: SearchMode) => {
@@ -389,7 +402,57 @@ function App() {
     if (!id) return null;
     return id.split('-')[0];
   }
-  
+
+  const applyFilters = () => {
+
+    let newSearchResults = { ...searchResults };
+    for (let i = 0; i < newSearchResults.results.length; i++) {
+      newSearchResults.results[i].show = true;
+
+      // 1. Check if the search engine is in the filter form
+      if (
+        filterForm.searchEngines.length > 0 &&
+        !filterForm.searchEngines.some(engine => searchResults.results[i].searched_from?.includes(engine))
+      ) {
+        newSearchResults.results[i].show = false;
+        continue;
+      }
+
+      // 2. Check if the conference is in the filter form
+      if (
+        filterForm.conference.length > 0 &&
+        !filterForm.conference.some(conference => searchResults.results[i].conference_journal?.includes(conference))
+      ) {
+        newSearchResults.results[i].show = false;
+        continue;
+      }
+
+      // 3. Check if publication date is within the date range
+      if (
+        filterForm.dateRange.start && filterForm.dateRange.end &&
+        filterForm.dateRange.start <= filterForm.dateRange.end
+      ) {
+        if (
+          searchResults.results[i].publication_date === undefined ||
+          new Date(searchResults.results[i].publication_date!) < filterForm.dateRange.start ||
+          new Date(searchResults.results[i].publication_date!) > filterForm.dateRange.end
+        ) {
+          newSearchResults.results[i].show = false;
+          continue;
+        }
+      }
+
+      // 3. Check if the LLM question is in the filter form
+      // if (filterForm.llmQuestions.length > 0) {
+      //   let llmQuestionIds = searchResults.results[i].llm_responses.map((response) => response.question_id);
+      //   if (!llmQuestionIds.some((id) => filterForm.llmQuestions.includes(id))) {
+      //     searchResults.results[i].show = false;
+      //     continue;
+      //   }
+      // }
+    }
+    setSearchResults(newSearchResults);
+  }
   // Fetch the search history from the local storage
   useEffect(() => { 
     const currentVersion = CURRENT_VERSION;
@@ -489,6 +552,17 @@ function App() {
                                                   )}
                                                 </div>
                                               </>
+                                          ))}
+                                          {variation.variants.length > 0 && <span>Variants:</span>}
+                                          {variation.variants.map((variant) => (
+                                              <div
+                                                  key={variant}
+                                                  onClick={() => handleAdvancedChipClick(variation.word, variant)}
+                                                  className='word-variant-chip'
+                                                  style={{color: "black", cursor: "pointer"}}
+                                              >
+                                                {variant}
+                                              </div>
                                           ))}
                                         </Box>
                                       </div>
@@ -799,11 +873,11 @@ function App() {
                     ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Hide Metadata</Button>
                     : <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Show Metadata</Button>)
                 }
-                {/* {
+                {
                   !showFilters 
-                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowFilters}>Enable Filters</Button>
-                    : <Button className="bg-red-600 hover:bg-red-700" onClick={handleShowFilters}>Disable Filters</Button>
-                } */}
+                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowFilters}>Show Filters</Button>
+                    : <Button className="bg-red-600 hover:bg-red-700" onClick={handleShowFilters}>Hide Filters</Button>
+                }
 
                 {/* Paper operations */}
                 <PaperOperations
@@ -831,55 +905,88 @@ function App() {
               {/* Filters */}
               {
                 showFilters &&
-                <div className="flex flex-col gap-y-2">
+                <div className="flex flex-col gap-y-2 border p-2 bg-white">
                   <InputLabel tooltip="" label="Filters"/>
-                  <div className="flex gap-2">
-                    <MultiSelect
-                      placeholder='Search Engines'
-                      options={
-                        Array.from(new Set(new Set(searchResults.results.map((result) => result.searched_from))))
-                          .map((searchEngine) => ({ label: searchEngine, value: searchEngine }))
-                      }
-                      value={filterForm.searchEngines}
-                      onValueChange={(value) => setFilterForm({...filterForm, searchEngines: value})}
-                    />
-                    <MultiSelect
-                      placeholder="Conference"
-                      options={
-                        Array.from(new Set(
-                          searchResults.results
-                            .map((result) => result.conference_journal)
-                            .filter((conference) => conference !== undefined)  
-                        ))
-                        .map((conference) => ({ label: conference, value: conference }))
-                      }
-                      value={filterForm.conference}
-                      onValueChange={(value) => setFilterForm({...filterForm, conference: value})}
-                    />
-                    {/* LLM Choose which question to filter */}
-                    <MultiSelect
-                        placeholder='LLM Questions'
+                  <div className="row px-3 gap-y-2">
+                    <div className="col-6 p-0">
+                      <MultiSelect
+                        placeholder='Search Engines'
                         options={
                           Array.from(new Set(
-                            searchResults.results.map((result) => result.llm_responses)
-                              .filter((llm) => llm !== undefined)
-                              .map((llm) => llm.map((response) => ({ label: String(response.id), value: String(response.id) })))
-                              .flat()
-                          ))
+                            searchResults.results
+                              .filter((result) => result.searched_from !== undefined)
+                              .flatMap((result) => result.searched_from)
+                          )).map((searchEngine) => ({ label: searchEngine!, value: searchEngine! }))
                         }
-                        value={filterForm.llmQuestions.map((val) => String(val))}
+                        value={filterForm.searchEngines}
                         onValueChange={(value) => {
-                          let newValues = value.map((val) => parseInt(val));
-
-                          const newLLMAnswers = newValues.map((id) => {
-                            let record = filterForm.llmAnswers.find((answer) => answer.questionId === id)
-                            if (record) return record;
-                            return { questionId: id, answer: [] };
-                          })
-
-                          setFilterForm({...filterForm, llmQuestions: newValues, llmAnswers: newLLMAnswers });
+                          setFilterForm({...filterForm, searchEngines: value})}
+                        }
+                      />
+                    </div>
+                    <div className="col-6 p-0">
+                      <MultiSelect
+                        placeholder="Conference"
+                        options={
+                          Array.from(new Set(
+                            searchResults.results
+                              .flatMap((result) => result.conference_journal)
+                              .filter((conference) => conference !== undefined)  
+                          ))
+                          .map((conference) => ({ label: conference, value: conference }))
+                        }
+                        maxCount={2}
+                        value={filterForm.conference}
+                        onValueChange={(value) => {
+                          setFilterForm((prevFilterForm) => ({...prevFilterForm, conference: value}))
                         }}
-                    />
+                      />
+                    </div>
+                    <div className='grid-cols-6 p-0 flex flex-wrap items-center'>
+                    {/* <div className="d-flex flex-row w-100 mb-3"> */}
+                      <InputLabel tooltip={tooltipText.search.database} label="From" />
+                      <DatePicker
+                        date={filterForm.dateRange.start}
+                        setDate={(date) => setFilterForm((prevFilterForm) => ({
+                          ...prevFilterForm,
+                          dateRange: { ...prevFilterForm.dateRange, start: date }
+                        }))}
+                      />
+                      <InputLabel tooltip={tooltipText.search.database} label="To"/>
+                        <DatePicker
+                          date={filterForm.dateRange.end}
+                          setDate={(date) => setFilterForm((prevFilterForm) => ({
+                            ...prevFilterForm,
+                            dateRange: { ...prevFilterForm.dateRange, end: date }
+                          }))}
+                        />
+                    </div>
+                    {/* LLM Choose which question to filter */}
+                    <div className='col-6 p-0'>
+                      <MultiSelect
+                          placeholder='LLM Questions'
+                          options={
+                            Array.from(new Set(
+                              searchResults.results.map((result) => result.llm_responses)
+                                .filter((llm) => llm !== undefined)
+                                .map((llm) => llm.map((response) => ({ label: String(response.id), value: String(response.id) })))
+                                .flat()
+                            ))
+                          }
+                          value={filterForm.llmQuestions.map((val) => String(val))}
+                          onValueChange={(value) => {
+                            let newValues = value.map((val) => parseInt(val));
+
+                            const newLLMAnswers = newValues.map((id) => {
+                              let record = filterForm.llmAnswers.find((answer) => answer.questionId === id)
+                              if (record) return record;
+                              return { questionId: id, answer: [] };
+                            })
+
+                            setFilterForm({...filterForm, llmQuestions: newValues, llmAnswers: newLLMAnswers });
+                          }}
+                      />
+                    </div>
                     {
                       filterForm.llmQuestions.map((questionId) => {
                         const currentAnswer = filterForm.llmAnswers.find(answer => answer.questionId === questionId);
@@ -912,7 +1019,7 @@ function App() {
                   </div>
                   <Button 
                     className="bg-blue-500 hover:bg-blue-600"
-                    onClick={() => toast.info(JSON.stringify(filterForm))}>
+                    onClick={applyFilters}>
                     Apply Filters
                   </Button>
                 </div>

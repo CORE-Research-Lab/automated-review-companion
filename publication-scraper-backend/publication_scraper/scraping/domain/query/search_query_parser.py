@@ -23,8 +23,10 @@ class SearchQueryParser:
     """
 
     def __init__(self, expr: str):
-        self.expr = expr
-        self.tree = ast.parse(expr, mode='eval').body
+        self.WILDCARD = "_WILDCARD_"
+        sanitized_expr = expr.replace("*", self.WILDCARD)
+        self.expr = sanitized_expr
+        self.tree = ast.parse(sanitized_expr, mode='eval').body
 
     def parse(self, format_type) -> str:
         """ 
@@ -35,7 +37,9 @@ class SearchQueryParser:
         >>> parser.parse("SEMANTIC_SCHOLAR")
         "A + B + C + (D | E - F)"
         """
-        return self._build_expression(self.tree, format_type)
+        expression = self._build_expression(self.tree, format_type)
+        expression = self._format_wildcards(expression, format_type)
+        return expression
 
     
     def _build_expression(self, node: ast.AST, format_type: SearchEngineType) -> str:
@@ -137,3 +141,6 @@ class SearchQueryParser:
             if " " in phrase:
                 return f'{{{phrase}}}'
             return phrase
+        
+    def _format_wildcards(self, expression: str, format_type: SearchEngineType) -> str:
+        return expression.replace(self.WILDCARD, "*")
