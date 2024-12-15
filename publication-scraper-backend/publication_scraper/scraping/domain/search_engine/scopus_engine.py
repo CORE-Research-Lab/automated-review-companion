@@ -181,8 +181,9 @@ class ScopusEngine(SearchEngine):
     def _get_paper_id(self, result: Dict[str, Any]) -> Optional[str]:
         
         doi = result.get("prism:doi")
+        url = result.get("prism:url")
         identifier = result.get("dc:identifier")
 
         if doi:
             return f"DOI:https://doi.org/{doi}"
-        return f"URL:xxx TODO{identifier}"
+        return f"URL:{url}" if url else f"ID:{identifier}"
