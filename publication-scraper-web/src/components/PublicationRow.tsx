@@ -312,7 +312,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
           </a>
         </td>
         <td>
-          <div className="publication-data-table-cell" style={{width: "300px"}}>
+          <div style={{width: "300px"}}>
             <span dangerouslySetInnerHTML={{__html: publication.paper_title}}></span>
           </div>
         </td>

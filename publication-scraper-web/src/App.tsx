@@ -942,19 +942,17 @@ function App() {
                         }}
                       />
                     </div>
-                    <div className='grid-cols-6 p-0 flex flex-wrap items-center gap-2'>
-                      <div className="flex items-center gap-2">
-                        From
-                        <DatePicker
-                          date={filterForm.dateRange.start}
-                          setDate={(date) => setFilterForm((prevFilterForm) => ({
-                            ...prevFilterForm,
-                            dateRange: { ...prevFilterForm.dateRange, start: date }
-                          }))}
-                        />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        To
+                    <div className='grid-cols-6 p-0 flex flex-wrap items-center'>
+                    {/* <div className="d-flex flex-row w-100 mb-3"> */}
+                      <InputLabel tooltip={tooltipText.search.database} label="From" />
+                      <DatePicker
+                        date={filterForm.dateRange.start}
+                        setDate={(date) => setFilterForm((prevFilterForm) => ({
+                          ...prevFilterForm,
+                          dateRange: { ...prevFilterForm.dateRange, start: date }
+                        }))}
+                      />
+                      <InputLabel tooltip={tooltipText.search.database} label="To"/>
                         <DatePicker
                           date={filterForm.dateRange.end}
                           setDate={(date) => setFilterForm((prevFilterForm) => ({
@@ -962,7 +960,6 @@ function App() {
                             dateRange: { ...prevFilterForm.dateRange, end: date }
                           }))}
                         />
-                      </div>
                     </div>
                     {/* LLM Choose which question to filter */}
                     <div className='col-6 p-0'>
