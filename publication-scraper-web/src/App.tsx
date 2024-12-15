@@ -60,7 +60,8 @@ function App() {
   const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
   const [showMetadata, setShowMetadata] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  // const [showFilters, setShowFilters] = useState(false);
+  const showFilters = false;
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
@@ -207,10 +208,10 @@ function App() {
     setShowMetadata(!showMetadata)
   }
 
-  const handleShowFilters = () => {
-    setShowFilters(!showFilters)
-    toast.info('Filters are now ' + (showFilters ? 'enabled' : 'disabled'));
-  }
+  // const handleShowFilters = () => {
+  //   setShowFilters(!showFilters)
+  //   toast.info('Filters are now ' + (showFilters ? 'enabled' : 'disabled'));
+  // }
 
   const handleSelectSearchMode = (mode: SearchMode) => {
     setSearchMode(mode);

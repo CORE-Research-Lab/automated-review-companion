@@ -247,7 +247,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         paper_ids: selectedPapers.join(',')
       }
     })
-    .then((res) => {
+    .then(() => {
       toast.success(`${selectedPapers.length} paper(s) deleted successfully`);
       const updatedResults = searchResults.results.filter((result: Publication) => !selectedPapers.includes(result.paper_id));
       setSearchResults({...searchResults, results: updatedResults})
