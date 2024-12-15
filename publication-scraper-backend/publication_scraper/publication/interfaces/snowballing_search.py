@@ -72,7 +72,6 @@ class SnowballingSearch:
                 search_string = reference.type.value,
                 searched_from = [SearchEngineType.SEMANTIC_SCHOLAR],
                 formatted_search_string = reference.type.value,
-                status = PublicationStatus.NEW,
             )
             metadata = self._get_metadata(paper_doi)
             publication.metadata = metadata

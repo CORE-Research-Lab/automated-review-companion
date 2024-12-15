@@ -2,12 +2,15 @@ import { handleError } from '@/common/handler';
 // import '@/main.css';
 import { parseAuthors } from '@/common/labels';
 import { BASE_URL } from '@/utils/common';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  ExpandLess as ExpandLessIcon,
+  ExpandMore as ExpandMoreIcon
+} from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useEffect } from 'react';
 import {
+  Author,
   LLMQuestion,
   Publication,
   SearchResult
@@ -27,6 +30,13 @@ export interface PublicationRowProps {
   diffMode?: boolean
 }
 
+export type MetadataColumnType = {
+  headerName: string
+  field: keyof Publication
+  placeholder: string
+  render?: (value: any) => JSX.Element
+}
+
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   const { 
     rowType, rowIdx,
@@ -40,6 +50,71 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     diffMode,
   } = props;
 
+  const metadataColumns: MetadataColumnType[] = [
+    {
+      headerName: 'Abstract',
+      field: 'abstract',
+      placeholder: '-',
+    },
+    {
+      headerName: 'Authors',
+      field: 'authors',
+      placeholder: '-',
+      render: (value: Author[]) => {
+        return (
+          <div className='max-w-[200px] overflow-scroll'>
+            {parseAuthors(value)}
+          </div>
+        )
+      }
+    },
+    {
+      headerName: 'Citation Count',
+      field: 'citation_count',
+      placeholder: '-',
+    },
+    {
+      headerName: 'Conference/Journal',
+      field: 'conference_journal',
+      placeholder: '-',
+    },
+    {
+      headerName: 'DOI',
+      field: 'doi',
+      placeholder: 'Not Available',
+    },
+    {
+      headerName: 'Publication Date',
+      field: 'publication_date',
+      placeholder: '-',
+    },
+    {
+      headerName: 'Publication Type',
+      field: 'publication_type',
+      placeholder: '-',
+    },
+    {
+      headerName: 'Publisher',
+      field: 'publisher',
+      placeholder: '-',
+    },
+    {
+      headerName: 'Semantic Scholar URL',
+      field: 'semantic_scholar_url',
+      placeholder: '-',
+      render: (value: string) => {
+        if (value === '' || value === null) {
+          return <div>-</div>
+        } 
+        return (
+          <a href={value} className='text-blue-500 underline' target="_blank" rel="noopener noreferrer">
+            View on Semantic Scholar
+          </a>
+        )
+      }
+    }
+  ]
+
   const getColorByRowType = () => {
     switch (rowType) {
       case 'reference':
@@ -52,12 +127,14 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   }
 
   const getDiffRowColor = () => {
-    if (publication.diffType === 'add') {
-      return 'table-row-red bg-[#FFEEF0]';
-    } else if (publication.diffType === 'remove') {
-      return 'table-row-green bg-[#E6FFED]';
+    switch (publication.diffType) {
+      case 'add':
+        return 'table-row-red bg-[#FFEEF0]';
+      case 'remove':
+        return 'table-row-green bg-[#E6FFED]';
+      default:
+        return '';
     }
-    return '';
   }
 
   const handleReferencesVisibility = () => {
@@ -142,173 +219,153 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   }, [diffMode]);
 
   return (
-    <tr key={publication.paper_id}
-      className={`${getColorByRowType()} ${getDiffRowColor()} publication-row`}
-      style={{ height: "20px" }}
-    >
-      <td>
-        <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
-          {
-            rowType === 'reference' && !diffMode &&
-            <Tooltip title="Append to the bottom of the main search results" placement="top">
-              <button 
-                className="btn btn-primary btn-sm"
-                onClick={() => addToMainSearchResult(publication)}
-              >+</button>
-            </Tooltip>
-          }
-          {
-            rowType === 'citation' && !diffMode &&
-            <Tooltip title="Append to the bottom of the main search results" placement="top">
-              <button 
-                className="btn btn-primary btn-sm"
-                onClick={() => addToMainSearchResult(publication)}
-              >+</button>
-            </Tooltip>
-          }
-          {
-            rowType === 'main' && selectedPapers && handlePaperSelect && !diffMode &&
-            <>
-              <input
-                type="checkbox"
-                checked={selectedPapers.includes(publication.paper_id)}
-                onChange={() => handlePaperSelect(publication.paper_id)}
-              />
-              {/* Expand/contract references/citations */}
-              {
-                publication.references && publication.references.length > 0 && !diffMode &&
-                <Tooltip title="Expand/Collapse references" placement="top">
-                  {publication.showReferences ? 
-                    <ExpandMoreIcon 
-                      onClick={handleReferencesVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "blue"
-                      }}
-                  /> :
-                  <ExpandLessIcon 
-                    onClick={handleReferencesVisibility}
-                    style={{ 
-                      cursor: "pointer",
-                      color: "blue"
-                    }}
-                  />}
+      <tr 
+        key={publication.paper_id}
+        className={`${getColorByRowType()} ${getDiffRowColor()} publication-row`}
+      >
+        <td>
+          <div className='d-flex items-align-center flex-column gap-2 h-100 w-100'>
+            {
+                rowType === 'reference' && !diffMode &&
+                <Tooltip title="Append to the bottom of the main search results" placement="top">
+                  <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => addToMainSearchResult(publication)}
+                  >+
+                  </button>
                 </Tooltip>
-              }
-              {
-                publication.citations && publication.citations.length > 0 && !diffMode &&
-                <Tooltip title="Expand/Collapse citations" placement="top">
-                  {publication.showCitations ?
-                    <ExpandMoreIcon 
-                      onClick={handleCitationsVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "#E6A23B"
-                      }}
-                    /> :
-                    <ExpandLessIcon 
-                      onClick={handleCitationsVisibility}
-                      style={{ 
-                        cursor: "pointer",
-                        color: "#E6A23B"
-                      }}
-                    />
+            }
+            {
+                rowType === 'citation' && !diffMode &&
+                <Tooltip title="Append to the bottom of the main search results" placement="top">
+                  <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => addToMainSearchResult(publication)}
+                  >+
+                  </button>
+                </Tooltip>
+            }
+            {
+                rowType === 'main' && selectedPapers && handlePaperSelect && !diffMode &&
+                <>
+                  <input
+                      type="checkbox"
+                      checked={selectedPapers.includes(publication.paper_id)}
+                      onChange={() => handlePaperSelect(publication.paper_id)}
+                  />
+                  {/* Expand/contract references/citations */}
+                  {
+                      publication.references && publication.references.length > 0 && !diffMode &&
+                      <Tooltip title="Expand/Collapse references" placement="top">
+                        {publication.showReferences ?
+                            <ExpandMoreIcon
+                                onClick={handleReferencesVisibility}
+                                style={{
+                                  cursor: "pointer",
+                                  color: "blue"
+                                }} /> 
+                          : <ExpandLessIcon
+                                onClick={handleReferencesVisibility}
+                                style={{
+                                  cursor: "pointer",
+                                  color: "blue"
+                                }}
+                            />}
+                      </Tooltip>
                   }
-                </Tooltip>
+                  {
+                      publication.citations && publication.citations.length > 0 && !diffMode &&
+                      <Tooltip title="Expand/Collapse citations" placement="top">
+                        {publication.showCitations ?
+                            <ExpandMoreIcon
+                                onClick={handleCitationsVisibility}
+                                style={{
+                                  cursor: "pointer",
+                                  color: "#E6A23B"
+                                }}
+                            /> :
+                            <ExpandLessIcon
+                                onClick={handleCitationsVisibility}
+                                style={{
+                                  cursor: "pointer",
+                                  color: "#E6A23B"
+                                }}
+                            />
+                        }
+                      </Tooltip>
+                  }
+                </>
+            }
+          </div>
+        </td>
+        <td>
+          {rowIdx}
+        </td>
+        <td>
+          <a
+            href={publication.paper_id.slice(4)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+          >
+            {publication.paper_id.slice(4)}
+          </a>
+        </td>
+        <td>
+          <div style={{width: "300px"}}>
+            <span dangerouslySetInnerHTML={{__html: publication.paper_title}}></span>
+          </div>
+        </td>
+        <td>{publication.searched_from}</td>
+        <td>
+          <div className="w-[300px]">
+            <code>
+              {parseSearchString(publication.search_string)}
+            </code>
+          </div>
+        </td>
+        <td>
+          <code>
+            {publication.formatted_search_string}
+          </code>
+        </td>
+
+        {/* Metadata */}
+        {
+            showMetadata &&
+            <>
+              {
+                metadataColumns.map((column) => (
+                  <td key={column.field}>
+                    <div className="min-w-[200px] overflow-scroll" style={{ height: "150px" }}>
+                      {
+                        column.render 
+                        ? column.render((publication[column.field] as string)) 
+                        : (publication[column.field] as string) ?? column.placeholder
+                      }
+                    </div>
+                  </td>
+                ))
               }
             </>
-          }
-        </div>
-      </td>
-      <td style={{ textAlign: "center" }}>{rowIdx}</td>
-      <td>{publication.paper_id}</td>
-      <td>
-        <div className="publication-data-table-cell" style={{ width: "300px" }}>
-          <span dangerouslySetInnerHTML={{__html: publication.paper_title }}></span>
-        </div>
-      </td>
-      <td>{publication.searched_from}</td>
-      <td>
-        <code>          
-          {parseSearchString(publication.search_string)}
-        </code>
-      </td>
-      <td>
-        <code>
-          {publication.formatted_search_string}
-        </code>
-      </td>
-      
-      {/* Metadata */}
-      {
-        showMetadata &&
-          <>
-            <td>
-              <div style={{ maxHeight: "120px", overflow: "scroll"}}>
-                {publication.abstract ?? "-"}
-              </div>
-            </td>
-            <td>
-              <div className="publication-data-table-cell" style={{ width: "200px"}}>
-                {parseAuthors(publication.authors)}
-              </div>
-            </td>
-            <td>{publication.citation_count ?? "-"}
+        }
 
-            </td>
-            <td>{publication.conference_journal ?? "-"}</td>
-            {/*todo: doi_url isnt working properly, changed to workaround*/}
-            <td>
-              {publication.doi ? (
-                <a href={`https://doi.org/${publication.doi}`}
-                  className='text-blue-500 underline'    
-                  target="_blank"
-                  rel="noopener noreferrer">
-                    {publication.doi}
-                </a>
-              ) : (
-                  'Not Available'
-              )}
-            </td>
-            {/* <td>{publication.keywords?.join(', ') ?? "-"}</td> */}
-            <td>{publication.publication_date ?? "-"}</td>
-            <td>{publication.publication_type ?? "-"}</td>
-            <td>
-              <div className="publication-data-table-cell" style={{ width: "200px"}}>
-                {publication.publisher ?? "-"}
-              </div>
-            </td>
-            <td>
-              {publication.semantic_scholar_url ? (
-                  <a href={publication.semantic_scholar_url}
-                     className='text-blue-500 underline' 
-                     target="_blank"
-                     rel="noopener noreferrer">
-                    View on Semantic Scholar
-                  </a>
-              ) : (
-                  '-'
-              )}
-            </td>
-          </>
-      }
-
-      {/* Questions */}
-      {
-        searchResults.results && searchResults.results.length > 0 &&
-        searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-        llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
-          <>
-            <td key={response.id} style={{ minWidth: "220px" }}>
-              {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.answer ?? "-"}
-            </td>
-            <td key={response.id + "-rational"} style={{ minWidth: "220px" }}>
-              {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.rationale ?? "-"}
-            </td>
-          </>
-        ))
-      }
-    </tr>
+        {/* Questions */}
+        {
+            searchResults.results && searchResults.results.length > 0 &&
+            searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
+            llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
+                <>
+                  <td key={response.id} style={{minWidth: "220px"}}>
+                    {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.answer ?? "-"}
+                  </td>
+                  <td key={response.id + "-rational"} style={{minWidth: "220px"}}>
+                    {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.rationale ?? "-"}
+                  </td>
+                </>
+            ))
+        }
+      </tr>
   )
 
 }

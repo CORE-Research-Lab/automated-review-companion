@@ -15,8 +15,15 @@ export const tooltipText = {
       example: "i.e., Responsible Use, Academic Performance etc. (Press Enter to add the search term)",
     },
     advanced: "Required field: advanced case-insensitive boolean search string. Use 'AND', 'OR', 'NOT' operators to combine search terms, and quotations to search for exact phrases.",
-    yearRange: "Year range including the start and end years (i.e., 2023 - 2024)",
+    dateRange: "Search range including the start and end date (i.e., 2023-01-01 - 2024-01-01). NOTE: some search engines may not support specific date range search (e.g., DBLP, Scopus), we will search base on the year provided.",
     database: "Select the databases to search from: Click on the database name to toggle the selection; a filled checkbox indicates the database is selected. At least one must be selected.",
+    databaseDescription: {
+      DBLP: "DBLP Search is \"mainly based on a publication's title string, as well as some info from the metadata (e.g., the venue title).\" Read more at https://dblp.org/faq/How+to+perform+a+search+within+the+full-texts.html",
+      SEMANTIC_SCHOLAR: "Semantic Scholar Search uses Semantic Scholar's default \"custom-trained ranker to perform keyword searches\". Read more at https://medium.com/ai2-blog/building-a-better-search-engine-for-semantic-scholar-ea23a0b661e7",
+      WEB_OF_SCIENCE: "Web of Science Search uses Web of Science Advanced Search Field TS (Topic), \"which searches for topic terms in the following fields within a record: Title, Abstract, Author, Keywords, Keywords Plus®\". Read more at https://images.webofknowledge.com/images/help/WOS/hs_advanced_fieldtags.html",
+      IEEE_XPLORE: "DISABLED! Waiting for IEEE API Key... IEEE Xplore Search \"looks for a keyword in all fields (metadata)\". Read more at https://ieeexplore.ieee.org/Xplorehelp/searching-ieee-xplore/command-search",
+      SCOPUS: "Scopus Search \"search in the Article title, Abstract and Keywords of documents\". Read more at https://elsevier.libguides.com/Scopus/topical-search"
+    },
     validationPapers: {
       hint: "Enter the DOI of the validation papers to validate if the search configurations result in the validation papers.",
       example: "10.1109/ACCESS.2021.3053725, 10.1109/ACCESS.2021.3053726"

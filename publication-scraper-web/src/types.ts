@@ -41,7 +41,6 @@ export type Publication = {
   citation_count?: number,
   conference_journal?: string,
   doi?: string,
-  doi_url?: string,
   publication_date?: string,
   publication_type?: string[],
   publisher?: string,
@@ -82,8 +81,8 @@ export type SearchForm = {
     secondary: string[],
     tertiary: string[]
   },
-  year_start: number,
-  year_end: number,
+  start_date: Date,
+  end_date: Date,
   sources: SearchEngineType[]
 }
 

@@ -1,4 +1,5 @@
 import time
+from urllib.parse import quote_plus
 from typing import Any, Dict, List
 
 import requests
@@ -31,15 +32,15 @@ class WebOfScienceEngine(SearchEngine):
         self.search_type                = search_query.search_type
         self.advanced_query             = search_query.advanced_search
         self.queries                    = search_query.search_strings
-        self.start_year                 = int(search_query.start_year)
-        self.end_year                   = int(search_query.end_year)
+        self.start_date                 = search_query.start_date.year
+        self.end_date                   = search_query.end_date.year
         self.results: List[Publication] = []
         
     @Profiler("Web of Science Search")
     def search(self) -> List[Publication]:
         """ 
         Search for papers on Web of Science. 
-        Refer to https://webofscience.help.clarivate.com/en-us/Content/search-operators.html
+        Refer to https://webofscience.help.clarivate.com/en-us/Content/current-contents/ccc-search-field-tags.htm
         """
         if self.search_type == SearchQueryType.ADVANCED:
             return self._advanced_search()
@@ -47,8 +48,9 @@ class WebOfScienceEngine(SearchEngine):
     
     def _advanced_search(self) -> List[Publication]:
         """ Perform an advanced search on Web of Science. """
-            
+        # TODO: are we using the parsed string??
         wos_search_string = self._parse_search_string()
+        log.info(f"Searching Web of Science for `{wos_search_string}` on Web of Science, {self.start_date} - {self.end_date}")
         wos_search_results = self._search(self.advanced_query)
         
         if wos_search_results is None:
@@ -95,7 +97,6 @@ class WebOfScienceEngine(SearchEngine):
                                     formatted_search_string = formatted_search_string,
                                     status                  = PublicationStatus.NEW.value,
                                 )
-            log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)
     
     def _search(self, search_string):
@@ -143,8 +144,8 @@ class WebOfScienceEngine(SearchEngine):
         
         for identifier in record_identifiers:
             if isinstance(identifier, dict) and identifier['type'] == 'doi':
-                return f"DOI:{identifier['value']}"
-        return uid
+                return f"DOI:https://doi.org/{identifier['value']}"
+        return f"URL:https://www.webofscience.com/wos/woscc/full-record/{uid}"
     
     def _get_paper_title(self, titles: List[Dict[str, str]]) -> str:
         """ Get the paper title from the record titles. """
@@ -162,7 +163,8 @@ class WebOfScienceEngine(SearchEngine):
             title_search = f"TS=({search_string})"
 
         return {
-            'usrQuery': f'({title_search}) AND PY=({self.start_year}-{self.end_year})',
+            'usrQuery': title_search,
+            'publishTimeSpan': quote_plus(f"{self.start_date}+{self.end_date}"),
             'count': 100,
             'firstRecord': start_record,
             'databaseId': 'WOS',

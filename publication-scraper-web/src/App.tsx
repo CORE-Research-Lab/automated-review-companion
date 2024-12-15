@@ -19,6 +19,7 @@ import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTer
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
+import { DatePicker } from './components/ui/date-picker';
 import { MultiSelect } from './components/ui/multi-select';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
@@ -46,6 +47,10 @@ export type FilterForm = {
     questionId: number,
     answer: string[]
   }[]
+  dateRange: {
+    start: Date | undefined,
+    end: Date | undefined
+  }
 }
 
 function App() {
@@ -59,9 +64,8 @@ function App() {
   const [llmAnswers, setLLMAnswers] = useState<LLMUserAnswer[]>([]);
   const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
   const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
-  const [showMetadata, setShowMetadata] = useState(false);
-  // const [showFilters, setShowFilters] = useState(false);
-  const showFilters = false;
+  const [showMetadata, setShowMetadata] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
@@ -90,6 +94,10 @@ function App() {
     conference: [],
     llmQuestions: [],
     llmAnswers: [],
+    dateRange: {
+      start: new Date(),
+      end: new Date()
+    }
   })
 
 
@@ -141,7 +149,12 @@ function App() {
 
     await axios.post(`${BASE_URL}/scraper/search-and-clean`, payload)
       .then((res) => {
-        setSearchResults(res.data)
+        let data = res.data;
+        let newSearchResults = {
+          ...data,
+          results: data.results.map((paper: Publication) => ({...paper, show: true}))
+        }
+        setSearchResults(newSearchResults);
         setButtonState((prevState) => ({
           ...prevState,
           showSelectAll: true,
@@ -208,10 +221,9 @@ function App() {
     setShowMetadata(!showMetadata)
   }
 
-  // const handleShowFilters = () => {
-  //   setShowFilters(!showFilters)
-  //   toast.info('Filters are now ' + (showFilters ? 'enabled' : 'disabled'));
-  // }
+  const handleShowFilters = () => {
+    setShowFilters(!showFilters)
+  }
 
   const handleSelectSearchMode = (mode: SearchMode) => {
     setSearchMode(mode);
@@ -390,7 +402,57 @@ function App() {
     if (!id) return null;
     return id.split('-')[0];
   }
-  
+
+  const applyFilters = () => {
+
+    let newSearchResults = { ...searchResults };
+    for (let i = 0; i < newSearchResults.results.length; i++) {
+      newSearchResults.results[i].show = true;
+
+      // 1. Check if the search engine is in the filter form
+      if (
+        filterForm.searchEngines.length > 0 &&
+        !filterForm.searchEngines.some(engine => searchResults.results[i].searched_from?.includes(engine))
+      ) {
+        newSearchResults.results[i].show = false;
+        continue;
+      }
+
+      // 2. Check if the conference is in the filter form
+      if (
+        filterForm.conference.length > 0 &&
+        !filterForm.conference.some(conference => searchResults.results[i].conference_journal?.includes(conference))
+      ) {
+        newSearchResults.results[i].show = false;
+        continue;
+      }
+
+      // 3. Check if publication date is within the date range
+      if (
+        filterForm.dateRange.start && filterForm.dateRange.end &&
+        filterForm.dateRange.start <= filterForm.dateRange.end
+      ) {
+        if (
+          searchResults.results[i].publication_date === undefined ||
+          new Date(searchResults.results[i].publication_date!) < filterForm.dateRange.start ||
+          new Date(searchResults.results[i].publication_date!) > filterForm.dateRange.end
+        ) {
+          newSearchResults.results[i].show = false;
+          continue;
+        }
+      }
+
+      // 3. Check if the LLM question is in the filter form
+      // if (filterForm.llmQuestions.length > 0) {
+      //   let llmQuestionIds = searchResults.results[i].llm_responses.map((response) => response.question_id);
+      //   if (!llmQuestionIds.some((id) => filterForm.llmQuestions.includes(id))) {
+      //     searchResults.results[i].show = false;
+      //     continue;
+      //   }
+      // }
+    }
+    setSearchResults(newSearchResults);
+  }
   // Fetch the search history from the local storage
   useEffect(() => { 
     const currentVersion = CURRENT_VERSION;
@@ -433,101 +495,135 @@ function App() {
               {searchMode === SearchMode.SIMPLE && (
                   <div className="input-group mb-3 d-flex flex-column">
                     {multiLayerSearchFields.map((field) => (
-                      <SearchTermAutocomplete
-                        key={field}
-                        field={field}
-                        searchForm={searchForm}
-                        searchResults={searchResults}
-                        setSearchResults={setSearchResults}
-                        handleSearchFormChange={handleSearchFormChange}
-                        handleChipClick={handleChipClick}
-                    />))}
+                        <SearchTermAutocomplete
+                            key={field}
+                            field={field}
+                            searchForm={searchForm}
+                            searchResults={searchResults}
+                            setSearchResults={setSearchResults}
+                            handleSearchFormChange={handleSearchFormChange}
+                            handleChipClick={handleChipClick}
+                        />))}
                   </div>
               )}
 
               {searchMode === SearchMode.ADVANCED && (
-                <>
-                  <div className="input-group mb-3">
-                    <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
-                      value={searchForm.search_terms.advanced}
-                      onChange={(e) => setSearchForm({
-                        ...searchForm,
-                        search_terms: {...searchForm.search_terms, advanced: e.target.value}
-                      })}
-                    />
-                  </div>
-                  <div className="container">
-                    {searchResults.variations.length > 0 && (
-                      <div className="flex flex-row gap-2 flex-wrap my-3">
-                        <span className="text-center">Variations:</span>
-                          {searchResults.variations.map((variation) => (
-                            <Tooltip 
-                              key={variation.word}
-                              title={
-                              <div className="d-flex flex-column gap-2">
-                                <span>Synonyms (From <a className="text-blue-300" href={`https://www.thesaurus.com/browse/${variation.word}`} target="_blank" rel="noreferrer">Thesaurus.com</a>:):</span>
-                                <Box className="word-variant-box mb-2">
-                                  {variation.synonyms.map((synonym) => (
-                                    <>
-                                      <div>Meaning: {synonym.meaning}</div>
-                                      <div className="word-variant-box">
-                                        {synonym.words.map((word) =>
-                                          <div
-                                            key={word}
-                                            onClick={() => handleAdvancedChipClick(variation.word, word)}
-                                            className='word-variant-chip'
-                                            style={{ color: "black", cursor: "pointer" }}
-                                          >
-                                            {word}
-                                          </div>
-                                        )}
+                  <>
+                    <div className="input-group mb-3">
+                      <InputLabel tooltip={tooltipText.search.advanced} label="Advanced Search" required/>
+                      <input
+                          type="text"
+                          className="form-control"
+                          placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
+                          value={searchForm.search_terms.advanced}
+                          onChange={(e) => setSearchForm({
+                            ...searchForm,
+                            search_terms: {...searchForm.search_terms, advanced: e.target.value}
+                          })}
+                      />
+                    </div>
+                    <div className="container">
+                      {searchResults.variations.length > 0 && (
+                          <div className="flex flex-row gap-2 flex-wrap my-3">
+                            <span className="text-center">Variations:</span>
+                            {searchResults.variations.map((variation) => (
+                                <Tooltip
+                                    key={variation.word}
+                                    title={
+                                      <div className="d-flex flex-column gap-2">
+                                        <span>Synonyms (From <a className="text-blue-300"
+                                                                href={`https://www.thesaurus.com/browse/${variation.word}`}
+                                                                target="_blank"
+                                                                rel="noreferrer">Thesaurus.com</a>:):</span>
+                                        <Box className="word-variant-box mb-2">
+                                          {variation.synonyms.map((synonym) => (
+                                              <>
+                                                <div>Meaning: {synonym.meaning}</div>
+                                                <div className="word-variant-box">
+                                                  {synonym.words.map((word) =>
+                                                      <div
+                                                          key={word}
+                                                          onClick={() => handleAdvancedChipClick(variation.word, word)}
+                                                          className='word-variant-chip'
+                                                          style={{color: "black", cursor: "pointer"}}
+                                                      >
+                                                        {word}
+                                                      </div>
+                                                  )}
+                                                </div>
+                                              </>
+                                          ))}
+                                          {variation.variants.length > 0 && <span>Variants:</span>}
+                                          {variation.variants.map((variant) => (
+                                              <div
+                                                  key={variant}
+                                                  onClick={() => handleAdvancedChipClick(variation.word, variant)}
+                                                  className='word-variant-chip'
+                                                  style={{color: "black", cursor: "pointer"}}
+                                              >
+                                                {variant}
+                                              </div>
+                                          ))}
+                                        </Box>
                                       </div>
-                                    </>
-                                  ))}
-                                </Box>
-                              </div>
-                            }>
-                              <Chip
-                                key={variation.word}
-                                label={variation.word}
-                                className='p-0 m-0'
-                              />
-                          </Tooltip>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </>
+                                    }>
+                                  <Chip
+                                      key={variation.word}
+                                      label={variation.word}
+                                      className='p-0 m-0'
+                                  />
+                                </Tooltip>
+                            ))}
+                          </div>
+                      )}
+                    </div>
+                  </>
               )}
 
-              {/* Year Range */}
+              {/* Date Range */}
               <div className="input-group mb-3">
-                <InputLabel tooltip={tooltipText.search.yearRange} label="Year Range" required/>
-                <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Start Year"
-                    value={searchForm.year_start}
-                    onChange={(e) => setSearchForm({...searchForm, year_start: parseInt(e.target.value)})}
-                />
-                <input
-                    type="number"
-                    className="form-control"
-                    placeholder="End Year"
-                    value={searchForm.year_end}
-                    onChange={(e) => setSearchForm({...searchForm, year_end: parseInt(e.target.value)})}
-                />
+                <InputLabel tooltip={tooltipText.search.dateRange} label="Date Range" required/>
+
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2 ml-4">
+                    <label htmlFor="start-date" className="whitespace-nowrap">Start Date:</label>
+                    <input
+                        id="start-date"
+                        type="date"
+                        className="form-control"
+                        value={searchForm.start_date.toISOString().slice(0, 10)}
+                        onChange={(e) => {
+                          setSearchForm({
+                            ...searchForm,
+                            start_date: new Date(e.target.value),
+                          });
+                        }}
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <label htmlFor="end-date" className="whitespace-nowrap">End Date:</label>
+                    <input
+                        id="end-date"
+                        type="date"
+                        className="form-control"
+                        value={searchForm.end_date.toISOString().slice(0, 10)}
+                        onChange={(e) => {
+                          setSearchForm({
+                            ...searchForm,
+                            end_date: new Date(e.target.value),
+                          });
+                        }}
+                    />
+                  </div>
+                </div>
               </div>
 
 
               {/*  Database Types */}
               <div className="d-flex flex-row w-100 mb-3">
                 <InputLabel tooltip={tooltipText.search.database} label="Database Types" required/>
-                <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>                   
+                <DatabaseSelector searchForm={searchForm} setSearchForm={setSearchForm}/>
               </div>
 
               {/* Validation Papers */}
@@ -548,35 +644,35 @@ function App() {
 
               {/* Root Paper matches */}
               {
-                searchForm.validation_papers.length > 0 &&
-                <div className="d-flex flex-column w-100 mt-3">
-                  <div className="d-flex flex-row align-items-center gap-2 w-100">
-                    <span>Result:</span>
-                    <progress className='w-75' value={percentageMatched} max="100"/>
-                    <span> {numMatched}/{searchForm.validation_papers.length} ({percentageMatched}%) matches</span>
+                  searchForm.validation_papers.length > 0 &&
+                  <div className="d-flex flex-column w-100 mt-3">
+                    <div className="d-flex flex-row align-items-center gap-2 w-100">
+                      <span>Result:</span>
+                      <progress className='w-75' value={percentageMatched} max="100"/>
+                      <span> {numMatched}/{searchForm.validation_papers.length} ({percentageMatched}%) matches</span>
+                    </div>
+                    <div className="table-responsive mt-3">
+                      <table className="table table-striped">
+                        <thead className='bg-primary text-white'>
+                        <tr>
+                          <td>#</td>
+                          <td>DOI/Paper Title</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
+                        {
+                            searchResults?.matches?.papers?.length > 0 &&
+                            searchResults.matches.papers.map((match, index) => (
+                                <tr key={match.doi}>
+                                  <td>{index + 1}</td>
+                                  <p>{match.doi || match.title}</p>
+                                </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <div className="table-responsive mt-3">
-                    <table className="table table-striped">
-                      <thead className='bg-primary text-white'>
-                      <tr>
-                        <td>#</td>
-                        <td>DOI/Paper Title</td>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      {/* Show the percentage matched with a progress bar (bootstrap), the total number of matches, and all the matches in tiny rows */}
-                      {
-                        searchResults?.matches?.papers?.length > 0 && 
-                        searchResults.matches.papers.map((match, index) => (
-                            <tr key={match.doi}>
-                              <td>{index + 1}</td>
-                              <p>{match.doi || match.title}</p>
-                            </tr>
-                      ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
               }
 
 
@@ -585,8 +681,8 @@ function App() {
                 <Button onClick={handleSearch}>
                   {
                     isSearching
-                    ? <Spinner />
-                    : <span>Search</span>
+                        ? <Spinner/>
+                        : <span>Search</span>
                   }
                 </Button>
                 <Tooltip title={tooltipText.search.clearButton} placement="top">
@@ -599,32 +695,32 @@ function App() {
 
         {/* Search History */}
         {
-          searchHistory.length > 0 &&
-          <div className="container mt-3">
-            <div className="container rounded border p-3" id="search-history">
-              <div className="d-flex justify-content-between mb-3">
-                <h3 className="text-3xl font-medium">Search History</h3>
-                <div className="flex gap-2">
-                  {
-                    diffMode &&
+            searchHistory.length > 0 &&
+            <div className="container mt-3">
+              <div className="container rounded border p-3" id="search-history">
+                <div className="d-flex justify-content-between mb-3">
+                  <h3 className="text-3xl font-medium">Search History</h3>
+                  <div className="flex gap-2">
+                    {
+                        diffMode &&
+                        <Tooltip title={tooltipText.search.history} placement="top">
+                          <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={handleShowDiffOnly}>
+                            {showDiffOnly ? "Hide Diff Only" : "Show Diff Only"}
+                          </Button>
+                        </Tooltip>
+                    }
+
                     <Tooltip title={tooltipText.search.history} placement="top">
-                      <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={handleShowDiffOnly}>
-                        {showDiffOnly ? "Hide Diff Only" : "Show Diff Only"}
-                      </Button>
-                    </Tooltip>
-                  }
-
-                  <Tooltip title={tooltipText.search.history} placement="top">
-                    <>
-                      <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
+                      <>
+                        <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
                         {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
-                      </Button>
-                    </>
-                  </Tooltip>
+                        </Button>
+                      </>
+                    </Tooltip>
+                  </div>
                 </div>
-              </div>
 
-              <div className="w-100 relative">
+                <div className="w-100 relative">
                 <div className="px-12 py-3">
                     <Carousel
                     opts={{
@@ -636,7 +732,7 @@ function App() {
                         {
                           searchHistory.map((search, index) => (
                             <CarouselItem 
-                              key={search.year_start}
+                              key={search.start_date.toISOString()}
                               className="basis-1/3"
                               onClick={() => handleChooseSearchHistory(index)}
                             >
@@ -644,7 +740,7 @@ function App() {
                                 <Box>
                                   <div>Search {index + 1}</div>
                                   <div>Ref: {search.id ?? "-"}</div>
-                                  <div>Year Range: {search.year_start} - {search.year_end}</div>
+                                  <div>Year Range: {search.start_date.toISOString()} - {search.end_date.toISOString()}</div>
                                   {
                                     search.search_terms.advanced 
                                     ? <div>Advanced Search: {search.search_terms.advanced}</div>
@@ -666,7 +762,7 @@ function App() {
                                   )}
                                 >
                                   <div className="leading-[14px] whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                    Search {index + 1} : {search.year_start} - {search.year_end}
+                                    Search {index + 1} : {search.start_date.toISOString()} - {search.end_date.toISOString()}
                                   </div>
                                   <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
                                     Ref: {parseSearchId(search.id) ?? "-"}
@@ -777,11 +873,11 @@ function App() {
                     ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Hide Metadata</Button>
                     : <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Show Metadata</Button>)
                 }
-                {/* {
+                {
                   !showFilters 
-                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowFilters}>Enable Filters</Button>
-                    : <Button className="bg-red-600 hover:bg-red-700" onClick={handleShowFilters}>Disable Filters</Button>
-                } */}
+                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowFilters}>Show Filters</Button>
+                    : <Button className="bg-red-600 hover:bg-red-700" onClick={handleShowFilters}>Hide Filters</Button>
+                }
 
                 {/* Paper operations */}
                 <PaperOperations
@@ -809,55 +905,88 @@ function App() {
               {/* Filters */}
               {
                 showFilters &&
-                <div className="flex flex-col gap-y-2">
+                <div className="flex flex-col gap-y-2 border p-2 bg-white">
                   <InputLabel tooltip="" label="Filters"/>
-                  <div className="flex gap-2">
-                    <MultiSelect
-                      placeholder='Search Engines'
-                      options={
-                        Array.from(new Set(new Set(searchResults.results.map((result) => result.searched_from))))
-                          .map((searchEngine) => ({ label: searchEngine, value: searchEngine }))
-                      }
-                      value={filterForm.searchEngines}
-                      onValueChange={(value) => setFilterForm({...filterForm, searchEngines: value})}
-                    />
-                    <MultiSelect
-                      placeholder="Conference"
-                      options={
-                        Array.from(new Set(
-                          searchResults.results
-                            .map((result) => result.conference_journal)
-                            .filter((conference) => conference !== undefined)  
-                        ))
-                        .map((conference) => ({ label: conference, value: conference }))
-                      }
-                      value={filterForm.conference}
-                      onValueChange={(value) => setFilterForm({...filterForm, conference: value})}
-                    />
-                    {/* LLM Choose which question to filter */}
-                    <MultiSelect
-                        placeholder='LLM Questions'
+                  <div className="row px-3 gap-y-2">
+                    <div className="col-6 p-0">
+                      <MultiSelect
+                        placeholder='Search Engines'
                         options={
                           Array.from(new Set(
-                            searchResults.results.map((result) => result.llm_responses)
-                              .filter((llm) => llm !== undefined)
-                              .map((llm) => llm.map((response) => ({ label: String(response.id), value: String(response.id) })))
-                              .flat()
-                          ))
+                            searchResults.results
+                              .filter((result) => result.searched_from !== undefined)
+                              .flatMap((result) => result.searched_from)
+                          )).map((searchEngine) => ({ label: searchEngine!, value: searchEngine! }))
                         }
-                        value={filterForm.llmQuestions.map((val) => String(val))}
+                        value={filterForm.searchEngines}
                         onValueChange={(value) => {
-                          let newValues = value.map((val) => parseInt(val));
-
-                          const newLLMAnswers = newValues.map((id) => {
-                            let record = filterForm.llmAnswers.find((answer) => answer.questionId === id)
-                            if (record) return record;
-                            return { questionId: id, answer: [] };
-                          })
-
-                          setFilterForm({...filterForm, llmQuestions: newValues, llmAnswers: newLLMAnswers });
+                          setFilterForm({...filterForm, searchEngines: value})}
+                        }
+                      />
+                    </div>
+                    <div className="col-6 p-0">
+                      <MultiSelect
+                        placeholder="Conference"
+                        options={
+                          Array.from(new Set(
+                            searchResults.results
+                              .flatMap((result) => result.conference_journal)
+                              .filter((conference) => conference !== undefined)  
+                          ))
+                          .map((conference) => ({ label: conference, value: conference }))
+                        }
+                        maxCount={2}
+                        value={filterForm.conference}
+                        onValueChange={(value) => {
+                          setFilterForm((prevFilterForm) => ({...prevFilterForm, conference: value}))
                         }}
-                    />
+                      />
+                    </div>
+                    <div className='grid-cols-6 p-0 flex flex-wrap items-center'>
+                    {/* <div className="d-flex flex-row w-100 mb-3"> */}
+                      <InputLabel tooltip={tooltipText.search.database} label="From" />
+                      <DatePicker
+                        date={filterForm.dateRange.start}
+                        setDate={(date) => setFilterForm((prevFilterForm) => ({
+                          ...prevFilterForm,
+                          dateRange: { ...prevFilterForm.dateRange, start: date }
+                        }))}
+                      />
+                      <InputLabel tooltip={tooltipText.search.database} label="To"/>
+                        <DatePicker
+                          date={filterForm.dateRange.end}
+                          setDate={(date) => setFilterForm((prevFilterForm) => ({
+                            ...prevFilterForm,
+                            dateRange: { ...prevFilterForm.dateRange, end: date }
+                          }))}
+                        />
+                    </div>
+                    {/* LLM Choose which question to filter */}
+                    <div className='col-6 p-0'>
+                      <MultiSelect
+                          placeholder='LLM Questions'
+                          options={
+                            Array.from(new Set(
+                              searchResults.results.map((result) => result.llm_responses)
+                                .filter((llm) => llm !== undefined)
+                                .map((llm) => llm.map((response) => ({ label: String(response.id), value: String(response.id) })))
+                                .flat()
+                            ))
+                          }
+                          value={filterForm.llmQuestions.map((val) => String(val))}
+                          onValueChange={(value) => {
+                            let newValues = value.map((val) => parseInt(val));
+
+                            const newLLMAnswers = newValues.map((id) => {
+                              let record = filterForm.llmAnswers.find((answer) => answer.questionId === id)
+                              if (record) return record;
+                              return { questionId: id, answer: [] };
+                            })
+
+                            setFilterForm({...filterForm, llmQuestions: newValues, llmAnswers: newLLMAnswers });
+                          }}
+                      />
+                    </div>
                     {
                       filterForm.llmQuestions.map((questionId) => {
                         const currentAnswer = filterForm.llmAnswers.find(answer => answer.questionId === questionId);
@@ -890,7 +1019,7 @@ function App() {
                   </div>
                   <Button 
                     className="bg-blue-500 hover:bg-blue-600"
-                    onClick={() => toast.info(JSON.stringify(filterForm))}>
+                    onClick={applyFilters}>
                     Apply Filters
                   </Button>
                 </div>

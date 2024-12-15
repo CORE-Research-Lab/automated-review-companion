@@ -18,8 +18,8 @@ const DEFAULT_SEARCH_FORM: SearchForm = {
     secondary: [],
     tertiary: [],
   },
-  year_start: 2023,
-  year_end: 2024,
+  start_date: 2023,
+  end_date: 2024,
   sources: [SearchEngineType.DBLP],
 };
 

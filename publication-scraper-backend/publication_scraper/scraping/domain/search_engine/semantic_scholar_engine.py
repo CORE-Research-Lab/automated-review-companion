@@ -3,6 +3,7 @@ import time
 from typing import Any, Dict, List, Optional
 
 import requests
+from fontTools.misc.plistlib import end_date
 
 from publication.models import Publication, PublicationStatus
 from scraping.domain import SearchQuery, SearchQueryParser, SearchQueryType
@@ -19,7 +20,7 @@ log = Logger(__name__)
 class SemanticScholarEngine(SearchEngine):
     """ Search engine for Semantic Scholar. """
     
-    def __init__(self, search_query: Optional[SearchQuery] = None, proxy_name: str = ""): # queries: List[str], year: str):
+    def __init__(self, search_query: Optional[SearchQuery] = None, proxy_name: str = ""): # queries: List[str], advanced_query: str = None, start_date: str = None):
         super().__init__()
         self.headers = {
             "Content-Type": "application/json", 
@@ -36,7 +37,6 @@ class SemanticScholarEngine(SearchEngine):
         self.proxy_name                 = proxy_name if proxy_name else "Semantic Scholar"
         self.url: str                   = "https://api.semanticscholar.org/graph/v1/paper/search"
         self.bulkUrl: str               = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
-        self.arxiv_doi: str             = "DOI:10.48550/arXiv."
         self.results: List[Publication] = []
         self.BULK_MAX_RESULTS           = 5000
         
@@ -44,7 +44,8 @@ class SemanticScholarEngine(SearchEngine):
             self.search_type                = search_query.search_type
             self.queries                    = search_query.search_strings
             self.advanced_query: str        = search_query.advanced_search
-            self.year                       = f"{search_query.start_year}-"
+            self.start_date                 = search_query.start_date
+            self.end_date                   = search_query.end_date
         
     def find_by_doi(self, doi: str) -> Optional[Publication]:
         """ Find a publication by its DOI. """
@@ -78,12 +79,14 @@ class SemanticScholarEngine(SearchEngine):
     
     def _advanced_search(self) -> List[Publication]:
         """ Perform an advanced search on Semantic Scholar. """
-
         sch_search_string = self._parse_search_string()
+        log.info(f"Searching for `{sch_search_string}` on Semantic Scholar, {self.start_date} - {self.end_date}")
         search_results    = self.search_semantic_scholar(
                                 search_string=sch_search_string, 
                                 bulk=True, 
-                                year=self.year
+                                start_date=self.start_date,
+                                end_date=self.end_date
+
                             )
         # search_results    = search_results.get("data")
         
@@ -102,7 +105,7 @@ class SemanticScholarEngine(SearchEngine):
             search_results    = self.search_semantic_scholar(
                                     search_string=sch_search_string, 
                                     bulk=True, 
-                                    year=self.year
+                                    start_date=self.start_date
                                 )
             
             if search_results is None:
@@ -120,7 +123,8 @@ class SemanticScholarEngine(SearchEngine):
         self, 
         search_string: str=None, 
         bulk: bool=False, 
-        year: str=None
+        start_date: str=None,
+        end_date: str=None
     ) -> Dict[str, Any]:
         """
         Search for papers on Semantic Scholar.
@@ -142,7 +146,7 @@ class SemanticScholarEngine(SearchEngine):
         -----------------------------------------------------------------
         
         Example:
-        >>> print(search_semantic_scholar("'AI' 'Ethics'", bulk=True, year="2017-"))
+        >>> print(search_semantic_scholar("'AI' 'Ethics'", bulk=True, start_date="2017-01-01", end_date="2024-12-31"))
         {
             'paperId': 'fd00f4e4c2ebdbb091a8f0a53b041bd207501da0', 
             'externalIds': {
@@ -159,7 +163,7 @@ class SemanticScholarEngine(SearchEngine):
         }
         """
         api_url       = self.url if not bulk else self.bulkUrl
-        search_params = self._parse_search_params(search_string, year) 
+        search_params = self._parse_search_params(search_string, start_date, end_date)
         response      = self.get_all_responses(bulk, api_url, search_params)
         return response
     
@@ -181,7 +185,6 @@ class SemanticScholarEngine(SearchEngine):
                                 formatted_search_string = formatted_search_string,
                                 status                  = PublicationStatus.NEW.value
                             )
-            log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)
      
     def _get_paper_id(self, sch_result: Dict[str, str]) -> str:
@@ -195,29 +198,29 @@ class SemanticScholarEngine(SearchEngine):
         """
         external_ids = sch_result.get('externalIds', {})
         doi = external_ids.get('DOI')
-        arxiv = external_ids.get('ArXiv')
-        paperId = sch_result.get("paperId")
+        arxiv_id = external_ids.get('ArXiv')
+        paper_id = sch_result.get("paperId")
         
         if doi: 
-            return f"DOI:{doi}"
+            return f"DOI:https://doi.org/{doi}"
         
-        if arxiv: 
-            return f"{self.arxiv_doi}{arxiv}"
+        if arxiv_id:
+            return f"DOI:https://doi.org/10.48550/arXiv.{arxiv_id}"
         
-        return f"paperid:{paperId}"
+        return f"URL:https://www.semanticscholar.org/paper/{paper_id}"
         
-    def _parse_search_params(self, query: str, year: str) -> Dict[str, str]:
+    def _parse_search_params(self, query: str, start_date: str, end_date: str) -> Dict[str, str]:
         """Parse the search parameters for the Semantic Scholar API."""
         
         if self.sch_fields == "all":
             return {
                 "query": query, 
-                "year": year
+                "publicationDateOrYear": f"{start_date}:{end_date}"
             }
         else:
             return {
                 "query": query, 
-                "year": year, 
+                "publicationDateOrYear": f"{start_date}:{end_date}",
                 "fields": ",".join(self.sch_fields)
             }     
         

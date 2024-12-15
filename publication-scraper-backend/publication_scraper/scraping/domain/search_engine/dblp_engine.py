@@ -26,9 +26,10 @@ class DBLPEngine(SearchEngine):
             self.search_type: SearchQueryType   = search_query.search_type
             self.queries: List[str]             = search_query.search_strings
             self.advanced_query: str            = search_query.advanced_search
-            self.year_start: str                = search_query.start_year
-            self.year_end: str                  = search_query.end_year
-            self.years: str                     = self._format_years(self.year_start, self.year_end)
+            # DBLP only supports searching by year, not by date, so we only pass in the year
+            self.start_year: str                = search_query.start_date.year
+            self.end_year: str                  = search_query.end_date.year
+            self.years: str                     = self._format_years(self.start_year, self.end_year)
 
     @Profiler("DBLP Search")
     def search(self) -> List[Publication]:
@@ -40,8 +41,8 @@ class DBLPEngine(SearchEngine):
 
     def _advanced_search(self) -> List[Publication]:
         """ Perform an advanced search on DBLP. """
-        log.info(f"Searching for {self.advanced_query}")
         dblp_search_string = self._parse_search_string(self.advanced_query)
+        log.info(f"Searching for `{dblp_search_string}` on DBLP, {self.start_year} - {self.end_year}")
         dblp_search_results = self.search_dblp(dblp_search_string + self.years)
         
         if dblp_search_results is None:
@@ -105,7 +106,6 @@ class DBLPEngine(SearchEngine):
                 search_string = search_string,
                 searched_from = [SearchEngineType.DBLP.value],
                 formatted_search_string = formatted_search_string,
-                status = PublicationStatus.NEW.value
             )
             log.info(f"{search_string}: Paper {count} - {new_paper.paper_title}")
             self.results.append(new_paper)
@@ -121,10 +121,8 @@ class DBLPEngine(SearchEngine):
         url = information.get('url')
         doi = information.get('doi')
         
-        if doi: 
-            return f"DOI:{doi}"
+        return f"DOI:https://doi.org/{doi}" if doi else f"URL:{url}"
         
-        return f"url:{url}"
     
     def _fetch_all_search_results(self, options: Dict[str, Any]) -> List[Dict[str, Any]]:
         """ Fetch all search results, handling pagination. """

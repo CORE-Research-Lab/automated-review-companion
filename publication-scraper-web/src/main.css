@@ -149,12 +149,13 @@ input[type="radio"]:checked + label.search-nav-item {
 }
 
 .publication-data-table-cell {
-  max-height: 100px !important;
+  max-height: 20px !important;
   overflow: scroll !important;
 }
 
 .publication-row {
   /* cursor: pointer; */
+  height: 20px !important;
 }
 
 .publication-row:hover > td {

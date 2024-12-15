@@ -86,14 +86,14 @@ class PublicationMetadataExtractor:
                 if extracted_metadata.exists():
                     extracted_metadata.delete()
 
-            try:
-                extracted_metadata = self._extract_data(paper)
-                processed_metadata = self.post_processing(extracted_metadata)
-                processed_metadata.save()
-                self.extracted_metadata.append(processed_metadata)
-            except Exception as e:
-                log.error(f"Error extracting metadata for {paper.paper_title}. - {e}")
-                self.failed_papers.append((index, paper))
+            # try:
+            extracted_metadata = self._extract_data(paper)
+            processed_metadata = self.post_processing(extracted_metadata)
+            processed_metadata.save()
+            self.extracted_metadata.append(processed_metadata)
+            # except Exception as e:
+            #     log.error(f"Error extracting metadata for {paper.paper_title}. - {e}")
+            #     self.failed_papers.append((index, paper))
         
         if len(self.failed_papers) > 0:
             log.error(f"Failed to extract metadata for {len(self.failed_papers)} papers:")
@@ -136,7 +136,6 @@ class PublicationMetadataExtractor:
         publisher       = self._extract_publisher(crossref_paper, doi)
         paper_type      = self._extract_paper_type(crossref_paper, sch_paper)
         fields_of_study = self._get_fields_of_study(sch_paper)
-        doi_url         = f"https://doi.org/{doi}" if doi else None
         pub_date        = self._get_publication_date(sch_paper, crossref_paper)
 
         # TODO: paper keywords missing
@@ -151,14 +150,12 @@ class PublicationMetadataExtractor:
             abstract              = abstract,
             publisher             = publisher,
             semantic_scholar_url  = sch_paper.get("url"),
-            doi_url               = doi_url,
             publication_date      = pub_date,
             field_of_study        = fields_of_study,
             conference_journal    = sch_paper.get("venue"),
             publication_type      = paper_type,
             search_string         = paper.search_string,
             citation_count        = sch_paper.get("citationCount"),
-            searched_from         = paper.searched_from
         )
         return metadata
     
@@ -173,7 +170,6 @@ class PublicationMetadataExtractor:
         LAST_NAME_IDX  = -1
         
         paper.authors          = self._cast_affliation(paper.authors)
-        paper.doi_url          = self._get_doi_url(paper.doi)
         paper.publication_type = self._get_publication_type(paper.publication_type)
         crossref_paper         = self._get_crossref_paper(paper.doi) 
         
@@ -224,8 +220,8 @@ class PublicationMetadataExtractor:
     def _get_paper_id(self, paper_id: str) -> str:
         """ Get the paper ID from the record identifiers. """
         
-        if "URL" in paper_id and "abs-" in paper_id:
-            return "arXiv:" + paper_id.split("abs-")[1].replace("-", ".")
+        if "URL" in paper_id:
+            return paper_id.split(":")[1] # Extract the original URL since doi is not available
         
         return paper_id
   
@@ -234,11 +230,12 @@ class PublicationMetadataExtractor:
         
         external_ids = paper.get("externalIds", {})
         doi = external_ids.get("DOI", None)
-        
-        if doi is None and str(paper_id).startswith("DOI"):
-            doi = paper_id.split(":")[1]
+
+        if doi is None and "doi.org/" in paper_id:
+            doi = paper_id.split("doi.org/")[1]  # Note the slash included in the split
 
         # TODO handle arXiv papers
+        log.info(f"DOI: {doi}")
         
         return doi
     
@@ -375,13 +372,6 @@ class PublicationMetadataExtractor:
             authors[i] = author
         
         return authors
-  
-    def _get_doi_url(self, doi_url: str) -> str:
-        """ Get the DOI URL. """
-        
-        if doi_url and isinstance(doi_url, str):
-            return doi_url
-        return None
   
     def _get_publication_type(self, publication_type: Union[str, List[str]]) -> List[str]:
         """ Get the publication type. """

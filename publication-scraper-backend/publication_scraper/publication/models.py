@@ -16,11 +16,10 @@ class PublicationStatus(str, Enum):
 
 class Publication(models.Model, Exportable):
     paper_id                = models.CharField(max_length=200, primary_key=True)
-    paper_title             = models.CharField(max_length=200, default="")
-    search_string           = models.CharField(max_length=200, default="")
+    paper_title             = models.CharField(max_length=200)
+    search_string           = models.CharField(max_length=200, blank=True)
     searched_from           = models.JSONField(default=list)
-    formatted_search_string = models.CharField(max_length=200, default="")
-    status                  = models.CharField(max_length=200, default=PublicationStatus.NEW, choices=[(status.value, status.name) for status in PublicationStatus])
+    formatted_search_string = models.CharField(max_length=200, blank=True)
 
     class Meta:
         constraints = [
@@ -46,7 +45,7 @@ class Publication(models.Model, Exportable):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
     
     def __str__(self) -> str:
-        return f"{self.paper_title} - {self.paper_id} - {self.search_string} - {self.searched_from} - {self.status}"
+        return f"{self.paper_title} - {self.paper_id} - {self.search_string} - {self.searched_from}"
     
     @staticmethod
     def remove_duplicates(publications: List['Publication']) -> List['Publication']:
@@ -101,20 +100,18 @@ class Publication(models.Model, Exportable):
 
 class PublicationMetadata(models.Model):
     publication             = models.OneToOneField(Publication, on_delete=models.CASCADE, related_name='metadata')
-    paper_title             = models.CharField(max_length=200, default="")
-    doi                     = models.CharField(max_length=200, default="")
-    authors                 = models.CharField(max_length=200, default="")
-    abstract                = models.TextField()
-    publisher               = models.CharField(max_length=200, default="")
-    semantic_scholar_url    = models.CharField(max_length=200, default="")
-    doi_url                 = models.CharField(max_length=200, default="")
-    publication_date        = models.DateField()
-    field_of_study          = models.CharField(max_length=200, default="")
-    conference_journal      = models.CharField(max_length=200, default="")
-    publication_type        = models.CharField(max_length=200, default="")
-    search_string           = models.CharField(max_length=200, default="")
-    citation_count          = models.IntegerField()
-    searched_from           = models.CharField(max_length=200, default="")
+    paper_title             = models.CharField(max_length=200, blank=True)
+    doi                     = models.CharField(max_length=200, blank=True)
+    authors                 = models.CharField(max_length=200, blank=True)
+    abstract                = models.TextField(max_length=200, blank=True)
+    publisher               = models.CharField(max_length=200, blank=True)
+    semantic_scholar_url    = models.CharField(max_length=200, blank=True)
+    publication_date        = models.DateField(null=True)
+    field_of_study          = models.CharField(max_length=200, blank=True)
+    conference_journal      = models.CharField(max_length=200, blank=True)
+    publication_type        = models.CharField(max_length=200, blank=True)
+    search_string           = models.CharField(max_length=200, blank=True)
+    citation_count          = models.IntegerField(default=0)
     
     def to_dict(self, show_publication: bool = False):
         fields  = [field.name for field in self._meta.fields]

@@ -36,8 +36,9 @@ class ScopusEngine(SearchEngine):
             self.search_type              = search_query.search_type
             self.queries                  = search_query.search_strings
             self.advanced_query           = search_query.advanced_search
-            self.start_year               = search_query.start_year
-            self.end_year                 = search_query.end_year
+            # Scopus only supports searching by year, not by date, so we only pass in the year
+            self.start_year: str          = search_query.start_date.year
+            self.end_year: str            = search_query.end_date.year
 
     @Profiler("Scopus Search")
     def search(self) -> List[Publication]:
@@ -61,6 +62,7 @@ class ScopusEngine(SearchEngine):
 
     def _advanced_search(self) -> List[Publication]:
         scopus_search_string = self._parse_search_string(self.advanced_query)
+        log.info(f"Searching for `{scopus_search_string}` on Scopus, {self.start_year} - {self.end_year}")
         search_results = self._get_search_results(scopus_search_string)
         log.info(f">>> Scopus total: {len(search_results)}")
 
@@ -72,17 +74,34 @@ class ScopusEngine(SearchEngine):
         log.info(f"Search type: {self.search_type}")
         if self.search_type == SearchQueryType.ADVANCED:
             parser = SearchQueryParser(self.advanced_query)
-            return f"KEY({parser.parse(SearchEngineType.SCOPUS)})"
+            return f"TITLE-ABS-KEY({parser.parse(SearchEngineType.SCOPUS)})"
         
         # Add curly brackets to phrases
         search_term = [f'{{term}}' if " " in term else term for term in search_string]
         search_term = " AND ".join(search_string)
-        return f"KEY({search_term})"
-    
+        return f"TITLE-ABS-KEY({search_term})"
+
     def _get_search_results(self, search_string: str) -> List[Publication]:
-        search_params = self._parse_search_params(search_string)
-        response = self._get_all_responses(search_params)
-        return response
+        try:
+            search_params = self._parse_search_params(search_string)
+            response = self._get_all_responses(search_params)
+            
+            # Return an empty list if no results found
+            if 'error' in response[0] and response[0]['error'] == 'Result set was empty':
+                log.warning(f"Scopus search results are empty for the query: {search_string}")
+                return []  
+
+            # Additional error handling if needed
+            if 'error' in response:
+                log.error(f"Scopus search encountered an error: {response}")
+                raise ValueError(f"Scopus API returned an error: {response}")
+
+            return response
+
+        except Exception as e:
+            # Handle unexpected exceptions
+            log.error(f"An unexpected error occurred while fetching search results: {e}")
+            raise  # Re-raise the exception after logging it
 
     def _parse_search_params(self, search_string: str) -> Dict[str, Any]:
         return {
@@ -162,8 +181,9 @@ class ScopusEngine(SearchEngine):
     def _get_paper_id(self, result: Dict[str, Any]) -> Optional[str]:
         
         doi = result.get("prism:doi")
+        url = result.get("prism:url")
         identifier = result.get("dc:identifier")
 
         if doi:
-            return f"DOI:{doi}"
-        return identifier   
+            return f"DOI:https://doi.org/{doi}"
+        return f"URL:{url}" if url else f"ID:{identifier}"

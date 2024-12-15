@@ -29,8 +29,8 @@ class IEEEXploreEngine(SearchEngine):
             self.search_type = search_query.search_type
             self.queries = search_query.search_strings
             self.advanced_query = search_query.advanced_search
-            self.start_year = search_query.start_year
-            self.end_year = search_query.end_year
+            self.start_date = search_query.start_date
+            self.end_date = search_query.end_date
 
     @Profiler("IEEE Xplore search")
     def search(self) -> List[Publication]:
@@ -55,6 +55,7 @@ class IEEEXploreEngine(SearchEngine):
 
     def _advanced_search(self) -> List[Publication]:
         ieee_search_string = self._parse_search_string(self.advanced_query)
+        log.info(f"Searching for `{ieee_search_string}` on IEEE, {self.start_date} - {self.end_date}")
         search_results = self.search_ieee_xplore(ieee_search_string)
         log.info(f">>> IEEE Xplore total: {len(search_results)}")
 
@@ -83,10 +84,10 @@ class IEEEXploreEngine(SearchEngine):
             "apikey": self.api_key
         }
 
-        if self.start_year:
-            params["start_year"] = self.start_year
-        if self.end_year:
-            params["end_year"] = self.end_year
+        if self.start_date:  # YYYY-MM-DD
+            params["start_date"] = self.start_date.replace("-", "")
+        if self.end_date:
+            params["end_date"] = self.end_date.replace("-", "")
 
         return params
     
@@ -132,10 +133,9 @@ class IEEEXploreEngine(SearchEngine):
                 formatted_search_string = f"({ieee_search_string})",
                 status                  = PublicationStatus.NEW,
             )
-            log.info(f"Processing {count}/{len(search_results)}: {publication.paper_title}")
             self.results.append(publication)
     
     def _get_paper_id(self, result: Dict[str, Any]) -> Optional[str]:
         if doi := result.get("doi"):   
-            return f"DOI:{doi}"
-        return f"url:{result.get('html_url')}"
+            return f"DOI:https://doi.org/{doi}"
+        return f"URL:{result.get('html_url')}"

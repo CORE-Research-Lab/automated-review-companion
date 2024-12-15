@@ -37,50 +37,50 @@ class SearchAndCleanView(APIView):
 
     # @Controller
     def post(self, request):
-        # try:
-            if request.data.get("sources") is None:
-                request.data["sources"] = [SearchEngineType.DBLP]
-            
-            serializer = SearchAndCleanSerializer(data=request.data)
-            if serializer.is_valid():
-                self.validation_papers   = serializer.validated_data['validation_papers']
-                self.search_terms  = serializer.validated_data['search_terms']
-                self.year_start    = serializer.validated_data['year_start']
-                self.year_end      = serializer.validated_data['year_end']
-                self.sources       = serializer.validated_data['sources']
-                
-                # Simple three-level search & advanced search
-                self.all_search_terms = []
-                if self.search_terms.get('primary'): self.all_search_terms.append(list(self.search_terms['primary']))
-                if self.search_terms.get('secondary'): self.all_search_terms.append(list(self.search_terms['secondary']))
-                if self.search_terms.get('tertiary'): self.all_search_terms.append(list(self.search_terms['tertiary']))
-                self.all_search_terms = list(product(*self.all_search_terms))
-                log.info("All search terms: %s", self.all_search_terms)
+        serializer = SearchAndCleanSerializer(data=request.data)
+        if serializer.is_valid():
+            self.validation_papers = serializer.validated_data['validation_papers']
+            self.search_terms = serializer.validated_data['search_terms']
+            self.start_date = serializer.validated_data.get('start_date', '2020-01-01')
+            self.end_date = serializer.validated_data.get('end_date', '2021-01-01')
+            self.sources = serializer.validated_data['sources']
 
-                self.advanced_search    = self.search_terms.get('advanced')
+            log.info(f"Search from {self.start_date} to {self.end_date}")
 
-                self.query = SearchQuery(
-                    search_strings  = self.all_search_terms,
-                    advanced_search = self.advanced_search,
-                    start_year      = self.year_start,
-                    end_year        = self.year_end,
-                )
+            self.all_search_terms = []
+            if self.search_terms.get('primary'):
+                self.all_search_terms.append(list(self.search_terms['primary']))
+            if self.search_terms.get('secondary'):
+                self.all_search_terms.append(list(self.search_terms['secondary']))
+            if self.search_terms.get('tertiary'):
+                self.all_search_terms.append(list(self.search_terms['tertiary']))
+            self.all_search_terms = list(product(*self.all_search_terms))
+            log.info("All search terms: %s", self.all_search_terms)
 
-                self.results: List[Publication] = []
-                self.results = self.search()
-                self.all_search_words = self.generate_variants()
+            self.advanced_search = self.search_terms.get('advanced')
 
-                matches = self.get_matches()
-                results = [result.to_dict() for result in self.results]
-                response = { 
-                    "query": request.data, 
-                    "variations": self.all_search_words, 
-                    "results": results, 
-                    "matches": matches 
-                }
-                response = self.save_response(response)
-                return JsonResponse(response)
-            return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
+            self.query = SearchQuery(
+                search_strings=self.all_search_terms,
+                advanced_search=self.advanced_search,
+                start_date=self.start_date,
+                end_date=self.end_date,
+            )
+
+            self.results: List[Publication] = []
+            self.results = self.search()
+            self.all_search_words = self.generate_variants()
+
+            matches = self.get_matches()
+            results = [result.to_dict() for result in self.results]
+            response = {
+                "query": request.data,
+                "variations": self.all_search_words,
+                "results": results,
+                "matches": matches
+            }
+            response = self.save_response(response)
+            return JsonResponse(response)
+        return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
         # except Exception as e:
         #     log.error(f"An error occurred: {e}")
         #     return JsonResponse({ "Publication Search": f"{e}" }, status=HTTP_400_BAD_REQUEST)
@@ -163,7 +163,7 @@ class SearchAndCleanView(APIView):
 
 class PublicationMetadataView(APIView):
 
-    @Controller
+    # @Controller
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
         if serializer.is_valid():

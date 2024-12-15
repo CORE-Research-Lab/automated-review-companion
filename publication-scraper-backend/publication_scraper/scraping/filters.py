@@ -10,8 +10,7 @@ class PublicationFilter(dfilter.FilterSet):
     paper_title = dfilter.CharFilter(lookup_expr='icontains')
     search_string = dfilter.CharFilter(lookup_expr='icontains')
     searched_from = dfilter.CharFilter(lookup_expr='icontains')
-    status = dfilter.ChoiceFilter(choices=[(status.value, status.name) for status in PublicationStatus])
 
     class Meta:
         model = Publication
-        fields = ['paper_id', 'paper_title', 'search_string', 'searched_from', 'status']
+        fields = ['paper_id', 'paper_title', 'search_string', 'searched_from']
