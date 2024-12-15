@@ -67,7 +67,7 @@ class PublicationValidationView(APIView):
 
 class PublicationLLMFilterView(APIView):
 
-    @Controller
+    # @Controller
     def post(self, request):
 
         serializer = PublicationLLMFilterSerializer(data=request.data)
@@ -147,5 +147,5 @@ class PublicationLLMFilterView(APIView):
         usage.count += len(paper_ids)
         usage.save()
 
-        if usage.count >= (MAX_LLM_CALL_COUNT - len(paper_ids)):
-            return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."
+        # if usage.count >= (MAX_LLM_CALL_COUNT - len(paper_ids)):
+        #     return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."
