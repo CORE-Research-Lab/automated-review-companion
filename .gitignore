@@ -98,3 +98,5 @@ fabric.properties
 publication-scraper-backend/publication_scraper/env
 publication-scraper-backend/publication_scraper/.env
 publication-scraper-web/node_modules
+
+.DS_Store
