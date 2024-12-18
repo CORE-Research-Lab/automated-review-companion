@@ -95,8 +95,8 @@ function App() {
     llmQuestions: [],
     llmAnswers: [],
     dateRange: {
-      start: new Date(),
-      end: new Date()
+      start: undefined,
+      end: undefined
     }
   })
 
@@ -451,6 +451,8 @@ function App() {
       //   }
       // }
     }
+    let numberOfShownRecords = newSearchResults.results.filter((result) => result.show).length;
+    toast.info(`Showing ${numberOfShownRecords} records`);
     setSearchResults(newSearchResults);
   }
   // Fetch the search history from the local storage
@@ -943,7 +945,6 @@ function App() {
                       />
                     </div>
                     <div className='grid-cols-6 p-0 flex flex-wrap items-center'>
-                    {/* <div className="d-flex flex-row w-100 mb-3"> */}
                       <InputLabel tooltip={tooltipText.search.database} label="From" />
                       <DatePicker
                         date={filterForm.dateRange.start}

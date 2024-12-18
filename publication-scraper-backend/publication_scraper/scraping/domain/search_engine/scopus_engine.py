@@ -173,7 +173,6 @@ class ScopusEngine(SearchEngine):
                 search_string           = search_string,
                 formatted_search_string = scopus_search_string,
                 searched_from           = [SearchEngineType.SCOPUS],   
-                status                  = PublicationStatus.NEW,
             )
             log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)

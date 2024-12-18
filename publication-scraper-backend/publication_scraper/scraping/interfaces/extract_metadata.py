@@ -111,7 +111,7 @@ class PublicationMetadataExtractor:
         # If there is an error, try searching for the paper by its title
         if sch_paper.get("error"):
             
-            log.warn(f"Error extracting metadata for {paper.paper_title}. Searching by title.")
+            log.warning(f"Error extracting metadata for {paper.paper_title}. Searching by title.")
             api_url = f"{self.base_url}/search?query={paper.paper_title}"
             sch_paper = self._extract_sch(api_url, self.sch_fields)
             doi = self._get_doi(paper=sch_paper, paper_id=paper.paper_id)
@@ -123,7 +123,6 @@ class PublicationMetadataExtractor:
                     paper_title   = paper.paper_title,
                     doi           = pid,
                     search_string = paper.search_string,
-                    searched_from = paper.searched_from
                 )
             
             sch_paper = sch_paper["data"][0]

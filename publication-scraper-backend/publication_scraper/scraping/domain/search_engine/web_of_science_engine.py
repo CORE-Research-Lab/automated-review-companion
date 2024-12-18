@@ -95,7 +95,6 @@ class WebOfScienceEngine(SearchEngine):
                                     search_string           = search_string,
                                     searched_from           = [SearchEngineType.WEB_OF_SCIENCE.value],
                                     formatted_search_string = formatted_search_string,
-                                    status                  = PublicationStatus.NEW.value,
                                 )
             self.results.append(publication)
     
@@ -181,6 +180,7 @@ class WebOfScienceEngine(SearchEngine):
         
         for attempt in range(max_retries):
             response = requests.get(self.url, headers=self.headers, params=params)
+            print(self.url, self.headers, params)
             if response.status_code == 200:
                 return response.json()
             
@@ -193,7 +193,7 @@ class WebOfScienceEngine(SearchEngine):
             if attempt < max_retries - 1:
                 time.sleep(delay)
         
-        raise Exception(f"Failed to fetch data after {max_retries} retries.")
+        raise Exception(f"Web of Science: Failed to fetch data after {max_retries} retries.")
     
     def _parse_search_string(self, search_string: List[str] = []):
         """ Parse the search string for Web of Science. """
