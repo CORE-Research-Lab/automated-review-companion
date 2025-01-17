@@ -389,9 +389,6 @@ function App() {
     let newUpdatedResultsWithDummy = [];
     let newDiffSearchResultsWithDummy = [];
 
-    toast.info(JSON.stringify(newDiffSearchResults))
-    debugger;
-
     // Iterate through the new search results and add dummy papers for the old search results
     let updatedResultsIdx = 0;
     let diffResultsIdx = 0;
