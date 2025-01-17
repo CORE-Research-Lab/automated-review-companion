@@ -3,7 +3,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { handleError } from './common/handler';
 import ChangelogModal from './components/ChangelogModal';
@@ -80,6 +80,19 @@ function App() {
   const [diffSearchHistoryIndex, setDiffSearchHistoryIndex] = useState<null | number>(null);
   const [diffSearchResults, setDiffSearchResults] = useState<SearchResult>(defaultDiffSearchResults);
   const [showDiffOnly, setShowDiffOnly] = useState(false);
+
+  const mainDataTableRef = useRef<HTMLDivElement>(null);
+  const diffDataTableRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = (
+    sourceTable: HTMLDivElement | null,
+    targetTable: HTMLDivElement | null
+  ) => {
+    if (sourceTable && targetTable) {
+      targetTable.scrollLeft = sourceTable.scrollLeft; // Horizontal scroll
+      targetTable.scrollTop = sourceTable.scrollTop;   // Vertical scroll
+    }
+  }
   
   // TODO: store a search reference id of the results it provides;
   // query endpoint when triggered to get the results of the search
@@ -331,7 +344,25 @@ function App() {
     // new search result = searchResults
     // old search result = diffSearchResults
     // 1. if paper is only in the new search results, set diffType to 'add'
+    //    ALSO, add a dummy paper for the old search results with empty fields
+
     // 2. if paper is only in the old search results, set diffType to 'remove'
+    //    ALSO, add a dummy paper for the new search results with empty fields
+    const dummyPaper = (diffType: DiffType): Publication => ({
+      paper_id: 'n/a',
+      paper_title: '',
+      authors: [],
+      abstract: '',
+      publication_date: '',
+      conference_journal: '',
+      doi: '',
+      searched_from: '',
+      search_string: '',
+      formatted_search_string: '',
+      status: '',
+      diffType: diffType,
+      show: true,
+    });
 
     let updatedResults = [...searchResults.results];
     let newUpdatedResults = updatedResults.map((result: Publication) => {
@@ -349,8 +380,56 @@ function App() {
       return { ...result, diffType: ('common' as DiffType) }
     });
 
-    setSearchResults({...searchResults, results: newUpdatedResults});
-    setDiffSearchResults({ ...newSearchResults, results: newDiffSearchResults });
+    // Get total number of papers
+    let commonPapers = newUpdatedResults.filter((result: Publication) => result.diffType === 'common').length;
+    let addedPapers = newUpdatedResults.filter((result: Publication) => result.diffType === 'add').length;
+    let removedPapers = newDiffSearchResults.filter((result: Publication) => result.diffType === 'remove').length;
+    let totalPapers = commonPapers + addedPapers + removedPapers;
+
+    let newUpdatedResultsWithDummy = [];
+    let newDiffSearchResultsWithDummy = [];
+
+    toast.info(JSON.stringify(newDiffSearchResults))
+    debugger;
+
+    // Iterate through the new search results and add dummy papers for the old search results
+    let updatedResultsIdx = 0;
+    let diffResultsIdx = 0;
+    for (let i = 0; i < totalPapers; i++) {
+      if (
+        newUpdatedResults[updatedResultsIdx].diffType === 'common' &&
+        newDiffSearchResults[diffResultsIdx].diffType === 'common'
+      ) {
+        newUpdatedResultsWithDummy.push(newUpdatedResults[updatedResultsIdx]);
+        newDiffSearchResultsWithDummy.push(newDiffSearchResults[diffResultsIdx]);
+        updatedResultsIdx++;
+        diffResultsIdx++;
+        continue;
+      }
+      
+      if (
+        i < newUpdatedResults.length &&
+        newUpdatedResults[updatedResultsIdx].diffType === 'add'
+      ) {
+        newUpdatedResultsWithDummy.push(newUpdatedResults[updatedResultsIdx]);
+        newDiffSearchResultsWithDummy.push(dummyPaper('none'));
+        updatedResultsIdx++;
+        continue;
+      }
+
+      if (
+        i < newDiffSearchResults.length &&
+        newDiffSearchResults[diffResultsIdx].diffType === 'remove'
+      ) {
+        newUpdatedResultsWithDummy.push(dummyPaper('none'));
+        newDiffSearchResultsWithDummy.push(newDiffSearchResults[diffResultsIdx]);
+        diffResultsIdx++;
+        continue;
+      }
+    }
+
+    setSearchResults({...searchResults, results: newUpdatedResultsWithDummy});
+    setDiffSearchResults({ ...newSearchResults, results: newDiffSearchResultsWithDummy });
   }
 
   const handleAdvancedChipClick = (keyword: string, synonym: string) => {
@@ -1050,7 +1129,12 @@ function App() {
             {/* Table data */}
             <div className="search-results row" style={{ height: "80%" }}>
               {/* Main #1 */}
-              <div id="publication-data-table" className='main-data-table h-[100%]'>
+              <div 
+                id="publication-data-table" 
+                className='main-data-table h-[100%]'
+                ref={mainDataTableRef}
+                onScroll={() => handleScroll(mainDataTableRef.current, diffDataTableRef.current)}
+              >
                   <PublicationTable
                     searchResults={searchResults}
                     setSearchResults={setSearchResults}
@@ -1065,9 +1149,15 @@ function App() {
               {/* Diff #2 */}
               {
                 diffMode && diffSearchHistoryIndex !== null &&
-                <div id="publication-data-table" className="diff-data-table col-6 border h-100">
+                <div 
+                  id="publication-data-table" 
+                  className="diff-data-table col-6 border h-100"
+                  ref={diffDataTableRef}
+                  onScroll={() => handleScroll(diffDataTableRef.current, mainDataTableRef.current)}
+                >
                   <PublicationTable 
                     searchResults={diffSearchResults} 
+                    showMetadata={showMetadata}
                   /> 
                 </div> 
               }

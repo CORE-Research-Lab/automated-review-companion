@@ -54,6 +54,7 @@ class SearchAndCleanView(APIView):
                 self.all_search_terms.append(list(self.search_terms['secondary']))
             if self.search_terms.get('tertiary'):
                 self.all_search_terms.append(list(self.search_terms['tertiary']))
+                
             self.all_search_terms = list(product(*self.all_search_terms))
             log.info("All search terms: %s", self.all_search_terms)
 
@@ -108,7 +109,12 @@ class SearchAndCleanView(APIView):
 
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
-        results.extend([result for engine in engines for result in engine.search()])
+        results.extend([
+            result 
+            for engine in engines 
+            for result in sorted(engine.search(), key=lambda x: x.paper_id)
+        ])
+
 
         for engine in engines:
             results.extend([result for result in engine.search()])
@@ -176,9 +182,28 @@ class PublicationMetadataView(APIView):
             extractor = PublicationMetadataExtractor(paper_ids)
             metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
             failed = [publication.paper_id for _, publication in extractor.failed_papers]
+
+            search_reference_id = serializer.validated_data.get('search_reference_id')
+            self.update_search_results(search_reference_id, metadata)
             
             return JsonResponse({ "metadata": metadata, "failed": failed })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    
+    def update_search_results(self, search_reference_id: str, metadata: List[Dict]):
+        
+        if search_reference_id is None:
+            return
+        
+        search_results = get_object_or_404(SearchResponse, id=search_reference_id)
+        historical_results = search_results.results 
+        for idx, result in enumerate(historical_results):
+            for pub_metadata in metadata:
+                if result['paper_id'] == pub_metadata['paper_id']:
+                    pub_metadata['publication_date'] = pub_metadata['publication_date'].strftime('%Y-%m-%d')
+                    historical_results[idx] = pub_metadata
+                    break
+        search_results.results = historical_results
+        SearchResponse.objects.filter(id=search_reference_id).update(results=historical_results)
 
 class ManualAddPublicationView(APIView):
 

@@ -14,7 +14,7 @@ const SearchHistoryHeaderCard: React.FC<SearchHistoryHeaderCardProps> = (props) 
   return ( 
     <div className="px-3 py-2 border rounded-t-lg bg-slate-500/10">
       <p><b>Search {index + 1}:</b></p>
-      <p>Year: {searchHistory[index]?.start_date} - {searchHistory[index]?.end_date}</p>
+      <p>Year: {searchHistory[index]?.start_date.toDateString()} - {searchHistory[index]?.end_date.toDateString()}</p>
       {
         searchHistory[index]?.search_terms.advanced &&
         <p className="text-[16px] leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">

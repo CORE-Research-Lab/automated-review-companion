@@ -37,6 +37,7 @@ class ManualAddPublicationSerializer(Serializer):
     dois = ListField(child=CharField(), required=True)
 class PublicationMetadataSerializer(Serializer):
     paper_ids = ListField(child=CharField(), required=True)
+    search_reference_id = CharField(required=False, allow_blank=True)
 
 class SearchStringDifferenceSerializer(Serializer):
     search_terms = QuerySerializer(required=True)
