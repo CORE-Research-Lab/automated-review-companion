@@ -132,6 +132,8 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
         return 'table-row-red bg-[#FFEEF0]';
       case 'remove':
         return 'table-row-green bg-[#E6FFED]';
+      case 'none':
+        return 'table-row-none bg-black';
       default:
         return '';
     }
