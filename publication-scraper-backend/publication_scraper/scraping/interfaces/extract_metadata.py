@@ -267,9 +267,9 @@ class PublicationMetadataExtractor:
         try:
             crossref_paper = self.crossref_works.doi(doi)
             if not crossref_paper:
-                log.error(f"Paper with DOI {doi} not found")
+                log.error(f"Paper with DOI {doi} not found in CrossRef")
         except Exception as e:
-            log.error(f"Paper with DOI {doi} not found", e)
+            log.error(f"Paper with DOI {doi} not found in CrossRef", e)
             crossref_paper = None
         
         return crossref_paper
