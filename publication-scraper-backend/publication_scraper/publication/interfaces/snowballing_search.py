@@ -45,7 +45,7 @@ class SnowballingSearch:
         """
 
         log.debug(f"Processing reference: {reference}")
-        paper_doi = f"DOI:{reference.ref_doi}"
+        paper_doi = f"DOI:https://doi.org/{reference.ref_doi}"
         publication = Publication.objects.filter(paper_id=paper_doi)
         
         if publication.exists():

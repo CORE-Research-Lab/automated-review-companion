@@ -200,7 +200,7 @@ class PublicationMetadataView(APIView):
         for idx, result in enumerate(historical_results):
             for pub_metadata in metadata:
                 if result['paper_id'] == pub_metadata['paper_id']:
-                    if type(pub_metadata['publication_date']) == datetime:
+                    if type(pub_metadata['publication_date']) != str:
                         pub_metadata['publication_date'] = pub_metadata['publication_date'].strftime('%Y-%m-%d')
                     historical_results[idx] = pub_metadata
                     break
@@ -221,7 +221,7 @@ class ManualAddPublicationView(APIView):
             sch_engine = SemanticScholarEngine()
             publication_results = []
             for doi in dois:
-                paper_doi = f"DOI:{doi}" if not doi.startswith("DOI:") else doi
+                paper_doi = f"DOI:https://doi.org/{doi}" if not doi.startswith("DOI:") else doi
                 publication = Publication.objects.filter(paper_id=paper_doi)
                 if publication.exists():
                     log.info(f"Publication with DOI {paper_doi} already exists.")
