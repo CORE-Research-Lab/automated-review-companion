@@ -55,7 +55,7 @@ class SemanticScholarEngine(SearchEngine):
                 data = response.json()
                 publication = Publication(
                     paper_title = data.get("title"),
-                    paper_id    = f"DOI:{doi}",
+                    paper_id    = f"DOI:https://doi.org/{doi}",
                 )
                 publication.save()
                 return publication

@@ -2,6 +2,7 @@ import string
 import re
 from itertools import product
 from typing import Dict, List, Tuple
+from datetime import datetime
 
 from django.http import JsonResponse
 from publication.models import Publication, PublicationMetadata, PublicationStatus
@@ -199,7 +200,8 @@ class PublicationMetadataView(APIView):
         for idx, result in enumerate(historical_results):
             for pub_metadata in metadata:
                 if result['paper_id'] == pub_metadata['paper_id']:
-                    pub_metadata['publication_date'] = pub_metadata['publication_date'].strftime('%Y-%m-%d')
+                    if type(pub_metadata['publication_date']) == datetime:
+                        pub_metadata['publication_date'] = pub_metadata['publication_date'].strftime('%Y-%m-%d')
                     historical_results[idx] = pub_metadata
                     break
         search_results.results = historical_results
@@ -347,6 +349,27 @@ class HistoricalSearchQueryResultsView(APIView):
 
 class SearchHistoryPublicationView(APIView):
 
+    @Controller
+    def post(self, request):
+        """
+        Create a new search history entry given a list of papers.
+        """
+        search_results = SearchResponse(
+            query=request.data.get('query', {
+                "start_date": datetime.now().isoformat(),
+                "end_date": datetime.now().isoformat(),
+                "search_terms": [],
+                "advanced_search": "",
+                "sources": [],
+            }),
+            variations=request.data.get('variations', []),
+            matches=request.data.get('matches', []),
+            results=request.data.get('papers', []),
+        )
+        print(search_results.to_dict())
+        search_results.save()
+        return JsonResponse(search_results.to_dict())
+    
     @Controller
     def put(self, request):
         """

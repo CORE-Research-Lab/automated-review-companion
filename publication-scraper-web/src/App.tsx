@@ -185,12 +185,51 @@ function App() {
   }
 
   const updateSearchResults = async (papers: Publication[]) => {
-    const searchReferenceId = searchHistory[currentSearchHistoryIndex]?.id ?? ""
-    await axios.put(
-      `${BASE_URL}/scraper/history/publications?search_reference_id=${searchReferenceId}`, 
-      { papers }
-    ).then((res) => console.log(`Persisted search results with: ${res.data.length} new papers`))
-    .catch(handleError);
+    const searchReferenceId = searchHistory[currentSearchHistoryIndex]?.id;
+    if (!searchReferenceId) {
+      createSearchResult(papers);
+    } else {
+      await axios.put(
+        `${BASE_URL}/scraper/history/publications?search_reference_id=${searchReferenceId}`, 
+        { papers }
+      )
+        .then((res) => console.log(`Persisted search results with: ${res.data.length} new papers`))
+        .catch(handleError);
+    }
+  }
+
+  const createSearchResult = async (papers: Publication[]) => {
+    await axios.post(`${BASE_URL}/scraper/history/publications`, { papers })
+      .then((res) => {
+        console.log(`Created search results with: ${res.data.length} papers`)
+        // Push to the search history
+        setSearchHistory((prevState) => [
+          ...prevState, {
+            id: res.data.id,
+            validation_papers: searchForm.validation_papers,
+            search_terms: {
+              advanced: "",
+              primary: [],
+              secondary: [],
+              tertiary: [],
+            },
+            start_date: new Date(res.data.query.start_date),
+            end_date: new Date(res.data.query.end_date),
+            sources: res.data.query.sources,
+          }
+        ]);
+        setButtonState((prevState) => ({
+          ...prevState,
+          showSelectAll: true,
+          showDeselectAll: true,
+          showForwardSearch: true,
+          showBackwardSearch: true,
+          showPopulateMetadata: true,
+          showHideMetadata: true,
+          showExport: true,
+        }))
+      })
+      .catch(handleError);
   }
 
   const handleAddPaper = async () => {
