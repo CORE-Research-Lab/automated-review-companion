@@ -8,7 +8,12 @@ export const getAuthorLabel = (author: Author) => {
   }
   return authorName;
 }
-
+ 
 export const parseAuthors = (authors: Author[] | undefined) => {
-  return authors?.map((author) => getAuthorLabel(author)).join(', ') ?? "-"
+  try {
+    return authors?.map((author) => getAuthorLabel(author)).join(', ') ?? "-"
+  } catch (e) {
+    // Crossref may produce empty string for author names
+    return "-"
+  }
 }

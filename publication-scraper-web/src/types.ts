@@ -60,7 +60,7 @@ export type Publication = {
   diffType?: DiffType
 } 
 
-export type DiffType = "add" | "remove" | "common"
+export type DiffType = "add" | "remove" | "common" | "none"
 
 export type SnowballingSearch = Publication & {
   references?: Publication[]

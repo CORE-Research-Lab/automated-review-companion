@@ -2,6 +2,7 @@ import string
 import re
 from itertools import product
 from typing import Dict, List, Tuple
+from datetime import datetime
 
 from django.http import JsonResponse
 from publication.models import Publication, PublicationMetadata, PublicationStatus
@@ -54,6 +55,7 @@ class SearchAndCleanView(APIView):
                 self.all_search_terms.append(list(self.search_terms['secondary']))
             if self.search_terms.get('tertiary'):
                 self.all_search_terms.append(list(self.search_terms['tertiary']))
+                
             self.all_search_terms = list(product(*self.all_search_terms))
             log.info("All search terms: %s", self.all_search_terms)
 
@@ -108,7 +110,12 @@ class SearchAndCleanView(APIView):
 
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
-        results.extend([result for engine in engines for result in engine.search()])
+        results.extend([
+            result 
+            for engine in engines 
+            for result in sorted(engine.search(), key=lambda x: x.paper_id)
+        ])
+
 
         for engine in engines:
             results.extend([result for result in engine.search()])
@@ -176,9 +183,29 @@ class PublicationMetadataView(APIView):
             extractor = PublicationMetadataExtractor(paper_ids)
             metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
             failed = [publication.paper_id for _, publication in extractor.failed_papers]
+
+            search_reference_id = serializer.validated_data.get('search_reference_id')
+            self.update_search_results(search_reference_id, metadata)
             
             return JsonResponse({ "metadata": metadata, "failed": failed })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    
+    def update_search_results(self, search_reference_id: str, metadata: List[Dict]):
+        
+        if search_reference_id is None:
+            return
+        
+        search_results = get_object_or_404(SearchResponse, id=search_reference_id)
+        historical_results = search_results.results 
+        for idx, result in enumerate(historical_results):
+            for pub_metadata in metadata:
+                if result['paper_id'] == pub_metadata['paper_id']:
+                    if type(pub_metadata['publication_date']) != str:
+                        pub_metadata['publication_date'] = pub_metadata['publication_date'].strftime('%Y-%m-%d')
+                    historical_results[idx] = pub_metadata
+                    break
+        search_results.results = historical_results
+        SearchResponse.objects.filter(id=search_reference_id).update(results=historical_results)
 
 class ManualAddPublicationView(APIView):
 
@@ -194,7 +221,7 @@ class ManualAddPublicationView(APIView):
             sch_engine = SemanticScholarEngine()
             publication_results = []
             for doi in dois:
-                paper_doi = f"DOI:{doi}" if not doi.startswith("DOI:") else doi
+                paper_doi = f"DOI:https://doi.org/{doi}" if not doi.startswith("DOI:") else doi
                 publication = Publication.objects.filter(paper_id=paper_doi)
                 if publication.exists():
                     log.info(f"Publication with DOI {paper_doi} already exists.")
@@ -322,6 +349,27 @@ class HistoricalSearchQueryResultsView(APIView):
 
 class SearchHistoryPublicationView(APIView):
 
+    @Controller
+    def post(self, request):
+        """
+        Create a new search history entry given a list of papers.
+        """
+        search_results = SearchResponse(
+            query=request.data.get('query', {
+                "start_date": datetime.now().isoformat(),
+                "end_date": datetime.now().isoformat(),
+                "search_terms": [],
+                "advanced_search": "",
+                "sources": [],
+            }),
+            variations=request.data.get('variations', []),
+            matches=request.data.get('matches', []),
+            results=request.data.get('papers', []),
+        )
+        print(search_results.to_dict())
+        search_results.save()
+        return JsonResponse(search_results.to_dict())
+    
     @Controller
     def put(self, request):
         """

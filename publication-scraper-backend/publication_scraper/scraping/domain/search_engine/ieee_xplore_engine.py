@@ -131,7 +131,6 @@ class IEEEXploreEngine(SearchEngine):
                 search_string           = search_string,
                 searched_from           = [SearchEngineType.IEEE_XPLORE],
                 formatted_search_string = f"({ieee_search_string})",
-                status                  = PublicationStatus.NEW,
             )
             self.results.append(publication)
     

@@ -55,8 +55,7 @@ class SemanticScholarEngine(SearchEngine):
                 data = response.json()
                 publication = Publication(
                     paper_title = data.get("title"),
-                    paper_id    = f"DOI:{doi}",
-                    status      = PublicationStatus.NEW.value
+                    paper_id    = f"DOI:https://doi.org/{doi}",
                 )
                 publication.save()
                 return publication
@@ -182,8 +181,7 @@ class SemanticScholarEngine(SearchEngine):
                                 paper_id                = paper_id,
                                 search_string           = search_string,
                                 searched_from           = [self.proxy_name],
-                                formatted_search_string = formatted_search_string,
-                                status                  = PublicationStatus.NEW.value
+                                formatted_search_string = formatted_search_string
                             )
             self.results.append(publication)
      

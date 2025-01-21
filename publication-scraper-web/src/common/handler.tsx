@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
 export const handleError = (error: AxiosError) => {
+    console.error(error);
     if (error.response?.data) {
       // if response data is a dictionary, parse it as key=value
       if (typeof error.response.data === 'object') {

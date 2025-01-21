@@ -1,4 +1,5 @@
 from typing import List
+from weakref import ref
 
 from utils.logger import Logger
 from ..models import Publication, PublicationReference, PublicationReferenceType
@@ -48,20 +49,26 @@ class ForwardSearch(SnowballingSearch):
             continue
           
           sch_paper = self.sch.get_paper(paper_doi)
+          references = sch_paper.citations
+
+          log.info(f"Found {len(references)} citations for {publication['title']}")
+
           if sch_paper.citations is None or sch_paper.citationCount == 0:
             print(f"Skipped Paper | No citations: {publication['title']}")
             continue
           
-          references = sch_paper.citations
           for referenced_paper in references:
-            if referenced_paper.externalIds is None: 
+            print(referenced_paper)
+            if referenced_paper.externalIds is None or referenced_paper.externalIds.get("DOI") is None: 
+                log.warn(f"Publication with no DOI: {referenced_paper.title}")
+                log.warn(f"External IDs: {referenced_paper.externalIds}")
                 continue
 
             citation = PublicationReference(
                 src = self.publications[i],
                 src_doi = paper_doi,
                 ref_paper_title = referenced_paper.title,
-                ref_doi = referenced_paper.externalIds.get("DOI"),
+                ref_doi = f"https://doi.org/{referenced_paper.externalIds.get('DOI')}",
                 ref_url = referenced_paper.url,
                 type = PublicationReferenceType.CITATION
             )

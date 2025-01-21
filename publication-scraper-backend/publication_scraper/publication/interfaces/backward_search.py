@@ -52,6 +52,8 @@ class BackwardSearch(SnowballingSearch):
       
       sch_paper = self.sch.get_paper(paper_doi)
       references = sch_paper.references
+
+      log.info(f"Found {len(references)} references for {publication['title']}")
       
       if references is None:
         log.warn(f"Skipped Paper | No references: {publication['title']}")
@@ -67,7 +69,7 @@ class BackwardSearch(SnowballingSearch):
             src = self.publications[i],
             src_doi = paper_doi,
             ref_paper_title = referenced_paper.title,
-            ref_doi = referenced_paper.externalIds.get("DOI"),
+            ref_doi = f"https://doi.org/{referenced_paper.externalIds.get('DOI')}",
             ref_url = referenced_paper.url,
             type = PublicationReferenceType.REFERENCE
         )

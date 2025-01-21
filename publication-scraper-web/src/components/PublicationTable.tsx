@@ -140,7 +140,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
   return ( 
     <>
      <div className="table-container">
-        <table className="table table-striped border-1 border-slate-600 bg-white min-h-[85vh]" ref={tableRef}>
+        <table className="table  border-1 border-slate-600 bg-white min-h-[85vh]" ref={tableRef}>
           <thead className='bg-primary bg-black text-white sticky-top' style={{ height: "20px" }}>
             <tr>
               <td style={{ minWidth: "10px" }}></td>

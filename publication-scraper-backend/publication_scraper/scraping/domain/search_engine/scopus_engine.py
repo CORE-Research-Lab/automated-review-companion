@@ -49,7 +49,8 @@ class ScopusEngine(SearchEngine):
     def _simple_search(self) -> List[Publication]:
         
         for idx, search_string in enumerate(self.queries):
-            scopus_search_string = self._parse_search_string()
+            print(f"Current search string: {search_string}")
+            scopus_search_string = self._parse_search_string(search_string)
 
             log.info(f"--- Searching for {scopus_search_string} ({idx + 1}/{len(self.queries)}) ---")
             search_results = self._get_search_results(scopus_search_string)
@@ -104,6 +105,7 @@ class ScopusEngine(SearchEngine):
             raise  # Re-raise the exception after logging it
 
     def _parse_search_params(self, search_string: str) -> Dict[str, Any]:
+        log.info(f"Searching for: {search_string}")
         return {
             "query": search_string,
             "year": f"{self.start_year}-{self.end_year}",
@@ -147,6 +149,7 @@ class ScopusEngine(SearchEngine):
                         actual_url += f"{key}={value}&"
                 actual_url = actual_url[:-1]
 
+                log.info(f"Fetching search results from: {actual_url}")
                 response = requests.get(actual_url, headers=self.headers)
                 response.raise_for_status()
                 data = response.json()
@@ -173,7 +176,6 @@ class ScopusEngine(SearchEngine):
                 search_string           = search_string,
                 formatted_search_string = scopus_search_string,
                 searched_from           = [SearchEngineType.SCOPUS],   
-                status                  = PublicationStatus.NEW,
             )
             log.info(f"{search_string}: Paper {count} - {publication.paper_title}")
             self.results.append(publication)

@@ -238,6 +238,10 @@ table > thead > td {
   background-color: #c5fad4 !important;
 }
 
+.table-row-none > * {
+  background-color: #e3e3e3 !important;
+}
+
 .diff-mode-red {
   background-color: #e0c0c4 !important;
 }

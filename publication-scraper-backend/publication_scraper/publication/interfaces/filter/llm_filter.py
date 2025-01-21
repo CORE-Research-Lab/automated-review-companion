@@ -4,6 +4,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.pydantic_v1 import BaseModel
 from publication.interfaces.llm.azure import AzureLLM
+from publication.interfaces.llm.openai import OpenAILLM
 from publication.models import Publication, PublicationMetadata
 from utils import Logger
 
@@ -31,7 +32,8 @@ class LLMFilterResponse(BaseModel):
 
 class LLMFilter:
     def __init__(self):
-        self.model = AzureLLM()
+        # self.model = AzureLLM()
+        self.model = OpenAILLM()
         self.llm = self.model.llm
         self.results: List[LLMFilterResponse] = []
 

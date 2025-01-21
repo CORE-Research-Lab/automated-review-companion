@@ -178,7 +178,8 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     const populateMetadata = async () => {
         setIsPerformingOperation(true);
         await axios.post(`${BASE_URL}/scraper/publication-metadata`, {
-            paper_ids: selectedPapers
+            paper_ids: selectedPapers,
+            search_reference_id: currentSearchReferenceId
         })
             .then((res) => {
                 const data = res.data;
