@@ -1165,13 +1165,15 @@ function App() {
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={currentSearchHistoryIndex}
-                      searchHistory={searchHistory} 
+                      searchHistory={searchHistory}
+                      format="remove"
                     />
                   </div>
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={diffSearchHistoryIndex ?? -1}
                       searchHistory={searchHistory} 
+                      format="add"
                     />
                   </div>
                 </div>
