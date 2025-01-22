@@ -350,6 +350,7 @@ function App() {
         params: { id: searchHistory[index].id }
       })
       .then((res) => {
+        setSearchForm(searchHistory[index]);
         setSearchResults(res.data);
         setButtonState((prevState) => ({
           ...prevState,
@@ -712,10 +713,14 @@ function App() {
                         className="form-control"
                         value={searchForm.start_date.toISOString().slice(0, 10)}
                         onChange={(e) => {
-                          setSearchForm({
-                            ...searchForm,
-                            start_date: new Date(e.target.value),
-                          });
+                          try {
+                            setSearchForm({
+                              ...searchForm,
+                              start_date: new Date(e.target.value),
+                            });
+                          } catch (e) {
+                            console.error(e);
+                          }
                         }}
                     />
                   </div>
@@ -728,10 +733,14 @@ function App() {
                         className="form-control"
                         value={searchForm.end_date.toISOString().slice(0, 10)}
                         onChange={(e) => {
-                          setSearchForm({
-                            ...searchForm,
-                            end_date: new Date(e.target.value),
-                          });
+                          try {
+                            setSearchForm({
+                              ...searchForm,
+                              end_date: new Date(e.target.value),
+                            });
+                          } catch (e) {
+                            console.error(e);
+                          }
                         }}
                     />
                   </div>
@@ -854,7 +863,7 @@ function App() {
                   </div>
                 </div>
 
-                <section className='w-100 relative border px-12 py-3'>
+                <section className='w-100 px-12 py-3'>
                   <Carousel
                     opts={{ align: "start", loop: true }}
                     className="w-full"
