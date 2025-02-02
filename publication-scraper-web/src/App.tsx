@@ -1191,7 +1191,7 @@ function App() {
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={currentSearchHistoryIndex}
-                      // diffIndex={diffSearchHistoryIndex ?? -1}
+                      diffIndex={diffSearchHistoryIndex ?? -1}
                       searchHistory={searchHistory}
                       format="remove"
                     />
@@ -1199,7 +1199,7 @@ function App() {
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={diffSearchHistoryIndex ?? -1}
-                      // diffIndex={currentSearchHistoryIndex}
+                      diffIndex={currentSearchHistoryIndex}
                       searchHistory={searchHistory} 
                       format="add"
                     />

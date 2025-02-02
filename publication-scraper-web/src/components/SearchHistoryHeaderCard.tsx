@@ -1,17 +1,59 @@
 import { cn } from "@/lib/utils";
 import { SearchForm } from "@/types";
+import { Change, diffWords } from "diff";
 
 export interface SearchHistoryHeaderCardProps {
   index: number
+  diffIndex: number
   searchHistory: SearchForm[];
   format: "remove" | "add";
 }
-const SearchHistoryHeaderCard: React.FC<SearchHistoryHeaderCardProps> = (props) => {
-  const { index, searchHistory, format } = props;
 
-  if (index == -1) {
+const highlightDiff = (oldText: string, newText: string, format: "remove" | "add") => {
+  const differences: Change[] = diffWords(oldText || "", newText || "");
+
+  return differences.map((part, index) => {
+    // Only highlight removed parts for "remove" format
+    if (format === "remove" && part.removed) {
+      return (
+        <>
+          <span key={index} className="text-red-600 bg-red-100 line-through">
+            {part.value}
+          </span>
+        </>
+      );
+    }
+    if (format === "remove" && part.added) {
+      return <></>
+    }
+    
+    // Only highlight added parts for "add" format
+    if (format === "add" && part.added) {
+      return <></>
+    }
+    if (format === "add" && part.removed) {
+      return <span className="text-green-600 bg-green-100">{part.value}</span>
+    }
+
+    
+    if (!part.added && !part.removed) {
+      return (<><span key={index}>{part.value}</span></>);
+    }
+    return <><span key={index}>{part.value}</span></>;
+  });
+};
+
+
+
+const SearchHistoryHeaderCard: React.FC<SearchHistoryHeaderCardProps> = (props) => {
+  const { index, diffIndex, searchHistory, format } = props;
+
+  if (index === -1 || diffIndex === -1) {
     return <></>;
   }
+
+  const current = searchHistory[index] || {};
+  const previous = searchHistory[diffIndex] || {};
 
   return ( 
     <div className={cn(
@@ -20,11 +62,11 @@ const SearchHistoryHeaderCard: React.FC<SearchHistoryHeaderCardProps> = (props) 
       { "bg-[#b0e6be]": format === "add" }
     )}>
       <p><b>Search {index + 1}:</b></p>
-      <p>Year: {searchHistory[index]?.start_date.toDateString()} - {searchHistory[index]?.end_date.toDateString()}</p>
+      <p>Year: {highlightDiff(previous.start_date?.toLocaleDateString("en-GB"), current.start_date?.toLocaleDateString("en-GB"), format)} - {highlightDiff(previous.end_date?.toLocaleDateString("en-GB"), current.end_date?.toLocaleDateString("en-GB"), format)}</p>
       {
         searchHistory[index]?.search_terms.advanced &&
         <p className="text-[16px] leading-[16px] h-100 w-100 text-wrap text-left text-ellipsis overflow-hidden">
-          Advanced Search: {searchHistory[index]?.search_terms.advanced}
+          Advanced Search: {highlightDiff(previous.search_terms?.advanced, current.search_terms?.advanced, format)}
         </p>
       }
       {
