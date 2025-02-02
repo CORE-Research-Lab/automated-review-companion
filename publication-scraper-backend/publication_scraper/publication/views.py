@@ -1,5 +1,6 @@
+import io
 import datetime
-import logging
+import pandas as pd
 from itertools import product
 from typing import List
 
@@ -7,6 +8,7 @@ from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from utils import Logger, Controller
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .interfaces.backward_search import BackwardSearch
 from .interfaces.filter.llm_filter import FilterResponse, LLMFilter, FilterAnswerExamples, FilterAnswer
@@ -149,3 +151,30 @@ class PublicationLLMFilterView(APIView):
 
         # if usage.count >= (MAX_LLM_CALL_COUNT - len(paper_ids)):
         #     return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."
+
+class PublicationUploadView(APIView):
+
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request):
+        file = request.FILES.get("file")
+
+        if not file:
+            return JsonResponse({"error": "No file provided"}, status=HTTP_400_BAD_REQUEST)
+        
+        if not file.name.endswith(".csv"):
+            return JsonResponse({"error": "Invalid file type. Please upload a CSV file."}, status=HTTP_400_BAD_REQUEST)
+        
+        try:
+            df = pd.read_csv(io.StringIO(file.read().decode('utf-8')))
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
+        
+        if "DOI" not in df.columns:
+            return JsonResponse({"error": "CSV file must contain a 'DOI' column."}, status=HTTP_400_BAD_REQUEST)
+        
+        dois = df["DOI"].dropna().astype(str).tolist()
+        return JsonResponse({"dois": dois})
+
+
+

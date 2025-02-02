@@ -61,7 +61,7 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
         overflow: "hidden",
         textOverflow: "ellipsis",
       },
-      width: 350,
+      width: 550,
       requirement: "showMetadata"
     },
     {

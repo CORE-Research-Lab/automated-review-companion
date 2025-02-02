@@ -43,7 +43,7 @@ export const tooltipText = {
     },
     filterBar: "Filter the search results",
     manualAdd: "Manually add a paper to the search results",
-    manualAddCsv: "Drag a CSV file here with DOIs to manually add papers",
+    manualAddCsv: "Add a CSV file here with DOIs to manually add papers",
     selectAll: "Select all papers in the search results",
     deselectAll: "Deselect all papers in the search results",
     hideMetadata: "Hide metadata for the selected papers",

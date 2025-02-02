@@ -200,7 +200,7 @@ class PublicationMetadataView(APIView):
         for idx, result in enumerate(historical_results):
             for pub_metadata in metadata:
                 if result['paper_id'] == pub_metadata['paper_id']:
-                    if type(pub_metadata['publication_date']) != str:
+                    if type(pub_metadata['publication_date']) != str and pub_metadata['publication_date'] is not None:
                         pub_metadata['publication_date'] = pub_metadata['publication_date'].strftime('%Y-%m-%d')
                     historical_results[idx] = pub_metadata
                     break

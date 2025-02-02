@@ -314,7 +314,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
           </a>
         </td>
         <td>
-          <div style={{width: "300px"}}>
+          <div style={{width: "300px", height: "150px", overflow: "scroll"}}>
             <span dangerouslySetInnerHTML={{__html: publication.paper_title}}></span>
           </div>
         </td>

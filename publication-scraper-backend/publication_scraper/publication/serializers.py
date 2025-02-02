@@ -39,6 +39,7 @@ class LLMFilterUserAnswerSerializer(serializers.Serializer):
 class LLMFilterOptionsSerializer(serializers.Serializer):
     includeExamples = serializers.BooleanField(default=False)
     includeRationale = serializers.BooleanField(default=False)
+
 class PublicationLLMFilterSerializer(serializers.Serializer):
 
     questions = serializers.ListField(child=LLMFilterQuestionSerializer())

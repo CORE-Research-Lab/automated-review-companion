@@ -43,11 +43,8 @@ import { validateSearchForm } from './utils/validators';
 export type FilterForm = {
   searchEngines: string[],
   conference: string[],
-  llmQuestions: number[]
-  llmAnswers: {
-    questionId: number,
-    answer: string[]
-  }[]
+  llmQuestions: string[]
+  llmAnswers: string[][]
   dateRange: {
     start: Date | undefined,
     end: Date | undefined
@@ -241,8 +238,12 @@ function App() {
     }
     setIsManuallyAddingPaper(true);
     toast.info('Adding papers...');
+    await addManualPapers(manualAddPapers);
+  }
+
+  const addManualPapers = async (paperDOIs: string[]) => {
     await axios.post(`${BASE_URL}/scraper/manual-add-publication`, {
-      dois: manualAddPapers
+      dois: paperDOIs
     })
     .then(async (res) => {
       let modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL', formatted_search_string: 'Not Applicable'}));
@@ -250,6 +251,12 @@ function App() {
       setSearchResults({...searchResults, results: [...searchResults.results, ...newResults]});
       toast.success('Papers added successfully');
       await updateSearchResults(newResults);
+      setButtonState((prevState) => ({
+        ...prevState,
+        showPopulateMetadata: true,
+        showForwardSearch: true,
+        showBackwardSearch: true
+      }))
     })
     .catch(handleError)
     .finally(() => setIsManuallyAddingPaper(false));
@@ -289,7 +296,8 @@ function App() {
     setSelectedPapers([]);
     setLLMQuestions(defaultLLMQuestions);
     setButtonState(defaultButtonState);
-  }
+    setShowClearDialog(false);
+}
 
   const handleChipClick = (keyword: string, field: MultiLayerSearch) => {
     setSearchForm({
@@ -560,14 +568,28 @@ function App() {
         }
       }
 
-      // 3. Check if the LLM question is in the filter form
-      // if (filterForm.llmQuestions.length > 0) {
-      //   let llmQuestionIds = searchResults.results[i].llm_responses.map((response) => response.question_id);
-      //   if (!llmQuestionIds.some((id) => filterForm.llmQuestions.includes(id))) {
-      //     searchResults.results[i].show = false;
-      //     continue;
-      //   }
-      // }
+      // 3. Check if the LLM question & corresponding answer is in the filter form
+      if (filterForm.llmQuestions.length > 0) {
+        let questionIdsWithFilterEnabled = filterForm.llmQuestions.map((questionId) => Number(questionId));
+        for (let questionId of questionIdsWithFilterEnabled) {
+          
+          let filteredAnswers = filterForm.llmAnswers[questionId]
+          
+          if (!searchResults.results[i].llm_responses) {
+            searchResults.results[i].show = false;
+            continue;
+          }
+
+          if (
+            searchResults.results[i].llm_responses !== undefined &&
+            (searchResults.results[i].llm_responses!!.length > questionId) &&
+            !filteredAnswers.includes(searchResults.results[i].llm_responses!![questionId].answer)
+          ) {
+              searchResults.results[i].show = false;
+              continue;
+            }
+        }
+      }
     }
     let numberOfShownRecords = newSearchResults.results.filter((result) => result.show).length;
     toast.info(`Showing ${numberOfShownRecords} records`);
@@ -825,7 +847,7 @@ function App() {
                       <span>Are you sure about clearing all search parameters?</span>
                     </DialogDescription>
                     <DialogFooter>
-                      <Button className="bg-red-600" onClick={resetSearchParameters}>Yes</Button>
+                      <Button className="bg-red-600 hover:bg-red-800" onClick={resetSearchParameters}>Yes</Button>
                       <Button onClick={() => setShowClearDialog(false)}>Close</Button>
                     </DialogFooter>
                   </DialogContent>
@@ -982,7 +1004,7 @@ function App() {
                     } 
                   </Button>
                   <CsvImportField 
-                    setManualAddPapers={setManualAddPapers}
+                    addManualPapers={addManualPapers}
                     disabled={diffMode ?? false}
                     tooltip={tooltipText.results.manualAddCsv} 
                   />
@@ -1093,60 +1115,64 @@ function App() {
                           }))}
                         />
                     </div>
-                    {/* LLM Choose which question to filter */}
-                    <div className='col-6 p-0'>
-                      <MultiSelect
-                          placeholder='LLM Questions'
-                          options={
-                            Array.from(new Set(
-                              searchResults.results.map((result) => result.llm_responses)
-                                .filter((llm) => llm !== undefined)
-                                .map((llm) => llm.map((response) => ({ label: String(response.id), value: String(response.id) })))
-                                .flat()
-                            ))
-                          }
-                          value={filterForm.llmQuestions.map((val) => String(val))}
-                          onValueChange={(value) => {
-                            let newValues = value.map((val) => parseInt(val));
-
-                            const newLLMAnswers = newValues.map((id) => {
-                              let record = filterForm.llmAnswers.find((answer) => answer.questionId === id)
-                              if (record) return record;
-                              return { questionId: id, answer: [] };
-                            })
-
-                            setFilterForm({...filterForm, llmQuestions: newValues, llmAnswers: newLLMAnswers });
-                          }}
+                    <div>
+                      <MultiSelect 
+                        placeholder="LLM Questions"
+                        options={
+                          llmQuestions.map((llmQuestion) => {
+                            let questionId = String(llmQuestion.id)
+                            var label = `Question ${questionId}`
+                            if (llmQuestion.question) {
+                              label += " - " + llmQuestion.question;
+                            }
+                            return { label: label, value: questionId }
+                          })
+                        }
+                        value={filterForm.llmQuestions}
+                        onValueChange={(value) => {
+                          let answers = llmQuestions.map((llmQuestion) => {
+                            if (
+                              value.includes(String(llmQuestion.id)) && 
+                              filterForm.llmAnswers.length > llmQuestion.id
+                            ) {
+                              return filterForm.llmAnswers[llmQuestion.id]
+                            } 
+                            return []
+                          }) 
+                            
+                          setFilterForm({
+                            ...filterForm, 
+                            llmQuestions: value,
+                            llmAnswers: answers
+                          })
+                        }}
                       />
                     </div>
                     {
-                      filterForm.llmQuestions.map((questionId) => {
-                        const currentAnswer = filterForm.llmAnswers.find(answer => answer.questionId === questionId);
-                        return (
-                          <MultiSelect
-                            key={questionId}
-                            placeholder={`LLM Question ${questionId}`}
-                            options={
-                              Array.from(new Set(
-                                searchResults.results.map((result) => result.llm_responses)
-                                  .filter((llm) => llm !== undefined)
-                                  .map((llm) => llm.find((response) => response.id === questionId))
-                                  .filter((response) => response !== undefined)
-                                  .map((response) => ({ label: response.answer, value: response.answer }))
-                                  .flat()
-                              ))}
-                            value={currentAnswer?.answer}
-                            onValueChange={(value) => {
-                              let newAnswers = filterForm.llmAnswers.map((answer) => {
-                                if (answer.questionId === questionId) {
-                                  return { questionId, answer: value }
-                                }
-                                return answer;
-                              })
-                              setFilterForm({...filterForm, llmAnswers: newAnswers});
-                            }}
-                          />
-                        ) 
+                      filterForm.llmQuestions.map((questionId, index) => {
+                        try {
+                          const currentQuestionPossibleAnswers = 
+                            llmQuestions.find((llmQuestion) => llmQuestion.id === parseInt(questionId))?.answer.split(",") ?? [];
+                          const possibleAnswers = 
+                            currentQuestionPossibleAnswers.map((answer) => ({ label: answer, value: answer }));
+                          return (
+                            <MultiSelect
+                              key={questionId}
+                              placeholder={`LLM Question ${questionId}`}
+                              options={possibleAnswers}
+                              value={filterForm.llmAnswers[index]}
+                              onValueChange={(value) => {
+                                let newAnswers = filterForm.llmAnswers.map((answer, index) => {
+                                  if (index === Number(questionId)) { return value; }
+                                  return answer;
+                                })
+                                setFilterForm({...filterForm, llmAnswers: newAnswers});
+                              }}
+                            />
+                          )
+                        } catch (e) {
+                          toast.error(`Error parsing LLM Question ${questionId} answers - ${e}`);
+                        }
                     })}
                   </div>
                   <Button 
@@ -1165,6 +1191,7 @@ function App() {
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={currentSearchHistoryIndex}
+                      // diffIndex={diffSearchHistoryIndex ?? -1}
                       searchHistory={searchHistory}
                       format="remove"
                     />
@@ -1172,6 +1199,7 @@ function App() {
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={diffSearchHistoryIndex ?? -1}
+                      // diffIndex={currentSearchHistoryIndex}
                       searchHistory={searchHistory} 
                       format="add"
                     />

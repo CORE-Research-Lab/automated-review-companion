@@ -187,7 +187,10 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                     const metadata = data.metadata.find((metadata: Publication) => metadata.paper_id === result.paper_id);
                     return {
                         ...result,
-                        ...metadata
+                        ...metadata,
+                        searched_from: result.searched_from || metadata.searched_from,
+                        search_string: result.search_string || metadata.search_string,
+                        formatted_search_string: result.formatted_search_string || metadata.formatted_search_string,
                     }
                 });
                 setSearchResults({...searchResults, results: updatedResults})
@@ -652,7 +655,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                             <td>{paper.search_string}</td>
                                                             <td>{paper.formatted_search_string}</td>
                                                             <td>
-                                                                <div style={{maxHeight: "120px", overflow: "scroll"}}>
+                                                                <div style={{maxHeight: "120px", overflow: "scroll", width: '550px'}}>
                                                                     {paper.abstract}
                                                                 </div>
                                                             </td>
