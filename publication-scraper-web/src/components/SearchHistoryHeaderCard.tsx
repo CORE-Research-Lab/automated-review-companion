@@ -1,18 +1,24 @@
+import { cn } from "@/lib/utils";
 import { SearchForm } from "@/types";
 
 export interface SearchHistoryHeaderCardProps {
   index: number
   searchHistory: SearchForm[];
+  format: "remove" | "add";
 }
 const SearchHistoryHeaderCard: React.FC<SearchHistoryHeaderCardProps> = (props) => {
-  const { index, searchHistory } = props;
+  const { index, searchHistory, format } = props;
 
   if (index == -1) {
     return <></>;
   }
 
   return ( 
-    <div className="px-3 py-2 border rounded-t-lg bg-slate-500/10">
+    <div className={cn(
+      "px-3 py-2 border rounded-t-lg",
+      { "bg-[#ffd2d8]": format === "remove" },
+      { "bg-[#b0e6be]": format === "add" }
+    )}>
       <p><b>Search {index + 1}:</b></p>
       <p>Year: {searchHistory[index]?.start_date.toDateString()} - {searchHistory[index]?.end_date.toDateString()}</p>
       {

@@ -20,6 +20,7 @@ import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
 import { DatePicker } from './components/ui/date-picker';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './components/ui/dialog';
 import { MultiSelect } from './components/ui/multi-select';
 import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
@@ -59,6 +60,7 @@ function App() {
   const [searchForm, setSearchForm] = useState<SearchForm>(defaultSearchForm);
   const [searchResults, setSearchResults] = useState<SearchResult>(defaultSearchResult);
   const [selectedPapers, setSelectedPapers] = useState<string[]>([]);
+  const [showClearDialog, setShowClearDialog] = useState(false);
   
   const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>(defaultLLMQuestions);
   const [llmAnswers, setLLMAnswers] = useState<LLMUserAnswer[]>([]);
@@ -348,6 +350,7 @@ function App() {
         params: { id: searchHistory[index].id }
       })
       .then((res) => {
+        setSearchForm(searchHistory[index]);
         setSearchResults(res.data);
         setButtonState((prevState) => ({
           ...prevState,
@@ -710,10 +713,14 @@ function App() {
                         className="form-control"
                         value={searchForm.start_date.toISOString().slice(0, 10)}
                         onChange={(e) => {
-                          setSearchForm({
-                            ...searchForm,
-                            start_date: new Date(e.target.value),
-                          });
+                          try {
+                            setSearchForm({
+                              ...searchForm,
+                              start_date: new Date(e.target.value),
+                            });
+                          } catch (e) {
+                            console.error(e);
+                          }
                         }}
                     />
                   </div>
@@ -726,10 +733,14 @@ function App() {
                         className="form-control"
                         value={searchForm.end_date.toISOString().slice(0, 10)}
                         onChange={(e) => {
-                          setSearchForm({
-                            ...searchForm,
-                            end_date: new Date(e.target.value),
-                          });
+                          try {
+                            setSearchForm({
+                              ...searchForm,
+                              end_date: new Date(e.target.value),
+                            });
+                          } catch (e) {
+                            console.error(e);
+                          }
                         }}
                     />
                   </div>
@@ -803,8 +814,23 @@ function App() {
                   }
                 </Button>
                 <Tooltip title={tooltipText.search.clearButton} placement="top">
-                  <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={resetSearchParameters}>Clear</Button>
+                  <Button className="bg-red-600 hover:bg-red-700/80" onClick={() => setShowClearDialog(true)}>Clear</Button>
                 </Tooltip>
+                <Dialog open={showClearDialog}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Clearing Search Parameters</DialogTitle>
+                    </DialogHeader>
+                    <DialogDescription>
+                      <span>Are you sure about clearing all search parameters?</span>
+                    </DialogDescription>
+                    <DialogFooter>
+                      <Button className="bg-red-600" onClick={resetSearchParameters}>Yes</Button>
+                      <Button onClick={() => setShowClearDialog(false)}>Close</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+                
               </div>
             </div>
           </div>
@@ -837,40 +863,39 @@ function App() {
                   </div>
                 </div>
 
-                <div className="w-100 relative">
-                <div className="px-12 py-3">
-                    <Carousel
-                    opts={{
-                      align: "start",
-                      loop: true,
-                    }}
-                    >
-                      <CarouselContent>
-                        {
-                          searchHistory.map((search, index) => (
-                            <CarouselItem 
-                              key={search.start_date.toISOString()}
-                              className="basis-1/3"
-                              onClick={() => handleChooseSearchHistory(index)}
+                <section className='w-100 px-12 py-3'>
+                  <Carousel
+                    opts={{ align: "start", loop: true }}
+                    className="w-full"
+                  >
+                    <CarouselContent>
+                      {searchHistory.map((search, index) => (
+                        <CarouselItem 
+                          key={index} 
+                          className="md:basis-1/2 lg:basis-1/3"
+                          onClick={() => handleChooseSearchHistory(index)}
+                        >
+                          <div className="p-1">
+                            <Tooltip title={
+                              <Box>
+                                <div>Search {index + 1}</div>
+                                <div>Ref: {search.id ?? "-"}</div>
+                                <div>Year Range: {search.start_date.toISOString().split("T")[0]} - {search.end_date.toISOString().split("T")[0]}</div>
+                                {
+                                  search.search_terms.advanced 
+                                  ? <div>Advanced Search: {search.search_terms.advanced}</div>
+                                  : <>
+                                      <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
+                                      <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
+                                      <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
+                                    </>
+                                }
+                                <div>Sources: {search.sources.join(', ')}</div>
+                              </Box>
+                              } 
+                              placement='top'
                             >
-                              <Tooltip title={
-                                <Box>
-                                  <div>Search {index + 1}</div>
-                                  <div>Ref: {search.id ?? "-"}</div>
-                                  <div>Year Range: {search.start_date.toISOString()} - {search.end_date.toISOString()}</div>
-                                  {
-                                    search.search_terms.advanced 
-                                    ? <div>Advanced Search: {search.search_terms.advanced}</div>
-                                    : <>
-                                        <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
-                                        <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
-                                        <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
-                                      </>
-                                  }
-                                  <div>Sources: {search.sources.join(', ')}</div>
-                                </Box>
-                              } placement="top">
-                               <Button 
+                              <Button 
                                   className={cn(
                                     "block w-full h-24 bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1",
                                     (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "") +
@@ -879,7 +904,7 @@ function App() {
                                   )}
                                 >
                                   <div className="leading-[14px] whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                    Search {index + 1} : {search.start_date.toISOString()} - {search.end_date.toISOString()}
+                                    Search {index + 1} : {search.start_date.toISOString().split("T")[0]} - {search.end_date.toISOString().split("T")[0]}
                                   </div>
                                   <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
                                     Ref: {parseSearchId(search.id) ?? "-"}
@@ -904,25 +929,16 @@ function App() {
                                       Tertiary Search: {search.search_terms.tertiary.join(', ')}
                                     </div>
                                   )}
-                                </Button>                                
-                              </Tooltip>
-                            </CarouselItem>
-                          ))
-                        }
-                        {
-                          searchHistory.length === 0 &&
-                          <div className="flex justify-content-center w-100">
-                            <div className="p-0 m-0 leading-[16px] text-muted">No search history</div>
+                              </Button> 
+                            </Tooltip>
                           </div>
-                        }
-                      </CarouselContent>
-                      <CarouselPrevious onClick={() => handleSearchHistory(-1)} />
-                      <CarouselNext onClick={() => handleSearchHistory(1)} />
-                    </Carousel>
-                </div>
-                {/* <button className="btn w-5" onClick={() => handleSearchHistory(1)}>{">"}</button> */}
-              </div>
-
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                </section>
             </div>
           </div>
         }
@@ -1149,13 +1165,15 @@ function App() {
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={currentSearchHistoryIndex}
-                      searchHistory={searchHistory} 
+                      searchHistory={searchHistory}
+                      format="remove"
                     />
                   </div>
                   <div className="col-6">
                     <SearchHistoryHeaderCard 
                       index={diffSearchHistoryIndex ?? -1}
                       searchHistory={searchHistory} 
+                      format="add"
                     />
                   </div>
                 </div>
