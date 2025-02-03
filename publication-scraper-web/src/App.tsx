@@ -148,17 +148,21 @@ function App() {
     setIsSearching(true);
     toast.info('Searching...');
     const cleanedAdvancedSearch = cleanAdvancedSearch(searchForm.search_terms.advanced);
+    
+    // Remove existing id to ensure a new unique id is generated
+    const { id, ...searchFormWithoutId } = searchForm;
+    
     const payload = {
-      ...searchForm,
+      ...searchFormWithoutId,
       search_terms: {
         advanced: searchMode === SearchMode.ADVANCED ? cleanedAdvancedSearch : "",
-        primary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.primary : [],
-        secondary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.secondary : [],
-        tertiary: searchMode === SearchMode.SIMPLE ? searchForm.search_terms.tertiary : []
+        primary: searchMode === SearchMode.SIMPLE ? searchFormWithoutId.search_terms.primary : [],
+        secondary: searchMode === SearchMode.SIMPLE ? searchFormWithoutId.search_terms.secondary : [],
+        tertiary: searchMode === SearchMode.SIMPLE ? searchFormWithoutId.search_terms.tertiary : []
       },
-      validation_papers: parseRootPapers(searchForm.validation_papers)
+      validation_papers: parseRootPapers(searchFormWithoutId.validation_papers)
     }
-
+    
     await axios.post(`${BASE_URL}/scraper/search-and-clean`, payload)
       .then((res) => {
         let data = res.data;
@@ -176,7 +180,7 @@ function App() {
           showPopulateMetadata: true,
           showHideMetadata: true,
         }))
-        setSearchHistory([...searchHistory, { id: res.data.id, ...payload, validation_papers: searchForm.validation_papers}]);
+        setSearchHistory([...searchHistory, { id: res.data.id, ...payload, validation_papers: searchFormWithoutId.validation_papers }]);
         setCurrentSearchHistoryIndex(searchHistory.length);
       })
       .catch(handleError)
