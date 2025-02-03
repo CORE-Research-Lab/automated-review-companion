@@ -18,7 +18,7 @@ import SearchHistoryHeaderCard from './components/SearchHistoryHeaderCard';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
 import Spinner from './components/Spinner';
 import { Button } from './components/ui/button';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from './components/ui/carousel';
 import { DatePicker } from './components/ui/date-picker';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './components/ui/dialog';
 import { MultiSelect } from './components/ui/multi-select';
@@ -605,6 +605,23 @@ function App() {
     }
   }, []);
 
+  // State to store the Embla Carousel API instance.
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
+
+  // Auto-focus on the latest carousel item when searchHistory updates
+  useEffect(() => {
+    if (searchHistory.length > 0 && carouselApi) {
+      carouselApi.reInit();
+  
+      const latestIndex = searchHistory.length - 1;
+      setCurrentSearchHistoryIndex(latestIndex);
+
+      setTimeout(() => {
+        carouselApi.scrollTo(latestIndex);
+      }, 50); // Adjust delay if needed
+    }
+  }, [searchHistory, carouselApi]);
+
   return (
       <div className="mt-3">
         <div className="container">
@@ -859,111 +876,111 @@ function App() {
         </div>
 
         {/* Search History */}
-        {
-            searchHistory.length > 0 &&
-            <div className="container mt-3">
-              <div className="container rounded border p-3" id="search-history">
-                <div className="d-flex justify-content-between mb-3">
-                  <h3 className="text-3xl font-medium">Search History</h3>
-                  <div className="flex gap-2">
-                    {
-                        diffMode &&
-                        <Tooltip title={tooltipText.search.history} placement="top">
-                          <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={handleShowDiffOnly}>
-                            {showDiffOnly ? "Hide Diff Only" : "Show Diff Only"}
+      {searchHistory.length > 0 && (
+        <div className="container mt-3">
+          <div className="container rounded border p-3" id="search-history">
+            <div className="d-flex justify-content-between mb-3">
+              <h3 className="text-3xl font-medium">Search History</h3>
+              <div className="flex gap-2">
+                {diffMode && (
+                  <Tooltip title={tooltipText.search.history} placement="top">
+                    <Button className="bg-slate-400 hover:bg-slate-500/80" onClick={handleShowDiffOnly}>
+                      {showDiffOnly ? "Hide Diff Only" : "Show Diff Only"}
+                    </Button>
+                  </Tooltip>
+                )}
+
+                <Tooltip title={tooltipText.search.history} placement="top">
+                  <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
+                    {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
+                  </Button>
+                </Tooltip>
+              </div>
+            </div>
+
+            <section className="w-100 px-12 py-3">
+              {/* Pass setCarouselApi to the Carousel so it can send back the Embla API */}
+              <Carousel opts={{ align: "start" }} className="w-full" setApi={setCarouselApi}>
+                <CarouselContent>
+                  {searchHistory.map((search, index) => (
+                    <CarouselItem
+                      id={`carousel-item-${index}`}
+                      key={index}
+                      className="md:basis-1/2 lg:basis-1/3"
+                      onClick={() => handleChooseSearchHistory(index)}
+                    >
+                      <div className="p-1">
+                        <Tooltip
+                          title={
+                            <Box>
+                              <div>Search {index + 1}</div>
+                              <div>Ref: {search.id ?? "-"}</div>
+                              <div>
+                                Year Range:{" "}
+                                {search.start_date.toISOString().split("T")[0]} -{" "}
+                                {search.end_date.toISOString().split("T")[0]}
+                              </div>
+                              {search.search_terms.advanced ? (
+                                <div>Advanced Search: {search.search_terms.advanced}</div>
+                              ) : (
+                                <>
+                                  <div>Primary Search: {search.search_terms.primary.join(", ")}</div>
+                                  <div>Secondary Search: {search.search_terms.secondary.join(", ")}</div>
+                                  <div>Tertiary Search: {search.search_terms.tertiary.join(", ")}</div>
+                                </>
+                              )}
+                              <div>Sources: {search.sources.join(', ')}</div>
+                            </Box>
+                          }
+                          placement="top"
+                        >
+                          <Button
+                            className={cn(
+                              "block w-full h-24 bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1",
+                              (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "") +
+                                (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") +
+                                (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
+                            )}
+                          >
+                            <div className="leading-[14px] whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                              Search {index + 1} : {search.start_date.toISOString().split("T")[0]} - {search.end_date.toISOString().split("T")[0]}
+                            </div>
+                            <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                              Ref: {parseSearchId(search.id) ?? "-"}
+                            </div>
+                            {search.search_terms.advanced && (
+                              <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                                Advanced Search: {search.search_terms.advanced}
+                              </div>
+                            )}
+                            {search.search_terms.primary.length > 0 && (
+                              <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                                Primary Search: {search.search_terms.primary.join(', ')}
+                              </div>
+                            )}
+                            {search.search_terms.secondary.length > 0 && (
+                              <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                                Secondary Search: {search.search_terms.secondary.join(', ')}
+                              </div>
+                            )}
+                            {search.search_terms.tertiary.length > 0 && (
+                              <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
+                                Tertiary Search: {search.search_terms.tertiary.join(', ')}
+                              </div>
+                            )}
                           </Button>
                         </Tooltip>
-                    }
-
-                    <Tooltip title={tooltipText.search.history} placement="top">
-                      <>
-                        <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
-                        {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
-                        </Button>
-                      </>
-                    </Tooltip>
-                  </div>
-                </div>
-
-                <section className='w-100 px-12 py-3'>
-                  <Carousel
-                    opts={{ align: "start", loop: true }}
-                    className="w-full"
-                  >
-                    <CarouselContent>
-                      {searchHistory.map((search, index) => (
-                        <CarouselItem 
-                          key={index} 
-                          className="md:basis-1/2 lg:basis-1/3"
-                          onClick={() => handleChooseSearchHistory(index)}
-                        >
-                          <div className="p-1">
-                            <Tooltip title={
-                              <Box>
-                                <div>Search {index + 1}</div>
-                                <div>Ref: {search.id ?? "-"}</div>
-                                <div>Year Range: {search.start_date.toISOString().split("T")[0]} - {search.end_date.toISOString().split("T")[0]}</div>
-                                {
-                                  search.search_terms.advanced 
-                                  ? <div>Advanced Search: {search.search_terms.advanced}</div>
-                                  : <>
-                                      <div>Primary Search: {search.search_terms.primary.join(', ')}</div>
-                                      <div>Secondary Search: {search.search_terms.secondary.join(', ')}</div>
-                                      <div>Tertiary Search: {search.search_terms.tertiary.join(', ')}</div>
-                                    </>
-                                }
-                                <div>Sources: {search.sources.join(', ')}</div>
-                              </Box>
-                              } 
-                              placement='top'
-                            >
-                              <Button 
-                                  className={cn(
-                                    "block w-full h-24 bg-slate-50 text-black hover:bg-blue-200/80 border-slate-400 border-1",
-                                    (index === currentSearchHistoryIndex && !diffMode ? "bg-blue-500/80 hover:bg-blue-600/80 text-white" : "") +
-                                    (index === currentSearchHistoryIndex && diffMode ? "diff-mode-red" : "") + 
-                                    (diffMode && diffSearchHistoryIndex === index ? "diff-mode-green" : "")
-                                  )}
-                                >
-                                  <div className="leading-[14px] whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                    Search {index + 1} : {search.start_date.toISOString().split("T")[0]} - {search.end_date.toISOString().split("T")[0]}
-                                  </div>
-                                  <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                    Ref: {parseSearchId(search.id) ?? "-"}
-                                  </div>
-                                  {search.search_terms.advanced && (
-                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                      Advanced Search: {search.search_terms.advanced}
-                                    </div>
-                                  )}
-                                  {search.search_terms.primary.length > 0 && (
-                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                      Primary Search: {search.search_terms.primary.join(', ')}
-                                    </div>
-                                  )}
-                                  {search.search_terms.secondary.length > 0 && (
-                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                      Secondary Search: {search.search_terms.secondary.join(', ')}
-                                    </div>
-                                  )}
-                                  {search.search_terms.tertiary.length > 0 && (
-                                    <div className="leading-[14px] text-muted whitespace-nowrap overflow-hidden text-ellipsis w-full">
-                                      Tertiary Search: {search.search_terms.tertiary.join(', ')}
-                                    </div>
-                                  )}
-                              </Button> 
-                            </Tooltip>
-                          </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </Carousel>
-                </section>
-            </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </section>
           </div>
-        }
+        </div>
+      )}
         
         {/* Publications Data */}
         <section className="container overflow-scroll" id="publication-data">
