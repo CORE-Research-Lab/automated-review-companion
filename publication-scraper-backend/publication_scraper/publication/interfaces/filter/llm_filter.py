@@ -154,6 +154,8 @@ class LLMFilter:
         examples_str = ""
         for index, example in enumerate(examples):
             examples_str += f"\n\nExample {index + 1}:\n"
+            paper = None
+            
             for p in self.raw_papers:
                 if isinstance(p, PublicationMetadata):
                     if p.publication_id == example.paper_id:

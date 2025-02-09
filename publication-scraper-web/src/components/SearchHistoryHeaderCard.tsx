@@ -15,24 +15,23 @@ const highlightDiff = (oldText: string, newText: string, format: "remove" | "add
   return differences.map((part, index) => {
     // Only highlight removed parts for "remove" format
     if (format === "remove" && part.removed) {
-      return (
-        <>
-          <span key={index} className="text-red-600 bg-red-100 line-through">
-            {part.value}
-          </span>
-        </>
-      );
+      return <></>
     }
     if (format === "remove" && part.added) {
-      return <></>
+      return (
+        <>
+        <span key={index} className="text-red-600 bg-red-100">
+          {part.value}
+        </span>
+      </>)
     }
     
     // Only highlight added parts for "add" format
     if (format === "add" && part.added) {
-      return <></>
+      return <span className="text-green-600 bg-green-100">{part.value}</span>
     }
     if (format === "add" && part.removed) {
-      return <span className="text-green-600 bg-green-100">{part.value}</span>
+      return <></>
     }
 
     
