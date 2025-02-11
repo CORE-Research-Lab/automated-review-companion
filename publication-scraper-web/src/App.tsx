@@ -677,7 +677,7 @@ function App() {
                       <input
                           type="text"
                           className="form-control"
-                          // placeholder="AI and ('Machine Learning' or 'Generative AI') and not Education"
+                          placeholder='AI AND ("Machine Learning" OR "Generative AI") AND NOT Education'
                           value={searchForm.search_terms.advanced}
                           onChange={(e) => setSearchForm({
                             ...searchForm,
