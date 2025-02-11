@@ -62,17 +62,29 @@ class LLMFilter:
         self.init_prompt()
 
     def init_prompt(self):
-        self.prompt = "Based on the following information provided for a paper along with its metadata, provide answers to the following questions"
-        if self.include_rationale:
-            self.prompt += "with justification and rationale"
-        self.prompt += ":"
+        self.prompt = (
+            "You are provided with an academic publication's detailed information along with its metadata. "
+            "Your task is to carefully analyze the data and accurately answer the following questions. "
+            "Review the provided publication metadata, esppeciallyn title and abstract to determine the best answer."
+        )
         
-        self.prompt += "\n\nThese are the questions to be answered with a list of comma-separated possible answer. Only one can be chosen:\n{qna}"
+        if self.include_rationale:
+            self.prompt += " Provide detailed justification and rationale for your selected answers, referencing specific parts/phrase of the metadata where appropriate."
+        else:
+            self.prompt += " Provide concise and clear answers based strictly on the provided information."
+        
+        self.prompt += (
+            "\n\nInstructions: For each question, select one of the comma-separated possible answers. "
+            "Ensure that your choice is fully supported by the details in the publication data."
+        )
+
+        self.prompt += "\n\nQuestions:\n{qna}"
+
         if self.include_examples:
-            self.prompt += "\n\nExamples:\n {examples}"
-        self.prompt += "\n\nThis is the publication's data to answer the questions:\n{paper_data}"
-        self.prompt += "\n\n{format_instructions}"
+            self.prompt += "\n\nExamples:\n{examples}"
             
+        self.prompt += "\n\nPublication Data:\n{paper_data}"
+        self.prompt += "\n\nOutput Format:\n{format_instructions}"
 
     def completion(self):
         """ Complete the LLM filter """
@@ -101,11 +113,24 @@ class LLMFilter:
             input_variables = self.input_variables,
             partial_variables = {"format_instructions": parser.get_format_instructions()}
         )
-        chain = filter_prompt | self.llm | parser
-        response = chain.invoke(self.invocation_variables)
+        
+        # Log the full prompt with all variables filled in
+        full_prompt = filter_prompt.format(**self.invocation_variables)
+        log.info("=== Full LLM Input ===")
+        log.info(full_prompt)
+        log.info("===================")
 
+        chain = filter_prompt | self.llm | parser
+        
+        # Capture raw LLM response before parsing
+        raw_response = chain.invoke(self.invocation_variables)
+        log.info("=== LLM Raw Response ===")
+        log.info(raw_response)
+        log.info("===================")
+
+        response = raw_response
         response["paper_id"] = paper_id
-        log.info(f"Completed LLM filter for paper: {paper_data}, response: {response}")
+        log.info(f"Completed LLM filter for paper: {paper_data}, parsed response: {response}")
         self.results.append(response)
 
     def _parse_paper_data(self, paper_data: List[Union[PublicationMetadata, Publication]]) -> List[Tuple[str, str]]:
