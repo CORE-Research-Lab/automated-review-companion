@@ -68,6 +68,9 @@ class PublicationValidationView(APIView):
 
 
 class PublicationLLMFilterView(APIView):
+    def _serialize_filter_results(self, results):
+        """Helper method to serialize filter results"""
+        return [result.dict() if hasattr(result, 'dict') else result for result in results]
 
     # @Controller
     def post(self, request):
@@ -131,9 +134,10 @@ class PublicationLLMFilterView(APIView):
             results = llm_filter.completion()
             
             if includeExamples:
-                results = [*answers, *results]    
-
-            return JsonResponse({ "results" : results })
+                results = [*answers, *results]
+                
+            serialized_results = self._serialize_filter_results(results)
+            return JsonResponse({ "results": serialized_results })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
     
 
