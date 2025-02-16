@@ -1,9 +1,6 @@
-import langchain
-from typing import List, Tuple, Union, Optional
-from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.prompts import PromptTemplate
-from langchain_core.pydantic_v1 import BaseModel
-from publication.interfaces.llm.azure import AzureLLM
+import json
+from typing import List, Tuple, Union, Optional, Any
+from pydantic import BaseModel, Field, field_validator
 from publication.interfaces.llm.openai import OpenAILLM
 from publication.models import Publication, PublicationMetadata
 from utils import Logger
@@ -11,30 +8,52 @@ from utils import Logger
 log = Logger(__name__)
 
 class FilterResponse(BaseModel):
-    id: str
-    question: str
-    answer: str
-    rationale: Optional[str]
+    id: Union[str, int] = Field(...)
+    question: str = Field(...)
+    answer: str = Field(...)
+    rationale: str = Field(default="No rationale provided")
+
+    @field_validator("id")
+    def validate_id(cls, v):
+        if isinstance(v, int):
+            return str(v)
+        return v
 
 class FilterAnswer(BaseModel):
-    id: str
-    answer: str
-    rationale: str
+    id: Union[str, int] = Field(...)
+    answer: str = Field(...)
+    rationale: str = Field(...)
+
+    @field_validator("id")
+    def validate_id(cls, v):
+        if isinstance(v, int):
+            return str(v)
+        return v
 
 class FilterAnswerExamples(BaseModel):
-    paper_id: str
-    responses: List[FilterAnswer]
+    paper_id: Union[str, int] = Field(...)
+    responses: List[FilterAnswer] = Field(default_factory=list)
+
+    @field_validator("paper_id")
+    def validate_paper_id(cls, v):
+        if isinstance(v, int):
+            return str(v)
+        return v
 
 class LLMFilterResponse(BaseModel):
-    paper_id: str
-    responses: List[FilterResponse]
+    paper_id: Union[str, int] = Field(...)
+    responses: List[FilterResponse] = Field(default_factory=list)
 
+    @field_validator("paper_id")
+    def validate_paper_id(cls, v):
+        if isinstance(v, int):
+            return str(v)
+        return v
 
 class LLMFilter:
     def __init__(self):
-        # self.model = AzureLLM()
+# self.model = AzureLLM()
         self.model = OpenAILLM()
-        self.llm = self.model.llm
         self.results: List[LLMFilterResponse] = []
 
     def parse(
@@ -95,43 +114,77 @@ class LLMFilter:
     
 
     def _complete_llm_filter(self, paper_id: str, paper_data: str):
-        """ Complete the LLM filter for a single paper """
-
+        """Complete the LLM filter for a single paper"""
         assert self.paper_data, "Paper data is required"
         assert self.qna, "QnA is required"
 
-        self.input_variables        = ["paper_data", "qna"]
-        self.invocation_variables   = {"paper_data": paper_data, "qna": self.qna}
-
+        self.invocation_variables = {"paper_data": paper_data, "qna": self.qna}
         if self.include_examples:
-            self.input_variables.append("examples")
             self.invocation_variables["examples"] = self.examples
 
-        parser = JsonOutputParser(pydantic_object=LLMFilterResponse)
-        filter_prompt = PromptTemplate(
-            template        = self.prompt,
-            input_variables = self.input_variables,
-            partial_variables = {"format_instructions": parser.get_format_instructions()}
+        system_prompt = (
+            "You are analyzing academic publication data. Your task is to answer specific questions about the publication.\n"
+            "The response MUST be a valid JSON object with this exact structure and all fields are required:\n"
+            "{\n"
+            '  "paper_id": "1234",  // Paper ID as string\n'
+            '  "responses": [       // Array of responses\n'
+            "    {\n"
+            '      "id": "1",       // Question ID as string\n'
+            '      "question": "What is the main topic?",  // Question text\n'
+            '      "answer": "Machine Learning",          // Your answer\n'
+            '      "rationale": "Based on the abstract..." // Your reasoning\n'
+            "    }\n"
+            "  ]\n"
+            "}\n\n"
+            "REQUIREMENTS:\n"
+            "1. ALL fields are required\n"
+            "2. ALL values must be strings\n"
+            "3. Empty or missing fields are not allowed\n"
+            "4. If unsure about a rationale, explain why you're uncertain"
         )
         
-        # Log the full prompt with all variables filled in
-        full_prompt = filter_prompt.format(**self.invocation_variables)
-        log.info("=== Full LLM Input ===")
-        log.info(full_prompt)
-        log.info("===================")
+        user_prompt = ""
+        for key, value in self.invocation_variables.items():
+            user_prompt += f"\n\n{key.upper()}:\n{value}"
 
-        chain = filter_prompt | self.llm | parser
-        
-        # Capture raw LLM response before parsing
-        raw_response = chain.invoke(self.invocation_variables)
-        log.info("=== LLM Raw Response ===")
-        log.info(raw_response)
-        log.info("===================")
-
-        response = raw_response
-        response["paper_id"] = paper_id
-        log.info(f"Completed LLM filter for paper: {paper_data}, parsed response: {response}")
-        self.results.append(response)
+        try:
+            response = self.model.completion(
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                response_model=LLMFilterResponse,
+            )
+            
+            # Ensure responses are properly formatted with string IDs and required fields
+            result = LLMFilterResponse(
+                paper_id=str(paper_id),
+                responses=[
+                    FilterResponse(
+                        id=str(r.get("id", "")),
+                        question=str(r.get("question", "Unknown question")),
+                        answer=str(r.get("answer", "No answer provided")),
+                        rationale=str(r.get("rationale", "No rationale provided"))
+                    ) for r in response.get("responses", [])
+                ]
+            )
+            
+            # Validate that we have at least one response
+            if not result.responses:
+                log.warning(f"No responses generated for paper: {paper_id}")
+                result.responses = [
+                    FilterResponse(
+                        id="1",
+                        question="Error",
+                        answer="No valid response generated",
+                        rationale="The model failed to generate a valid response structure"
+                    )
+                ]
+            
+            self.results.append(result)
+            log.info(f"Completed LLM filter for paper: {paper_id}")
+            
+        except Exception as e:
+            log.error(f"Error completing LLM filter: {str(e)}")
+            raise
 
     def _parse_paper_data(self, paper_data: List[Union[PublicationMetadata, Publication]]) -> List[Tuple[str, str]]:
         """ 

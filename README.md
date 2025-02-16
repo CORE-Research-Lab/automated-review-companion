@@ -1,18 +1,61 @@
 # publication_scraper
 Web Scraping Publications
+## Setup Instructions
 
-# Supported Function
-- `search-and-clean`: This file is responsible for searching through the raw data and cleaning it. It removes duplicates, non-English publications, and any irrelevant data to provide a clean, usable dataset for further analysis.
+### Backend Setup
+1. Create and activate virtual environment:
+```bash
+cd publication-scraper-backend
+python -m venv .venv
+source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+```
 
-- `snowballing`: This file is used for the snowballing process in systematic literature reviews. It takes a set of initial papers and finds all papers that cite them or are cited by them, expanding the datas
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-- `get-paper-metadata`: This file is used to get the metadata of a paper from its DOI. It uses the Crossref API to get the metadata of a paper from its DOI.
+3. Setup environment variables:
+```bash
+cp .env.example .env  # Create your .env file from template and fill in required values
+```
 
-- `validation`: The validation file is used to validate the results of the search and cleaning process. It checks the cleaned data against a set of predefined criteria or a validation dataset to ensure the data is accurate and ready for analysis.
+Required environment variables in .env:
+```plaintext
+AZURE_RESOURCE_NAME=your_azure_resource_name    # Azure OpenAI resource name
+AZURE_API_KEY=your_azure_api_key               # Azure OpenAI API key
+AZURE_DEPLOYMENT_NAME=your_deployment_name      # Azure OpenAI deployment name
+SEMANTIC_SCHOLAR_KEY=your_key                  # API key for Semantic Scholar
+WOS_KEY=your_key                              # Web of Science API key
+SCOPUS_KEY=your_key                           # Scopus API key
+OPENAI_API_KEY=your_key                       # OpenAI API key
 
+```
 
-## Dataset Description (deprecated)
-- `master.csv` contains the latest search result, unfiltered. It will contain duplicates and publications that are not in English.
-- `master-v2.csv` contains the cleaned search result using the full list of keywords (including "Yi"), and DBLP _without_ tertiary keywords.
-- `master-v3.csv` contains the cleaned search result using the refined list of keywords (including "Yi 6B"), and DBLP _with_ tertiary keywords.
-- `*-full.csv` contains the complete metadata of publications from the search result.
+4. Run migrations:
+```bash
+python manage.py migrate
+```
+
+5. Start the development server:
+```bash
+python manage.py runserver
+```
+The backend will be available at http://localhost:8000
+
+### Frontend Setup
+1. Navigate to frontend directory:
+```bash
+cd publication-scraper-web
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+The frontend will be available at http://localhost:3000
