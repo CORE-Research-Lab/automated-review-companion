@@ -310,7 +310,9 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             rel="noopener noreferrer"
             className="text-blue-500 underline"
           >
-            {publication.paper_id.slice(4)}
+            {publication.paper_id.slice(4).length > 40 
+              ? publication.paper_id.slice(4, 44) + "..."
+              : publication.paper_id.slice(4)}
           </a>
         </td>
         <td>

@@ -339,7 +339,7 @@ function App() {
   const handleDiffMode = () => {
     
     if (diffMode) {
-      handleShowDiffOnly();
+      setShowDiffOnly(false); // Reset showDiffOnly when disabling diff mode
       setDiffSearchHistoryIndex(null);
       let prevSearchResults = [...searchResults.results];
       let newPrevSearchResults = prevSearchResults.map((result: Publication) => {
@@ -504,12 +504,14 @@ function App() {
   }
 
   const handleShowDiffOnly = () => {
+    // Toggle the showDiffOnly state
+    setShowDiffOnly(!showDiffOnly);
+    
     // Handle Original Search Results
     let updatedResults = [...searchResults.results];
     let newUpdatedResults = updatedResults.map((result: Publication) => {
       if (result.diffType === 'common') {
-        if (showDiffOnly) return { ...result, show: true }
-        else { return { ...result, show: false } }
+        return { ...result, show: showDiffOnly } // If currently showing diff only, show all; otherwise hide common
       }
       return { ...result, show: true }
     });
@@ -519,13 +521,11 @@ function App() {
     let updatedDiffResults = [...diffSearchResults.results];
     let newUpdatedDiffResults = updatedDiffResults.map((result: Publication) => {
       if (result.diffType === 'common') {
-        if (showDiffOnly) return { ...result, show: true }
-        else { return { ...result, show: false } }
+        return { ...result, show: showDiffOnly } // If currently showing diff only, show all; otherwise hide common
       }
       return { ...result, show: true }
     });
     setDiffSearchResults({...diffSearchResults, results: newUpdatedDiffResults});
-    setShowDiffOnly(!showDiffOnly);
   }
 
   const parseSearchId = (id: string | undefined) => {
