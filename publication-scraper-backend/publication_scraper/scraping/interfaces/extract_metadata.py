@@ -1,18 +1,16 @@
-import logging
-from datetime import datetime
 from typing import Any, Dict, List, Union
+import os
+from datetime import datetime
 
 import requests
-
-# from serpapi import GoogleSearch
 from crossref.restful import Works
 from publication.models import Publication, PublicationMetadata
 from utils import Profiler
 from utils.logger import Logger as Logger
 
 log = Logger(__name__)
+
 class PublicationMetadataExtractor:
-    
     def __init__(self, paper_ids: Union[str, List[str]]):
         # For reference as PublicationMetadata fields -- Can be deleted afterwards
         log.info("Initializing PublicationMetadataExtractor")
@@ -218,12 +216,14 @@ class PublicationMetadataExtractor:
 
     def _get_paper_id(self, paper_id: str) -> str:
         """ Get the paper ID from the record identifiers. """
-        
-        if "URL" in paper_id:
-            return paper_id.split(":")[1] # Extract the original URL since doi is not available
-        
+        if paper_id.startswith("DOI:https://doi.org/"):
+            return paper_id.replace("DOI:https://doi.org/", "")
+        elif paper_id.startswith("DOI:"):
+            return paper_id[4:]  # Remove "DOI:" prefix
+        elif "URL" in paper_id:
+            return paper_id.split(":")[1]  # Extract the original URL since doi is not available
         return paper_id
-  
+
     def _get_doi(self, paper: Dict[str, Any], paper_id: str) -> str:
         """ Get the DOI from the paper. """
         
@@ -238,28 +238,10 @@ class PublicationMetadataExtractor:
         
         return doi
     
-    def _get_affiliations_google_scholar(self, author_name) -> list[str]:
-        
-        params = {
-            "engine": "google_scholar_profiles",
-            "mauthors": author_name.strip(),
-            "api_key": os.environ.get("GOOGLE_SCHOLAR_API_KEY"),
-        }
-
-        try:
-            search          = GoogleSearch(params)
-            results         = search.get_dict()
-            metadata        = results.get("metadata", {})
-            metadata_status = metadata.get("status")
-            profiles        = results.get("profiles", [])
-            
-            if metadata_status == "Error" or len(profiles) == 0:
-                return ["No Affiliation"]
-            return [results["profiles"][0]["affiliations"]]
-        
-        except Exception as e:
-            print(e)
-            return ["No Affiliation"]
+    def _get_affiliations(self, author_name: str) -> List[str]:
+        """Get author affiliations."""
+        # TODO: Implement alternative affiliation lookup if needed
+        return ["No Affiliation"]
 
     def _get_crossref_paper(self, doi: str):
         """ Get the paper from Crossref. """

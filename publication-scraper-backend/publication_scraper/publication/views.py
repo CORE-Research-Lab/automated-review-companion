@@ -9,6 +9,8 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from utils import Logger, Controller
 from rest_framework.parsers import MultiPartParser, FormParser
+from scraping.domain import SemanticScholarEngine
+from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
 
 from .interfaces.backward_search import BackwardSearch
 from .interfaces.filter.llm_filter import FilterResponse, LLMFilter, FilterAnswerExamples, FilterAnswer
@@ -157,10 +159,14 @@ class PublicationLLMFilterView(APIView):
         #     return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."
 
 class PublicationUploadView(APIView):
-
     parser_classes = (MultiPartParser, FormParser)
 
+    @Controller
     def post(self, request):
+        """
+        Process a CSV file containing DOIs, add the papers and populate their metadata.
+        Searches from Semantic Scholar directly and populates metadata immediately.
+        """
         file = request.FILES.get("file")
 
         if not file:
@@ -178,7 +184,46 @@ class PublicationUploadView(APIView):
             return JsonResponse({"error": "CSV file must contain a 'DOI' column."}, status=HTTP_400_BAD_REQUEST)
         
         dois = df["DOI"].dropna().astype(str).tolist()
-        return JsonResponse({"dois": dois})
+        
+        # Use SemanticScholar to search for papers
+        sch_engine = SemanticScholarEngine()
+        publication_results = []
+        failed_dois = []
+        
+        for doi in dois:
+            paper_doi = f"DOI:https://doi.org/{doi}" if not doi.startswith("DOI:") else doi
+            publication = Publication.objects.filter(paper_id=paper_doi)
+            
+            if publication.exists():
+                log.info(f"Publication with DOI {paper_doi} already exists.")
+                publication = publication.first()
+            else:
+                log.info(f"Searching for publication with DOI {paper_doi}")
+                publication = sch_engine.find_by_doi(doi)
+                if publication is None:
+                    log.error(f"Publication with DOI '{doi}' not found.")
+                    failed_dois.append(doi)
+                    continue
+                publication.save()
+            
+            publication_results.append(publication)
+
+        # Now use PublicationMetadataExtractor to populate metadata for all found publications
+        if publication_results:
+            paper_ids = [pub.paper_id for pub in publication_results]
+            extractor = PublicationMetadataExtractor(paper_ids)
+            metadata = [pub_metadata.to_dict(show_publication=True) for pub_metadata in extractor.extracted_metadata]
+            additional_failed = [publication.paper_id for _, publication in extractor.failed_papers]
+            failed_dois.extend([doi[4:] for doi in additional_failed]) # Remove DOI: prefix
+        else:
+            metadata = []
+        
+        return JsonResponse({
+            "publications": metadata,  # Now returns publications with metadata
+            "failed_dois": failed_dois,
+            "total_processed": len(dois),
+            "total_success": len(publication_results)
+        })
 
 
 
