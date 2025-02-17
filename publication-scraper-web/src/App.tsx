@@ -447,9 +447,10 @@ function App() {
     let updatedResultsIdx = 0;
     let diffResultsIdx = 0;
     for (let i = 0; i < totalPapers; i++) {
+      console.log('i:', i, 'updatedResult:', newUpdatedResults[updatedResultsIdx], 'diffResult:', newDiffSearchResults[diffResultsIdx]);
       if (
-        newUpdatedResults[updatedResultsIdx].diffType === 'common' &&
-        newDiffSearchResults[diffResultsIdx].diffType === 'common'
+        newUpdatedResults[updatedResultsIdx]?.diffType === 'common' &&
+        newDiffSearchResults[diffResultsIdx]?.diffType === 'common'
       ) {
         newUpdatedResultsWithDummy.push(newUpdatedResults[updatedResultsIdx]);
         newDiffSearchResultsWithDummy.push(newDiffSearchResults[diffResultsIdx]);
