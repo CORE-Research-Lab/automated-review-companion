@@ -13,7 +13,7 @@ const DatabaseSelector: React.FC<DatabaseSelectorProps> = (props) => {
 
     // Centralized list of disabled sources
     const disabledSources: SearchEngineType[] = [
-        SearchEngineType.IEEE_XPLORE,
+        // SearchEngineType.IEEE_XPLORE,
     ];
 
     const parseSearchEngineName = (source: SearchEngineType) => {

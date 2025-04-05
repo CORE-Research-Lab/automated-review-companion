@@ -55,7 +55,7 @@ class SearchAndCleanView(APIView):
                 self.all_search_terms.append(list(self.search_terms['secondary']))
             if self.search_terms.get('tertiary'):
                 self.all_search_terms.append(list(self.search_terms['tertiary']))
-                
+
             self.all_search_terms = list(product(*self.all_search_terms))
             log.info("All search terms: %s", self.all_search_terms)
 
@@ -89,13 +89,13 @@ class SearchAndCleanView(APIView):
 
     def search(self) -> List[Publication]:
         """ Search for publications using the search terms. """
-        
+
         engines: List[SearchEngine] = []
         metadata: Dict[str, str] = dict()
 
         if SearchEngineType.DBLP in self.sources:
             engines.append(DBLPEngine(self.query))
-            
+
         if SearchEngineType.SEMANTIC_SCHOLAR in self.sources:
             engines.append(SemanticScholarEngine(self.query))
 
@@ -104,15 +104,15 @@ class SearchAndCleanView(APIView):
 
         if SearchEngineType.IEEE_XPLORE in self.sources:
             engines.append(IEEEXploreEngine(self.query))
-        
+
         if SearchEngineType.SCOPUS in self.sources:
             engines.append(ScopusEngine(self.query))
 
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
         results.extend([
-            result 
-            for engine in engines 
+            result
+            for engine in engines
             for result in sorted(engine.search(), key=lambda x: x.paper_id)
         ])
 
@@ -123,7 +123,7 @@ class SearchAndCleanView(APIView):
                 "cursor": engine.cursor,
                 "total_results": engine.total_results
             }
-            
+
 
         # TODO: remove_duplicates -> aggregate_duplicates
         results = Publication.remove_duplicates(results)
@@ -142,7 +142,7 @@ class SearchAndCleanView(APIView):
         word_processor = SearchTermProcessor(self.all_search_terms)
         word_processor.generate_variants()
         return [search_term.to_dict() for search_term in word_processor.all_search_words]
-    
+
     def get_matches(self) -> Dict:
         """ Get publications that match the validation papers. """
         matches = []
@@ -174,10 +174,10 @@ class PublicationMetadataView(APIView):
     def post(self, request):
         serializer = PublicationMetadataSerializer(data=request.data)
         if serializer.is_valid():
-            
+
             # NOTE: This is a temporary solution to get all paper IDs.
             # paper_ids = Publication.objects.values_list('paper_id', flat=True)
-            
+
             paper_ids = serializer.validated_data['paper_ids']
             paper_ids = [paper_id for paper_id in paper_ids if paper_id.startswith('DOI')]
             extractor = PublicationMetadataExtractor(paper_ids)
@@ -186,21 +186,21 @@ class PublicationMetadataView(APIView):
 
             search_reference_id = serializer.validated_data.get('search_reference_id')
             self.update_search_results(search_reference_id, metadata)
-            
+
             return JsonResponse({ "metadata": metadata, "failed": failed })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
-    
+
     def update_search_results(self, search_reference_id: str, metadata: List[Dict]):
-        
+
         if search_reference_id is None:
             return
-        
+
         search_results = get_object_or_404(SearchResponse, id=search_reference_id)
-        historical_results = search_results.results 
+        historical_results = search_results.results
         for idx, result in enumerate(historical_results):
             for pub_metadata in metadata:
                 if result['paper_id'] == pub_metadata['paper_id']:
-                    if type(pub_metadata['publication_date']) != str and pub_metadata['publication_date'] is not None:
+                    if not isinstance(pub_metadata['publication_date'], str) and pub_metadata['publication_date'] is not None:
                         pub_metadata['publication_date'] = pub_metadata['publication_date'].strftime('%Y-%m-%d')
                     historical_results[idx] = pub_metadata
                     break
@@ -236,7 +236,7 @@ class ManualAddPublicationView(APIView):
                 publication_results.append(publication)
             return JsonResponse({ "publications": [pub.to_dict() for pub in publication_results] })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
-        
+
 
 class SearchStringDifferenceView(APIView):
 
@@ -248,7 +248,7 @@ class SearchStringDifferenceView(APIView):
         serializer = SearchStringDifferenceSerializer(data=request.data)
         if not serializer.is_valid():
             return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
-        
+
         query_data        = serializer.validated_data['search_terms']
         show_publication  = serializer.validated_data['show_publication']
         show_metadata     = serializer.validated_data['show_metadata']
@@ -256,7 +256,7 @@ class SearchStringDifferenceView(APIView):
 
         search_results_dict   = self._retrieve_search_results(all_queries)
         queries_to_paper_ids  = self._aggregate_results(search_results_dict)
-        
+
         result = self._format_response(queries_to_paper_ids, show_publication, show_metadata)
         return JsonResponse({"results": result})
 
@@ -286,13 +286,13 @@ class SearchStringDifferenceView(APIView):
                     paper_id_to_queries[paper_id] = []
                 if search_string not in paper_id_to_queries[paper_id]:
                     paper_id_to_queries[paper_id].append(search_string)
-        
+
         queries_to_paper_ids = {}
         for paper_id, queries in paper_id_to_queries.items():
             if tuple(queries) not in queries_to_paper_ids:
                 queries_to_paper_ids[tuple(queries)] = []
             queries_to_paper_ids[tuple(queries)].append(paper_id)
-            
+
         return queries_to_paper_ids
 
     def _format_response(self, queries_to_paper_ids: Dict[List[Tuple], List[str]], show_publication: bool, show_metadata: bool):
@@ -308,14 +308,14 @@ class SearchStringDifferenceView(APIView):
             for search_strings, paper_ids in queries_to_paper_ids.items()
         ]
         return result
-      
+
     def _get_search_results(self, paper_ids: List[str], show_publication: bool, show_metadata: bool):
         """
         Get the search results for a list of paper IDs.
         """
         publications  = Publication.objects.filter(paper_id__in=paper_ids)
         metadata      = PublicationMetadata.objects.filter(publication__in=publications)
-        
+
         if show_metadata and show_publication:
             metadata_by_id   = {pub_metadata.publication.paper_id: pub_metadata for pub_metadata in metadata}
             publication_data = []
@@ -343,7 +343,7 @@ class HistoricalSearchQueryResultsView(APIView):
         search_id = request.query_params.get('id')
         if search_id is None:
             return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
-        
+
         search_results = get_object_or_404(SearchResponse, id=search_id)
         return JsonResponse(search_results.to_dict())
 
@@ -369,7 +369,7 @@ class SearchHistoryPublicationView(APIView):
         print(search_results.to_dict())
         search_results.save()
         return JsonResponse(search_results.to_dict())
-    
+
     @Controller
     def put(self, request):
         """
@@ -384,7 +384,7 @@ class SearchHistoryPublicationView(APIView):
             return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
         if paper_data is None:
             return JsonResponse({ "error": "Paper data is required." }, status=HTTP_400_BAD_REQUEST)
-        
+
         search_results = get_object_or_404(SearchResponse, id=search_id)
         search_results.results.extend(paper_data)
         search_results.save()
@@ -404,11 +404,11 @@ class SearchHistoryPublicationView(APIView):
 
         if search_id is None:
             return JsonResponse({ "error": "Search ID is required." }, status=HTTP_400_BAD_REQUEST)
-        
+
         search_results = get_object_or_404(SearchResponse, id=search_id)
         search_results.results = [result for result in search_results.results if result['paper_id'] not in paper_ids]
         search_results.save()
 
         log.info(f"Deleted search results for paper IDs: {search_results.results}")
-        
+
         return JsonResponse({ "message": "Search results deleted successfully." })

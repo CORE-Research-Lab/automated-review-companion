@@ -3,7 +3,7 @@ export const tooltipText = {
   changelog: "Click to view the changelog",
   search: {
     primary: {
-      hint: "Primary search term is required", 
+      hint: "Primary search term is required",
       example: "i.e., Undergraduate, Students, etc. (Press Enter to add the search term)",
     },
     secondary: {
@@ -21,7 +21,7 @@ export const tooltipText = {
       DBLP: "DBLP Search is \"mainly based on a publication's title string, as well as some info from the metadata (e.g., the venue title).\" Read more at https://dblp.org/faq/How+to+perform+a+search+within+the+full-texts.html",
       SEMANTIC_SCHOLAR: "Semantic Scholar Search uses Semantic Scholar's default \"custom-trained ranker to perform keyword searches\". Read more at https://medium.com/ai2-blog/building-a-better-search-engine-for-semantic-scholar-ea23a0b661e7",
       WEB_OF_SCIENCE: "Web of Science Search uses Web of Science Advanced Search Field TS (Topic), \"which searches for topic terms in the following fields within a record: Title, Abstract, Author, Keywords, Keywords Plus®\". Read more at https://images.webofknowledge.com/images/help/WOS/hs_advanced_fieldtags.html",
-      IEEE_XPLORE: "DISABLED! Waiting for IEEE API Key... IEEE Xplore Search \"looks for a keyword in all fields (metadata)\". Read more at https://ieeexplore.ieee.org/Xplorehelp/searching-ieee-xplore/command-search",
+      IEEE_XPLORE: "IEEE Xplore Search \"looks for a keyword in all fields (metadata)\". Read more at https://ieeexplore.ieee.org/Xplorehelp/searching-ieee-xplore/command-search",
       SCOPUS: "Scopus Search \"search in the Article title, Abstract and Keywords of documents\". Read more at https://elsevier.libguides.com/Scopus/topical-search"
     },
     validationPapers: {
@@ -54,7 +54,7 @@ export const tooltipText = {
       enabled: "Export selected papers in CSV/BibTex/RIS format",
       disabled: "Select at least one paper to enable export"
     },
-    operations: { 
+    operations: {
       enabled: "Operations on resulting papers",
       disabled: "Select at least one paper to enable operations"
     }

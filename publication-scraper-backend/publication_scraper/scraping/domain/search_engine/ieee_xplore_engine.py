@@ -34,7 +34,7 @@ class IEEEXploreEngine(SearchEngine):
 
     @Profiler("IEEE Xplore search")
     def search(self) -> List[Publication]:
-        
+
         if self.search_type == SearchQueryType.ADVANCED:
             return self._advanced_search()
         return self._simple_search()
@@ -43,7 +43,7 @@ class IEEEXploreEngine(SearchEngine):
 
         for idx, search_string in enumerate(self.queries):
             ieee_search_string = self._parse_search_string(search_string)
-            
+
             log.info(f"--- Searching for {ieee_search_string} ({idx + 1}/{len(self.queries)}) ---")
             search_results = self.search_ieee_xplore(ieee_search_string)
             log.info(f">>> IEEE Xplore total: {len(search_results)}")
@@ -68,8 +68,8 @@ class IEEEXploreEngine(SearchEngine):
         if self.search_type == SearchQueryType.ADVANCED:
             parser = SearchQueryParser(self.advanced_query)
             return parser.parse(SearchEngineType.IEEE_XPLORE)
-        
-        # Double quote search term phrases 
+
+        # Double quote search term phrases
         search_string = [f'"{term}"' if " " in term else term for term in search_string]
         return " AND ".join(search_string)
 
@@ -85,17 +85,18 @@ class IEEEXploreEngine(SearchEngine):
         }
 
         if self.start_date:  # YYYY-MM-DD
-            params["start_date"] = self.start_date.replace("-", "")
+            # Format date as YYYYMMDD for IEEE Xplore API
+            params["start_date"] = self.start_date.strftime("%Y%m%d")
         if self.end_date:
-            params["end_date"] = self.end_date.replace("-", "")
+            params["end_date"] = self.end_date.strftime("%Y%m%d")
 
         return params
-    
+
     def _get_responses(self, search_params: Dict[str, Any]) -> List[Dict[str, Any]]:
         response = requests.get(self.base_url, params=search_params)
         response.raise_for_status()
         return response.json()["articles"]
-    
+
     def _fetch_search_results(
         self,
         url: str,
@@ -103,7 +104,7 @@ class IEEEXploreEngine(SearchEngine):
         max_retries: int = 3,
         delay: int = 5,
     ) -> Dict[str, Any]:
-        
+
         for _ in range(max_retries):
             try:
                 response = requests.get(url, params=params)
@@ -117,13 +118,13 @@ class IEEEXploreEngine(SearchEngine):
         log.error(f"Failed to fetch search results after {max_retries} attempts")
 
     def process_search_results(
-        self, 
-        search_results: List[Dict[str, Any]], 
-        search_string: str, 
+        self,
+        search_results: List[Dict[str, Any]],
+        search_string: str,
         ieee_search_string: str
-    ) -> None: 
+    ) -> None:
 
-        for count, result in enumerate(search_results, start=1):
+        for _, result in enumerate(search_results, start=1):
             paper_id = self._get_paper_id(result)
             publication = Publication(
                 paper_title             = result.get("title") or result.get("publication_title"),
@@ -133,8 +134,8 @@ class IEEEXploreEngine(SearchEngine):
                 formatted_search_string = f"({ieee_search_string})",
             )
             self.results.append(publication)
-    
+
     def _get_paper_id(self, result: Dict[str, Any]) -> Optional[str]:
-        if doi := result.get("doi"):   
+        if doi := result.get("doi"):
             return f"DOI:https://doi.org/{doi}"
         return f"URL:{result.get('html_url')}"
