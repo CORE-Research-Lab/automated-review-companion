@@ -1,5 +1,43 @@
-# publication_scraper
-Web Scraping Publications
+# ARC: Automated Review Companion
+
+**A human-centered, open-source system for conducting rigorous Systematic Literature Reviews (SLRs).**
+
+ARC is an integrated research tool designed to support the fluid, iterative nature of the Systematic Literature Review process. Unlike fragmented "point solutions" that handle only specific tasks, Arc unifies multi-database searching, iterative query refinement, automated snowballing, and verifiable AI-assisted screening into a single, cohesive workflow.
+
+This system was designed to address key friction points in modern research: high cognitive load during search exploration, the overwhelming scale of new literature, and the need to balance automation with scholarly agency.
+
+## Key Features
+
+*   **Integrated Multi-Database Search:** Execute flexible keyword searches simultaneously across major scholarly databases (Semantic Scholar, DBLP, Web of Science, IEEE Xplore, and Scopus).
+*   **Iterative Search Comparison:** Visualizes the "diff" between search iterations, allowing researchers to see exactly which papers were added or removed when query parameters (keywords, dates) change.
+*   **Automated Snowballing:** Performs one-click forward (citations) and backward (references) reference searching to identify connected works without manual data entry.
+*   **Verifiable AI-Assisted Screening:** A human-in-the-loop module that uses Large Language Models (LLMs) to filter papers based on user-defined inclusion/exclusion criteria. Crucially, the AI provides **rationales** for every suggestion, ensuring the researcher remains in control of the final decision.
+*   **Metadata Curation:** Automatically deduplicates records and standardizes metadata (DOIs, abstracts) for export to standard formats (BibTeX, CSV, RIS).
+
+## Reference Paper
+
+If you use ARC in your research or find the codebase useful, please cite our paper:
+
+> **From Toil to Thought: Designing for Strategic Exploration and Responsible AI in Systematic Literature Reviews**. *Proceedings of the 31st International Conference on Intelligent User Interfaces (IUI '26)*.
+
+### BibTeX
+
+```bibtex
+@inproceedings{ye2026toil,
+  author = {Ye, Runlong and Sibia, Naaz and Zavaleta Bernuy, Angela and Zhu, Tingting and Nobre, Carolina and Pammer-Schindler, Viktoria and Liut, Michael},
+  title = {From Toil to Thought: Designing for Strategic Exploration and Responsible AI in Systematic Literature Reviews},
+  booktitle = {Proceedings of the 31st International Conference on Intelligent User Interfaces (IUI '26)},
+  year = {2026},
+  publisher = {ACM},
+  address = {Paphos, Cyprus},
+  url = {https://doi.org/10.1145/3742413.3789079},
+  doi = {10.1145/3742413.3789079},
+  isbn = {979-8-4007-1984-4/26/03},
+  pages = {22 pages}
+}
+```
+
+***
 ## Setup Instructions
 
 ### Backend Setup
