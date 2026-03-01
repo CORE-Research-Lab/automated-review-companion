@@ -1,5 +1,6 @@
 import logging
 import time
+from datetime import date, datetime
 from typing import Any, Dict, List, Optional
 
 import requests
@@ -17,6 +18,8 @@ environ.Env.read_env()
 log = Logger(__name__)
 
 class IEEEXploreEngine(SearchEngine):
+    MAX_RECORDS_PER_REQUEST = 200
+    MAX_RESULTS = 1000
 
     def __init__(self, search_query: SearchQuery = None):
         super().__init__()
@@ -75,27 +78,63 @@ class IEEEXploreEngine(SearchEngine):
 
     def search_ieee_xplore(self, search_string: str) -> List[Publication]:
         search_params = self._parse_search_params(search_string)
-        response = self._get_responses(search_params)
-        return response
+        return self._get_all_responses(search_params)
 
     def _parse_search_params(self, search_string: str):
         params = {
             "querytext": f"({search_string})",
-            "apikey": self.api_key
+            "apikey": self.api_key,
+            "max_records": self.MAX_RECORDS_PER_REQUEST,
+            "start_record": 1,
         }
 
-        if self.start_date:  # YYYY-MM-DD
-            # Format date as YYYYMMDD for IEEE Xplore API
-            params["start_date"] = self.start_date.strftime("%Y%m%d")
+        if self.start_date:
+            params["start_year"] = self._extract_year(self.start_date)
         if self.end_date:
-            params["end_date"] = self.end_date.strftime("%Y%m%d")
+            params["end_year"] = self._extract_year(self.end_date)
 
         return params
 
-    def _get_responses(self, search_params: Dict[str, Any]) -> List[Dict[str, Any]]:
-        response = requests.get(self.base_url, params=search_params)
-        response.raise_for_status()
-        return response.json()["articles"]
+    def _extract_year(self, value: Any) -> int:
+        if isinstance(value, (datetime, date)):
+            return value.year
+
+        if isinstance(value, str):
+            for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S.%fZ"):
+                try:
+                    return datetime.strptime(value, fmt).year
+                except ValueError:
+                    continue
+            if len(value) >= 4 and value[:4].isdigit():
+                return int(value[:4])
+
+        raise ValueError(f"Invalid date/year value for IEEE Xplore filter: {value}")
+
+    def _get_all_responses(self, search_params: Dict[str, Any]) -> List[Dict[str, Any]]:
+        all_articles: List[Dict[str, Any]] = []
+        total_records: Optional[int] = None
+
+        while len(all_articles) < self.MAX_RESULTS:
+            response_data = self._fetch_search_results(self.base_url, search_params)
+            articles = response_data.get("articles", [])
+
+            if total_records is None:
+                total_records = int(response_data.get("total_records", len(articles)) or 0)
+
+            if not articles:
+                break
+
+            all_articles.extend(articles)
+
+            if len(all_articles) >= total_records:
+                break
+
+            if len(articles) < self.MAX_RECORDS_PER_REQUEST:
+                break
+
+            search_params["start_record"] += len(articles)
+
+        return all_articles[: self.MAX_RESULTS]
 
     def _fetch_search_results(
         self,
@@ -105,17 +144,18 @@ class IEEEXploreEngine(SearchEngine):
         delay: int = 5,
     ) -> Dict[str, Any]:
 
-        for _ in range(max_retries):
+        for attempt in range(max_retries):
             try:
-                response = requests.get(url, params=params)
+                response = requests.get(url, params=params, timeout=30)
                 response.raise_for_status()
                 return response.json()
-            except requests.exceptions.HTTPError as e:
+            except requests.exceptions.RequestException as e:
                 log.error(f"Error fetching search results: {e}")
-                log.error(f"Retrying in {delay} seconds")
+                if attempt < max_retries - 1:
+                    log.error(f"Retrying in {delay} seconds")
                 time.sleep(delay)
 
-        log.error(f"Failed to fetch search results after {max_retries} attempts")
+        raise Exception(f"IEEE Xplore: Failed to fetch search results after {max_retries} retries")
 
     def process_search_results(
         self,
