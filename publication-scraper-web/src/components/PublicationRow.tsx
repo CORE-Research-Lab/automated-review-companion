@@ -118,9 +118,9 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
   const getColorByRowType = () => {
     switch (rowType) {
       case 'reference':
-        return 'table-info';
-      case 'citation':
         return 'table-warning';
+      case 'citation':
+        return 'table-info';
       default:
         return '';
     }
@@ -260,17 +260,17 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
                       publication.references && publication.references.length > 0 && !diffMode &&
                       <Tooltip title="Expand/Collapse references" placement="top">
                         {publication.showReferences ?
-                            <ExpandMoreIcon
+                            <ExpandLessIcon
                                 onClick={handleReferencesVisibility}
                                 style={{
                                   cursor: "pointer",
-                                  color: "blue"
+                                  color: "#E6A23B"
                                 }} /> 
-                          : <ExpandLessIcon
+                          : <ExpandMoreIcon
                                 onClick={handleReferencesVisibility}
                                 style={{
                                   cursor: "pointer",
-                                  color: "blue"
+                                  color: "#E6A23B"
                                 }}
                             />}
                       </Tooltip>
@@ -279,18 +279,18 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
                       publication.citations && publication.citations.length > 0 && !diffMode &&
                       <Tooltip title="Expand/Collapse citations" placement="top">
                         {publication.showCitations ?
-                            <ExpandMoreIcon
-                                onClick={handleCitationsVisibility}
-                                style={{
-                                  cursor: "pointer",
-                                  color: "#E6A23B"
-                                }}
-                            /> :
                             <ExpandLessIcon
                                 onClick={handleCitationsVisibility}
                                 style={{
                                   cursor: "pointer",
-                                  color: "#E6A23B"
+                                  color: "blue"
+                                }}
+                            /> :
+                            <ExpandMoreIcon
+                                onClick={handleCitationsVisibility}
+                                style={{
+                                  cursor: "pointer",
+                                  color: "blue"
                                 }}
                             />
                         }

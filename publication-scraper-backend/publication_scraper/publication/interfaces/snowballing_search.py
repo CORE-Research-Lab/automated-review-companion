@@ -6,6 +6,7 @@ from publication.models import (
     Publication,
     PublicationMetadata,
     PublicationReference,
+    PublicationReferenceType,
     PublicationStatus,
 )
 from scraping.interfaces.extract_metadata import PublicationMetadataExtractor
@@ -34,6 +35,16 @@ class SnowballingSearch:
     def search(self):
         """ Perform a search. """
         raise NotImplementedError
+
+
+    def _get_search_string_label(self, reference_type: PublicationReferenceType) -> str:
+        """Return a user-facing snowballing label for persisted search strings."""
+
+        if reference_type == PublicationReferenceType.CITATION:
+            return "Forward Snowballing (Citations)"
+        if reference_type == PublicationReferenceType.REFERENCE:
+            return "Backward Snowballing (References)"
+        return "Snowballing"
     
     
     def post_process_results(self, reference: PublicationReference) -> Optional[Publication]:
@@ -45,6 +56,7 @@ class SnowballingSearch:
         """
 
         log.debug(f"Processing reference: {reference}")
+        search_string_label = self._get_search_string_label(reference.type)
         paper_doi = f"DOI:https://doi.org/{reference.ref_doi}"
         publication = Publication.objects.filter(paper_id=paper_doi)
         
@@ -69,9 +81,9 @@ class SnowballingSearch:
             publication = Publication.objects.create(
                 paper_id = paper_doi,
                 paper_title = reference.ref_paper_title,
-                search_string = reference.type.value,
+                search_string = search_string_label,
                 searched_from = [SearchEngineType.SEMANTIC_SCHOLAR],
-                formatted_search_string = reference.type.value,
+                formatted_search_string = "Not Applicable",
             )
             metadata = self._get_metadata(paper_doi)
             publication.metadata = metadata
@@ -79,7 +91,7 @@ class SnowballingSearch:
             # publication.save()
         
         publication.searched_from = reference.src_doi
-        publication.search_string = reference.type.value
+        publication.search_string = search_string_label
         publication.formatted_search_string = "Not Applicable"    
         return publication
     

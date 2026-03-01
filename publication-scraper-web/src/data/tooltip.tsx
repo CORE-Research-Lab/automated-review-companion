@@ -48,8 +48,8 @@ export const tooltipText = {
     deselectAll: "Deselect all papers in the search results",
     hideMetadata: "Hide metadata for the selected papers",
     populateMetadata: "Populate metadata for the selected papers. Only applicable to papers with DOI",
-    forwardSearch: "Search for papers that the selected papers cite",
-    backwardSearch: "Search for papers that cite the selected papers",
+    forwardSearch: "Search for papers that cite the selected papers",
+    backwardSearch: "Search for papers that the selected papers cite",
     export: {
       enabled: "Export selected papers in CSV/BibTex/RIS format",
       disabled: "Select at least one paper to enable export"

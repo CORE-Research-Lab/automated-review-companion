@@ -52,12 +52,12 @@ class BackwardSearch(SnowballingSearch):
       
       sch_paper = self.sch.get_paper(paper_doi)
       references = sch_paper.references
-
-      log.info(f"Found {len(references)} references for {publication['title']}")
       
       if references is None:
         log.warn(f"Skipped Paper | No references: {publication['title']}")
         continue
+
+      log.info(f"Found {len(references)} references for {publication['title']}")
 
       for referenced_paper in references:
         if referenced_paper.externalIds is None or referenced_paper.externalIds.get("DOI") is None:  
