@@ -1,5 +1,4 @@
 import time
-from urllib.parse import quote_plus
 from typing import Any, Dict, List
 
 import requests
@@ -32,8 +31,8 @@ class WebOfScienceEngine(SearchEngine):
         self.search_type                = search_query.search_type
         self.advanced_query             = search_query.advanced_search
         self.queries                    = search_query.search_strings
-        self.start_date                 = search_query.start_date.year
-        self.end_date                   = search_query.end_date.year
+        self.start_date                 = search_query.start_date
+        self.end_date                   = search_query.end_date
         self.results: List[Publication] = []
         
     @Profiler("Web of Science Search")
@@ -163,7 +162,7 @@ class WebOfScienceEngine(SearchEngine):
 
         return {
             'usrQuery': title_search,
-            'publishTimeSpan': quote_plus(f"{self.start_date}+{self.end_date}"),
+            'publishTimeSpan': f"{self.start_date.strftime('%Y-%m-%d')}+{self.end_date.strftime('%Y-%m-%d')}",
             'count': 100,
             'firstRecord': start_record,
             'databaseId': 'WOS',
@@ -179,8 +178,7 @@ class WebOfScienceEngine(SearchEngine):
         """ Fetch search results from the Web of Science API. """
         
         for attempt in range(max_retries):
-            response = requests.get(self.url, headers=self.headers, params=params)
-            print(self.url, self.headers, params)
+            response = requests.get(self.url, headers=self.headers, params=params, timeout=30)
             if response.status_code == 200:
                 return response.json()
             
@@ -188,7 +186,7 @@ class WebOfScienceEngine(SearchEngine):
                 log.error(f"Rate limit exceeded. Waiting for {delay} seconds.")
                 time.sleep(delay)
                 continue
-            
+
             log.error(f"Request failed with status code {response.status_code}: {response.json()}. Attempt {attempt + 1} of {max_retries}.")
             if attempt < max_retries - 1:
                 time.sleep(delay)

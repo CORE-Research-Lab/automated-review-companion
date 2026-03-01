@@ -68,6 +68,7 @@ class SearchAndCleanView(APIView):
                 end_date=self.end_date,
             )
 
+            self.engine_errors: Dict[str, str] = {}
             self.results: List[Publication] = []
             self.results = self.search()
             self.all_search_words = self.generate_variants()
@@ -78,9 +79,11 @@ class SearchAndCleanView(APIView):
                 "query": request.data,
                 "variations": self.all_search_words,
                 "results": results,
-                "matches": matches
+                "matches": matches,
+                "engine_errors": self.engine_errors,
             }
             response = self.save_response(response)
+            response["engine_errors"] = self.engine_errors
             return JsonResponse(response)
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
         # except Exception as e:
@@ -110,15 +113,16 @@ class SearchAndCleanView(APIView):
 
         log.info("Searching for publications: %s", self.query.search_strings)
         results = []
-        results.extend([
-            result
-            for engine in engines
-            for result in sorted(engine.search(), key=lambda x: x.paper_id)
-        ])
-
-
         for engine in engines:
-            results.extend([result for result in engine.search()])
+            try:
+                engine_results = sorted(engine.search(), key=lambda x: x.paper_id)
+                results.extend(engine_results)
+            except Exception as error:
+                source_name = getattr(engine.engine_type, "value", str(engine.engine_type))
+                self.engine_errors[source_name] = str(error)
+                log.error("Search engine `%s` failed: %s", source_name, error)
+                continue
+
             metadata[engine.engine_type] = {
                 "cursor": engine.cursor,
                 "total_results": engine.total_results

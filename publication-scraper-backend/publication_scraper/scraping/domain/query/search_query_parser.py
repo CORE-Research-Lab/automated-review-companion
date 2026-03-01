@@ -1,4 +1,5 @@
 import ast
+import re
 from enum import Enum
 
 from scraping.models import SearchEngineType
@@ -24,7 +25,10 @@ class SearchQueryParser:
 
     def __init__(self, expr: str):
         self.WILDCARD = "_WILDCARD_"
-        sanitized_expr = expr.replace("*", self.WILDCARD)
+        normalized_expr = re.sub(r"\bAND\b", "and", expr, flags=re.IGNORECASE)
+        normalized_expr = re.sub(r"\bOR\b", "or", normalized_expr, flags=re.IGNORECASE)
+        normalized_expr = re.sub(r"\bNOT\b", "not", normalized_expr, flags=re.IGNORECASE)
+        sanitized_expr = normalized_expr.replace("*", self.WILDCARD)
         self.expr = sanitized_expr
         self.tree = ast.parse(sanitized_expr, mode='eval').body
 
@@ -97,7 +101,7 @@ class SearchQueryParser:
 
         elif format_type == SearchEngineType.WEB_OF_SCIENCE:
             if operator == SearchQueryOperator.AND:
-                joined_operands = " ".join(formatted_operands)
+                joined_operands = " AND ".join(formatted_operands)
             elif operator == SearchQueryOperator.OR:
                 joined_operands = " OR ".join(formatted_operands)
 
