@@ -22,20 +22,21 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
+def _split_env_list(key: str, default: str = ""):
+    raw_value = env(key, default=default)
+    return [item.strip() for item in raw_value.split(",") if item.strip()]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zsj=ww(o4$p#(+*g#7vi99467668h%#j5yqeh#7uj2zgqc-ge2'
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = [
-  "localhost",
-  "127.0.0.1",
-  "ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
-]
+ALLOWED_HOSTS = _split_env_list('ALLOWED_HOSTS', default='localhost,127.0.0.1')
 
 # Remove trailing slash from URLs
 APPEND_SLASH = True
@@ -57,28 +58,26 @@ INSTALLED_APPS = [
     'scraping',
 ]
 
-DEBUG = True
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    "http://ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
-]
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    "http://ec2-3-133-85-103.us-east-2.compute.amazonaws.com"
-]
+CORS_ALLOWED_ORIGINS = _split_env_list(
+    'CORS_ALLOWED_ORIGINS',
+    default='http://localhost:3000',
+)
+CSRF_TRUSTED_ORIGINS = _split_env_list(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost:3000',
+)
 CORS_ALLOW_CREDENTIALS = True
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'publication_scraper.urls'
@@ -106,11 +105,15 @@ WSGI_APPLICATION = 'publication_scraper.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
 }
+
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 
 # Password validation

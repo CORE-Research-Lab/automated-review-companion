@@ -9,5 +9,4 @@ ENV ENVIRONMENT=PROD
 WORKDIR /arc/publication_scraper
 EXPOSE 8000
 
-ENTRYPOINT [ "python", "manage.py" ]
-CMD ["runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "gunicorn publication_scraper.wsgi:application --bind 0.0.0.0:${PORT:-8080} --workers 2 --threads 4 --timeout 120"]
