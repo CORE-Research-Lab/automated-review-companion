@@ -34,9 +34,12 @@ def _split_env_list(key: str, default: str = ""):
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = env.bool('DEBUG', default=os.getenv('ENVIRONMENT', '').upper() != 'PROD')
 
-ALLOWED_HOSTS = _split_env_list('ALLOWED_HOSTS', default='localhost,127.0.0.1')
+ALLOWED_HOSTS = _split_env_list(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1,.a.run.app,automated-review-companion.web.app',
+)
 
 # Remove trailing slash from URLs
 APPEND_SLASH = True
@@ -60,11 +63,11 @@ INSTALLED_APPS = [
 
 CORS_ALLOWED_ORIGINS = _split_env_list(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000',
+    default='http://localhost:3000,https://automated-review-companion.web.app',
 )
 CSRF_TRUSTED_ORIGINS = _split_env_list(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:3000',
+    default='http://localhost:3000,https://automated-review-companion.web.app',
 )
 CORS_ALLOW_CREDENTIALS = True
 
