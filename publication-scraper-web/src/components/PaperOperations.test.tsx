@@ -52,7 +52,10 @@ describe('PaperOperations Component', () => {
     setButtonState = jest.fn((newState: ButtonState) => (mockButtonState = newState));
     setLLMQuestions = jest.fn((newQuestions: LLMQuestion[]) => (mockLLMQuestions = newQuestions));
     setLLMOptions = jest.fn((newOptions: LLMOptions) => (mockLLMOptions = newOptions));
-    setLLMAnswers = jest.fn((newAnswers: LLMUserAnswer[]) => (mockLLMAnswers = newAnswers));
+    setLLMAnswers = jest.fn((newAnswers: LLMUserAnswer[] | ((prevAnswers: LLMUserAnswer[]) => LLMUserAnswer[])) => {
+      mockLLMAnswers = typeof newAnswers === "function" ? newAnswers(mockLLMAnswers) : newAnswers;
+      return mockLLMAnswers;
+    });
 
     props = {
       selectedPapers: ["DOI:10.1109/ICALT61570.2024.00037"],
@@ -149,6 +152,55 @@ describe('PaperOperations Component', () => {
     expect(props.setSearchResults).toHaveBeenCalled();
   });
 
+  it("keeps papers unchanged when metadata response omits them", async () => {
+    mockedAxios.post.mockResolvedValueOnce({ data: testPopulateMetadataResponse });
+    const searchResultsWithMissingMetadata = {
+      ...mockSearchResults,
+      results: [
+        ...mockSearchResults.results,
+        {
+          paper_id: "SEMANTIC_SCHOLAR:missing",
+          paper_title: "Paper without returned metadata",
+          search_string: "original search",
+          searched_from: "Semantic Scholar",
+          formatted_search_string: "original formatted search",
+          status: "NEW",
+        },
+      ],
+    };
+
+    render(
+      <PaperOperations
+        {...props}
+        selectedPapers={[
+          "DOI:10.1109/ICALT61570.2024.00037",
+          "SEMANTIC_SCHOLAR:missing",
+        ]}
+        searchResults={searchResultsWithMissingMetadata}
+      />
+    );
+
+    const paperOperationsButton = screen.getByText("Paper Operations");
+    await userEvent.click(paperOperationsButton);
+
+    const populateMetadataButton = await screen.findByText("Populate Metadata");
+    await userEvent.click(populateMetadataButton);
+
+    const confirmButton = screen.getByText("Confirm");
+    await userEvent.click(confirmButton);
+
+    expect(props.setSearchResults).toHaveBeenCalled();
+    const updatedSearchResults = setSearchResults.mock.calls[0][0] as SearchResult;
+    expect(updatedSearchResults.results).toContainEqual(
+      expect.objectContaining({
+        paper_id: "SEMANTIC_SCHOLAR:missing",
+        paper_title: "Paper without returned metadata",
+        searched_from: "Semantic Scholar",
+      })
+    );
+    expect(toast.success).toHaveBeenCalledWith("Metadata populated successfully");
+  });
+
   it("opens delete papers modal and deletes papers ", async () => {
       
       mockedAxios.delete.mockResolvedValueOnce({ data: forwardSearchResponse });
@@ -172,7 +224,7 @@ describe('PaperOperations Component', () => {
     });
 
     it("opens llm filter modal and applies filter", async () => {
-      let newProps = {
+      const newProps = {
         ...props,
         searchResults: testSearchResultLongResponse,
         selectedPapers: [
@@ -206,37 +258,18 @@ describe('PaperOperations Component', () => {
     
       const llmFilterModal = await screen.findByText("Paper Filter Questions (LLM-Powered)");
       
-      const llmFilterCheckbox = screen.getAllByRole("checkbox");
       expect(llmFilterModal).toBeInTheDocument();
-      expect(llmFilterCheckbox).toHaveLength(2);
   
-      let llmFilterIncludeExamplesCheckbox = await screen.findByRole("checkbox", { name: /include examples/i });
-      let llmFilterIncludeRationaleCheckbox = await screen.findByRole("checkbox", { name: /include rationale/i });
-  
-      await userEvent.click(llmFilterIncludeExamplesCheckbox);
-      
-      // Check the state after clicking
-      expect(newProps.setLLMOptions).toHaveBeenCalledWith({ includeExamples: true, includeRationale: false });
-      newProps.llmOptions.includeExamples = true; // Directly update to simulate state change
-      rerender(<PaperOperations {...newProps} />); // Re-render with new props
-
-      llmFilterIncludeExamplesCheckbox = await screen.findByRole("checkbox", { name: /include examples/i });
+      const llmFilterIncludeExamplesCheckbox = await screen.findByRole("checkbox", { name: /include examples/i });
+      const llmFilterIncludeRationaleCheckbox = await screen.findByRole("checkbox", { name: /include rationale/i });
       expect(llmFilterIncludeExamplesCheckbox).toHaveAttribute('aria-checked', 'true');
-
-      await userEvent.click(llmFilterIncludeRationaleCheckbox);
-      // Check the state after clicking
-      expect(newProps.setLLMOptions).toHaveBeenCalledWith({ includeExamples: true, includeRationale: true });
-      newProps.llmOptions.includeRationale = true; // Directly update to simulate state change
-      rerender(<PaperOperations {...newProps} />); // Re-render with new props
 
       // Check attributes
       expect(llmFilterIncludeRationaleCheckbox).toHaveAttribute('data-state', 'checked');
       expect(llmFilterIncludeRationaleCheckbox).toHaveAttribute('aria-checked', 'true');
 
-      const tablePresence = await screen.findByText("Paper ID");;
       const questionInput = await screen.findByPlaceholderText("Question");
       const answerInput = await screen.findByPlaceholderText("Answer");
-      expect(tablePresence).toBeInTheDocument();
       expect(questionInput).toBeInTheDocument();
       expect(answerInput).toBeInTheDocument();
 
@@ -244,17 +277,39 @@ describe('PaperOperations Component', () => {
       questionInput.focus();
       await userEvent.type(questionInput, "Does this paper propose a new algorithm?");
       answerInput.focus();
-      await userEvent.type(answerInput, "Yes,No,Maybe");
+      await userEvent.type(answerInput, "Yes, No, Maybe, ");
+      const answeredQuestions = [{
+        ...newProps.llmQuestions[0],
+        question: "Does this paper propose a new algorithm?",
+        answer: "Yes, No, Maybe, ",
+      }];
 
-      rerender(<PaperOperations {...newProps} />); // Re-render with new props
+      rerender(<PaperOperations {...newProps} llmQuestions={answeredQuestions} />); // Re-render with new props
 
-      
+      const examplePaperCheckboxes = screen.getAllByRole("checkbox").slice(2, 6);
+      expect(examplePaperCheckboxes).toHaveLength(4);
+      for (const checkbox of examplePaperCheckboxes) {
+        await userEvent.click(checkbox);
+      }
+
+      expect(await screen.findByText("4 chosen")).toBeInTheDocument();
+      const tablePresence = await screen.findByText("Paper ID");
+      expect(tablePresence).toBeInTheDocument();
       
       // Ensure that table has been populated with a column that contains rationales and examples
       const llmExampleAnswerSelects = await screen.findAllByRole("combobox");
       const rationaleTextInputs = await screen.findAllByPlaceholderText("Rationale");
-      expect(llmExampleAnswerSelects).toHaveLength(3);
-      expect(rationaleTextInputs).toHaveLength(3);
+      expect(llmExampleAnswerSelects).toHaveLength(4);
+      expect(rationaleTextInputs).toHaveLength(4);
+
+      rerender(<PaperOperations {...newProps} llmQuestions={answeredQuestions} llmAnswers={mockLLMAnswers} />);
+      const submitButton = screen.getByText("Submit Questions");
+      await userEvent.click(submitButton);
+      expect(toast.error).toHaveBeenCalledWith(expect.stringContaining("Choose an example answer"));
+      expect(mockedAxios.post).not.toHaveBeenCalledWith(
+        expect.stringContaining("/publication/llm-filter"),
+        expect.any(Object)
+      );
 
       // screen.debug(undefined, 300000);
       

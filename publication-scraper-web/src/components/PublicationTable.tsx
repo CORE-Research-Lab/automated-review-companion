@@ -1,5 +1,5 @@
 import { LLMQuestion, SearchResult } from "@/types";
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import '../main.css';
 import PublicationRow from "./PublicationRow";
 
@@ -137,47 +137,65 @@ const PublicationTable: React.FC<PublicationTableProps> = (props) => {
     return false
   }
 
+  const visibleColumns = columns
+    .map((column, index) => ({ column, index }))
+    .filter(({ column }) => checkColumnRequirement(column.requirement));
+  const showLLMColumns = Boolean(
+    searchResults.results &&
+    searchResults.results.length > 0 &&
+    searchResults.results[0].llm_responses &&
+    searchResults.results[0].llm_responses.length > 0 &&
+    llmQuestions &&
+    llmQuestions.length > 0
+  );
+  const visibleResultCount = searchResults?.results?.filter((result) => result.show === undefined || result.show).length ?? 0;
+  const emptyStateColSpan = 2 + visibleColumns.length + (showLLMColumns ? (llmQuestions?.length ?? 0) * 2 : 0);
+
   return ( 
     <>
      <div className="table-container">
-        <table className="table  border-1 border-slate-600 bg-white min-h-[85vh]" ref={tableRef}>
+        <table className="table border-1 border-slate-600 bg-white publication-table" ref={tableRef}>
           <thead className='bg-primary bg-black text-white sticky-top' style={{ height: "20px" }}>
             <tr>
               <td style={{ minWidth: "10px" }}></td>
               <td style={{ minWidth: "70px" }}>#</td>
               {
-                columns.map((column, index) => {
-                  if (checkColumnRequirement(column.requirement)) {
-                    return (
-                      <td 
-                        key={index} 
-                        className="resizable leading-[14px]" 
-                        style={{  minWidth: column.width + "px", ...column.style}}
-                      >
-                        {column.name}
-                        <div className="resizer" onMouseDown={(e) => startResizing(index, e.clientX)} style={{ cursor: "col-resize" }}></div>
-                      </td>
-                    )}
-                })
+                visibleColumns.map(({ column, index }) => (
+                  <td
+                    key={column.name}
+                    className="resizable leading-[14px]"
+                    style={{  minWidth: column.width + "px", ...column.style}}
+                  >
+                    {column.name}
+                    <div className="resizer" onMouseDown={(e) => startResizing(index, e.clientX)} style={{ cursor: "col-resize" }}></div>
+                  </td>
+                ))
               }
 
               {/* Questions */}
               {
-                  searchResults.results && searchResults.results.length > 0 &&
-                  searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
-                  llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index) => (
-                      <>
-                        <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}"</td>
-                        <td key={response.id} style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}" Rational</td>
-                      </>
+                  showLLMColumns && llmQuestions && llmQuestions.map((response: LLMQuestion, index) => (
+                      <Fragment key={response.id}>
+                        <td style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}"</td>
+                        <td style={{minWidth: "220px"}}>Q{index + 1}: "{response.question}" Rationale</td>
+                      </Fragment>
                   ))
               }
             </tr>
           </thead>
           <tbody>
+          {visibleResultCount === 0 && (
+            <tr>
+              <td colSpan={emptyStateColSpan} className="publication-table-empty">
+                <div className="publication-table-empty-content">
+                  No publications to display.
+                </div>
+              </td>
+            </tr>
+          )}
           {searchResults?.results && searchResults.results.length > 0 && searchResults.results.map((result, rowIdx) => {
 
-            let publicationRows = [];
+            const publicationRows = [];
 
             if (result.show == undefined || result.show) {
               publicationRows.push(

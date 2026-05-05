@@ -100,8 +100,11 @@ publication-scraper-backend/publication_scraper/.env
 publication-scraper-web/node_modules
 .firebase
 ./db.sqlite3
+*.sqlite3
 
 .DS_Store
+*.log
+.claude/
 
 .idea/
 

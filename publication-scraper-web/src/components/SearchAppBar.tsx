@@ -8,7 +8,7 @@ export interface SearchAppBarProps {
 const SearchAppBar: React.FC<SearchAppBarProps> = (props) => {
   const { searchMode, handleSelectSearchMode } = props;
   return ( 
-      <nav className="d-flex mt-3">
+      <nav className="d-flex flex-wrap gap-1 mt-3">
         <input
             type="radio"
             className="btn-check search-nav-item"

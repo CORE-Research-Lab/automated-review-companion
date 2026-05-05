@@ -26,7 +26,7 @@ const AXIOS_RESPONSE_BODY = {
   data: { error: "error message" }
 } as AxiosResponse
 
-function generateAxiosResponse(data: any): AxiosResponse
+function generateAxiosResponse(data: unknown): AxiosResponse
 {
   return {
     ...AXIOS_RESPONSE_BODY,
@@ -51,7 +51,7 @@ describe('handleError', () => {
 
   it('should show error message if response data is empty', () => {
     const error = generateAxiosError();
-    const expectedErrorMessage = 'Error: \"Request failed with status code 400\"'
+    const expectedErrorMessage = 'Error: "Request failed with status code 400"'
     handleError(error);
     expect(toast.error).toHaveBeenCalledWith(expectedErrorMessage);
   });

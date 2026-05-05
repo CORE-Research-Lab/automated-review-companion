@@ -39,7 +39,10 @@ class SearchAndCleanView(APIView):
     # @Controller
     def post(self, request):
         serializer = SearchAndCleanSerializer(data=request.data)
-        if serializer.is_valid():
+        if not serializer.is_valid():
+            return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
+
+        try:
             self.validation_papers = serializer.validated_data['validation_papers']
             self.search_terms = serializer.validated_data['search_terms']
             self.start_date = serializer.validated_data.get('start_date', '2020-01-01')
@@ -85,10 +88,9 @@ class SearchAndCleanView(APIView):
             response = self.save_response(response)
             response["engine_errors"] = self.engine_errors
             return JsonResponse(response)
-        return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
-        # except Exception as e:
-        #     log.error(f"An error occurred: {e}")
-        #     return JsonResponse({ "Publication Search": f"{e}" }, status=HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            log.error(f"SearchAndCleanView failed: {e}", exc_info=True)
+            return JsonResponse({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
 
     def search(self) -> List[Publication]:
         """ Search for publications using the search terms. """
@@ -370,7 +372,7 @@ class SearchHistoryPublicationView(APIView):
             matches=request.data.get('matches', []),
             results=request.data.get('papers', []),
         )
-        print(search_results.to_dict())
+        log.info("New search history entry: %s", search_results.to_dict())
         search_results.save()
         return JsonResponse(search_results.to_dict())
 

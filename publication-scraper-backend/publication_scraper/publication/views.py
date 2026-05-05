@@ -4,6 +4,7 @@ import pandas as pd
 from itertools import product
 from typing import List
 
+from django.core.cache import cache
 from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
@@ -70,9 +71,29 @@ class PublicationValidationView(APIView):
 
 
 class PublicationLLMFilterView(APIView):
+    progress_cache_timeout = 60 * 60
+
+    @staticmethod
+    def _progress_cache_key(progress_id):
+        return f"llm_filter_progress:{progress_id}"
+
     def _serialize_filter_results(self, results):
         """Helper method to serialize filter results"""
         return [result.dict() if hasattr(result, 'dict') else result for result in results]
+
+    def get(self, request, progress_id=None):
+        if not progress_id:
+            return JsonResponse({"error": "progress_id is required"}, status=HTTP_400_BAD_REQUEST)
+
+        progress = cache.get(self._progress_cache_key(progress_id))
+        if not progress:
+            return JsonResponse({
+                "completed": 0,
+                "total": 0,
+                "current_paper_id": "",
+                "status": "unknown",
+            })
+        return JsonResponse(progress)
 
     # @Controller
     def post(self, request):
@@ -88,6 +109,23 @@ class PublicationLLMFilterView(APIView):
             paper_ids = serializer.validated_data.get('paper_ids')
             answers = serializer.validated_data.get('answers')
             options = serializer.validated_data.get('options')
+            progress_id = serializer.validated_data.get('progress_id')
+
+            def update_progress(progress):
+                if progress_id:
+                    cache.set(
+                        self._progress_cache_key(progress_id),
+                        progress,
+                        timeout=self.progress_cache_timeout,
+                    )
+
+            if progress_id:
+                update_progress({
+                    "completed": 0,
+                    "total": len(paper_ids or []),
+                    "current_paper_id": "",
+                    "status": "queued",
+                })
 
             validity = self.check_for_validity(request, paper_ids)
             if validity:
@@ -131,22 +169,38 @@ class PublicationLLMFilterView(APIView):
             ]
 
             # Filter publications by questions
-            llm_filter = LLMFilter()
+            llm_filter = LLMFilter(progress_callback=update_progress if progress_id else None)
             llm_filter.parse(publications, questions, examples, includeRationale, includeExamples)
-            results = llm_filter.completion()
+            try:
+                results = llm_filter.completion()
+            except Exception:
+                update_progress({
+                    "completed": 0,
+                    "total": len(publications),
+                    "current_paper_id": "",
+                    "status": "failed",
+                })
+                raise
             
             if includeExamples:
                 results = [*answers, *results]
                 
             serialized_results = self._serialize_filter_results(results)
+            update_progress({
+                "completed": len(results) - len(answers) if includeExamples else len(results),
+                "total": len(publications) - len(answers) if includeExamples else len(publications),
+                "current_paper_id": "",
+                "status": "completed",
+            })
             return JsonResponse({ "results": serialized_results })
         return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
     
 
 
     def check_for_validity(self, request, paper_ids):
-        """ Checks if the user has submitted MAX_AMOUNT paper ids already for the day. """
-        MAX_LLM_CALL_COUNT = 20
+        """ Checks if the user has submitted MAX_LLM_CALL_COUNT paper ids already for the day. """
+        from django.conf import settings
+        max_calls = getattr(settings, 'MAX_LLM_CALL_COUNT', 20)
         ip = request.META.get('REMOTE_ADDR')
         today = datetime.date.today()
         usage = PublicationLLMUsage.objects.filter(ip_address=ip, date=today).first()
@@ -154,9 +208,10 @@ class PublicationLLMFilterView(APIView):
             usage = PublicationLLMUsage(ip_address=ip, date=today)
         usage.count += len(paper_ids)
         usage.save()
+        log.info(f"LLM usage for {ip}: {usage.count}/{max_calls}")
 
-        # if usage.count >= (MAX_LLM_CALL_COUNT - len(paper_ids)):
-        #     return f"You have reached the maximum number of filter requests for the day ({MAX_LLM_CALL_COUNT})."
+        # if usage.count >= (max_calls - len(paper_ids)):
+        #     return f"You have reached the maximum number of filter requests for the day ({max_calls})."
 
 class PublicationUploadView(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -224,6 +279,5 @@ class PublicationUploadView(APIView):
             "total_processed": len(dois),
             "total_success": len(publication_results)
         })
-
 
 

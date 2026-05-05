@@ -1,12 +1,18 @@
 export default {
   testEnvironment: 'jsdom',
-  preset: "ts-jest",
+  preset: 'ts-jest/presets/default-esm',
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.app.json', useESM: true }],
+  },
   setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
   moduleNameMapper: {
     '\\.(css|less|scss)$': 'identity-obj-proxy',  // Mocks CSS imports
+    '^\\./utils/common$': '<rootDir>/src/tests/mocks/common.ts',
+    '^@/utils/common$': '<rootDir>/src/tests/mocks/common.ts',
     '^@/(.*)$': '<rootDir>/src/$1',  // Map `@/` to the `src/` directory
   },
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}', // Specify which files to collect coverage from
     '!src/**/*.d.ts',    // Exclude TypeScript declaration files

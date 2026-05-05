@@ -67,7 +67,7 @@ const validateAdvancedKeywordSearch = (searchPhrase: string) => {
  * @returns boolean indicating if the brackets are in sets
  */
 const validateBracketSets = (searchPhrase: string) => {
-  let stack = [];
+  const stack = [];
   for (let i = 0; i < searchPhrase.length; i++) {
     if (searchPhrase[i] === '(') {
       stack.push('(');
@@ -87,12 +87,12 @@ const validateBracketSets = (searchPhrase: string) => {
 }
 
 const validateBooleanOperators = (searchPhrase: string) => {
-  let operators = ['and', 'or', 'not', 'AND', 'OR', 'NOT'];
-  var matches = searchPhrase.match(/(?:\bnot\b|\band\b|\bor\b|\bNOT\b|\bAND\b|\bOR\b|".+?"|'.+?'|\b\w+\b)/gi) || [];
-  var keywords = matches.map(str => str.replace(/'/g, ""));
+  const operators = ['and', 'or', 'not', 'AND', 'OR', 'NOT'];
+  const matches = searchPhrase.match(/(?:\bnot\b|\band\b|\bor\b|\bNOT\b|\bAND\b|\bOR\b|".+?"|'.+?'|\b\w+\b)/gi) || [];
+  const keywords = matches.map(str => str.replace(/'/g, ""));
   
-  let startsWithOperator = operators.includes((keywords[0] as string));
-  let endsWithOperator = operators.includes(keywords[keywords.length - 1]);
+  const startsWithOperator = operators.includes((keywords[0] as string));
+  const endsWithOperator = operators.includes(keywords[keywords.length - 1]);
   
   if (startsWithOperator) {
     toast.error('Must start with a keyword');
@@ -104,7 +104,7 @@ const validateBooleanOperators = (searchPhrase: string) => {
     return false;
   }
   
-  var hasOperatorInBetween = false;
+  let hasOperatorInBetween = false;
   for (let i = 0; i < keywords.length; i++) {
     if (operators.includes(keywords[i])) {
       hasOperatorInBetween = true;
@@ -129,15 +129,15 @@ const validateBooleanOperators = (searchPhrase: string) => {
  * @returns boolean indicating if the phrases are valid
  */
 const validatePhrases = (searchPhrase: string) => {
-  let bracketlessPhrases = searchPhrase.replace(/[(|)]/g, '');
-  let keywords = bracketlessPhrases.match(/(['"]([^'"]+)['"]|(\S+))/g) || [];
-  let phrases = keywords.filter((word) => word !== '');
+  const bracketlessPhrases = searchPhrase.replace(/[(|)]/g, '');
+  const keywords = bracketlessPhrases.match(/(['"]([^'"]+)['"]|(\S+))/g) || [];
+  const phrases = keywords.filter((word) => word !== '');
 
   // ensure all phrases are surrounded by ' ' or " "
   for (let i = 0; i < phrases.length; i++) {
 
-    let hasStartingQuote = phrases[i][0] === "'" || phrases[i][0] === '"';
-    let hasEndingQuote = phrases[i][phrases[i].length - 1] === "'" || phrases[i][phrases[i].length - 1] === '"';
+    const hasStartingQuote = phrases[i][0] === "'" || phrases[i][0] === '"';
+    const hasEndingQuote = phrases[i][phrases[i].length - 1] === "'" || phrases[i][phrases[i].length - 1] === '"';
 
     // Case example: 'AI
     if (hasStartingQuote && !hasEndingQuote) {

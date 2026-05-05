@@ -20,6 +20,8 @@ describe('App Component', () => {
   const mockScrollNext = jest.fn()
   const mockCanScrollPrev = jest.fn(() => true) // Mocking the ability to scroll prev
   const mockCanScrollNext = jest.fn(() => true) // Mocking the ability to scroll next
+  const mockReInit = jest.fn()
+  const mockScrollTo = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -31,6 +33,8 @@ describe('App Component', () => {
         scrollNext: mockScrollNext,
         canScrollPrev: mockCanScrollPrev,
         canScrollNext: mockCanScrollNext,
+        reInit: mockReInit,
+        scrollTo: mockScrollTo,
         on: jest.fn(),
         off: jest.fn(),
       }, // API mock
@@ -72,11 +76,11 @@ describe('App Component', () => {
     render(<App />);
     
     // Simulate search form change
-    const startYearInput = screen.getByPlaceholderText("Start Year") as HTMLInputElement;
-    const endYearInput = screen.getByPlaceholderText("End Year") as HTMLInputElement;
+    const startYearInput = document.getElementById('start-date') as HTMLInputElement;
+    const endYearInput = document.getElementById('end-date') as HTMLInputElement;
 
-    const startYear = '2023';
-    const endYear = '2024';
+    const startYear = '2023-01-01';
+    const endYear = '2024-01-01';
     
     fireEvent.change(startYearInput, { target: { value: startYear } });
     fireEvent.change(endYearInput, { target: { value: endYear } });
@@ -106,13 +110,18 @@ describe('App Component', () => {
     const WebOfScienceDatabaseButton = screen.getByText('Web of Science');
     const IEEE_XploreDatabaseButton = screen.getByText('IEEE Xplore');
     const ScopusDatabaseButton = screen.getByText('Scopus');
+    const DBLPDatabaseControl = DBLPDatabaseButton.closest('.input-group-text');
+    const SemanticScholarDatabaseControl = SemanticScholarDatabaseButton.closest('.input-group-text');
+    const WebOfScienceDatabaseControl = WebOfScienceDatabaseButton.closest('.input-group-text');
+    const IEEE_XploreDatabaseControl = IEEE_XploreDatabaseButton.closest('.input-group-text');
+    const ScopusDatabaseControl = ScopusDatabaseButton.closest('.input-group-text');
     
     // inital state
-    expect(DBLPDatabaseButton).toHaveClass('bg-primary');
-    expect(SemanticScholarDatabaseButton).toHaveClass('bg-white');
-    expect(WebOfScienceDatabaseButton).toHaveClass('bg-white');
-    expect(IEEE_XploreDatabaseButton).toHaveClass('bg-white');
-    expect(ScopusDatabaseButton).toHaveClass('bg-white');
+    expect(DBLPDatabaseControl).toHaveClass('bg-primary');
+    expect(SemanticScholarDatabaseControl).toHaveClass('bg-white');
+    expect(WebOfScienceDatabaseControl).toHaveClass('bg-white');
+    expect(IEEE_XploreDatabaseControl).toHaveClass('bg-white');
+    expect(ScopusDatabaseControl).toHaveClass('bg-white');
 
     fireEvent.click(DBLPDatabaseButton);
     fireEvent.click(SemanticScholarDatabaseButton);
@@ -121,11 +130,11 @@ describe('App Component', () => {
     fireEvent.click(ScopusDatabaseButton);
 
     // Check if the color of the button changed
-    expect(DBLPDatabaseButton).toHaveClass('bg-white');
-    expect(SemanticScholarDatabaseButton).toHaveClass('bg-primary');
-    expect(WebOfScienceDatabaseButton).toHaveClass('bg-primary');
-    expect(IEEE_XploreDatabaseButton).toHaveClass('bg-primary');
-    expect(ScopusDatabaseButton).toHaveClass('bg-primary');
+    expect(DBLPDatabaseControl).toHaveClass('bg-white');
+    expect(SemanticScholarDatabaseControl).toHaveClass('bg-primary');
+    expect(WebOfScienceDatabaseControl).toHaveClass('bg-primary');
+    expect(IEEE_XploreDatabaseControl).toHaveClass('bg-primary');
+    expect(ScopusDatabaseControl).toHaveClass('bg-primary');
   });
 
   test('handles validation paper form change', () => {
@@ -150,16 +159,19 @@ describe('App Component', () => {
     const searchButton = screen.getByText('Search'); // Adjust this text based on your button
     const advancedSearch = screen.getByText('Advanced Keyword Search');
     fireEvent.click(advancedSearch);
+    fireEvent.change(screen.getByPlaceholderText('AI AND ("Machine Learning" OR "Generative AI") AND NOT Education'), {
+      target: { value: 'AI AND Education' }
+    });
     fireEvent.click(searchButton);
 
     await waitFor(() => {
       expect(mockedAxios.post).toHaveBeenCalledWith(expect.stringContaining('/scraper/search-and-clean'), expect.any(Object));
       expect(screen.getByText("Total Publications: 4")).toBeInTheDocument();
       
-      // Show select, deselect, and hide metadata buttons
-      expect(screen.getByText('Select All')).toBeInTheDocument();
-      expect(screen.getByText('Deselect All')).toBeInTheDocument();
-      expect(screen.getByText('Show Metadata')).toBeInTheDocument();
+      // Show grouped result toolbar controls
+      expect(screen.getByText('0 selected')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Selection' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument();
     });
   });
 

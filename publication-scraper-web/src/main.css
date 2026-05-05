@@ -1,5 +1,32 @@
+/* ─────────────────────────────────────────────────────────────────
+   App-wide overrides. Most layout primitives come from Tailwind /
+   Bootstrap; this file fine-tunes color, typography, and table look.
+   ───────────────────────────────────────────────────────────────── */
+
+:root {
+  --app-bg: #f7f8fa;
+  --app-surface: #ffffff;
+  --app-surface-alt: #f0f3f7;
+  --app-border: #e3e6eb;
+  --app-border-strong: #c8ccd2;
+  --app-text: #1f2937;
+  --app-text-muted: #6b7280;
+  --app-primary: #2563eb;
+  --app-primary-hover: #1d4ed8;
+  --app-primary-soft: #eff6ff;
+  --app-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --app-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --app-radius: 8px;
+  --app-transition: 150ms ease;
+}
+
 * {
-  font-family: 'Inter', serif !important
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+}
+
+body {
+  color: var(--app-text);
+  background: var(--app-bg);
 }
 
 .custom-tooltip {
@@ -7,87 +34,60 @@
   --bs-tooltip-color: var(--bs-white);
 }
 
-
-
-
-/* General */
+/* ─── Color overrides ──────────────────────────────────────────── */
 
 .bg-primary {
-  background: #3691f2 !important; 
+  background: var(--app-primary) !important;
   color: white !important;
 }
 
 thead > tr > td {
-  background: #3691f2 !important; 
+  background: var(--app-primary) !important;
   color: white !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
-.w-5 { 
-  width: 5%; 
-}
+/* ─── Width helpers (legacy) ──────────────────────────────────── */
 
-.w-10 { 
-  width: 10%; 
-}
+.w-5  { width: 5%; }
+.w-10 { width: 10%; }
+.w-40 { width: 40% !important; }
+.w-45 { width: 45% !important; }
+.w-50 { width: 50% !important; }
+.w-90 { width: 90%; }
 
-.w-40 {
-  width: 40% !important;
-}
+.max-height-30vh { max-height: 30vh; }
+.overflow-y-scroll { overflow-y: auto; }
+.text-red { color: #dc2626; }
 
-.w-45 {
-  width: 45% !important;
-}
+/* ─── Section surfaces ────────────────────────────────────────── */
 
-.w-50 {
-  width: 50% !important;
-}
-
-.w-90 {
-  width: 90%;
-}
-
-.max-height-30vh {
-  max-height: 30vh;
-}
-
-.overflow-y-scroll {
-  overflow-y: scroll;
-}
-
-.text-red {
-  color: red;
-}
-
-
-
-/* Classes */
-
-#search-bar {
- background-color: #F0F3F4; 
+#search-bar,
+#publication-data-inner,
+#llm-questions,
+#search-history {
+  background-color: var(--app-surface-alt);
 }
 
 #publication-data-inner {
   margin-top: 20px;
-  background-color: #F0F3F4;
-  height: 100vh !important;
+  min-height: 420px;
+  height: auto !important;
 }
 
-#publication-data-table {
-  /* height: 85% !important; */
-  border: 1px solid #F0F3F4;
-  overflow: scroll;
-}
-
-#llm-questions {
-  background-color: #F0F3F4;
-}
-
-#search-history {
-  background-color: #F0F3F4;
+#publication-data-table-main,
+.publication-data-table {
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow-sm);
+  max-height: 70vh;
+  overflow: auto;
 }
 
 input::placeholder {
-  color: #c6c6c6;
+  color: #9ca3af;
 }
 
 .card-body {
@@ -97,93 +97,133 @@ input::placeholder {
 }
 
 .divider {
-  color: #c6c6c6;
-  border: 1px solid #c6c6c6;
+  color: var(--app-border-strong);
+  border: 1px solid var(--app-border);
 }
 
 .search-nav-item {
-  background-color: #efefef;
-  border: none;
-  padding: 0.2rem 0.5rem;
+  background-color: #eef0f3;
+  border: 1px solid transparent;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color var(--app-transition), color var(--app-transition);
 }
 
-/* word-variant */
+.search-nav-item:hover {
+  background-color: #dde1e6 !important;
+}
+
+input[type="radio"]:checked + label.search-nav-item {
+  background-color: var(--app-primary-soft);
+  color: var(--app-primary);
+  border-color: var(--app-primary);
+}
+
+/* ─── Word variant chips ──────────────────────────────────────── */
+
 .word-variant-chip {
-  background-color: #e1e1e1;
-  color: black;
-  border: none;
-  padding: 0.2rem 0.5rem;
-  height: auto;
+  background-color: #eef0f3;
+  color: var(--app-text);
+  border: 1px solid transparent;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
   cursor: pointer;
-  border-radius: 5px;
+  transition: background-color var(--app-transition), border-color var(--app-transition);
 }
 
 .word-variant-chip:hover {
-  background-color: #c6c6c6;
-} 
+  background-color: var(--app-primary-soft);
+  border-color: var(--app-primary);
+  color: var(--app-primary);
+}
 
 .word-variant-box {
-  width: 400px !important; 
+  width: 400px !important;
   max-width: 100% !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   word-break: break-word;
   white-space: normal;
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px;
 }
 
-.MuiInputBase-root {
-  /* padding: 0 !important; */
-}
-
-input[type="radio"]:checked + label.search-nav-item {
-  background-color: #c6c6c6;
-  color: black;
-}
-
-.search-nav-item:hover {
-  background-color: #9a9a9a !important;
-}
-
-.publication-data-table-cell {
-  max-height: 20px !important;
-  overflow: scroll !important;
-}
-
-.publication-row {
-  /* cursor: pointer; */
-  height: 20px !important;
-}
-
-.publication-row:hover > td {
-  background-color: #dddddd !important;
-}
+/* ─── Tables ──────────────────────────────────────────────────── */
 
 table {
   width: 100%;
   border-collapse: collapse;
+  background: var(--app-surface);
+}
+
+.publication-table {
+  min-height: auto;
+}
+
+.publication-table-empty {
+  position: relative;
+  height: 220px;
+  vertical-align: middle;
+  color: var(--app-text-muted);
+  background: #fbfcfd;
+  font-size: 0.95rem;
+}
+
+.publication-table-empty-content {
+  position: sticky;
+  left: 0;
+  width: min(100vw, 100%);
+  text-align: center;
 }
 
 table > tbody > tr > td {
-  border: 1px solid #c6c6c65f;
+  border: 1px solid var(--app-border);
+  padding: 6px 8px;
+  vertical-align: top;
 }
 
 table > thead {
   position: sticky !important;
   top: 0;
-  z-index: 1;
+  z-index: 2;
+  box-shadow: 0 1px 0 var(--app-border);
 }
 
+table > thead > tr > th,
+table > thead > tr > td {
+  border: 1px solid var(--app-border);
+  text-align: center;
+  vertical-align: middle;
+  min-width: 100px;
+  padding: 8px 10px;
+}
+
+.publication-data-table-cell {
+  max-height: 20px !important;
+  overflow: auto !important;
+}
+
+.publication-row {
+  height: 20px !important;
+  transition: background-color var(--app-transition);
+}
+
+.publication-row:hover > td {
+  background-color: var(--app-primary-soft) !important;
+}
+
+/* The legacy .sticky-top class shouldn't override the bg of any
+   table header; only thead controls colors via the rule above. */
 .sticky-top {
-  position: -webkit-sticky; /* For Safari */
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  background-color: #007bff; /* Matches bg-primary */
-  z-index: 10; /* Ensures it stays on top of other content */
+  z-index: 10;
 }
+
+/* ─── Resizer ─────────────────────────────────────────────────── */
 
 .resizable {
   position: relative !important;
@@ -194,63 +234,274 @@ table > thead {
   position: absolute;
   top: 0;
   right: -8px;
-  width: 5px; /* Width of the resizer handle */
-  height: 100%; /* Make the resizer span the entire height of the th */
+  width: 5px;
+  height: 100%;
   cursor: col-resize;
-  background-color: transparent !important;  /* Invisible but still functional */
+  background-color: transparent !important;
   border: none;
-  z-index: 1; /* Ensure the resizer is above other content */
-  /* background-color: #c62f2f !important; */
-  /* height: 10000% */
+  z-index: 1;
+  transition: background-color var(--app-transition);
 }
+
 .resizer:hover {
-  background-color: #2f7ac618 !important;
+  background-color: rgba(37, 99, 235, 0.18) !important;
 }
 
-table > thead > tr > th {
-  border: 1px solid #c6c6c65f;
-}
+/* ─── Diff mode rows ──────────────────────────────────────────── */
 
-table > thead > td {
-  border: 1px solid #c6c6c65f;
-/* center */
-  text-align: center;
-  /* vertical center */
-  vertical-align: middle;
-  min-width: 100px;
-}
-
-
-/* table color */
 .table-row-red > * {
-  background-color: #FFEEF0 !important;
+  background-color: #fef2f2 !important;
 }
 
 .table-row-red:hover > * {
-  background-color: #fbd8dd !important;
+  background-color: #fee2e2 !important;
 }
 
 .table-row-green > * {
-  background-color: #E6FFED !important;
+  background-color: #ecfdf5 !important;
 }
 
 .table-row-green:hover > * {
-  background-color: #c5fad4 !important;
+  background-color: #d1fae5 !important;
 }
 
 .table-row-none > * {
-  background-color: #e3e3e3 !important;
+  background-color: #f3f4f6 !important;
 }
 
 .diff-mode-red {
-  background-color: #e0c0c4 !important;
+  background-color: #fecaca !important;
+}
+
+.diff-mode-green {
+  background-color: #bbf7d0 !important;
 }
 
 .diff-mode-red:hover,
 .diff-mode-green:hover {
-  opacity: 0.75 !important;
+  opacity: 0.85 !important;
+  transition: opacity var(--app-transition);
 }
 
-.diff-mode-green {
-  background-color: #b2dcbe !important;
+/* ─── Buttons ─────────────────────────────────────────────────── */
+
+.btn {
+  transition: background-color var(--app-transition), box-shadow var(--app-transition), transform var(--app-transition);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background-color: var(--app-primary) !important;
+  border-color: var(--app-primary) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--app-primary-hover) !important;
+  border-color: var(--app-primary-hover) !important;
+}
+
+/* ─── Form controls ───────────────────────────────────────────── */
+
+.manual-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.manual-add-row .input-group-text,
+.manual-import-button {
+  height: 100%;
+  min-height: 36px;
+  border-radius: 6px !important;
+}
+
+.manual-add-input {
+  flex: 1 1 260px;
+  min-width: 180px;
+  border-radius: 6px !important;
+}
+
+.manual-add-button,
+.manual-import-button {
+  min-width: 86px;
+  border-radius: 6px !important;
+}
+
+.manual-import-button {
+  cursor: pointer;
+  border: 1px solid var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+.manual-import-button:hover:not(:disabled) {
+  background: #eef2f7;
+}
+
+.manual-import-button:disabled {
+  cursor: not-allowed;
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+.results-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.results-selection-summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 0.75rem;
+  border-right: 1px solid var(--app-border);
+  color: var(--app-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.results-action-button {
+  min-width: 94px;
+  box-shadow: var(--app-shadow-sm);
+}
+
+.llm-example-section {
+  min-width: 60vw;
+  padding: 0.75rem;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  background: #f8fafc;
+}
+
+.llm-example-empty {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 1px dashed var(--app-border-strong);
+  border-radius: 6px;
+  color: var(--app-text-muted);
+  text-align: center;
+  background: var(--app-surface);
+}
+
+.llm-example-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.5rem;
+  max-height: 220px;
+  overflow: auto;
+  margin-top: 0.75rem;
+  padding-right: 0.25rem;
+}
+
+.llm-example-option {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--app-border);
+  border-radius: 6px;
+  background: var(--app-surface);
+  cursor: pointer;
+}
+
+.llm-example-option:hover {
+  border-color: var(--app-primary);
+  background: var(--app-primary-soft);
+}
+
+.llm-example-index {
+  color: var(--app-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.llm-example-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+
+.llm-progress-text {
+  max-width: min(56vw, 560px);
+  overflow: hidden;
+  color: var(--app-text-muted);
+  font-size: 0.875rem;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form-control {
+  border-radius: 6px;
+  border: 1px solid var(--app-border);
+  transition: border-color var(--app-transition), box-shadow var(--app-transition);
+}
+
+.form-control:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+@media (max-width: 640px) {
+  #search-bar .input-group,
+  #search-bar .d-flex.flex-row.w-100,
+  #search-bar .flex.items-center.space-x-4 {
+    flex-wrap: wrap;
+  }
+
+  #search-bar .input-group-prepend,
+  #search-bar .input-group-text {
+    width: 100%;
+  }
+
+  #search-bar .form-control {
+    min-width: 0;
+  }
+
+  #search-bar .flex.items-center.space-x-4 {
+    gap: 0.5rem;
+  }
+
+  #search-bar .flex.items-center.space-x-4 > * {
+    margin-left: 0 !important;
+  }
+}
+
+/* ─── Scrollbar polish (webkit) ───────────────────────────────── */
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(15, 23, 42, 0.18);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(15, 23, 42, 0.32);
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }

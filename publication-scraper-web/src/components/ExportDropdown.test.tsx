@@ -32,6 +32,8 @@ describe('Export Dropdown Integration Test', () => {
   const mockScrollNext = jest.fn()
   const mockCanScrollPrev = jest.fn(() => true) // Mocking the ability to scroll prev
   const mockCanScrollNext = jest.fn(() => true) // Mocking the ability to scroll next
+  const mockReInit = jest.fn()
+  const mockScrollTo = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -43,6 +45,8 @@ describe('Export Dropdown Integration Test', () => {
         scrollNext: mockScrollNext,
         canScrollPrev: mockCanScrollPrev,
         canScrollNext: mockCanScrollNext,
+        reInit: mockReInit,
+        scrollTo: mockScrollTo,
         on: jest.fn(),
         off: jest.fn(),
       }, // API mock
@@ -53,7 +57,9 @@ describe('Export Dropdown Integration Test', () => {
     
     // Mock URL.createObjectURL
     const createObjectURLMock = jest.fn(() => 'blob:http://localhost/blob-id');
+    const revokeObjectURLMock = jest.fn();
     window.URL.createObjectURL = createObjectURLMock;
+    window.URL.revokeObjectURL = revokeObjectURLMock;
 
     // Mock anchor click
     const clickMock = jest.fn();
@@ -73,31 +79,36 @@ describe('Export Dropdown Integration Test', () => {
     const searchButton = screen.getByText('Search'); // Adjust this text based on your button
     const advancedSearch = screen.getByText('Advanced Keyword Search');
     fireEvent.click(advancedSearch);
+    fireEvent.change(screen.getByPlaceholderText('AI AND ("Machine Learning" OR "Generative AI") AND NOT Education'), {
+      target: { value: 'AI AND Education' }
+    });
     fireEvent.click(searchButton); 
 
     await waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalledWith(expect.stringContaining('/scraper/search-and-clean'), expect.any(Object));
         expect(screen.getByText("Total Publications: 4")).toBeInTheDocument();
         
-        // Show select, deselect, and hide metadata buttons
-        expect(screen.getByText('Select All')).toBeInTheDocument();
-        expect(screen.getByText('Deselect All')).toBeInTheDocument();
-        expect(screen.getByText('Show Metadata')).toBeInTheDocument();
+        expect(screen.getByText('Selection')).toBeInTheDocument();
+        expect(screen.getByText('View')).toBeInTheDocument();
     });
 
     const user = userEvent.setup();
 
-    const selectPaperButton = screen.getByText('Select All');    
-    const exportButton = screen.getByLabelText('Export Papers');
+    const selectionButton = screen.getByText('Selection');
 
-    await user.click(selectPaperButton);
-    await user.click(exportButton);
+    await user.click(selectionButton);
+    const selectAllItem = await screen.findByText('Select all papers');
+    await user.click(selectAllItem);
+    await waitFor(() => {
+      expect(screen.getByText('4 selected')).toBeInTheDocument();
+    });
+    await user.click(screen.getByLabelText('Export Papers'));
     
-    const menu = screen.getByRole('menu');
+    const menu = await screen.findByRole('menu');
     const menuItems = screen.getAllByRole('menuitem');
     const csvMenuItem = screen.getByText('CSV');
     
-    expect(exportButton).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByLabelText('Export Papers')).toHaveAttribute('aria-expanded', 'true');
     expect(menu).toBeInTheDocument();
     expect(menuItems).toHaveLength(3);
 
@@ -111,6 +122,7 @@ describe('Export Dropdown Integration Test', () => {
 
     await waitFor(() => {
       expect(createObjectURLMock).toHaveBeenCalled();
+      expect(revokeObjectURLMock).toHaveBeenCalledWith('blob:http://localhost/blob-id');
       expect(clickMock).toHaveBeenCalled();
       expect(toast.success).toHaveBeenCalledWith("Exported papers successfully");
     });

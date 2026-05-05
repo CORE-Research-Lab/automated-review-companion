@@ -44,6 +44,9 @@ ALLOWED_HOSTS = _split_env_list(
 # Remove trailing slash from URLs
 APPEND_SLASH = True
 
+# Maximum number of paper IDs that may be submitted to the LLM filter per IP per day.
+MAX_LLM_CALL_COUNT = env.int('MAX_LLM_CALL_COUNT', default=20)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -63,11 +66,11 @@ INSTALLED_APPS = [
 
 CORS_ALLOWED_ORIGINS = _split_env_list(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,https://automated-review-companion.web.app',
+    default='http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001,https://automated-review-companion.web.app',
 )
 CSRF_TRUSTED_ORIGINS = _split_env_list(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:3000,https://automated-review-companion.web.app',
+    default='http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001,https://automated-review-companion.web.app',
 )
 CORS_ALLOW_CREDENTIALS = True
 

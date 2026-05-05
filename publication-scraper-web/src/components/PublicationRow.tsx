@@ -2,6 +2,7 @@ import { handleError } from '@/common/handler';
 // import '@/main.css';
 import { parseAuthors } from '@/common/labels';
 import { BASE_URL } from '@/utils/common';
+import { sanitizeTitleHtml } from '@/utils/sanitize';
 import {
   ExpandLess as ExpandLessIcon,
   ExpandMore as ExpandMoreIcon
@@ -34,7 +35,7 @@ export type MetadataColumnType = {
   headerName: string
   field: keyof Publication
   placeholder: string
-  render?: (value: any) => JSX.Element
+  render?: (value: Publication[keyof Publication]) => JSX.Element
 }
 
 const PublicationRow: React.FC<PublicationRowProps> = (props) => {
@@ -60,13 +61,13 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       headerName: 'Authors',
       field: 'authors',
       placeholder: '-',
-      render: (value: Author[]) => {
-        return (
-          <div className='max-w-[200px] overflow-scroll'>
-            {parseAuthors(value)}
-          </div>
-        )
-      }
+    render: (value) => {
+      return (
+        <div className='max-w-[200px] overflow-auto'>
+          {parseAuthors(value as Author[])}
+        </div>
+      )
+    }
     },
     {
       headerName: 'Citation Count',
@@ -102,12 +103,13 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
       headerName: 'Semantic Scholar URL',
       field: 'semantic_scholar_url',
       placeholder: '-',
-      render: (value: string) => {
-        if (value === '' || value === null) {
+      render: (value) => {
+        const url = typeof value === 'string' ? value : '';
+        if (url === '') {
           return <div>-</div>
         } 
         return (
-          <a href={value} className='text-blue-500 underline' target="_blank" rel="noopener noreferrer">
+          <a href={url} className='text-blue-500 underline' target="_blank" rel="noopener noreferrer">
             View on Semantic Scholar
           </a>
         )
@@ -190,8 +192,8 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
     .then((res) => {
       console.log(res.data);
       const updatedResults = searchResults.results.map((result: Publication) => {
-        var references: Publication[] = [];
-        var citations: Publication[] = [];
+        let references: Publication[] = [];
+        let citations: Publication[] = [];
         if (result.references && result.references.length > 0) {
           references = result.references.filter((reference) => reference.paper_id !== paper.paper_id)
         }
@@ -316,8 +318,8 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
           </a>
         </td>
         <td>
-          <div style={{width: "300px", height: "150px", overflow: "scroll"}}>
-            <span dangerouslySetInnerHTML={{__html: publication.paper_title}}></span>
+          <div style={{width: "300px", height: "150px", overflow: "auto"}}>
+            <span dangerouslySetInnerHTML={{__html: sanitizeTitleHtml(publication.paper_title)}}></span>
           </div>
         </td>
         <td>{publication.searched_from}</td>
@@ -341,7 +343,7 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
               {
                 metadataColumns.map((column) => (
                   <td key={column.field}>
-                    <div className="min-w-[200px] overflow-scroll" style={{ height: "150px" }}>
+                    <div className="min-w-[200px] overflow-auto" style={{ height: "150px" }}>
                       {
                         column.render 
                         ? column.render((publication[column.field] as string)) 

@@ -11,5 +11,6 @@ urlpatterns = [
   path('snowballing', PublicationSnowballingView.as_view(), name='snowballing'),
   path('validation', PublicationValidationView.as_view(), name='validation'),
   path('llm-filter', PublicationLLMFilterView.as_view(), name='llm-filter'),
+  path('llm-filter/progress/<str:progress_id>', PublicationLLMFilterView.as_view(), name='llm-filter-progress'),
   path('extract-csv', PublicationUploadView.as_view(), name='extract-csv'),
 ]

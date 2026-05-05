@@ -1,7 +1,13 @@
+import ast
 import io
+import json
+
+from utils.logger import Logger
 
 from .exportable import Exportable
 from .exporter import DataExporter
+
+log = Logger(__name__)
 
 
 class RisExporter(DataExporter):
@@ -50,14 +56,14 @@ class RisExporter(DataExporter):
             for (field_name, field_value) in data:
 
                 if field_name == "authors":
-                    try:
-                        authors = eval(field_value)
-                        for author in authors:
-                            if name := author.get("name"):
-                                output.write(f"AU  - {name}\n")
-                    except Exception as e:
-                        print(f"Error: {e}")
+                    authors = self._parse_authors(field_value)
+                    if authors is None:
                         output.write(f"AU  - {field_value}\n")
+                    else:
+                        for author in authors:
+                            name = author.get("name") if isinstance(author, dict) else str(author)
+                            if name:
+                                output.write(f"AU  - {name}\n")
 
                 elif ris_tag := self.map_to_ris_tag(field_name):
                     output.write(f"{ris_tag}  - {field_value}\n")
@@ -66,6 +72,23 @@ class RisExporter(DataExporter):
         
         self.exported_data = output.getvalue()
         
+
+    @staticmethod
+    def _parse_authors(field_value):
+        """ Safely parse a serialized authors list (Python literal or JSON). """
+        if isinstance(field_value, list):
+            return field_value
+        if not isinstance(field_value, str) or field_value == '':
+            return None
+        try:
+            parsed = ast.literal_eval(field_value)
+        except (ValueError, SyntaxError):
+            try:
+                parsed = json.loads(field_value)
+            except (ValueError, TypeError) as e:
+                log.error(f"Could not parse authors field: {e}")
+                return None
+        return parsed if isinstance(parsed, list) else None
 
     def map_to_ris_tag(self, field_name: str) -> str:
         """

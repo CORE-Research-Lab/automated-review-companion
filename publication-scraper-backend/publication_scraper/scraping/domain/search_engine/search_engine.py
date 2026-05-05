@@ -7,6 +7,9 @@ from publication.models import Publication
 from scraping.models import SearchEngineType
 from scraping.models import SearchResult
 from utils import Profiler
+from utils.logger import Logger
+
+log = Logger(__name__)
 
 
 class SearchEngine:
@@ -48,7 +51,7 @@ class SearchEngine:
                         publication.save()
                 
             except IntegrityError as e:
-                print(f"IntegrityError occurred: {e}")
+                log.error(f"IntegrityError occurred: {e}")
                 saved_publications = []
 
         return saved_publications

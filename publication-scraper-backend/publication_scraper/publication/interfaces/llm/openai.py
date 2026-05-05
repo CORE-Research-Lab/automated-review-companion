@@ -56,7 +56,7 @@ class OpenAILLM:
         except Exception as e:
             raise OpenAIError(f"Response validation error: {str(e)}", content)
 
-    def completion(self, system_prompt: str, user_prompt: str, response_model: BaseModel, model: str = "o3-mini") -> Dict[str, Any]:
+    def completion(self, system_prompt: str, user_prompt: str, response_model: BaseModel, model: str = "gpt-5.5") -> Dict[str, Any]:
         retries = 0
         last_error = None
 

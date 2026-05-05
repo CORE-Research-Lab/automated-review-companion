@@ -8,7 +8,7 @@ export type SearchResult = {
 export type KeywordVariation = {
   word: string,
   variants: string[]
-  synonyms: KeywordSynonym[]
+  synonyms: Array<KeywordSynonym | string>
 }
 
 export type KeywordSynonym = {
@@ -47,7 +47,7 @@ export type Publication = {
   semantic_scholar_url?: string,
 
   // LLM Questions
-  llm_responses?: LLMQuestion[]
+  llm_responses?: LLMUserAnswerResponse[]
 
   // Snowballing fields
   references?: Publication[],

@@ -1,7 +1,7 @@
 import {cn} from "@/lib/utils";
 import {SearchEngineType, SearchForm} from "@/types";
 import {Tooltip} from "@mui/material";
-import {tooltipText} from "@/data/tooltip.tsx";
+import {tooltipText} from "@/data/tooltip";
 
 export interface DatabaseSelectorProps {
     searchForm: SearchForm;

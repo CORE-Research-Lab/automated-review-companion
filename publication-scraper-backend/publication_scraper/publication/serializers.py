@@ -46,3 +46,4 @@ class PublicationLLMFilterSerializer(serializers.Serializer):
     paper_ids = serializers.ListField(child=serializers.CharField(), default=[])
     answers = serializers.ListField(child=LLMFilterUserAnswerSerializer(), default=[])
     options = LLMFilterOptionsSerializer(required=False, default={})
+    progress_id = serializers.CharField(required=False, allow_blank=True, default="")

@@ -35,13 +35,20 @@ import { cn } from "@/lib/utils";
 import { BASE_URL } from "@/utils/common";
 import { IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+
+type LLMFilterProgress = {
+    completed: number;
+    total: number;
+    current_paper_id?: string;
+    status: "idle" | "queued" | "running" | "completed" | "failed" | "unknown";
+}
 
 export interface PaperOperationsProps {
     selectedPapers: string[],
@@ -76,6 +83,14 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     const [snowballingType, setSnowballingType] = useState<string>('');
     const [isPerformingOperation, setIsPerformingOperation] = useState<boolean>(false);
     const [isLLMFilterProcessing, setIsLLMFilterProcessing] = useState(false);
+    const [llmExamplePaperIds, setLLMExamplePaperIds] = useState<string[]>([]);
+    const [llmProgressId, setLLMProgressId] = useState<string>("");
+    const [llmProgress, setLLMProgress] = useState<LLMFilterProgress>({
+        completed: 0,
+        total: 0,
+        current_paper_id: "",
+        status: "idle",
+    });
 
     const operations = [
         {
@@ -183,8 +198,11 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         })
             .then((res) => {
                 const data = res.data;
+                const metadataItems = Array.isArray(data.metadata) ? data.metadata : [];
                 const updatedResults = searchResults.results.map((result: Publication) => {
-                    const metadata = data.metadata.find((metadata: Publication) => metadata.paper_id === result.paper_id);
+                    const metadata = metadataItems.find((metadata: Publication) => metadata.paper_id === result.paper_id);
+                    if (!metadata) return result;
+
                     return {
                         ...result,
                         ...metadata,
@@ -201,7 +219,14 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                 }))
                 toast.success('Metadata populated successfully');
             })
-            .catch(handleError)
+            .catch((error) => {
+                setLLMProgress((prevProgress) => ({
+                    ...prevProgress,
+                    current_paper_id: "",
+                    status: "failed",
+                }));
+                handleError(error);
+            })
             .finally(() => {
                 setIsPerformingOperation(false);
                 setShowDialogPrompt(null);
@@ -222,11 +247,11 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
             show_metadata: true
         })
             .then((res) => {
-                let _searchType = searchType.charAt(0).toUpperCase() + searchType.slice(1);
+                const _searchType = searchType.charAt(0).toUpperCase() + searchType.slice(1);
                 toast.info(`${_searchType} snowballing search completed`);
 
                 if (searchType === "backward") {
-                    let updatedResults = [...searchResults.results];
+                    const updatedResults = [...searchResults.results];
                     res.data.results.forEach((result: SnowballingSearch) => {
                         const index = updatedResults.findIndex((r) => matchDOIs(r.paper_id, result.paper_id));
                         if (index !== -1) {
@@ -236,7 +261,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                     });
                     setSearchResults({...searchResults, results: updatedResults})
                 } else if (searchType === "forward") {
-                    let updatedResults = [...searchResults.results];
+                    const updatedResults = [...searchResults.results];
                     res.data.results.forEach((result: SnowballingSearch) => {
                         const index = updatedResults.findIndex((r) => matchDOIs(r.paper_id, result.paper_id));
                         if (index !== -1) {
@@ -279,31 +304,58 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         setShowDialogPrompt(null);
     }
 
+    const createLLMProgressId = () => {
+        if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+            return crypto.randomUUID();
+        }
+        return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    }
+
     const handleLLMFiltering = async () => {
         if (!validateLLMQuestionSubmittability()) return;
 
         // Case 1: There are already examples generated
 
         // Case 2: No previous LLM filtering performed
+        const paperIdsToFilter = processSelectedPapers(selectedPapers);
+        const progressId = createLLMProgressId();
+        const initialTotal = paperIdsToFilter.filter((paperId) => !llmExamplePaperIds.includes(paperId)).length;
+        setLLMProgressId(progressId);
+        setLLMProgress({
+            completed: 0,
+            total: initialTotal,
+            current_paper_id: "",
+            status: "queued",
+        });
         setIsLLMFilterProcessing(true);
         await axios.post(`${BASE_URL}/publication/llm-filter`, {
             questions: llmQuestions,
-            paper_ids: processSelectedPapers(selectedPapers),
+            paper_ids: paperIdsToFilter,
             answers: llmAnswers,
             options: llmOptions,
+            progress_id: progressId,
         })
             .then((res) => {
                 // debugger;
-                let data = res.data.results
+                const data = res.data.results
                 const updatedResults = searchResults.results.map((result: Publication) => {
                     const llm_responses = data.find((response: LLMPaperFilterResponse) => response.paper_id === result.paper_id)?.responses;
                     return {...result, llm_responses}
                 });
                 setSearchResults({...searchResults, results: updatedResults})
+                setLLMProgress((prevProgress) => ({
+                    ...prevProgress,
+                    completed: prevProgress.total,
+                    current_paper_id: "",
+                    status: "completed",
+                }));
                 setShowDialogPrompt(null);
             })
             .catch(handleError)
-            .finally(() => setIsLLMFilterProcessing(false));
+            .finally(() => {
+                setIsLLMFilterProcessing(false);
+                setLLMProgressId("");
+            });
     }
 
     const validateLLMQuestionSubmittability = () => {
@@ -316,11 +368,36 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                 toast.error('Question is required');
                 break;
             }
+            if (getLLMQuestionAnswerOptions(llmQuestions[i].answer).length === 0) {
+                valid = false;
+                toast.error(`Answer options are required for question ${i + 1}.`);
+                break;
+            }
         }
         if (!valid) return false;
 
+        if (llmOptions.includeExamples && llmExamplePaperIds.length === 0) {
+            toast.error('Choose at least one example paper.');
+            return false;
+        }
+
+        if (llmOptions.includeExamples) {
+            const missingExampleLabels = llmExamplePapers.flatMap((paper) => {
+                const paperAnswer = llmAnswers.find((answer) => answer.paper_id === paper.paper_id);
+                return llmQuestions
+                    .filter((_, questionIdx) => !paperAnswer?.responses[questionIdx]?.answer?.trim())
+                    .map((question) => ({ paper, question }));
+            });
+
+            if (missingExampleLabels.length > 0) {
+                const firstMissingLabel = missingExampleLabels[0];
+                toast.error(`Choose an example answer for "${firstMissingLabel.paper.paper_title}" on question ${firstMissingLabel.question.id}.`);
+                return false;
+            }
+        }
+
         // Validate Paper metadata
-        let missingMetadataPapers: Publication[] = [];
+        const missingMetadataPapers: Publication[] = [];
         searchResults.results.forEach((result: Publication) => {
             if (selectedPapers.includes(result.paper_id) && !result.abstract) {
                 valid = false;
@@ -347,7 +424,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
      * @returns paper ids that have metadata available
      */
     const processSelectedPapers = (selectedPapers: string[]) => {
-        let missingMetadataPapers: Publication[] = [];
+        const missingMetadataPapers: Publication[] = [];
         searchResults.results.forEach((result: Publication) => {
             if (selectedPapers.includes(result.paper_id) && !result.abstract) {
                 missingMetadataPapers.push(result);
@@ -355,6 +432,101 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         });
         return selectedPapers.filter((paper_id) => !missingMetadataPapers.map((paper) => paper.paper_id).includes(paper_id));
     }
+
+    const selectedPaperRecords = selectedPapers
+        .map((paperId) => searchResults.results.find((result) => result.paper_id === paperId))
+        .filter((paper): paper is Publication => Boolean(paper));
+
+    const llmExamplePapers = llmExamplePaperIds
+        .map((paperId) => searchResults.results.find((result) => result.paper_id === paperId))
+        .filter((paper): paper is Publication => Boolean(paper));
+
+    const buildEmptyLLMResponses = () => llmQuestions.map((question) => ({
+        id: question.id,
+        answer: "",
+        rationale: "",
+    }));
+
+    const syncExamplePaperAnswers = (paperIds: string[]) => {
+        setLLMAnswers((prevAnswers) =>
+            paperIds.map((paperId) => {
+                const existingAnswer = prevAnswers.find((answer) => answer.paper_id === paperId);
+                return existingAnswer ?? {
+                    paper_id: paperId,
+                    responses: buildEmptyLLMResponses(),
+                };
+            })
+        );
+    }
+
+    const handleToggleLLMExamplePaper = (paperId: string, checked: string | boolean) => {
+        const shouldIncludePaper = checked === true;
+        let nextExamplePaperIds = llmExamplePaperIds;
+
+        if (shouldIncludePaper) {
+            if (llmExamplePaperIds.includes(paperId)) return;
+            nextExamplePaperIds = [...llmExamplePaperIds, paperId];
+        } else {
+            nextExamplePaperIds = llmExamplePaperIds.filter((id) => id !== paperId);
+        }
+
+        setLLMExamplePaperIds(nextExamplePaperIds);
+        syncExamplePaperAnswers(nextExamplePaperIds);
+    }
+
+    const updateLLMAnswer = (paperId: string, questionIdx: number, field: "answer" | "rationale", value: string) => {
+        const updatedAnswers = [...llmAnswers];
+        let answerIdx = updatedAnswers.findIndex((answer) => answer.paper_id === paperId);
+
+        if (answerIdx === -1) {
+            updatedAnswers.push({
+                paper_id: paperId,
+                responses: buildEmptyLLMResponses(),
+            });
+            answerIdx = updatedAnswers.length - 1;
+        }
+
+        updatedAnswers[answerIdx].responses[questionIdx][field] = value;
+        setLLMAnswers(updatedAnswers);
+    }
+
+    const getLLMQuestionAnswerOptions = (answer: string) => (
+        Array.from(
+            new Set(
+                answer
+                    .split(",")
+                    .map((choice) => choice.trim())
+                    .filter(Boolean)
+            )
+        )
+    );
+
+    useEffect(() => {
+        setLLMExamplePaperIds((prevExamplePaperIds) => {
+            const nextExamplePaperIds = prevExamplePaperIds.filter((paperId) => selectedPapers.includes(paperId));
+            if (nextExamplePaperIds.length !== prevExamplePaperIds.length) {
+                setLLMAnswers((prevAnswers) => prevAnswers.filter((answer) => nextExamplePaperIds.includes(answer.paper_id)));
+            }
+            return nextExamplePaperIds;
+        });
+    }, [selectedPapers, setLLMAnswers]);
+
+    useEffect(() => {
+        if (!isLLMFilterProcessing || !llmProgressId) return;
+
+        const pollProgress = async () => {
+            try {
+                const response = await axios.get<LLMFilterProgress>(`${BASE_URL}/publication/llm-filter/progress/${llmProgressId}`);
+                setLLMProgress(response.data);
+            } catch {
+                // Keep the main LLM request running even if one progress poll fails.
+            }
+        };
+
+        pollProgress();
+        const intervalId = window.setInterval(pollProgress, 1000);
+        return () => window.clearInterval(intervalId);
+    }, [isLLMFilterProcessing, llmProgressId]);
 
 
     const handleAddLLMQuestion = () => {
@@ -368,7 +540,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
             answer: '',
             rationale: ''
         }])
-        let newLLMAnswers = [...llmAnswers];
+        const newLLMAnswers = [...llmAnswers];
         newLLMAnswers.forEach((answer) => {
             answer.responses.push({
                 id: llmQuestions.length + 1, 
@@ -390,7 +562,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         setLLMQuestions(updatedQuestions);
 
         // Remove the selected question from the answers
-        let newLLMAnswers = [...llmAnswers];
+        const newLLMAnswers = [...llmAnswers];
         newLLMAnswers.forEach((answer) => {
             answer.responses = answer.responses.filter((response) => response.id !== question.id);
             answer.responses = answer.responses.map((response, index) => ({...response, id: index + 1}));
@@ -407,18 +579,13 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
     }
 
     const handleLLMOptions = (checked: string | boolean, fieldName: string) => {
-        if (fieldName === "includeExamples" && checked) {
-            const initializedAnswers = selectedPapers.map((paper_id) => ({
-                paper_id,
-                responses: llmQuestions.map((question) => ({
-                    id: question.id,
-                    answer: "",
-                    rationale: "",
-                })),
-            }));
-            setLLMAnswers(initializedAnswers);
+        const isChecked = checked === true;
+        if (fieldName === "includeExamples" && isChecked) {
+            setLLMExamplePaperIds([]);
+            setLLMAnswers([]);
         }
-        if (fieldName === "includeExamples" && !checked) {
+        if (fieldName === "includeExamples" && !isChecked) {
+            setLLMExamplePaperIds([]);
             setLLMAnswers([]);
             setLLMOptions({
                 includeExamples: false,
@@ -427,18 +594,31 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
         } else {
             setLLMOptions({
                 ...llmOptions,
-                [fieldName]: Boolean(checked),
+                [fieldName]: isChecked,
             });
         }
     };
 
-    let dropdownClasses = cn(
-        "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        "bg-slate-500 hover:bg-slate-600 active:border-none dropdown-toggle",
-        "hover:cursor-pointer",
-        "h-8 rounded-md px-3 text-xs",
-        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+    const dropdownClasses = cn(
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium",
+        "h-9 px-4 shadow-sm",
+        "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800",
+        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300",
+        "disabled:pointer-events-none disabled:border disabled:border-slate-300 disabled:bg-slate-200 disabled:text-slate-500 disabled:shadow-none",
+        "dropdown-toggle hover:cursor-pointer",
     );
+
+    const getLLMProgressText = () => {
+        if (!isLLMFilterProcessing) return "";
+        if (llmProgress.total === 0) {
+            return llmProgress.status === "queued" ? "Preparing LLM filtering..." : "Waiting for progress...";
+        }
+        const clampedCompleted = Math.min(llmProgress.completed, llmProgress.total);
+        const currentPaperText = llmProgress.current_paper_id
+            ? ` Current: ${llmProgress.current_paper_id}`
+            : "";
+        return `Processed ${clampedCompleted}/${llmProgress.total} papers.${currentPaperText}`;
+    };
 
     return (
         <>
@@ -449,7 +629,7 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
             >
                 <DropdownMenu>
                     <Tooltip
-                        title={selectedPapers.length === 0 ? tooltipText.results.operations.enabled : tooltipText.results.operations.disabled}
+                        title={isPaperOperationsDisabled ? tooltipText.results.operations.disabled : tooltipText.results.operations.enabled}
                         placement="bottom"
                     >
                         <span>
@@ -498,12 +678,15 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                 {
                     showDialogPrompt === PublicationOperation.LLM_FILTER &&
                     <DialogContent
-                        className="max-w-fit max-h-full border overflow-scroll"
+                        className="max-w-fit max-h-full border overflow-auto"
                     >
                         <div className="container p-3 mt-3 border rounded" id="llm-questions">
                             <div className="flex flex-row justify-content-between align-items-center">
                                 <div className="d-flex align-items-center justify-content-between gap-2">
                                     <DialogTitle>Paper Filter Questions (LLM-Powered)</DialogTitle>
+                                    <DialogDescription className="sr-only">
+                                        Configure LLM-powered paper filtering questions, answers, examples, and rationales.
+                                    </DialogDescription>
                                     <div>
                                         <Tooltip title={tooltipText.search.llmQuestions} placement="top">
                                             <InfoIcon color="info"/>
@@ -582,65 +765,74 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                 }
                             </div>
 
-                            {
-                                (!llmOptions.includeExamples && !llmOptions.includeRationale) &&
-                                <div className="flex justify-content-center items-center min-w-[60vw] min-h-[20vh] bg-slate-200 mt-3">
-                                    <div className="text-slate-600/60 text-center">
-                                        Include examples/rationale to proceed
-                                    </div>
-                                </div>
-                            }
-                            
-
-                            {
-                                (!llmOptions.includeExamples && selectedPapers.length < 3) &&
-                                <div
-                                    className="flex justify-content-center items-center min-w-[60vw] min-h-[20vh] bg-slate-200 mt-3">
-                                    {
-                                        !llmOptions.includeExamples &&
-                                        <div className="text-slate-600/60 text-center">
-                                            Select at least 3 papers to include examples/rationale
+                            {llmOptions.includeExamples && (
+                                <div className="llm-example-section mt-3">
+                                    <div className="d-flex justify-content-between align-items-start gap-2 flex-wrap">
+                                        <div>
+                                            <div className="font-medium">Example papers</div>
+                                            <div className="text-sm text-slate-600">
+                                                Choose any selected papers to use as labeled examples for the LLM review.
+                                            </div>
+                                            {llmExamplePaperIds.length > 0 && (
+                                                <div className="text-xs text-slate-500">
+                                                    After choosing papers, select an answer for each example row below.
+                                                </div>
+                                            )}
                                         </div>
-                                    }
-                                </div>
-                            }
+                                        <div className="text-sm text-slate-600">
+                                            {llmExamplePaperIds.length} chosen
+                                        </div>
+                                    </div>
 
-                            {/* Few-shot examples */}
-                            {
-                                llmOptions.includeExamples && selectedPapers.length > 3 &&
-                                <div className="flex flex-row mt-3 min-w-full">
-                                    <div className="table-responsive">
-                                        <table className="table table-striped">
-                                            <thead className="bg-primary text-white">
-                                                <tr>
-                                                    <td>Paper ID</td>
-                                                    <td style={{minWidth: "300px"}}>Paper Title</td>
-                                                    <td style={{minWidth: "300px"}}>Search String</td>
-                                                    <td style={{minWidth: "300px"}}>Formatted Search String</td>
-                                                    <td>Abstract</td>
-                                                    <td style={{minWidth: "300px"}}>Authors</td>
-                                                    <td style={{minWidth: "300px"}}>Citations Count</td>
-                                                    <td style={{minWidth: "300px"}}>Conference/Journal</td>
-                                                    <td style={{minWidth: "300px"}}>DOI</td>
-                                                    <td>Publication Date</td>
-                                                    <td>Publication Type</td>
-                                                    <td>Publisher</td>
-                                                    {
-                                                        llmQuestions.map((question) => (
-                                                            <td key={question.id} style={{minWidth: "300px"}}>
-                                                                Q{question.id}: Answer & Rationale
-                                                            </td>
-                                                        ))
-                                                    }
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {selectedPapers.length > 0 && selectedPapers.map((paper_id, index) => {
-                                                let paper = searchResults.results.find((result) => result.paper_id === paper_id);
-                                                if (!paper) return;
-                                                if (index < 3) {
-                                                    return (
-                                                        <tr key={paper_id}>
+                                    {selectedPaperRecords.length === 0 ? (
+                                        <div className="llm-example-empty">
+                                            Select papers from the results table before configuring LLM examples.
+                                        </div>
+                                    ) : (
+                                        <div className="llm-example-picker" aria-label="Choose LLM example papers">
+                                            {selectedPaperRecords.map((paper, index) => (
+                                                <label key={paper.paper_id} className="llm-example-option">
+                                                    <Checkbox
+                                                        checked={llmExamplePaperIds.includes(paper.paper_id)}
+                                                        onCheckedChange={(checked) => handleToggleLLMExamplePaper(paper.paper_id, checked)}
+                                                    />
+                                                    <span className="llm-example-index">{index + 1}</span>
+                                                    <span className="llm-example-title">{paper.paper_title}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {llmExamplePapers.length > 0 && (
+                                        <div className="flex flex-row mt-3 min-w-full">
+                                            <div className="table-responsive">
+                                                <table className="table table-striped">
+                                                    <thead className="bg-primary text-white">
+                                                        <tr>
+                                                            <td>Paper ID</td>
+                                                            <td style={{minWidth: "300px"}}>Paper Title</td>
+                                                            <td style={{minWidth: "300px"}}>Search String</td>
+                                                            <td style={{minWidth: "300px"}}>Formatted Search String</td>
+                                                            <td>Abstract</td>
+                                                            <td style={{minWidth: "300px"}}>Authors</td>
+                                                            <td style={{minWidth: "300px"}}>Citations Count</td>
+                                                            <td style={{minWidth: "300px"}}>Conference/Journal</td>
+                                                            <td style={{minWidth: "300px"}}>DOI</td>
+                                                            <td>Publication Date</td>
+                                                            <td>Publication Type</td>
+                                                            <td>Publisher</td>
+                                                            {
+                                                                llmQuestions.map((question) => (
+                                                                    <td key={question.id} style={{minWidth: "300px"}}>
+                                                                        Q{question.id}: Answer & Rationale
+                                                                    </td>
+                                                                ))
+                                                            }
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {llmExamplePapers.map((paper) => (
+                                                        <tr key={paper.paper_id}>
                                                             <td>
                                                                 <a
                                                                     href={paper.paper_id.slice(4)}
@@ -655,12 +847,12 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                             <td>{paper.search_string}</td>
                                                             <td>{paper.formatted_search_string}</td>
                                                             <td>
-                                                                <div style={{maxHeight: "120px", overflow: "scroll", width: '550px'}}>
+                                                                <div style={{maxHeight: "120px", overflow: "auto", width: '550px'}}>
                                                                     {paper.abstract}
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <div style={{maxHeight: "120px", overflow: "scroll"}}>
+                                                                <div style={{maxHeight: "120px", overflow: "auto"}}>
                                                                     {parseAuthors(paper.authors)}
                                                                 </div>
                                                             </td>
@@ -670,76 +862,54 @@ const PaperOperations: React.FC<PaperOperationsProps> = (props) => {
                                                             <td>{paper.publication_date}</td>
                                                             <td>{paper.publication_type}</td>
                                                             <td>{paper.publisher}</td>
-                                                            {llmQuestions.map((llmQuestion, questionIdx) => (
-                                                                <td key={questionIdx}>
-                                                                    <Select
-                                                                        value={llmAnswers[index]?.responses[questionIdx]?.answer || ""}
-                                                                        onValueChange={(value) => {
-                                                                            const updatedAnswers = [...llmAnswers];
-                                                                            if (!updatedAnswers[index]) {
-                                                                                updatedAnswers[index] = {
-                                                                                    paper_id: selectedPapers[index],
-                                                                                    responses: llmQuestions.map((q) => ({
-                                                                                        id: q.id,
-                                                                                        answer: "",
-                                                                                        rationale: "",
-                                                                                    })),
-                                                                                };
-                                                                            }
-                                                                            updatedAnswers[index].responses[questionIdx].answer = value;
-                                                                            setLLMAnswers(updatedAnswers);
-                                                                        }}
-                                                                    >
-                                                                        <SelectTrigger className="bg-white">
-                                                                            <SelectValue placeholder="Select Answer"/>
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                            {llmQuestion.answer.split(",").map((choice) =>
-                                                                                choice ? (
-                                                                                    <SelectItem key={choice}
-                                                                                                value={choice}>
+                                                            {llmQuestions.map((llmQuestion, questionIdx) => {
+                                                                const paperAnswer = llmAnswers.find((answer) => answer.paper_id === paper.paper_id);
+
+                                                                return (
+                                                                    <td key={llmQuestion.id}>
+                                                                        <Select
+                                                                            value={paperAnswer?.responses[questionIdx]?.answer || ""}
+                                                                            onValueChange={(value) => updateLLMAnswer(paper.paper_id, questionIdx, "answer", value)}
+                                                                        >
+                                                                            <SelectTrigger className="bg-white">
+                                                                                <SelectValue placeholder="Select Answer"/>
+                                                                            </SelectTrigger>
+                                                                            <SelectContent>
+                                                                                {getLLMQuestionAnswerOptions(llmQuestion.answer).map((choice) => (
+                                                                                    <SelectItem key={choice} value={choice}>
                                                                                         {choice}
                                                                                     </SelectItem>
-                                                                                ) : null
-                                                                            )}
-                                                                        </SelectContent>
-                                                                    </Select>
-                                                                    {
-                                                                        llmOptions.includeRationale &&
-                                                                        <Input
-                                                                            placeholder="Rationale"
-                                                                            className="bg-white"
-                                                                            value={llmAnswers[index]?.responses[questionIdx]?.rationale || ""}
-                                                                            onChange={(e) => {
-                                                                                const updatedAnswers = [...llmAnswers];
-                                                                                if (!updatedAnswers[index]) {
-                                                                                    updatedAnswers[index] = {
-                                                                                        paper_id: selectedPapers[index],
-                                                                                        responses: llmQuestions.map((q) => ({
-                                                                                            id: q.id,
-                                                                                            answer: "",
-                                                                                            rationale: "",
-                                                                                        })),
-                                                                                    };
-                                                                                }
-                                                                                updatedAnswers[index].responses[questionIdx].rationale = e.target.value;
-                                                                                setLLMAnswers(updatedAnswers);
-                                                                            }}
-                                                                        />
-                                                                    }
-                                                                </td>
-                                                            ))}
+                                                                                ))}
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                        {
+                                                                            llmOptions.includeRationale &&
+                                                                            <Input
+                                                                                placeholder="Rationale"
+                                                                                className="bg-white"
+                                                                                value={paperAnswer?.responses[questionIdx]?.rationale || ""}
+                                                                                onChange={(e) => updateLLMAnswer(paper.paper_id, questionIdx, "rationale", e.target.value)}
+                                                                            />
+                                                                        }
+                                                                    </td>
+                                                                )
+                                                            })}
                                                         </tr>
-                                                    );
-                                                }
-                                            })}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                            }
+                            )}
 
-                            <div className="d-flex justify-content-end mt-3">
+                            <div className="d-flex justify-content-end align-items-center gap-3 mt-3">
+                                {isLLMFilterProcessing && (
+                                    <div className="llm-progress-text" aria-live="polite">
+                                        {getLLMProgressText()}
+                                    </div>
+                                )}
                                 <Button
                                     className="bg-green-600 hover:bg-green-700/80"
                                     disabled={isLLMFilterProcessing}

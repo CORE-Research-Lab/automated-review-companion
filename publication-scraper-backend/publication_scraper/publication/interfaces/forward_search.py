@@ -44,20 +44,20 @@ class ForwardSearch(SnowballingSearch):
             paper_doi = publication["doi"]
 
             if paper_doi == '' or paper_doi is None:
-                print(f"WARNING: Paper with title {publication['title']} does not have a DOI. Skipping.")
+                log.warn(f"Paper with title {publication['title']} does not have a DOI. Skipping.")
                 continue
 
             sch_paper = self.sch.get_paper(paper_doi)
             citations = sch_paper.citations
 
             if citations is None or sch_paper.citationCount == 0:
-                print(f"Skipped Paper | No citations: {publication['title']}")
+                log.info(f"Skipped Paper | No citations: {publication['title']}")
                 continue
 
             log.info(f"Found {len(citations)} citations for {publication['title']}")
 
             for citing_paper in citations:
-                print(citing_paper)
+                log.debug(citing_paper)
                 if citing_paper.externalIds is None or citing_paper.externalIds.get("DOI") is None:
                     log.warn(f"Publication with no DOI: {citing_paper.title}")
                     log.warn(f"External IDs: {citing_paper.externalIds}")

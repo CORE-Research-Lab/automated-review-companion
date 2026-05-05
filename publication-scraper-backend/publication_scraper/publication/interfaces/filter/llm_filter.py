@@ -1,5 +1,5 @@
 import json
-from typing import List, Tuple, Union, Optional, Any
+from typing import Callable, Dict, List, Tuple, Union, Optional, Any
 from pydantic import BaseModel, Field, field_validator
 from publication.interfaces.llm.openai import OpenAILLM
 from publication.models import Publication, PublicationMetadata
@@ -51,10 +51,11 @@ class LLMFilterResponse(BaseModel):
         return v
 
 class LLMFilter:
-    def __init__(self):
+    def __init__(self, progress_callback: Optional[Callable[[Dict[str, Any]], None]] = None):
 # self.model = AzureLLM()
         self.model = OpenAILLM()
         self.results: List[LLMFilterResponse] = []
+        self.progress_callback = progress_callback
 
     def parse(
         self, 
@@ -107,9 +108,37 @@ class LLMFilter:
 
     def completion(self):
         """ Complete the LLM filter """
-        for pid, paper in self.paper_data:
-            if pid not in self.example_paper_ids:
-                self._complete_llm_filter(pid, paper)
+        papers_to_process = [
+            (pid, paper)
+            for pid, paper in self.paper_data
+            if pid not in self.example_paper_ids
+        ]
+        total = len(papers_to_process)
+        completed = 0
+        if self.progress_callback:
+            self.progress_callback({
+                "completed": completed,
+                "total": total,
+                "current_paper_id": "",
+                "status": "running",
+            })
+        for pid, paper in papers_to_process:
+            if self.progress_callback:
+                self.progress_callback({
+                    "completed": completed,
+                    "total": total,
+                    "current_paper_id": pid,
+                    "status": "running",
+                })
+            self._complete_llm_filter(pid, paper)
+            completed += 1
+            if self.progress_callback:
+                self.progress_callback({
+                    "completed": completed,
+                    "total": total,
+                    "current_paper_id": pid,
+                    "status": "running",
+                })
         return self.results
     
 

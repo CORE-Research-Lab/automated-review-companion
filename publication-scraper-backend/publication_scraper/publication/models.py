@@ -1,3 +1,4 @@
+import ast
 import json
 from enum import Enum
 from typing import List
@@ -121,15 +122,21 @@ class PublicationMetadata(models.Model):
             if field not in ['id', 'publication']
         }
 
-        # Eval-able fields
+        # Safely parse fields that may be stored as serialized Python literals
+        # (e.g. "[{'name': 'Jane Doe'}]") or JSON. Falls back to the raw string
+        # if neither parser succeeds.
         evaluable_fields = ['authors', 'publication_type']
         for field in evaluable_fields:
-            if isinstance(md_dict[field], str):
+            value = md_dict.get(field)
+            if not isinstance(value, str) or value == '':
+                continue
+            try:
+                md_dict[field] = ast.literal_eval(value)
+            except (ValueError, SyntaxError):
                 try:
-                    md_dict[field] = eval(md_dict[field])
-                except Exception as e:
-                    print(f"Error evaluating field {field}: {e}")
-                    pass
+                    md_dict[field] = json.loads(value)
+                except (ValueError, TypeError) as e:
+                    log.error(f"Error parsing field {field}: {e}")
 
         if not(show_publication):
             return md_dict

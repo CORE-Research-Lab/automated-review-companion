@@ -1,12 +1,12 @@
 import '@/main.css';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import InfoIcon from '@mui/icons-material/Info';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { handleError } from './common/handler';
-import ChangelogModal from './components/ChangelogModal';
 import CsvImportField from './components/CsvImportField';
 import DatabaseSelector from './components/DatabaseSelector';
 import ExportDropdown from './components/ExportDropdown';
@@ -21,8 +21,8 @@ import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from './components/ui/carousel';
 import { DatePicker } from './components/ui/date-picker';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './components/ui/dropdown-menu';
 import { MultiSelect } from './components/ui/multi-select';
-import UsabilityGuide from './components/UsabilityGuide';
 import { tooltipText } from './data/tooltip';
 import { cn } from './lib/utils';
 import {
@@ -36,7 +36,7 @@ import {
   SearchMode,
   SearchResult
 } from './types';
-import { BASE_URL, CURRENT_VERSION } from './utils/common';
+import { BASE_URL } from './utils/common';
 import { defaultButtonState, defaultDiffSearchResults, defaultLLMOptions, defaultLLMQuestions, defaultSearchForm, defaultSearchResult } from './utils/templates';
 import { validateSearchForm } from './utils/validators';
 
@@ -52,8 +52,6 @@ export type FilterForm = {
 }
 
 function App() {
-  const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
-  const [showChangelog, setShowChangelog] = useState(false);
   const [searchForm, setSearchForm] = useState<SearchForm>(defaultSearchForm);
   const [searchResults, setSearchResults] = useState<SearchResult>(defaultSearchResult);
   const [selectedPapers, setSelectedPapers] = useState<string[]>([]);
@@ -96,8 +94,8 @@ function App() {
   // TODO: store a search reference id of the results it provides;
   // query endpoint when triggered to get the results of the search
     
-  let numMatched = searchResults?.matches?.num_matches;
-  let percentageMatched = searchResults?.matches?.percentage_match;
+  const numMatched = searchResults?.matches?.num_matches;
+  const percentageMatched = searchResults?.matches?.percentage_match;
   
   const multiLayerSearchFields: MultiLayerSearch[] = ['primary', 'secondary', 'tertiary']; 
 
@@ -150,7 +148,8 @@ function App() {
     const cleanedAdvancedSearch = cleanAdvancedSearch(searchForm.search_terms.advanced);
     
     // Remove existing id to ensure a new unique id is generated
-    const { id, ...searchFormWithoutId } = searchForm;
+    const searchFormWithoutId = { ...searchForm };
+    delete searchFormWithoutId.id;
     
     const payload = {
       ...searchFormWithoutId,
@@ -165,8 +164,8 @@ function App() {
     
     await axios.post(`${BASE_URL}/scraper/search-and-clean`, payload)
       .then((res) => {
-        let data = res.data;
-        let newSearchResults = {
+        const data = res.data;
+        const newSearchResults = {
           ...data,
           results: data.results.map((paper: Publication) => ({...paper, show: true}))
         }
@@ -250,8 +249,8 @@ function App() {
       dois: paperDOIs
     })
     .then(async (res) => {
-      let modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL', formatted_search_string: 'Not Applicable'}));
-      let newResults = modifiedResults.filter((paper: Publication) => !searchResults.results.find((result: Publication) => result.paper_id === paper.paper_id));
+      const modifiedResults = res.data.publications.map((paper: Publication) => ({...paper, searched_from: "MANUAL", search_string: 'MANUAL', formatted_search_string: 'Not Applicable'}));
+      const newResults = modifiedResults.filter((paper: Publication) => !searchResults.results.find((result: Publication) => result.paper_id === paper.paper_id));
       setSearchResults({...searchResults, results: [...searchResults.results, ...newResults]});
       toast.success('Papers added successfully');
       await updateSearchResults(newResults);
@@ -327,22 +326,13 @@ function App() {
     }
   }
   
-  const handleSearchHistory = (offset: number) => {
-    setCurrentSearchHistoryIndex((prevIndex) => {
-      let newIndex = prevIndex + offset;
-      if (newIndex < 0) newIndex = 0;
-      if (newIndex >= searchHistory.length) newIndex = searchHistory.length - 1;
-      return newIndex;
-    });
-  }
-
   const handleDiffMode = () => {
     
     if (diffMode) {
       setShowDiffOnly(false); // Reset showDiffOnly when disabling diff mode
       setDiffSearchHistoryIndex(null);
-      let prevSearchResults = [...searchResults.results];
-      let newPrevSearchResults = prevSearchResults.map((result: Publication) => {
+      const prevSearchResults = [...searchResults.results];
+      const newPrevSearchResults = prevSearchResults.map((result: Publication) => {
         return { ...result, diffType: undefined }
       });
       setSearchResults({...searchResults, results: newPrevSearchResults});
@@ -418,15 +408,15 @@ function App() {
       show: true,
     });
 
-    let updatedResults = [...searchResults.results];
-    let newUpdatedResults = updatedResults.map((result: Publication) => {
+    const updatedResults = [...searchResults.results];
+    const newUpdatedResults = updatedResults.map((result: Publication) => {
       if (!newSearchResults.results.find((r) => r.paper_id === result.paper_id)) {
         return { ...result, diffType: ('add' as DiffType) }
       }
       return { ...result, diffType: ('common' as DiffType) }
     });
 
-    let newDiffSearchResults = newSearchResults.results.map((result: Publication) => {
+    const newDiffSearchResults = newSearchResults.results.map((result: Publication) => {
       const index = searchResults.results.findIndex((r) => r.paper_id === result.paper_id);
       if (index === -1) {
         return { ...result, diffType: ('remove' as DiffType)  }
@@ -435,13 +425,13 @@ function App() {
     });
 
     // Get total number of papers
-    let commonPapers = newUpdatedResults.filter((result: Publication) => result.diffType === 'common').length;
-    let addedPapers = newUpdatedResults.filter((result: Publication) => result.diffType === 'add').length;
-    let removedPapers = newDiffSearchResults.filter((result: Publication) => result.diffType === 'remove').length;
-    let totalPapers = commonPapers + addedPapers + removedPapers;
+    const commonPapers = newUpdatedResults.filter((result: Publication) => result.diffType === 'common').length;
+    const addedPapers = newUpdatedResults.filter((result: Publication) => result.diffType === 'add').length;
+    const removedPapers = newDiffSearchResults.filter((result: Publication) => result.diffType === 'remove').length;
+    const totalPapers = commonPapers + addedPapers + removedPapers;
 
-    let newUpdatedResultsWithDummy = [];
-    let newDiffSearchResultsWithDummy = [];
+    const newUpdatedResultsWithDummy = [];
+    const newDiffSearchResultsWithDummy = [];
 
     // Iterate through the new search results and add dummy papers for the old search results
     let updatedResultsIdx = 0;
@@ -493,7 +483,7 @@ function App() {
       synonym = `"${synonym}"`;
     }
 
-    let replacement = `(${keyword} or ${synonym})`;
+    const replacement = `(${keyword} or ${synonym})`;
     setSearchForm({
       ...searchForm,
       search_terms: {
@@ -508,8 +498,8 @@ function App() {
     setShowDiffOnly(!showDiffOnly);
     
     // Handle Original Search Results
-    let updatedResults = [...searchResults.results];
-    let newUpdatedResults = updatedResults.map((result: Publication) => {
+    const updatedResults = [...searchResults.results];
+    const newUpdatedResults = updatedResults.map((result: Publication) => {
       if (result.diffType === 'common') {
         return { ...result, show: showDiffOnly } // If currently showing diff only, show all; otherwise hide common
       }
@@ -518,8 +508,8 @@ function App() {
     setSearchResults({...searchResults, results: newUpdatedResults});
 
     // Handle diff search results
-    let updatedDiffResults = [...diffSearchResults.results];
-    let newUpdatedDiffResults = updatedDiffResults.map((result: Publication) => {
+    const updatedDiffResults = [...diffSearchResults.results];
+    const newUpdatedDiffResults = updatedDiffResults.map((result: Publication) => {
       if (result.diffType === 'common') {
         return { ...result, show: showDiffOnly } // If currently showing diff only, show all; otherwise hide common
       }
@@ -535,7 +525,7 @@ function App() {
 
   const applyFilters = () => {
 
-    let newSearchResults = { ...searchResults };
+    const newSearchResults = { ...searchResults };
     for (let i = 0; i < newSearchResults.results.length; i++) {
       newSearchResults.results[i].show = true;
 
@@ -574,41 +564,24 @@ function App() {
 
       // 3. Check if the LLM question & corresponding answer is in the filter form
       if (filterForm.llmQuestions.length > 0) {
-        let questionIdsWithFilterEnabled = filterForm.llmQuestions.map((questionId) => Number(questionId));
-        for (let questionId of questionIdsWithFilterEnabled) {
-          
-          let filteredAnswers = filterForm.llmAnswers[questionId]
-          
-          if (!searchResults.results[i].llm_responses) {
-            searchResults.results[i].show = false;
-            continue;
-          }
+        const questionIdsWithFilterEnabled = filterForm.llmQuestions.map((questionId) => Number(questionId));
+        const responses = searchResults.results[i].llm_responses;
+        for (const questionId of questionIdsWithFilterEnabled) {
+          const filteredAnswers = filterForm.llmAnswers[questionId] ?? [];
+          if (filteredAnswers.length === 0) continue;
 
-          if (
-            searchResults.results[i].llm_responses !== undefined &&
-            (searchResults.results[i].llm_responses!!.length > questionId) &&
-            !filteredAnswers.includes(searchResults.results[i].llm_responses!![questionId].answer)
-          ) {
-              searchResults.results[i].show = false;
-              continue;
-            }
+          const response = responses?.find((response) => Number(response.id) === questionId);
+          if (!response || !filteredAnswers.includes(response.answer)) {
+            newSearchResults.results[i].show = false;
+            break;
+          }
         }
       }
     }
-    let numberOfShownRecords = newSearchResults.results.filter((result) => result.show).length;
+    const numberOfShownRecords = newSearchResults.results.filter((result) => result.show).length;
     toast.info(`Showing ${numberOfShownRecords} records`);
     setSearchResults(newSearchResults);
   }
-  // Fetch the search history from the local storage
-  useEffect(() => { 
-    const currentVersion = CURRENT_VERSION;
-    const userVersion = localStorage.getItem('userArcVersion');
-    if (!userVersion || parseInt(userVersion) < currentVersion) {
-      localStorage.setItem('userArcVersion', currentVersion.toString());
-      setShowChangelog(true);
-    }
-  }, []);
-
   // State to store the Embla Carousel API instance.
   const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
 
@@ -629,24 +602,24 @@ function App() {
   return (
       <div className="mt-3">
         <div className="container">
-          <h1 className="text-4xl font-medium">ARC: Automated Review Companion</h1>
+          <h1 className="text-3xl md:text-4xl font-medium">ARC: Automated Review Companion</h1>
         
           {/* Search Bar */}
           <div className="p-3 mt-3 border rounded" id="search-bar">
-            <div className="d-flex flex-row justify-content-between">
+            <div className="d-flex flex-row flex-wrap justify-content-between align-items-start gap-2">
               <h3 className="text-3xl font-medium">Search Bar</h3>
-              {/* Button to open up a modal for a usability guide */}
+              {/* Link to the usability guide hosted on GitHub */}
               <div className="d-flex gap-2">
-                <UsabilityGuide 
-                  showUsabilityGuide={showUsabilityGuide} 
-                  setShowUsabilityGuide={setShowUsabilityGuide}
-                  handleClose={() => setShowUsabilityGuide(false)}
-                />
-                <ChangelogModal 
-                  showChangelog={showChangelog} 
-                  setShowChangelog={setShowChangelog}
-                  handleClose={() => setShowChangelog(false)}
-                />
+                <a
+                  href="https://github.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 h-9 px-3 rounded-md text-sm font-medium bg-blue-600 text-white shadow-sm hover:bg-blue-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                  aria-label="Open usability guide on GitHub"
+                >
+                  <InfoIcon style={{ fontSize: "1.25rem" }} />
+                  Usability Guide
+                </a>
               </div>
             </div>
 
@@ -699,11 +672,15 @@ function App() {
                                                                 target="_blank"
                                                                 rel="noreferrer">Thesaurus.com</a>:):</span>
                                         <Box className="word-variant-box mb-2">
-                                          {variation.synonyms.map((synonym) => (
-                                              <>
+                                          {variation.synonyms.map((rawSynonym) => {
+                                            const synonym = typeof rawSynonym === "string"
+                                              ? { meaning: rawSynonym, words: [rawSynonym] }
+                                              : rawSynonym;
+                                            return (
+                                              <div key={variation.word + synonym.meaning}>
                                                 <div>Meaning: {synonym.meaning}</div>
                                                 <div className="word-variant-box">
-                                                  {synonym.words.map((word) =>
+                                                  {synonym.words.map((word: string) =>
                                                       <div
                                                           key={word}
                                                           onClick={() => handleAdvancedChipClick(variation.word, word)}
@@ -714,8 +691,9 @@ function App() {
                                                       </div>
                                                   )}
                                                 </div>
-                                              </>
-                                          ))}
+                                              </div>
+                                            );
+                                          })}
                                           {variation.variants.length > 0 && <span>Variants:</span>}
                                           {variation.variants.map((variant) => (
                                               <div
@@ -754,16 +732,19 @@ function App() {
                         id="start-date"
                         type="date"
                         className="form-control"
+                        max={searchForm.end_date.toISOString().slice(0, 10)}
                         value={searchForm.start_date.toISOString().slice(0, 10)}
                         onChange={(e) => {
-                          try {
-                            setSearchForm({
-                              ...searchForm,
-                              start_date: new Date(e.target.value),
-                            });
-                          } catch (e) {
-                            console.error(e);
+                          const next = new Date(e.target.value);
+                          if (!e.target.value || isNaN(next.getTime())) {
+                            toast.error('Please enter a valid start date.');
+                            return;
                           }
+                          if (next > searchForm.end_date) {
+                            toast.error('Start date must be on or before the end date.');
+                            return;
+                          }
+                          setSearchForm({ ...searchForm, start_date: next });
                         }}
                     />
                   </div>
@@ -774,16 +755,19 @@ function App() {
                         id="end-date"
                         type="date"
                         className="form-control"
+                        min={searchForm.start_date.toISOString().slice(0, 10)}
                         value={searchForm.end_date.toISOString().slice(0, 10)}
                         onChange={(e) => {
-                          try {
-                            setSearchForm({
-                              ...searchForm,
-                              end_date: new Date(e.target.value),
-                            });
-                          } catch (e) {
-                            console.error(e);
+                          const next = new Date(e.target.value);
+                          if (!e.target.value || isNaN(next.getTime())) {
+                            toast.error('Please enter a valid end date.');
+                            return;
                           }
+                          if (next < searchForm.start_date) {
+                            toast.error('End date must be on or after the start date.');
+                            return;
+                          }
+                          setSearchForm({ ...searchForm, end_date: next });
                         }}
                     />
                   </div>
@@ -895,9 +879,11 @@ function App() {
                 )}
 
                 <Tooltip title={tooltipText.search.history} placement="top">
-                  <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
-                    {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
-                  </Button>
+                  <span>
+                    <Button className="bg-blue-500/80" onClick={handleDiffMode} disabled={searchHistory.length < 2}>
+                      {!diffMode ? "Enable Diff mode" : "Disable Diff mode"}
+                    </Button>
+                  </span>
                 </Tooltip>
               </div>
             </div>
@@ -992,7 +978,7 @@ function App() {
             <div className="d-flex align-items-end gap-2 justify-content-between">
               <h3 className="p-0 m-0 text-3xl font-medium">Search Results</h3>
               {/* Button to make fullscreen */}
-              <Tooltip title={fullscreenState ? tooltipText.results.toggleFullScreen.enter : tooltipText.results.toggleFullScreen.exit} placement="top">
+              <Tooltip title={fullscreenState ? tooltipText.results.toggleFullScreen.exit : tooltipText.results.toggleFullScreen.enter} placement="top">
                 <IconButton onClick={handleFullScreen}>
                   {fullscreenState ? <FullscreenExitIcon/> : <FullscreenIcon/>}
                 </IconButton>
@@ -1002,19 +988,18 @@ function App() {
                 
             <div className="d-flex flex-column justify-content-between items-align-end mb-3 gap-2">
               
-              <div className="flex flex-row">
-                <div className="flex flex-row"></div>
-                  <InputLabel tooltip={tooltipText.results.manualAdd} label="Manual Add"/>
+              <div className="manual-add-row">
+                  <InputLabel tooltip={tooltipText.results.manualAdd} label="Manual Add" className="manual-add-label"/>
                   <input
                       type="text"
                       disabled={diffMode}
-                      className="form-control rounded-0"
+                      className="form-control manual-add-input"
                       placeholder="10.18653/v1/N18-3011"
                       value={manualAddPapers.join(',')}
                       onChange={(e) => setManualAddPapers(e.target.value.split(','))}
                   />
-                  <Button 
-                    className="bg-blue-500 rounded-0 shadow-none" 
+                  <Button
+                    className="manual-add-button bg-blue-500 shadow-none"
                     disabled={diffMode}
                     onClick={handleAddPaper}
                   >
@@ -1031,31 +1016,56 @@ function App() {
                   />
               </div>
 
-              <div id="paper-operations" className='flex flex-wrap gap-2'>
-                {
-                  buttonState.showSelectAll &&
-                  <Tooltip title={tooltipText.results.selectAll} placement="top">
-                    <><Button className='bg-blue-500' onClick={handleSelectAll} disabled={diffMode}>Select All</Button></>
-                  </Tooltip>
-                }
-                {
-                  buttonState.showDeselectAll &&
-                  <Tooltip title={tooltipText.results.deselectAll} placement="top">
-                    <><Button className="bg-blue-500" onClick={handleDeselectAll} disabled={diffMode}>Deselect All</Button></>
-                  </Tooltip>
-                }
-                {
-                  buttonState.showHideMetadata && (showMetadata
-                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Hide Metadata</Button>
-                    : <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowMetadata}>Show Metadata</Button>)
-                }
-                {
-                  !showFilters 
-                    ? <Button className="bg-green-600 hover:bg-green-700" onClick={handleShowFilters}>Show Filters</Button>
-                    : <Button className="bg-red-600 hover:bg-red-700" onClick={handleShowFilters}>Hide Filters</Button>
-                }
+              <div id="paper-operations" className='results-toolbar'>
+                <div className="results-selection-summary">
+                  {selectedPapers.length} selected
+                </div>
 
-                {/* Paper operations */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="results-action-button bg-blue-600 hover:bg-blue-700" disabled={diffMode || searchResults.results.length === 0}>
+                      Selection
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <Tooltip title={tooltipText.results.selectAll} placement="right">
+                      <DropdownMenuItem
+                        disabled={diffMode || !buttonState.showSelectAll}
+                        onClick={handleSelectAll}
+                      >
+                        Select all papers
+                      </DropdownMenuItem>
+                    </Tooltip>
+                    <Tooltip title={tooltipText.results.deselectAll} placement="right">
+                      <DropdownMenuItem
+                        disabled={diffMode || selectedPapers.length === 0}
+                        onClick={handleDeselectAll}
+                      >
+                        Clear selection
+                      </DropdownMenuItem>
+                    </Tooltip>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="results-action-button bg-green-600 hover:bg-green-700">
+                      View
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      disabled={!buttonState.showHideMetadata}
+                      onClick={handleShowMetadata}
+                    >
+                      {showMetadata ? "Hide metadata" : "Show metadata"}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleShowFilters}>
+                      {showFilters ? "Hide filters" : "Show filters"}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
                 <PaperOperations
                   selectedPapers={selectedPapers}
                   currentSearchReferenceId={searchHistory[currentSearchHistoryIndex]?.id ?? ""}
@@ -1141,8 +1151,8 @@ function App() {
                         placeholder="LLM Questions"
                         options={
                           llmQuestions.map((llmQuestion) => {
-                            let questionId = String(llmQuestion.id)
-                            var label = `Question ${questionId}`
+                            const questionId = String(llmQuestion.id)
+                            let label = `Question ${questionId}`
                             if (llmQuestion.question) {
                               label += " - " + llmQuestion.question;
                             }
@@ -1151,15 +1161,14 @@ function App() {
                         }
                         value={filterForm.llmQuestions}
                         onValueChange={(value) => {
-                          let answers = llmQuestions.map((llmQuestion) => {
-                            if (
-                              value.includes(String(llmQuestion.id)) && 
-                              filterForm.llmAnswers.length > llmQuestion.id
-                            ) {
-                              return filterForm.llmAnswers[llmQuestion.id]
-                            } 
-                            return []
-                          }) 
+                          const answers = [...filterForm.llmAnswers];
+                          llmQuestions.forEach((llmQuestion) => {
+                            if (value.includes(String(llmQuestion.id))) {
+                              answers[llmQuestion.id] = answers[llmQuestion.id] ?? [];
+                            } else {
+                              answers[llmQuestion.id] = [];
+                            }
+                          });
                             
                           setFilterForm({
                             ...filterForm, 
@@ -1170,7 +1179,7 @@ function App() {
                       />
                     </div>
                     {
-                      filterForm.llmQuestions.map((questionId, index) => {
+                      filterForm.llmQuestions.map((questionId) => {
                         try {
                           const currentQuestionPossibleAnswers = 
                             llmQuestions.find((llmQuestion) => llmQuestion.id === parseInt(questionId))?.answer.split(",") ?? [];
@@ -1181,12 +1190,10 @@ function App() {
                               key={questionId}
                               placeholder={`LLM Question ${questionId}`}
                               options={possibleAnswers}
-                              value={filterForm.llmAnswers[index]}
+                              value={filterForm.llmAnswers[Number(questionId)] ?? []}
                               onValueChange={(value) => {
-                                let newAnswers = filterForm.llmAnswers.map((answer, index) => {
-                                  if (index === Number(questionId)) { return value; }
-                                  return answer;
-                                })
+                                const newAnswers = [...filterForm.llmAnswers];
+                                newAnswers[Number(questionId)] = value;
                                 setFilterForm({...filterForm, llmAnswers: newAnswers});
                               }}
                             />
@@ -1232,9 +1239,9 @@ function App() {
             {/* Table data */}
             <div className="search-results row" style={{ height: "80%" }}>
               {/* Main #1 */}
-              <div 
-                id="publication-data-table" 
-                className='main-data-table h-[100%]'
+              <div
+                id="publication-data-table-main"
+                className='publication-data-table main-data-table h-[100%]'
                 ref={mainDataTableRef}
                 onScroll={() => handleScroll(mainDataTableRef.current, diffDataTableRef.current)}
               >
@@ -1252,9 +1259,9 @@ function App() {
               {/* Diff #2 */}
               {
                 diffMode && diffSearchHistoryIndex !== null &&
-                <div 
-                  id="publication-data-table" 
-                  className="diff-data-table col-6 border h-100"
+                <div
+                  id="publication-data-table-diff"
+                  className="publication-data-table diff-data-table col-6 border h-100"
                   ref={diffDataTableRef}
                   onScroll={() => handleScroll(diffDataTableRef.current, mainDataTableRef.current)}
                 >
@@ -1266,7 +1273,7 @@ function App() {
               }
               {
                 diffMode && diffSearchHistoryIndex === null &&
-                <div id="publication-data-table" className="diff-data-table col-6 border h-100">
+                <div id="publication-data-table-diff-empty" className="publication-data-table diff-data-table col-6 border h-100">
                   <div className="flex justify-content-center align-items-center h-100">
                     <div className="text-muted">No chosen search to compare</div>
                   </div>

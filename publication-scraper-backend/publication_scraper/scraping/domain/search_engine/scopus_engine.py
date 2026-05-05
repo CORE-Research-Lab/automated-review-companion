@@ -49,7 +49,7 @@ class ScopusEngine(SearchEngine):
     def _simple_search(self) -> List[Publication]:
         
         for idx, search_string in enumerate(self.queries):
-            print(f"Current search string: {search_string}")
+            log.debug(f"Current search string: {search_string}")
             scopus_search_string = self._parse_search_string(search_string)
 
             log.info(f"--- Searching for {scopus_search_string} ({idx + 1}/{len(self.queries)}) ---")

@@ -15,30 +15,29 @@ const highlightDiff = (oldText: string, newText: string, format: "remove" | "add
   return differences.map((part, index) => {
     // Only highlight removed parts for "remove" format
     if (format === "remove" && part.removed) {
-      return <></>
+      return null;
     }
     if (format === "remove" && part.added) {
       return (
-        <>
         <span key={index} className="text-red-600 bg-red-100">
           {part.value}
         </span>
-      </>)
+      );
     }
     
     // Only highlight added parts for "add" format
     if (format === "add" && part.added) {
-      return <span className="text-green-600 bg-green-100">{part.value}</span>
+      return <span key={index} className="text-green-600 bg-green-100">{part.value}</span>
     }
     if (format === "add" && part.removed) {
-      return <></>
+      return null;
     }
 
     
     if (!part.added && !part.removed) {
-      return (<><span key={index}>{part.value}</span></>);
+      return <span key={index}>{part.value}</span>;
     }
-    return <><span key={index}>{part.value}</span></>;
+    return <span key={index}>{part.value}</span>;
   });
 };
 
@@ -47,12 +46,12 @@ const highlightDiff = (oldText: string, newText: string, format: "remove" | "add
 const SearchHistoryHeaderCard: React.FC<SearchHistoryHeaderCardProps> = (props) => {
   const { index, diffIndex, searchHistory, format } = props;
 
-  if (index === -1 || diffIndex === -1) {
+  const current = searchHistory[index];
+  const previous = searchHistory[diffIndex];
+
+  if (index === -1 || diffIndex === -1 || !current || !previous) {
     return <></>;
   }
-
-  const current = searchHistory[index] || {};
-  const previous = searchHistory[diffIndex] || {};
 
   return ( 
     <div className={cn(

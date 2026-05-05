@@ -1,7 +1,7 @@
 import { BASE_URL } from '@/utils/common';
 import { Tooltip } from '@mui/material';
 import axios, { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 import { handleError } from '@/common/handler';
@@ -16,6 +16,7 @@ export interface CsvImportFieldProps {
 const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
   const { tooltip, disabled, addManualPapers } = props;
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading]= useState(false);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,23 +62,26 @@ const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
 
   return (
     <Tooltip title={tooltip} placement="right" style={{ cursor: disabled ? "not-allowed" : "pointer" }}>
-      <div
-        className={`input-group-prepend ${disabled ? 'disabled text-muted' : ''}`}
-        onClick={() => !disabled && document.getElementById("fileInput")?.click()}
-        style={{ cursor: disabled ? "not-allowed" : "pointer" }}
+      <span
+        className="manual-import-wrapper"
       >
-        <span className="input-group-text rounded-0 hover:bg-[#eee]" id="basic-addon1">
+        <button
+          type="button"
+          className="manual-import-button input-group-text"
+          onClick={() => !disabled && fileInputRef.current?.click()}
+          disabled={disabled || isLoading}
+        >
           {!isLoading ? "Import CSV" : <Spinner />}
-        </span>
+        </button>
         <input
           type="file"
-          id="fileInput"
+          ref={fileInputRef}
           accept=".csv"
           style={{ display: "none" }}
           onChange={(e) => handleFileSelect(e)}
           disabled={disabled}
         />
-      </div>
+      </span>
     </Tooltip>
   );
 };

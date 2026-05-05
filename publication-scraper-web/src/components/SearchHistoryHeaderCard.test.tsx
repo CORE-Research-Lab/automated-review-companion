@@ -7,6 +7,8 @@ describe('SearchHistoryHeaderCard', () => {
 
   const props = {
     index: 0,
+    diffIndex: 0,
+    format: "add" as const,
     searchHistory: [{
       id: "abcdef-12345-ghijkl",
       ...defaultSearchForm

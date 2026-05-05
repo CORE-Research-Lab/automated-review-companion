@@ -2,7 +2,10 @@ import pandas as pd
 from typing import List, Dict, Hashable, Any
 from ..models import Publication, PublicationStatus
 from scraping.models import SearchEngineType
+from utils.logger import Logger
 import itertools
+
+log = Logger(__name__)
 
 class PublicationValidator:
     def __init__(self):
@@ -38,10 +41,10 @@ class PublicationValidator:
       result_group_counts = report_df['Result_Group'].value_counts(normalize=True) * 100
       result_group_percentages_df = result_group_counts.reset_index()
       result_group_percentages_df.columns = ['Result_Group', 'Percentage']
-      print(result_group_percentages_df)
-      
+      log.info("Result group percentages:\n%s", result_group_percentages_df)
+
       report_grouped_df = report_df.groupby('Result_Group').apply(lambda x: x.sample(n=3))
-      print(report_grouped_df)
+      log.info("Report grouped:\n%s", report_grouped_df)
     
       for search_result in search_results:
         search_result.save()
