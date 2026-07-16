@@ -52,7 +52,6 @@ class LLMFilterResponse(BaseModel):
 
 class LLMFilter:
     def __init__(self, progress_callback: Optional[Callable[[Dict[str, Any]], None]] = None):
-# self.model = AzureLLM()
         self.model = OpenAILLM()
         self.results: List[LLMFilterResponse] = []
         self.progress_callback = progress_callback
@@ -85,7 +84,7 @@ class LLMFilter:
         self.prompt = (
             "You are provided with an academic publication's detailed information along with its metadata. "
             "Your task is to carefully analyze the data and accurately answer the following questions. "
-            "Review the provided publication metadata, esppeciallyn title and abstract to determine the best answer."
+            "Review the provided publication metadata, especially the title and abstract, to determine the best answer."
         )
         
         if self.include_rationale:

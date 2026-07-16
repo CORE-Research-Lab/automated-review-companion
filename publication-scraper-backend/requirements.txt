@@ -41,7 +41,7 @@ importlib_resources==6.4.4
 ipykernel==6.29.5
 ipython==8.18.1
 jedi==0.19.1
-jiter==0.5.0
+jiter==0.16.0
 joblib==1.4.2
 jsonpatch==1.33
 jsonpointer==3.0.0
@@ -54,7 +54,7 @@ matplotlib-inline==0.1.7
 multidict==6.0.5
 nest-asyncio==1.6.0
 nltk==3.9.1
-openai==1.62.0
+openai==2.45.0
 orjson==3.10.7
 packaging==24.1
 pandas==2.2.2
@@ -88,7 +88,7 @@ tiktoken==0.7.0
 tornado==6.4.1
 tqdm==4.66.5
 traitlets==5.14.3
-typing_extensions==4.12.2
+typing_extensions==4.16.0
 tzdata==2024.1
 urllib3==1.26.16
 wcwidth==0.2.13

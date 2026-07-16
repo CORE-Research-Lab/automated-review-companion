@@ -1,7 +1,6 @@
 import '@/main.css';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import InfoIcon from '@mui/icons-material/Info';
 import { Box, Chip, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
@@ -17,6 +16,7 @@ import SearchAppBar from './components/SearchAppBar';
 import SearchHistoryHeaderCard from './components/SearchHistoryHeaderCard';
 import SearchTermAutocomplete, { MultiLayerSearch } from './components/SearchTermAutocomplete';
 import Spinner from './components/Spinner';
+import UsabilityGuide from './components/UsabilityGuide';
 import { Button } from './components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from './components/ui/carousel';
 import { DatePicker } from './components/ui/date-picker';
@@ -60,10 +60,11 @@ function App() {
   const [llmQuestions, setLLMQuestions] = useState<LLMQuestion[]>(defaultLLMQuestions);
   const [llmAnswers, setLLMAnswers] = useState<LLMUserAnswer[]>([]);
   const [llmOptions, setLLMOptions] = useState<LLMOptions>(defaultLLMOptions);
-  const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.SIMPLE);
+  const [searchMode, setSearchMode] = useState<SearchMode>(SearchMode.ADVANCED);
   const [showMetadata, setShowMetadata] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [showUsabilityGuide, setShowUsabilityGuide] = useState(false);
 
   const [manualAddPapers, setManualAddPapers] = useState<string[]>([]);
   const [isManuallyAddingPaper, setIsManuallyAddingPaper] = useState(false);
@@ -170,6 +171,14 @@ function App() {
           results: data.results.map((paper: Publication) => ({...paper, show: true}))
         }
         setSearchResults(newSearchResults);
+
+        const failedEngines = Object.entries(data.engine_errors ?? {});
+        if (failedEngines.length > 0) {
+          failedEngines.forEach(([engine, message]) => {
+            toast.warn(`${engine} was skipped: ${message}`);
+          });
+        }
+        toast.success(`Search complete: ${data.results.length} publication(s) found`);
         setButtonState((prevState) => ({
           ...prevState,
           showSelectAll: true,
@@ -608,18 +617,12 @@ function App() {
           <div className="p-3 mt-3 border rounded" id="search-bar">
             <div className="d-flex flex-row flex-wrap justify-content-between align-items-start gap-2">
               <h3 className="text-3xl font-medium">Search Bar</h3>
-              {/* Link to the usability guide hosted on GitHub */}
               <div className="d-flex gap-2">
-                <a
-                  href="https://github.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 h-9 px-3 rounded-md text-sm font-medium bg-blue-600 text-white shadow-sm hover:bg-blue-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
-                  aria-label="Open usability guide on GitHub"
-                >
-                  <InfoIcon style={{ fontSize: "1.25rem" }} />
-                  Usability Guide
-                </a>
+                <UsabilityGuide
+                  showUsabilityGuide={showUsabilityGuide}
+                  setShowUsabilityGuide={setShowUsabilityGuide}
+                  handleClose={() => setShowUsabilityGuide(false)}
+                />
               </div>
             </div>
 
@@ -819,9 +822,9 @@ function App() {
                         {
                             searchResults?.matches?.papers?.length > 0 &&
                             searchResults.matches.papers.map((match, index) => (
-                                <tr key={match.doi}>
+                                <tr key={`${match.doi || match.title}-${index}`}>
                                   <td>{index + 1}</td>
-                                  <p>{match.doi || match.title}</p>
+                                  <td>{match.doi || match.title}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -973,7 +976,7 @@ function App() {
       )}
         
         {/* Publications Data */}
-        <section className="container overflow-scroll" id="publication-data">
+        <section className="container overflow-auto" id="publication-data">
           <div className="p-3 mt-3 border rounded container" id="publication-data-inner">
             <div className="d-flex align-items-end gap-2 justify-content-between">
               <h3 className="p-0 m-0 text-3xl font-medium">Search Results</h3>

@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import {
   Author,
   LLMQuestion,
@@ -361,14 +361,14 @@ const PublicationRow: React.FC<PublicationRowProps> = (props) => {
             searchResults.results && searchResults.results.length > 0 &&
             searchResults.results[0].llm_responses && searchResults.results[0].llm_responses.length > 0 &&
             llmQuestions && llmQuestions.length > 0 && llmQuestions.map((response: LLMQuestion, index: number) => (
-                <>
-                  <td key={response.id} style={{minWidth: "220px"}}>
+                <Fragment key={response.id}>
+                  <td style={{minWidth: "220px"}}>
                     {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.answer ?? "-"}
                   </td>
-                  <td key={response.id + "-rational"} style={{minWidth: "220px"}}>
+                  <td style={{minWidth: "220px"}}>
                     {typeof publication.llm_responses === 'undefined' ? "-" : publication.llm_responses[index]?.rationale ?? "-"}
                   </td>
-                </>
+                </Fragment>
             ))
         }
       </tr>

@@ -23,8 +23,9 @@ const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
   return (
     <>
       <Tooltip title={tooltipText.usabilityGuide}>
-        <Button className="bg-blue-500/80" onClick={() => setShowUsabilityGuide(true)}>
-          <InfoIcon style={{ fontSize: "1.5rem" }} />
+        <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => setShowUsabilityGuide(true)}>
+          <InfoIcon style={{ fontSize: "1.25rem" }} className="me-1" />
+          Usability Guide
         </Button>
       </Tooltip>
       <Modal 
@@ -100,13 +101,13 @@ const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
                 <span>There are two search modes:</span>
                 <br />
                 <div className="ps-3">
-                  <li className="list-disc">Simple mode, you can enter primary, secondary, and tertiary search terms.</li>
-                  <li className="list-disc">Advanced mode, you can enter a case-insensitive boolean search string.
+                  <li className="list-disc">Advanced Keyword Search (default), you can enter a case-insensitive boolean search string.
                     <ul className="list-decimal ps-8">
                       <li>Use 'AND', 'OR', 'NOT' operators to combine search terms. (Case insensitive) </li>
                       <li>Use quotations to search for exact phrases.</li>
                     </ul>
                   </li>
+                  <li className="list-disc">Multi-layer Keyword Search, you can enter primary, secondary, and tertiary search terms; every combination of the layers is searched.</li>
                 </div>
                 <br />
                 <div className="ps-3">
@@ -211,7 +212,7 @@ const UsabilityGuide: React.FC<UsabilityGuideProps> = (props) => {
               <div className="divider border-bottom my-3"></div>
               <div className="d-flex flex-column pb-3">
                 <span>The Paper Filtering functionality can further filter the papers provided with more insight by the user.</span>
-                <span>The LLM engine (GPT-4) further filters the papers based on the user's preferences.</span>
+                <span>The LLM engine (GPT-5.5) further filters the papers based on the user's preferences.</span>
                 <span className="pb-3">In order to provide a more accurate classification result, it is recommended to ensure metadata for the selected papers are populated.</span>
             
                 <ol className="list-disc ps-8">

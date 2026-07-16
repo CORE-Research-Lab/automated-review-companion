@@ -48,7 +48,10 @@ describe('App Component', () => {
 
   test('handles multi-level keyword search form change', () => {
     render(<App />);
-    
+
+    // Advanced search is the default mode; switch to multi-layer search first
+    fireEvent.click(screen.getByText('Multi-layer Keyword Search'));
+
     // Simulate search form change
     const primarySearchInput = screen.getByPlaceholderText(tooltipText.search.primary.example) as HTMLInputElement;
     const secondarySearchInput = screen.getByPlaceholderText(tooltipText.search.secondary.example) as HTMLInputElement;
@@ -177,7 +180,10 @@ describe('App Component', () => {
 
   test('handles clearing search results', async () => {
     render(<App />);
-    
+
+    // Advanced search is the default mode; switch to multi-layer search first
+    fireEvent.click(screen.getByText('Multi-layer Keyword Search'));
+
     // Populate the search results
     const primarySearchInput = screen.getByPlaceholderText(tooltipText.search.primary.example) as HTMLInputElement;
     const secondarySearchInput = screen.getByPlaceholderText(tooltipText.search.secondary.example) as HTMLInputElement;

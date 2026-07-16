@@ -101,10 +101,10 @@ class PublicationLLMFilterView(APIView):
         serializer = PublicationLLMFilterSerializer(data=request.data)
         if serializer.is_valid():
 
-            includeExamples: bool
-            includeRationale: bool
+            includeExamples: bool = False
+            includeRationale: bool = False
             examples: List[FilterAnswerExamples] = []
-            
+
             questions = serializer.validated_data['questions']
             paper_ids = serializer.validated_data.get('paper_ids')
             answers = serializer.validated_data.get('answers')
@@ -197,21 +197,34 @@ class PublicationLLMFilterView(APIView):
     
 
 
+    @staticmethod
+    def _get_client_ip(request):
+        """ Resolve the caller IP, honouring proxy headers set by Cloud Run / load balancers. """
+        forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR', '')
+        if forwarded_for:
+            return forwarded_for.split(',')[0].strip()
+        return request.META.get('REMOTE_ADDR') or 'unknown'
+
     def check_for_validity(self, request, paper_ids):
-        """ Checks if the user has submitted MAX_LLM_CALL_COUNT paper ids already for the day. """
+        """
+        Enforces the daily per-IP cap on papers submitted to the LLM filter.
+        Returns an error message when the cap is exceeded, otherwise records the usage.
+        """
         from django.conf import settings
-        max_calls = getattr(settings, 'MAX_LLM_CALL_COUNT', 20)
-        ip = request.META.get('REMOTE_ADDR')
+        max_calls = getattr(settings, 'MAX_LLM_CALL_COUNT', 300)
+        ip = self._get_client_ip(request)
         today = datetime.date.today()
         usage = PublicationLLMUsage.objects.filter(ip_address=ip, date=today).first()
         if not usage:
             usage = PublicationLLMUsage(ip_address=ip, date=today)
+
+        if usage.count + len(paper_ids) > max_calls:
+            log.warning(f"LLM usage limit hit for {ip}: {usage.count}+{len(paper_ids)} > {max_calls}")
+            return f"You have reached the maximum number of papers that can be filtered per day ({max_calls}). Please try again tomorrow."
+
         usage.count += len(paper_ids)
         usage.save()
         log.info(f"LLM usage for {ip}: {usage.count}/{max_calls}")
-
-        # if usage.count >= (max_calls - len(paper_ids)):
-        #     return f"You have reached the maximum number of filter requests for the day ({max_calls})."
 
 class PublicationUploadView(APIView):
     parser_classes = (MultiPartParser, FormParser)

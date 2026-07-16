@@ -45,7 +45,8 @@ ALLOWED_HOSTS = _split_env_list(
 APPEND_SLASH = True
 
 # Maximum number of paper IDs that may be submitted to the LLM filter per IP per day.
-MAX_LLM_CALL_COUNT = env.int('MAX_LLM_CALL_COUNT', default=20)
+# Generous enough for real screening sessions while capping abuse of the public endpoint.
+MAX_LLM_CALL_COUNT = env.int('MAX_LLM_CALL_COUNT', default=300)
 
 # Application definition
 

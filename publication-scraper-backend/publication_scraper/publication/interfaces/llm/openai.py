@@ -56,7 +56,14 @@ class OpenAILLM:
         except Exception as e:
             raise OpenAIError(f"Response validation error: {str(e)}", content)
 
-    def completion(self, system_prompt: str, user_prompt: str, response_model: BaseModel, model: str = "gpt-5.5") -> Dict[str, Any]:
+    def completion(
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        response_model: BaseModel,
+        model: str = "gpt-5.5",
+        reasoning_effort: str = "medium",
+    ) -> Dict[str, Any]:
         retries = 0
         last_error = None
 
@@ -75,10 +82,11 @@ class OpenAILLM:
                 log.info("LLM Input:")
                 log.info(f"System prompt: {full_system_prompt}")
                 log.info(f"User prompt: {user_prompt}")
-                log.info(f"Model: {model}")
-                
+                log.info(f"Model: {model} (reasoning effort: {reasoning_effort})")
+
                 response = self.client.chat.completions.create(
                     model=model,
+                    reasoning_effort=reasoning_effort,
                     messages=[
                         {"role": "system", "content": full_system_prompt},
                         {"role": "user", "content": user_prompt}

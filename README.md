@@ -66,7 +66,9 @@ AZURE_DEPLOYMENT_NAME=your_deployment_name      # Azure OpenAI deployment name
 SEMANTIC_SCHOLAR_KEY=your_key                  # API key for Semantic Scholar
 WOS_KEY=your_key                              # Web of Science API key
 SCOPUS_KEY=your_key                           # Scopus API key
-OPENAI_API_KEY=your_key                       # OpenAI API key
+IEEE_API_KEY=your_key                         # IEEE Xplore API key
+OPENAI_API_KEY=your_key                       # OpenAI API key (LLM filter uses GPT-5.5)
+MAX_LLM_CALL_COUNT=300                        # Optional: daily per-IP cap on papers sent to the LLM filter
 
 ```
 

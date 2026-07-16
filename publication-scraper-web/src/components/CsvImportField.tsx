@@ -53,10 +53,13 @@ const CsvImportField: React.FC<CsvImportFieldProps> = (props) => {
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         handleError(error);
+      } else {
+        toast.error("Failed to process CSV file");
       }
-      toast.error("Failed to process CSV file");
     } finally {
       setIsLoading(false);
+      // Allow re-importing the same file after a failure
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }
 
